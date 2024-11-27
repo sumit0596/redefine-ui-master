@@ -1,0 +1,57 @@
+<div class="rd-container">
+  <form
+    class="rd-form rd-form-container"
+    [formGroup]="mdaLookupFormGroup"
+    (ngSubmit)="onSubmit()"
+    (keyup.enter)="onSubmit()"
+    autocomplete="on"
+  >
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div class="rd-heading rd-heading-md-bold">MDA Property Code</div>
+      <div>
+        <button type="button" class="rd-btn rd-btn-text" (click)="closeModal()">
+          <span class="btn-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+              ></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+    <div class="rd-form-body">
+      <rd-input
+        [label]="'Enter Property Code'"
+        [id]="'longitude'"
+        [placeholder]="'Enter Property Code'"
+        [required]="true"
+        [type]="'text'"
+        [controlName]="'BuildingCode'"
+        [form]="mdaLookupFormGroup"
+      ></rd-input>
+      <small class="error-msg">
+        <div class="error-text">{{ errorMessage }}</div>
+      </small>
+    </div>
+    <div class="rd-form-footer">
+      <div></div>
+      <div class="rd-btn-group">
+        <button
+          (click)="closeModal()"
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">Search</button>
+      </div>
+    </div>
+  </form>
+</div>

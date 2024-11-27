@@ -1,0 +1,32 @@
+.breadcrum {
+    width: 100%;
+    margin-top: -20px;
+    height: 30px;
+  }
+  
+  .breadcrum a {
+    color: black;
+    font-weight: 600;
+  }
+  
+  @media (max-width: 390px) {
+    .breadcrum {
+      //display: none;
+      font-size: 12px;
+    }
+  
+    .rd-btn-lg {
+      width: 303px;
+    }
+  }
+  
+  @media (max-width: 360px) {
+    .breadcrum {
+     // display: none;
+     font-size: 12px;
+    }
+  
+    .rd-btn-lg {
+      width: 275px;
+    }
+  }

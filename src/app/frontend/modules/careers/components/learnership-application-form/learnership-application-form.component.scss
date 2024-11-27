@@ -1,0 +1,123 @@
+.rd-form .rd-form-footer button {
+  // min-width: 160px;
+  //width: auto !important;
+}
+
+.breadcrum {
+  margin-bottom: -15px;
+  width: 100%;
+  margin-top: 15px;
+  height: 30px;
+}
+
+.breadcrum a {
+  color: black;
+  font-weight: 600;
+}
+
+.breadcrum :hover {
+  cursor: pointer;
+}
+
+.banner {
+  position: relative;
+  text-align: center;
+  background-size: cover;
+  color: #fff;
+  padding: 0px 0;
+  width: 100%;
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+}
+
+p {
+  line-height: 30px !important;
+}
+
+.rd-form-header {
+  /*  */
+  /* font-weight: 200; */
+  /* font-size: 20px; */
+  /* line-height: 19px; */
+  margin-bottom: 15px !important;
+}
+
+.line {
+  height: 1px;
+  width: 100%;
+  background-color: #cccccc;
+  margin-bottom: 20px;
+}
+
+.btn {
+  min-width: 160px;
+  width: auto;
+  border-radius: 2px;
+  height: 40px;
+}
+
+button.rd-btn-primary {
+  background-color: black !important;
+  border-color: black;
+}
+
+.error-id-msg {
+  margin-top: -20px;
+  margin-bottom: 10px;
+  color: #e63f3d;
+  transition: all 0.3s ease-in;
+  animation: fadeIn 0.3s;
+}
+
+.radio-input-group {
+  margin-bottom: -15px !important;
+  margin-top: 15px !important;
+}
+
+.rd-form-footer {
+  border: none;
+  margin-top: -52px;
+}
+
+.required-checks {
+  display: flex;
+  gap: 10px;
+}
+
+.rd-text-grey-mid {
+  line-height: 25px;
+  font-size: 15px;
+}
+
+.required-check-acknowledge {
+  margin-bottom: 68px;
+}
+
+p span {
+  color: #c00018;
+}
+
+.logo-container {
+  float: right;
+}
+
+.learnership-logo {
+  width: 35%;
+  margin-top: 10px;
+  position: inherit;
+  float: right;
+}
+
+.step-info {
+  font-size: 19px;
+}
+
+@media (min-width: 600px) and (max-width: 1920px) {
+  .rd-form .rd-form-footer button {
+    min-width: 160px;
+    width: auto !important;
+  }
+}

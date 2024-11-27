@@ -1,0 +1,15 @@
+.portal-card {
+  width: 375px;
+  cursor: pointer;
+}
+.portal-card .rd-card-icon {
+  width: 50px;
+}
+
+.view-more-icon {
+  margin-left: 10px;
+  transition: all 0.3s ease-in-out;
+}
+.portal-card:hover .view-more-icon {
+  margin-left: 13px;
+}

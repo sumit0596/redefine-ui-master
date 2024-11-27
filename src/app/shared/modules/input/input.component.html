@@ -1,0 +1,167 @@
+<div class="control-container" *ngIf="form">
+  <form [formGroup]="form" class="form">
+    <div [ngSwitch]="type">
+      <label [for]="id" *ngIf="label"
+        >{{ label }}
+        <span *ngIf="required" class="required-asterik">*</span></label
+      >
+      <!-- Text input -->
+      <div *ngSwitchCase="'text'" class="input-wrapper">
+        <input
+          [autofocus]="autofocus"
+          [readonly]="disable"
+          [formControlName]="controlName"
+          [type]="type"
+          [name]="id"
+          [id]="id"
+          [placeholder]="placeholder"
+          [ngClass]="form.get(controlName)?.errors?.['invalid'] ? 'invalid':''"
+        />
+      </div>
+      <div *ngSwitchCase="'number'" class="input-wrapper">
+        <input
+          [autofocus]="autofocus"
+          [readonly]="disable"
+          [formControlName]="controlName"
+          [type]="type"
+          [name]="id"
+          [id]="id"
+          [placeholder]="placeholder"
+          [ngClass]="form.get(controlName)?.errors?.['invalid'] ? 'invalid':''"
+        />
+      </div>
+      <!-- Email input -->
+      <div *ngSwitchCase="'email'" class="input-wrapper">
+        <ng-container *ngIf="icon">
+          <input
+            class="email-input icon-input"
+            [autofocus]="autofocus"
+            [formControlName]="controlName"
+            [type]="type"
+            [name]="id"
+            [id]="id"
+            [placeholder]="placeholder"
+            [ngClass]="form.get(controlName)?.errors?.['invalid'] ? 'invalid':''"
+          />
+          <img src="assets/images/mail.svg" alt="" [attr.data-type]="type" />
+        </ng-container>
+        <ng-container *ngIf="!icon">
+          <input
+            class="email-input"
+            [autofocus]="autofocus"
+            [formControlName]="controlName"
+            [type]="type"
+            [name]="id"
+            [id]="id"
+            [placeholder]="placeholder"
+            [ngClass]="form.get(controlName)?.errors?.['invalid'] ? 'invalid':''"
+          />
+        </ng-container>
+      </div>
+      <div *ngSwitchCase="'password'" class="input-wrapper">
+        <!-- Password input -->
+        <ng-container *ngIf="!forgot">
+          <input
+            #password
+            class="password-input"
+            [autofocus]="autofocus"
+            [formControlName]="controlName"
+            [type]="type"
+            [name]="id"
+            [id]="id"
+            [placeholder]="placeholder"
+            [ngClass]="form.get(controlName)?.errors?.['invalid'] ? 'invalid':''"
+            (keyup)="onKeyUp($event)"
+            (focus)="onFocus($event)"
+          />
+          <div class="input-btn-group">
+            <button
+              [attr.id]="'btn-show-password-' + id"
+              type="button"
+              class="btn-password-visibility"
+              (click)="showPassword()"
+              [disabled]="disabled"
+            >
+              <img *ngIf="visible" src="assets/images/eye.svg" alt="eye" /><img
+                *ngIf="!visible"
+                src="assets/images/eye-off.svg"
+                alt="eye"
+              />
+            </button>
+          </div>
+        </ng-container>
+        <!-- Password input with forgot button -->
+        <ng-container *ngIf="forgot">
+          <input
+            #password
+            class="password-input forgot-password-input"
+            [autofocus]="autofocus"
+            [formControlName]="controlName"
+            [type]="type"
+            [attr.data-type]="type"
+            [name]="id"
+            [id]="id"
+            [placeholder]="placeholder"
+            [ngClass]="form.get(controlName)?.errors?.['invalid'] ? 'invalid':''"
+            (keyup)="onKeyUp($event)"
+            (focus)="onFocus($event)"
+          />
+          <img src="assets/images/lock.svg" alt="" [attr.data-type]="type" />
+          <div class="input-btn-group">
+            <button
+              *ngIf="forgot"
+              id="btn-forgot-password"
+              type="button"
+              class="rd-btn-text rd-btn-md btn-forgot-password"
+              (click)="forgotPassword()"
+            >
+              Forgot password ?
+            </button>
+            <button
+              [attr.id]="'btn-show-password-' + id"
+              type="button"
+              class="btn-password-visibility"
+              (click)="showPassword()"
+              [disabled]="disabled"
+            >
+              <img *ngIf="visible" src="assets/images/eye.svg" alt="eye" /><img
+                *ngIf="!visible"
+                src="assets/images/eye-off.svg"
+                alt="eye"
+              />
+            </button>
+          </div>
+        </ng-container>
+      </div>
+      <div *ngSwitchCase="'TextWithButton'" class="input-wrapper">
+        <!-- input with icon -->
+        <ng-container>
+          <input
+            class="icon-input"
+            [autofocus]="autofocus"
+            [formControlName]="controlName"
+            [type]="'text'"
+            [name]="id"
+            [id]="id"
+            [placeholder]="placeholder"
+            [ngClass]="form.get(controlName)?.errors?.['invalid'] ? 'invalid':''"
+          />
+          <div class="input-btn-group">
+            <button
+              [attr.id]="'input-with-btn-' + id"
+              type="button"
+              title="Upload"
+              class="rd-btn-text"
+              (click)="onClick()"
+            >
+              <img [src]="iconUrl" alt="icon" />
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div *ngIf="form.get(controlName)?.hasError('invalid')" class="error-msg">
+      <small>{{ form.get(controlName)?.errors?.['invalid'] }}</small>
+    </div>
+  </form>
+</div>

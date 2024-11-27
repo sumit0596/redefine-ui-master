@@ -1,0 +1,1322 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [bannerSubText]="bannerSubText"
+  [breadcrumbLinks]="breadcrumbLinks"
+></app-banner-breadcrumb>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="d-flex justify-content-end share-buttons-wrapper-container">
+      <div class="share-buttons-wrapper" *ngIf="showShareIcon">
+        <app-share-button></app-share-button>
+      </div>
+      <button class="" aria-label="Share this page" (click)="clickedShareIcon($event)">
+        <svg
+          width="25"
+          height="36"
+          viewBox="0 0 36 36"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clip-path="url(#clip0_7785_40294)">
+            <path
+              d="M12.6377 20.4023C14.0184 20.4023 15.1377 19.2831 15.1377 17.9023C15.1377 16.5216 14.0184 15.4023 12.6377 15.4023C11.257 15.4023 10.1377 16.5216 10.1377 17.9023C10.1377 19.2831 11.257 20.4023 12.6377 20.4023Z"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M21.3877 26.0273C22.7684 26.0273 23.8877 24.9081 23.8877 23.5273C23.8877 22.1466 22.7684 21.0273 21.3877 21.0273C20.007 21.0273 18.8877 22.1466 18.8877 23.5273C18.8877 24.9081 20.007 26.0273 21.3877 26.0273Z"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M21.3877 14.7773C22.7684 14.7773 23.8877 13.6581 23.8877 12.2773C23.8877 10.8966 22.7684 9.77734 21.3877 9.77734C20.007 9.77734 18.8877 10.8966 18.8877 12.2773C18.8877 13.6581 20.007 14.7773 21.3877 14.7773Z"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M19.2853 13.6289L14.74 16.5508"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M14.74 19.2539L19.2853 22.1758"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </g>
+          <circle cx="18" cy="18" r="17" stroke="black" stroke-width="2" />
+          <defs>
+            <clipPath id="clip0_7785_40294">
+              <rect
+                width="20"
+                height="20"
+                fill="none"
+                transform="translate(7.6377 7.90234)"
+              />
+            </clipPath>
+          </defs>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="row mt-5 row-data">
+    <div class="col-md-9">
+      <div class="mt-2 disclaimer-text">
+        **Please select year to view historical data
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <rd-select
+        [id]="'years'"
+        [label]="'years'"
+        [placeholder]="'Select year'"
+        [bindLabel]="'Name'"
+        aria-label="Select year"
+        [bindValue]="'Name'"
+        [items$]="range$"
+        [required]="true"
+        [form]="filterForm"
+        [controlName]="'Year'"
+        (onChange)="filterByYear('Year', $event)"
+      ></rd-select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="preview-tabs-section">
+        <div class="hr-top-line"></div>
+
+        <mat-tab-group
+          mat-stretch-tabs="false"
+          mat-align-tabs="start"
+          animationDuration="0ms"
+          dynamicHeight
+          fitInkBarToContent
+          (focusChange)="onTabChange($event)"
+          [selectedIndex]="activeTabIndex"
+        >
+          <mat-tab
+            label="Annual"
+            aria-label="Annual"
+            *ngIf="financialResults?.type === 1 || financialResults?.type === 0"
+          >
+            <ng-template mat-tab-label>
+              <div class="rd-heading rd-heading-xs">Annual</div>
+            </ng-template>
+            <ng-container
+              *ngIf="
+                (financialResults?.financial?.Type | uppercase) == 'ANNUAL'
+              "
+            >
+              <div class="mt-3 mb-5">
+                <div
+                  class="position-relative"
+                  *ngIf="financialResults?.financial?.Title"
+                >
+                  <div class="rd-heading rd-heading-lg-normal">
+                    {{ financialResults?.financial?.Title }}
+                  </div>
+                  <span class="rd-indicator rd-indicator-lg">
+                    <span
+                      class="rd-indicator-content rd-indicator-primary"
+                    ></span>
+                  </span>
+                </div>
+              </div>
+              <div
+                *ngIf="financialResults?.financial?.Description"
+                class="text"
+                [innerHTML]="
+                  financialResults?.financial?.Description | safeHtml : 'html'
+                "
+              ></div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.GroupAFS"
+                    >
+                      <div class="card GroupAFS card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Group AFS</div>
+                            <a
+                            aria-label="Download Group AFS"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.GroupAFS
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Group AFS ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.GroupAFS
+                              "
+                              target="_blank"
+                              [href]="
+                                financialResults?.financial?.GroupAFS.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.GroupAFS
+                                  : 'https://' +
+                                    financialResults?.financial?.GroupAFS
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image img-responsive"
+                            src="assets/images/financial-card-images/Group AFS_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.CompanyAFS"
+                    >
+                      <div class="card CompanyAFS card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Company AFS</div>
+                            <a
+                            aria-label="Download Company AFS"
+
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.CompanyAFS
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Company AFS ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.CompanyAFS
+                              "
+                              [href]="
+                                financialResults?.financial?.CompanyAFS.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.CompanyAFS
+                                  : 'https://' +
+                                    financialResults?.financial?.CompanyAFS
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Primary financial statements_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.PropertyInformation"
+                    >
+                      <div class="card PropertyInformation card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Property information</div>
+                            <a
+                            aria-label="Download Property information"
+
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial
+                                    ?.PropertyInformation
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Property information ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.PropertyInformation
+                              "
+                              [href]="
+                                financialResults?.financial?.PropertyInformation.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial
+                                      ?.PropertyInformation
+                                  : 'https://' +
+                                    financialResults?.financial
+                                      ?.PropertyInformation
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Property Information_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.Results"
+                    >
+                      <div class="card Results card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Results</div>
+                            <a
+                            aria-label="Download Results"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.Results
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Results ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.Results
+                              "
+                              [href]="
+                                financialResults?.financial?.Results.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.Results
+                                  : 'https://' +
+                                    financialResults?.financial?.Results
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Results_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.Presentation"
+                    >
+                      <div class="card Presentation card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Presentation</div>
+                            <a
+                            aria-label="Download Presentation"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.Presentation
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Presentation ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.Presentation
+                              "
+                              [href]="
+                                financialResults?.financial?.Presentation.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.Presentation
+                                  : 'https://' +
+                                    financialResults?.financial?.Presentation
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Presentation_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.PressReleaseSlug"
+                    >
+                      <div class="card PressReleaseSlug card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Press releases</div>
+                            <a
+                            aria-label="Download Press releases"
+                              href="{{ currentURL }}/press-office/{{
+                                financialResults?.financial?.PressReleaseSlug
+                              }}"
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Press Release_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.WebcastUrl"
+                    >
+                      <div class="card WebcastUrl card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Webcast</div>
+                            <a
+                            aria-label="Download Webcast"
+                              target="_blank"
+                              [href]="
+                                financialResults?.financial?.WebcastUrl.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.WebcastUrl
+                                  : 'https://' +
+                                    financialResults?.financial?.WebcastUrl
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Webcast_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.Transcript"
+                    >
+                      <div class="card Transcript card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Transcript</div>
+                            <a
+                            aria-label="Download Transcript"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.Transcript
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Transcript ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.Transcript
+                              "
+                              [href]="
+                                financialResults?.financial?.Transcript.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.Transcript
+                                  : 'https://' +
+                                    financialResults?.financial?.Transcript
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Transcript_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.ShortformAdUrl"
+                    >
+                      <div class="card ShortformAdUrl card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Short-form advert</div>
+                            <a
+                            aria-label="Download Short-form advert"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.ShortformAdUrl
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Short-form advert ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.ShortformAdUrl
+                              "
+                              [href]="
+                                financialResults?.financial?.ShortformAdUrl.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.ShortformAdUrl
+                                  : 'https://' +
+                                    financialResults?.financial?.ShortformAdUrl
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Transcript_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="
+                        financialResults?.financial?.PrimaryFinancialStatement
+                      "
+                    >
+                      <div class="card PrimaryFinancialStatement card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Primary financial statements</div>
+                            <a
+                            aria-label="Download Primary financial statements"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial
+                                    ?.PrimaryFinancialStatement
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Primary financial statements ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial
+                                  ?.PrimaryFinancialStatement
+                              "
+                              [href]="
+                                financialResults?.financial?.PrimaryFinancialStatement.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial
+                                      ?.PrimaryFinancialStatement
+                                  : 'https://' +
+                                    financialResults?.financial
+                                      ?.PrimaryFinancialStatement
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/primary_financial_statements_icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="
+                        financialResults?.financial?.JvFinancialInformation
+                      "
+                    >
+                      <div class="card JvFinancialInformation card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>JV financial information</div>
+                            <a
+                            aria-label="Download JV financial information"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial
+                                    ?.JvFinancialInformation
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - JV financial information ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial
+                                  ?.JvFinancialInformation
+                              "
+                              [href]="
+                                financialResults?.financial?.JvFinancialInformation.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial
+                                      ?.JvFinancialInformation
+                                  : 'https://' +
+                                    financialResults?.financial
+                                      ?.JvFinancialInformation
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/jv_financial_information_icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div></div>
+              </div>
+            </ng-container>
+            <div
+              class="py-2 text-center"
+              *ngIf="
+                financialResults?.financial == null ||
+                (this.financialResults?.financial?.Type | uppercase) ==
+                  'INTERIM'
+              "
+            >
+              <div class="rd-heading-md-bold rd-text-deep-red py-5">
+                No result found!
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab
+            label="Interim"
+            aria-label="Interim"
+            *ngIf="financialResults?.type === 2 || financialResults?.type === 0"
+          >
+            <ng-template mat-tab-label>
+              <div class="rd-heading rd-heading-xs">Interim</div>
+            </ng-template>
+
+            <ng-container
+              *ngIf="
+                (financialResults?.financial?.Type | uppercase) == 'INTERIM'
+              "
+            >
+              <div class="mt-3 mb-5">
+                <div
+                  class="position-relative"
+                  *ngIf="financialResults?.financial?.Title"
+                >
+                  <div class="rd-heading rd-heading-lg-normal">
+                    {{ financialResults?.financial?.Title }}
+                  </div>
+                  <span class="rd-indicator rd-indicator-lg">
+                    <span
+                      class="rd-indicator-content rd-indicator-primary"
+                    ></span>
+                  </span>
+                </div>
+              </div>
+
+              <div
+                *ngIf="financialResults?.financial?.Description"
+                class="text"
+                [innerHTML]="
+                  financialResults?.financial?.Description | safeHtml : 'html'
+                "
+              ></div>
+
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.GroupAFS"
+                    >
+                      <div class="card GroupAFS card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Group AFS</div>
+                            <a
+                            aria-label="Download Group AFS"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.GroupAFS
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Group AFS ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.GroupAFS
+                              "
+                              [href]="
+                                financialResults?.financial?.GroupAFS.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.GroupAFS
+                                  : 'https://' +
+                                    financialResults?.financial?.GroupAFS
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image img-responsive"
+                            src="assets/images/financial-card-images/Group AFS_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.CompanyAFS"
+                    >
+                      <div class="card CompanyAFS card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Company AFS</div>
+                            <a
+                            aria-label="Download Company AFS"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.CompanyAFS
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Company AFS ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.CompanyAFS
+                              "
+                              [href]="
+                                financialResults?.financial?.CompanyAFS.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.CompanyAFS
+                                  : 'https://' +
+                                    financialResults?.financial?.CompanyAFS
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Primary financial statements_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.PropertyInformation"
+                    >
+                      <div class="card PropertyInformation card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Property Information</div>
+                            <a
+                            aria-label="Download Property Information"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial
+                                    ?.PropertyInformation
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Property Information ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.PropertyInformation
+                              "
+                              [href]="
+                                financialResults?.financial?.PropertyInformation.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial
+                                      ?.PropertyInformation
+                                  : 'https://' +
+                                    financialResults?.financial
+                                      ?.PropertyInformation
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Property Information_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.Results"
+                    >
+                      <div class="card Results card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Results</div>
+                            <a
+                            aria-label="Download Results"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.Results
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Results ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.Results
+                              "
+                              [href]="
+                                financialResults?.financial?.Results.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.Results
+                                  : 'https://' +
+                                    financialResults?.financial?.Results
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Results_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.Presentation"
+                    >
+                      <div class="card Presentation card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Presentation</div>
+                            <a
+                            aria-label="Download Presentation"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.Presentation
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Presentation ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.Presentation
+                              "
+                              [href]="
+                                financialResults?.financial?.Presentation.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.Presentation
+                                  : 'https://' +
+                                    financialResults?.financial?.Presentation
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Presentation_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.PressReleaseSlug"
+                    >
+                      <div class="card PressReleaseSlug card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Press releases</div>
+                            <a
+                            aria-label="Download Press releases"
+                              href="{{ currentURL }}/press-office/{{
+                                financialResults?.financial?.PressReleaseSlug
+                              }}"
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Press Release_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.WebcastUrl"
+                    >
+                      <div class="card WebcastUrl card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Webcast</div>
+                            <a
+                            aria-label="Download Webcast"
+                              target="_blank"
+                              [href]="
+                                financialResults?.financial?.WebcastUrl.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.WebcastUrl
+                                  : 'https://' +
+                                    financialResults?.financial?.WebcastUrl
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Webcast_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.Transcript"
+                    >
+                      <div class="card Transcript card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Transcript</div>
+                            <a
+                            aria-label="Download Transcript"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.Transcript
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Transcript ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.Transcript
+                              "
+                              [href]="
+                                financialResults?.financial?.Transcript.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.Transcript
+                                  : 'https://' +
+                                    financialResults?.financial?.Transcript
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Transcript_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="financialResults?.financial?.ShortformAdUrl"
+                    >
+                      <div class="card ShortformAdUrl card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Short-form advert</div>
+                            <a
+                            aria-label="Download Short-form advert"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial?.ShortformAdUrl
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Short-form advert ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial?.ShortformAdUrl
+                              "
+                              [href]="
+                                financialResults?.financial?.ShortformAdUrl.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial?.ShortformAdUrl
+                                  : 'https://' +
+                                    financialResults?.financial?.ShortformAdUrl
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/Transcript_Icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="
+                        financialResults?.financial?.PrimaryFinancialStatement
+                      "
+                    >
+                      <div class="card PrimaryFinancialStatement card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Primary financial statements</div>
+                            <a
+                            aria-label="Download Primary financial statements"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial
+                                    ?.PrimaryFinancialStatement
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - Primary financial statements ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial
+                                  ?.PrimaryFinancialStatement
+                              "
+                              [href]="
+                                financialResults?.financial?.PrimaryFinancialStatement.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial
+                                      ?.PrimaryFinancialStatement
+                                  : 'https://' +
+                                    financialResults?.financial
+                                      ?.PrimaryFinancialStatement
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/primary_financial_statements_icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="
+                        financialResults?.financial?.JvFinancialInformation
+                      "
+                    >
+                      <div class="card JvFinancialInformation card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>JV Financial information</div>
+                            <a
+                            aria-label="Download JV Financial information"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial
+                                    ?.JvFinancialInformation
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - JV Financial information ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial
+                                  ?.JvFinancialInformation
+                              "
+                              [href]="
+                                financialResults?.financial?.JvFinancialInformation.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial
+                                      ?.JvFinancialInformation
+                                  : 'https://' +
+                                    financialResults?.financial
+                                      ?.JvFinancialInformation
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/jv_financial_information_icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-4"
+                      *ngIf="
+                        financialResults?.financial?.EmpowermentTrustAFS
+                      "
+                    >
+                      <div class="card EmpowermentTrustAFS card-position">
+                        <div class="card-title">
+                          <div class="fbox">
+                            <div>Redefine Empowerment Trust AFS</div>
+                            <a
+                            aria-label="Download JV Financial information"
+                              target="_blank"
+                              (click)="
+                                download(
+                                  $event,
+                                  financialResults?.financial
+                                    ?.EmpowermentTrustAFS
+                                )
+                              "
+                              [attr.downloadanalytics]="
+                                financialResults?.financial?.Title +
+                                ' - JV Financial information ' +
+                                'ANALOAD' +
+                                ' ' +
+                                financialResults?.financial
+                                  ?.EmpowermentTrustAFS
+                              "
+                              [href]="
+                                financialResults?.financial?.EmpowermentTrustAFS.includes(
+                                  'http'
+                                )
+                                  ? financialResults?.financial
+                                      ?.EmpowermentTrustAFS
+                                  : 'https://' +
+                                    financialResults?.financial
+                                      ?.EmpowermentTrustAFS
+                              "
+                            >
+                              <div class="download-box">
+                                <span class="horline"></span>
+                                <div class="dpdf">View</div>
+                              </div></a
+                            >
+                          </div>
+                          <img
+                            class="group-afs-card-image"
+                            src="assets/images/financial-card-images/jv_financial_information_icon.svg"
+                            alt="card-image"
+                          />
+                          <div class="card-hover-line"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div></div>
+              </div>
+            </ng-container>
+            <div
+              class="py-2 text-center"
+              *ngIf="
+                financialResults?.financial == null ||
+                (this.financialResults?.financial?.Type | uppercase) == 'ANNUAL'
+              "
+            >
+              <div class="rd-heading-md-bold rd-text-deep-red py-5">
+                No result found!
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+
+      <div></div>
+    </div>
+  </div>
+  <div class="quicklinks-space"></div>
+</div>
+<app-quick-links></app-quick-links>

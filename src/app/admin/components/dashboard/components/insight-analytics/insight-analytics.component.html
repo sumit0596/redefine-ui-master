@@ -1,0 +1,125 @@
+<mat-accordion class="example-headers-align" multi>
+  <mat-expansion-panel
+    [expanded]="true"
+    (opened)="panelOpenState[0] = true"
+    (closed)="panelOpenState[0] = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title class="align-items-start">
+        <div
+          class="col-md-10 rd-heading rd-heading-md rd-dashboard-heading fw-bold"
+        >
+          Insights
+          <small class="selected-filter-label">
+            <small class="selected-filter-label">
+              <ng-container> ({{ selectedEventDays }}) </ng-container>
+            </small>
+          </small>
+        </div>
+        <div
+          class="col-md-2 d-flex justify-content-end"
+          [ngClass]="{ invisible: !panelOpenState[0] }"
+        >
+          <button
+            type="button"
+            id="more-btn"
+            class="rd-btn rd-btn-text alingment-button-dashborad position-relative"
+            [matMenuTriggerFor]="splitfilter"
+            aria-label="More"
+            (click)="$event.stopPropagation()"
+          >
+            <img src="assets/images/filter.svg" alt="Filter" />
+            <ng-container>
+              <span
+                *ngIf="filterApplied"
+                class="position-absolute badge-filter badge page padicon bg-secondary"
+                (click)="badgereset($event)"
+              >
+                <mat-icon class="fsmaticon filter-badge-icon-size"
+                  >close</mat-icon
+                >
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            </ng-container>
+          </button>
+          <mat-menu class="mat-menu mat-menu-analytic" #splitfilter="matMenu">
+            <app-dashboard-filter
+              [filter]="filter"
+              (filteredData)="filterData(filter)"
+              (selectedEventFilter)="selectedEventFilter($event)"
+              (filterApplied)="handleFilterApplied($event)"
+              [typeOfBlock]="'split'"
+            >
+            </app-dashboard-filter>
+          </mat-menu>
+          <button
+            type="button"
+            class="rd-btn rd-btn-text alingment-button-dashborad"
+            (click)="refresh($event)"
+          >
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="block-height">
+      <div *ngIf="!loading; else loadingData">
+        <ng-container *ngIf="insightsData.length else noData">
+          <div
+            *ngFor="let insdata of insightsData; let i = index"
+            class="py-2"
+            [ngClass]="{ 'hr-top-line hr-2': i != 0 }"
+          >
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 d-flex rd-gap-20">
+                <div>
+                  <img src="assets/images/info-circle-fill.svg" alt="icon" />
+                </div>
+                <div>
+                  <p class="rd-heading-xs mb-0 rd-text-grey-900">
+                    <small [innerHTML]="insdata"></small>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rd-form-footer col-md-12 dashboard-view-button">
+            <!-- <div class="view-button-inner" *ngIf="this.recentUnitsList.length > 9">
+                <button  [ngClass]="{'rd-disabled-link': moreUnits}" class="rd-dashboard-viewmore-btn" (click)="loadUnits()">
+                  <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                </button>
+              </div> -->
+          </div>
+        </ng-container>
+      </div>
+      <ng-template #loadingData>
+        <p class="card-text placeholder-glow py-1">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-4"></span>
+        </p>
+        <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-6"></span>
+        </p>
+        <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-7"></span>
+        </p>
+        <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-3"></span>
+        </p>
+      </ng-template>
+
+      <ng-template #noData>
+        <div class="col-12 py-2 text-center mt-5">
+          <img src="assets/images/unit-not-found.svg" alt="file" />
+          <p class="rd-heading-md-bold rd-text-deep-red">
+            No Records found
+          </p>
+        </div>
+      </ng-template>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

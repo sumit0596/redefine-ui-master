@@ -1,0 +1,36 @@
+<div class="rd-container">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          routerLink="../"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">SENS Announcement</div>
+    </div>
+    <!-- <div class="rd-container-header-right" *ngIf="access">
+      <button
+        type="button"
+        class="rd-btn-primary rd-btn-lg"
+        (click)="importSens()"
+      >
+        Import SENS Announcement
+      </button>
+    </div> -->
+  </div>
+  <app-datatable
+    [tableSettings]="tableSettings"
+    [filterColumns]="filterColumns"
+    [statuses$]="reportStatus$"
+    (getTableData)="tableData($event)"
+    (rowBasedAction)="rowActions($event)"
+    (toolbarEvent)="onToolbarClick($event)"
+    [emitClicks]="true"
+  ></app-datatable>
+</div>

@@ -1,0 +1,143 @@
+/* THEMING */
+.gjs-one-bg {
+  background-color: var(--grey-very-light) !important;
+}
+
+.gjs-two-color {
+  color: var(--black) !important;
+}
+
+.gjs-three-bg {
+  background-color: var(--grey-very-light) !important;
+  color: var(--white) !important;
+}
+
+.gjs-four-color,
+.gjs-four-color-h:hover {
+  color: var(--mid-red-color) !important;
+}
+.gjs-blocks-cs.gjs-one-bg {
+  background-color: var(--white) !important;
+}
+/* THEMING  */
+.gjs-cv-canvas {
+  border-left: 1px solid var(--grey-light) !important;
+}
+.gjs-category-title,
+.gjs-block-category .gjs-title,
+.gjs-sm-sector-title {
+  font-family: var(--rd-font-din-medium) !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  background-color: var(--grey-very-light) !important;
+  border-bottom: unset !important;
+  padding: 10px !important;
+}
+.gjs-layer {
+  font-size: 14px !important;
+}
+.gjs-layer-title-c {
+  font-size: inherit !important;
+}
+.gjs-layer-title-c .gjs-layer-title {
+  font-size: inherit !important;
+}
+.gjs-layer-title-c .gjs-layer-title .gjs-layer-title-inn {
+  font-size: inherit !important;
+}
+.gjs-layer-title-c .gjs-layer-title .gjs-layer-title-inn .gjs-layer-name {
+  height: auto !important;
+  font-size: inherit;
+}
+.gjs-layer .gjs-layer-count {
+  font-size: inherit !important;
+}
+.gjs-sm-sector-title .gjs-sm-sector-caret,
+.gjs-sm-sector-title .gjs-sm-sector-label {
+  font-weight: 500 !important;
+  font-size: 14px !important;
+}
+.gjs-block-category.gjs-open {
+  border: none !important;
+}
+
+.gjs-editor .gjs-pn-panels .gjs-pn-panel {
+}
+.gjs-pn-panels .gjs-pn-panel .gjs-pn-buttons {
+  /* justify-content: flex-start; */
+  column-gap: 5px;
+}
+.gjs-clm-tags {
+  display: none !important;
+}
+.gjs-asset-manager .gjs-am-assets-cont {
+  width: 50%;
+  background-color: unset !important;
+}
+.gjs-asset-manager .gjs-am-file-uploader {
+  width: 50%;
+}
+.gjs-asset-manager .gjs-am-file-uploader form {
+  background-color: var(--grey-light);
+  border: 1px dashed var(--grey);
+}
+.gjs-asset-manager .gjs-am-assets .gjs-am-asset .gjs-am-close {
+  right: 1px;
+  top: -8px;
+}
+.gjs-field input,
+.gjs-field select,
+.gjs-field textarea {
+  background-color: #fff !important;
+}
+.gjs-block {
+  width: 27% !important;
+  min-height: 70px !important;
+  min-width: 40px !important;
+  justify-content: space-evenly !important;
+  padding: 0 !important;
+  font-weight: 500;
+}
+.gjs-block__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+.gjs-block-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  font-family: var(--rd-font-din);
+  margin-bottom: 5px;
+}
+.rd-undo {
+  content: url("/assets/images/builder/svg/undo-icon.svg");
+}
+.rd-redo {
+  content: url("/assets/images/builder/svg/redo-icon.svg");
+}
+#componentSearch {
+  font-weight: 500;
+  color: var(--text-color);
+  background-color: var(--input-bg-color);
+  transition: all 0.3s ease-in;
+  box-shadow: var(--input-box-shadow);
+  border-radius: 100px;
+  margin: 0.5rem .2rem;
+  border: 1px solid #b1b1b1;
+  padding: 0.1rem 0.8rem;
+  font-size: .9rem;
+  width: 90%;
+}
+
+.component-search-container {
+  position: relative;
+}
+
+.component-search-container img{
+  position: absolute;
+  right: 17px;
+  width: 1rem;
+  top: 13px;
+}

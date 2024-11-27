@@ -1,0 +1,19 @@
+.mat-divider {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.drop-icon {
+  position: relative;
+  left: 20px;
+}
+
+button.rd-btn-text {
+  //width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #000000;
+  font-weight: 600;
+  transition: all 0.3s;
+}

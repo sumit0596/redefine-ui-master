@@ -1,0 +1,80 @@
+<mat-accordion>
+  <mat-expansion-panel
+    [expanded]="true"
+    (opened)="learnershipPanelOpenState = true"
+    (closed)="learnershipPanelOpenState = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title class="align-items-start"
+        ><div class="col-md-9 rd-heading rd-dashboard-heading rd-heading-md fw-bold">
+          Learnership Program
+          <small class="selected-filter-label">
+            <ng-container>
+              ({{selectedEventDays}})
+            </ng-container>
+          </small>
+        </div>
+        <div class="col-md-3 justify-content-end" 
+        [ngClass]="{'invisible' : !learnershipPanelOpenState}">
+          <button
+            type="button"
+            id="more-btn"
+            [matMenuTriggerFor]="confilter"
+            aria-label="More"
+            class="rd-btn rd-btn-text alingment-button-dashborad position-relative"
+            (click)="$event.stopPropagation()"
+          >
+          <img src="assets/images/filter.svg" alt="Filter" />
+            <span *ngIf="filterApplied" class="position-absolute badge-filter  badge padicon bg-secondary"  (click)="badgereset($event)"><mat-icon class="fsmaticon filter-badge-icon-size">close</mat-icon><span class="visually-hidden">unread messages</span></span>
+          </button>
+          <mat-menu class="mat-menu mat-menu-analytic align-items-start" #confilter="matMenu">
+            <app-dashboard-filter
+              [filter]="filter"
+              (selectedEventFilter)="selectedEventFilter($event)"
+              (filteredData)="filterData(filter)"
+              (filterApplied)="handleFilterApplied($event)"
+            ></app-dashboard-filter>
+          </mat-menu>
+          <button
+            type="button"
+            id="refresh-btn"
+            (click)="refreshFilter($event)"
+            class="rd-btn rd-btn-text alingment-button-dashborad"
+          >
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="row accordion-dashboard">
+      <div class="col-md-12 learnership-align-center" *ngIf="!loading">
+        <p class="rd-text-dominant-red rd-total-size">
+          {{ learnershipResults?.Total }}
+        </p>
+        <p class="rd-text-grey-darker rd-text-learnership">
+          Total Applicant(s) 
+        </p>
+      </div>
+
+      <div *ngIf="loading">
+        <p class="card-text placeholder-glow py-1">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-4"></span>
+        </p>
+        <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-6"></span>
+        </p>
+        <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-7"></span>
+        </p>
+        <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-3"></span>
+        </p>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

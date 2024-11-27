@@ -1,0 +1,46 @@
+.people-card {
+    width: 240px;
+    height: 332px;
+    margin: 10px;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    background-repeat: no-repeat; 
+  }
+  
+  
+  .placeholder {
+    width: 240px;
+    height: 332px;
+    margin: 10px;
+    background: #e0e0e0;
+  }
+  .people-card-action {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    width: fit-content;
+    padding: 0 10px;
+    text-decoration: none;
+  }
+  
+  .read-more-btn {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 8px; /* Space between text and icon */
+  }
+  
+  .btn-icon {
+    flex-shrink: 0; /* Prevent the icon from shrinking */
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Adjust icon size if needed */
+  .btn-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  

@@ -1,0 +1,400 @@
+<div class="row">
+  <div class="col-12 z-index-1">
+    <button
+      class="rd-btn-primary rd-btn-lg w-100 rd-dashboard-card text-start px-4 py-3 h-auto spaceSpecCalculatorBtn"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#space2SpecCalculator"
+      aria-expanded="false"
+      aria-controls="space2SpecCalculator"
+    >
+      Space2Spec Calculator
+    </button>
+  </div>
+  <div
+    class="col-12 collapse"
+    id="space2SpecCalculator"
+    [ngStyle]="{ 'marginTop.px': -35 }"
+  >
+    <div class="row">
+      <div class="col-12">
+        <div
+          class="d-flex pt-3 rd-bg__grey-dark rd-text-white rd-dashboard-card"
+        >
+          <div class="pt-4 pb-2 text-center rd-heading-sm flex-fill">
+            Insert basic rental details
+          </div>
+          <div class="pt-4 pb-2 text-center rd-heading-sm flex-fill">
+            Total Space2Spec Value Contribution
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="rd-dashboard-card">
+          <div class="row">
+            <div class="col-xl-7 col-lg-12 col-md-12">
+              <div class="pt-3 px-4 pb-4">
+                <div class="row">
+                  <div class="col-12 position-relative">
+                    <button
+                      type="button"
+                      class="rd-btn rd-btn-primary clear-btn"
+                      (click)="clear()"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                  <div class="col-12">
+                    <rd-input
+                      [label]="'Premises Size (m²) '"
+                      [id]="'title-of-incentive'"
+                      [placeholder]="'Please provide Premises Size (m²) '"
+                      [type]="'text'"
+                      [controlName]="'UnitSize'"
+                      [form]="spaceSpecForm"
+                      (onChange)="onChange($event)"
+                    >
+                    </rd-input>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <rd-input
+                      [label]="'Net Rental (R/sqm)'"
+                      [id]="'base-rental'"
+                      [placeholder]="'Please provide net rental (R/sqm)'"
+                      [type]="'text'"
+                      [controlName]="'BaseRental'"
+                      [form]="spaceSpecForm"
+                      (onChange)="onChange($event)"
+                    ></rd-input>
+                  </div>
+                  <div class="col-6">
+                    <rd-input
+                      [label]="'Operational Costs (R/sqm)'"
+                      [id]="'operational-costs'"
+                      [placeholder]="'Please provide operational costs (R/sqm)'"
+                      [type]="'text'"
+                      [controlName]="'OperationalCost'"
+                      [form]="spaceSpecForm"
+                      (onChange)="onChange($event)"
+                    ></rd-input>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <rd-input
+                      [label]="'Rates (R/sqm)'"
+                      [id]="'rates'"
+                      [placeholder]="'Please provide Rates (R/sqm)'"
+                      [type]="'text'"
+                      [controlName]="'Rates'"
+                      [form]="spaceSpecForm"
+                      (onChange)="onChange($event)"
+                    ></rd-input>
+                  </div>
+                  <div class="col-6">
+                    <rd-input
+                      [label]="'Total gross rental (R/sqm)'"
+                      [id]="'gross-rental'"
+                      [placeholder]="'Gross Rental'"
+                      [type]="'text'"
+                      [controlName]="'GrossRental'"
+                      [form]="spaceSpecForm"
+                      (onChange)="onChange($event)"
+                    ></rd-input>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <rd-select
+                      class="spec-space"
+                      [id]="'net-rental'"
+                      [label]="'Net rental escalation(%)'"
+                      [items$]="rentalEscalations$"
+                      [placeholder]="'6% - 12%'"
+                      [bindLabel]="'Name'"
+                      [bindValue]="'Name'"
+                      [form]="spaceSpecForm"
+                      [controlName]="'NetRental'"
+                      (onChange)="onNetRentalSelect($event)"
+                    ></rd-select>
+                  </div>
+                  <div class="col-6">
+                    <rd-select
+                      class="spec-space"
+                      [id]="'net-rental'"
+                      [label]="'Ops rental escalation(%)'"
+                      [items$]="rentalEscalations$"
+                      [placeholder]="'6% - 12%'"
+                      [bindLabel]="'Name'"
+                      [bindValue]="'Name'"
+                      [form]="spaceSpecForm"
+                      [controlName]="'OpsRental'"
+                      (onChange)="onNetRentalSelect($event)"
+                    ></rd-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-5 col-lg-12 col-md-12">
+              <div class="p-3 h-100 justify-content-center align-items-center">
+                <div
+                  class="row h-100 flex-column rd-gap-15 justify-content-center align-items-center"
+                >
+                  <div
+                    class="col-sm-12 col-md-8 col-lg-9 d-flex align-items-center justify-content-center"
+                  >
+                    <div
+                      class="rd-dashboard-card d-flex flex-column align-items-center justify-content-center rd-bg__grey-very-light w-100 px-2 py-4"
+                    >
+                      <div class="mb-1">3-Years-Lease</div>
+                      <div class="rd-heading rd-heading-lg mb-2 rd-text-grey">
+                        R{{ threeYearsLease.value }}
+                      </div>
+                      <small>
+                        Which equates to
+                        <span class="rd-text-mid-red"
+                          >R{{
+                            leaseValues
+                              ? leaseValues.threeYearsmSquare
+                              : "0.00"
+                          }}/m<sup>2</sup></span
+                        >
+                      </small>
+                    </div>
+                  </div>
+                  <div
+                    class="col-sm-12 col-md-8 col-lg-9 d-flex align-items-center justify-content-center"
+                  >
+                    <div
+                      class="rd-dashboard-card d-flex flex-column align-items-center justify-content-center rd-bg__grey-very-light w-100 px-2 py-4"
+                    >
+                      <div class="mb-1">5-Years-Lease</div>
+                      <div class="rd-heading rd-heading-lg mb-2 rd-text-grey">
+                        R{{ fiveYearsLease.value }}
+                      </div>
+                      <small>
+                        Which equates to
+                        <span class="rd-text-mid-red"
+                          >R{{
+                            leaseValues ? leaseValues.fiveYearsmSquare : "0.00"
+                          }}/m<sup>2</sup></span
+                        >
+                      </small>
+                    </div>
+                  </div>
+                  <!-- <div class="col-xl-6 col-lg-12 col-md-12">
+                    <rd-input
+                      class="font"
+                      [id]="'unit-lease'"
+                      [placeholder]="''"
+                      [label]="'5-Years Lease'"
+                      [type]="'text'"
+                      [controlName]="'FiveYearsLease'"
+                      [form]="spaceSpecForm"
+                    ></rd-input>
+
+                    <div class="rd-dashboard-card">
+                      {{ threeYearsLease.value }}
+                    </div>
+                  </div>
+                  <div
+                    class="col-xl-6 col-lg-12 col-md-12 d-flex align-items-center"
+                  >
+                    <div *ngIf="leaseValues?.fiveYearsmSquare != 0">
+                      Which equates to
+                      <span class="rd-text-mid-red"
+                        >R{{ leaseValues.fiveYearsmSquare }}/m<sup>2</sup></span
+                      >
+                    </div>
+                  </div> -->
+                   
+                </div>
+                <div class="row space2space-margin">
+                  <div class="col-12">
+                    <p class="px-4">
+                      <a
+                        class="linki"
+                        href="/view-file/spacetospectermsconditions.pdf"
+                        target="_blank"
+                      >
+                        Terms and Conditions Apply
+                      </a>
+                    </p>
+                </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="row">
+    <div class="main-heading">
+      <div class="rd-heading">Space2Spec Calculator</div>
+        <div>
+        <button (click)="spaceCal(openPanel)"
+            class="rd-accordion-btn"
+            [ngClass]="{ collapsed: !openPanel }"
+            [attr.data-bs-toggle]="'collapse'"
+            [attr.aria-expanded]="false"
+          ></button></div>
+    </div>
+    <div class="columns" *ngIf="openPanel">
+      <div class="heading">Insert Basic Rental Details:</div>
+    </div>
+    <div class="columns"  *ngIf="openPanel">
+      <div class="heading">Total Space2Spec Value Contribution</div>
+    </div>
+  </div>
+  
+  <div class="row" *ngIf="openPanel">
+    <div class="column column-one">
+      <rd-input
+        [label]="'Premises Size (m2) '"
+        [id]="'title-of-incentive'"
+        [placeholder]="'Premises Size (m2) '"
+        [type]="'text'"
+        [controlName]="'UnitSize'"
+        [form]="spaceSpecForm"
+        (onChange)="onChange($event)"
+      >
+      </rd-input>
+      <div class="property-details-wrapper">
+        <mat-divider></mat-divider>
+      </div>
+  
+      <div class="row row-data">
+        <div class="col-6">
+          <rd-input
+          [label]="'Base rental (R/sqm)'"
+          [id]="'base-rental'"
+          [placeholder]="'Set base rental (R/sqm)'"
+          [type]="'text'"
+          [controlName]="'BaseRental'"
+          [form]="spaceSpecForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        </div>
+        <div class="col-6">
+          <rd-input
+          [label]="'Operational Costs (R/sqm)'"
+          [id]="'operational-costs'"
+          [placeholder]="'Set operational costs (R/sqm)'"
+          [type]="'text'"
+          [controlName]="'OperationalCost'"
+          [form]="spaceSpecForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-6">
+          <rd-input
+            [label]="'Rates (R/sqm)'"
+            [id]="'rates'"
+            [placeholder]="'Please provide Rates (R/sqm)'"
+            [type]="'text'"
+            [controlName]="'Rates'"
+            [form]="spaceSpecForm"
+            (onChange)="onChange($event)"
+          ></rd-input>
+        </div>
+        <div class="col-6">
+          <rd-input
+          [label]="'Total gross rental (R/sqm)'"
+          [id]="'gross-rental'"
+          [placeholder]="'Gross Rental'"
+          [type]="'text'"
+          [controlName]="'GrossRental'"
+          [form]="spaceSpecForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        </div>
+      </div>
+      <div class="property-details-wrapper">
+        <mat-divider></mat-divider>
+      </div>
+      <div class="row row-data">
+        <div class="col-6">
+          <rd-select
+          class="spec-space"
+          [id]="'net-rental'"
+          [label]="'Net rental escalation(%)'"
+          [items$]="rentalEscalations$"
+          [placeholder]="'6% - 12%'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Name'"
+          [form]="spaceSpecForm"
+          [controlName]="'NetRental'"
+          (onChange)="onNetRentalSelect($event)"
+        ></rd-select>
+        </div>
+        <div class="col-6">
+          <rd-select
+                class="spec-space"
+                [id]="'net-rental'"
+                [label]="'Ops rental escalation(%)'"
+                [items$]="rentalEscalations$"
+                [placeholder]="'6% - 12%'"
+                [bindLabel]="'Name'"
+                [bindValue]="'Name'"
+                [form]="spaceSpecForm"
+                [controlName]="'OpsRental'"
+                (onChange)="onNetRentalSelect($event)"
+              ></rd-select>
+        </div>
+      </div>
+  
+      <div class="rd-form-footer">
+        <div>
+          <button type="button"></button>
+        </div>
+        <div>
+          <button type="button" class="rd-btn-primary rd-btn-lg display" (click)="clear()">Clear</button>
+        </div>
+      </div>
+    </div>
+    <div class="column column-two">
+      <div class="row">
+        <div class="col-md-6">
+          <rd-input
+            class="font"
+            [id]="'unit-lease'"
+            [placeholder]="''"
+            [label]="'3-Years Lease'"
+            [type]="'text'"
+            [controlName]="'ThreeYearsLease'"
+            [form]="spaceSpecForm"
+          ></rd-input>
+        </div>
+        <div class="col-md-6 spec-dropdown" *ngIf="leaseValues?.threeYearsmSquare != 0">
+          Which equates to
+          <blockquote>&nbsp;R{{leaseValues.threeYearsmSquare}}/m<sup>2</sup></blockquote>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <rd-input
+            class="font"
+            [id]="'unit-lease'"
+            [placeholder]="''"
+            [label]="'5-Years Lease'"
+            [type]="'text'"
+            [controlName]="'FiveYearsLease'"
+            [form]="spaceSpecForm"
+          ></rd-input>
+        </div>
+        <div class="col-md-6 spec-dropdown"  *ngIf="leaseValues?.fiveYearsmSquare != 0">
+          Which equates to
+          <blockquote>&nbsp;R{{leaseValues.fiveYearsmSquare}}/m<sup>2</sup></blockquote>
+        </div>
+      </div>
+    </div>
+  </div> -->

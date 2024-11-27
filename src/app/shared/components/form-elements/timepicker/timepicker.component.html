@@ -1,0 +1,27 @@
+<div class="control-container" *ngIf="form">
+  <form [formGroup]="form" class="form">
+    <div>
+      <label [for]="id" *ngIf="label"
+        >{{ label }}
+        <span *ngIf="required" class="required-asterik">*</span></label
+      >
+      <!-- Time input -->
+      <div class="input-wrapper">
+        <input
+          type="time"
+          [min]="min"
+          [max]="max"
+          [name]="id"
+          [id]="id"
+          [placeholder]="placeholder"
+          [formControlName]="controlName"
+          (change)="timeChange($event)"
+          [ngClass]="form.get(controlName)?.errors?.['invalid'] ? 'invalid':''"
+        />
+      </div>
+    </div>
+    <div *ngIf="form.get(controlName)?.hasError('invalid')" class="error-msg">
+      <small>{{ form.get(controlName)?.errors?.['invalid'] }}</small>
+    </div>
+  </form>
+</div>

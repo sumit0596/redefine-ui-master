@@ -1,0 +1,148 @@
+.rd-tab-wrapper {
+  .mdc-tab {
+    padding-left: unset !important;
+    max-width: 149px;
+  }
+
+  .mdc-tab-indicator {
+    justify-content: flex-start !important;
+    width: 40% !important;
+    display: none !important;
+  }
+
+  .mat-mdc-tab-body-wrapper {
+    padding: 10px 0px !important;
+    box-shadow: 0px 0px 0px 1px #99999966;
+    margin-bottom: 100px;
+  }
+
+  .mdc-tab--active {
+    background-color: #000000;
+  }
+
+  .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab__text-label:hover {
+    color: #999999 !important;
+  }
+
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs
+    > .mat-mdc-tab-header
+    .mat-mdc-tab {
+    border-top: 1px solid rgba(153, 153, 153, 0.4);
+  }
+
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs
+    > .mat-mdc-tab-header
+    .mat-mdc-tab:last-of-type {
+    border-right: 1px solid rgba(153, 153, 153, 0.4);
+  }
+
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs
+    > .mat-mdc-tab-header
+    .mat-mdc-tab:first-of-type {
+    border-left: 1px solid rgba(153, 153, 153, 0.4);
+  }
+
+  .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+  .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active
+    .mdc-tab__text-label {
+    color: var(--white) !important;
+  }
+}
+// custom css for inner contents
+
+.rd-tab-content:not(:last-child)::after {
+  content: "";
+  display: block;
+  width: 100%; /* Adjust the width of the horizontal line as needed */
+  height: 1px; /* Adjust the height of the horizontal line as needed */
+  background-color: #999999; /* Adjust the color of the horizontal line as needed */
+  margin-top: 30px; /* Adjust the margin-top to add space between the element and the line */
+}
+.rd-tab-content:hover .rd-sens-headline {
+  transform: translateX(30px);
+  color: red;
+}
+
+.rd-tab-content:hover .rd-publish {
+  transform: translateX(30px);
+}
+
+.rd-tab-content .rd-sens-headline {
+  transition: all 0.3s ease-in-out;
+}
+.rd-tab-content .rd-publish {
+  transition: all 0.3s ease-in-out;
+}
+.rd-publish {
+  color: #999999;
+  font-size: 13px;
+  font-weight: 400;
+  margin: 15px 64px 40px 64px;
+  word-wrap: break-word;
+}
+
+.rd-sens-headline {
+  color: black;
+  font-size: 18px;
+  font-weight: 400;
+  margin: 40px 64px 15px 64px;
+  word-wrap: break-word;
+  font-family: var(--font-din) !important;
+}
+
+.rd-tab-label:hover {
+  color: #000 !important;
+}
+
+.rd-tab-h1 {
+  margin: 50px 64px 0px 64px;
+}
+.rd-tab-h {
+  margin: 0px 64px 0px 64px;
+}
+
+.rd-tab-content {
+  cursor: pointer;
+}
+
+.rd-tab-label:hover {
+  color: #000 !important;
+}
+
+.rd-tabs.mdc-tab.mat-mdc-tab.mat-mdc-focus-indicator.mdc-tab--active.ng-star-inserted.mdc-tab-indicator--active {
+  background-color: black; /* Set your desired background color for the active tab */
+  color: white; /* Set the text color for the active tab */
+  &.mdc-tab__content .mdc-tab__text-label {
+    color: white;
+  }
+}
+
+.rd-tab-h1 {
+  margin: 50px 64px 0px 64px;
+}
+
+.tab-btn {
+  text-align: right;
+  padding-right: 50px;
+}
+.rd-slider-btn2 > span:hover {
+  color: var(--red-color) !important;
+}
+.rd-slider-btn2 > .slideiconbtn > svg:hover {
+  color: var(--red-color) !important;
+}
+
+.rd-slider-btn2 > .slideiconbtn:hover {
+  color: var(--red-color) !important;
+}
+
+.tab-btn:hover {
+  color: var(--red-color) !important;
+}
+
+.rd-tab-label {
+  border: 1px solid #999999;
+}
+.rd-tab-content {
+  cursor: pointer;
+}

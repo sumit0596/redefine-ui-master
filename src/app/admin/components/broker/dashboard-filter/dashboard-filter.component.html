@@ -1,0 +1,94 @@
+<div class="p-10 dashboard-filterbox-hgt">
+  <div class="dashboard-input-width mb-1" #filterPopup>
+    <div class="mb-0">
+      <ng-select
+        *ngIf="tabLabel !== 'Time Chart' && typeOfBlock !== 'financialResults'"
+        dropdownPosition="auto"
+        id="days-dropdown"
+        [items]="days"
+        bindLabel="day"
+        [clearable]="false"
+        [(ngModel)]="selectedDay"
+        (change)="onDataChange($event)"
+        (mousedown)="handleMouseDown($event)"
+        (click)="handleClick($event)"
+      >
+      </ng-select>
+      <ng-select
+        *ngIf="tabLabel === 'Time Chart' || typeOfBlock === 'financialResults'"
+        dropdownPosition="auto"
+        id="years-dropdown"
+        [items]="years"
+        bindLabel="year"
+        [clearable]="false"
+        [(ngModel)]="selectedYear"
+        (change)="onYearChange($event)"
+        (mousedown)="handleMouseDown($event)"
+        (click)="handleClick($event)"
+      >
+      </ng-select>
+    </div>
+  </div>
+  <div class="date-and-error-container dashboard-input-width mt-1" [ngClass]="{ 'd-none': tabLabel === 'Time Chart' }">
+      <div *ngIf="calender">
+        <mat-form-field  class="example-form-field date-input" *ngIf="calender" subscriptSizing="dynamic" >
+          <mat-label class="date-label">Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="rangePicker" [max]="today">
+            <input
+              [readOnly]="true"
+              matStartDate
+              placeholder="MM/DD/YYYY"
+              [(ngModel)]="filter.StartDate"
+            />
+            <input
+              matEndDate
+              [readOnly]="true"
+              placeholder="MM/DD/YYYY"
+              [(ngModel)]="filter.EndDate"
+            />
+          </mat-date-range-input>
+
+          <mat-datepicker-toggle
+            *ngIf="calenderWidow"
+            matIconSuffix
+            [for]="rangePicker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #rangePicker>
+            <mat-date-range-picker-actions>
+              <button mat-button matDateRangePickerCancel>Cancel</button>
+              <button
+                mat-raised-button
+                color="primary"
+                matDateRangePickerApply
+                (click)="applyDates()"
+              >
+                Apply
+              </button>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      
+      <div class="error-message-container">
+        <small class="error-message" *ngIf="errorMessage">
+          <div class="error-text placement">{{ errorMessage }}</div>
+        </small>
+      </div>
+  </div>
+  <div class="incstaff checkbox-input rd-checkbox mb-3">
+    <input
+      type="checkbox"
+      class="rd-border__grey-dark"
+      [name]="'space-spec'"
+      [id]="'incentive-checkbox-space-spec'"
+      (change)="toggleSwitch($event)"
+      [checked]="filter.ExcludeStaff"
+      [disabled]="isDisabled"
+    />
+    <label
+      [for]="'incentive-checkbox-space-spec'"
+      class="rd-text-grey-mid"
+      >Exclude Staff</label
+    >
+  </div>
+</div>

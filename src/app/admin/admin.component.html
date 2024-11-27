@@ -1,0 +1,26 @@
+<div class="rd-container rd-fixed" (scroll)="onScroll($event)">
+  <div class="rd-header-container">
+    <app-header
+      [sidenavStatus]="sideNavStatus"
+      (sideNavToggled)="sideNavStatus = $event"
+    ></app-header>
+  </div>
+  <div class="main-container d-flex">
+    <div
+      class="rd-sidenav-container"
+      [ngClass]="sideNavStatus ? 'rd-sidenav-open' : ''"
+    >
+      <app-sidenav
+        [sideNavStatus]="sideNavStatus"
+        (sidenavEvent)="sideNavStatus = $event"
+      ></app-sidenav>
+    </div>
+    <div
+      class="rd-main-container"
+      [ngClass]="{'dashboard-layout':sideNavStatus }"
+      [style.margin-left]="sideNavStatus ? '280px' : '88px'"
+    >
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

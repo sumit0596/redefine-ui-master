@@ -1,0 +1,292 @@
+<div class="rd-container">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div class="rd-heading rd-heading-lg">My Profile</div>
+    </div>
+    <div class="rd-container-header-right"></div>
+  </div>
+  <div class="row">
+    <div class="col-8">
+      <form
+        class="rd-form form-container"
+        [formGroup]="brokerProfileForm"
+        (ngSubmit)="onSubmit()"
+        autocomplete="on"
+      >
+        <div class="rd-form-header">Profile Details</div>
+        <div class="rd-form-body">
+          <div class="rd-form-control-group">
+            <rd-input
+              [label]="'Name'"
+              [id]="'first-name'"
+              [placeholder]="'First Name'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'FirstName'"
+              [form]="brokerProfileForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+            <rd-input
+              [label]="'Surname'"
+              [id]="'last-name'"
+              [placeholder]="'Last Name'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'LastName'"
+              [form]="brokerProfileForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+          <div class="rd-form-control-group">
+            <rd-input
+              [label]="'Cell Number'"
+              [id]="'cell-number'"
+              [placeholder]="'Cell Number'"
+              [type]="'text'"
+              [controlName]="'CellNumber'"
+              [form]="brokerProfileForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+            <rd-input
+              [label]="'Email Address'"
+              [id]="'email'"
+              [placeholder]="'Email Address'"
+              [required]="true"
+              [type]="'email'"
+              [controlName]="'Email'"
+              [form]="brokerProfileForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+
+          <rd-input
+            *ngIf="userDetails?.RoleId === 2"
+            [label]="'Birthday'"
+            [id]="'birthday'"
+            [placeholder]="''"
+            [type]="'text'"
+            [controlName]="'Dob'"
+            [form]="brokerProfileForm"
+          ></rd-input>
+
+          <div class="rental-alert" *ngIf="userDetails?.RoleId === 2">
+            <div class="location-alert-icon">
+              <img
+                class="location-alert-image"
+                src="assets/images/circle-info.svg"
+                alt=""
+              />
+            </div>
+            <div class="location-alert-desc">
+              Please ensure that this information is correct, as it is required
+              to create your custom brochure
+            </div>
+          </div>
+
+          <div class="rd-form-header" *ngIf="userDetails?.RoleId === 2">
+            Company Details
+          </div>
+
+          <ng-container *ngIf="userDetails?.RoleId === 2">
+            <div class="rd-form-control-group">
+              <rd-input
+                [label]="'Company Name'"
+                [id]="'company-name'"
+                [placeholder]="'Company Name'"
+                [type]="'text'"
+                [required]="true"
+                [controlName]="'CompanyName'"
+                [form]="brokerProfileForm"
+                (onChange)="onChange($event)"
+              ></rd-input>
+
+              <rd-input
+                [label]="'Office Number'"
+                [id]="'office-number'"
+                [placeholder]="'Office Number'"
+                [required]="true"
+                [type]="'text'"
+                [controlName]="'OfficeNumber'"
+                [form]="brokerProfileForm"
+                (onChange)="onChange($event)"
+              ></rd-input>
+            </div>
+            <div>
+              <rd-input
+                [label]="'Company Address'"
+                [id]="'company-address'"
+                [placeholder]="'Company Address'"
+                [type]="'text'"
+                [controlName]="'CompanyAddress'"
+                [form]="brokerProfileForm"
+                (onChange)="onChange($event)"
+              ></rd-input>
+            </div>
+
+            <div class="hr-top-line py-1">
+              <!-- IMAGE -->
+              <rd-file
+                [label]="'Company logo'"
+                [id]="'image-file'"
+                [types]="[fileType.IMAGE_PNG, fileType.IMAGE_JPEG]"
+                [note]="'Ensure your logos are 100px by 100px'"
+                (onSelect)="onFileSelect($event, 'IMAGE')"
+              ></rd-file>
+              <!-- <div
+            *ngIf="brokerProfileForm.get('CompanyLogo')?.hasError('invalid')"
+            class="error-msg"
+          >
+            <small
+              >{{ brokerProfileForm.get('CompanyLogo')?.errors?.['invalid'] }}</small
+            >
+          </div> -->
+              <rd-file-container
+                [label]="'Uploaded logo'"
+                [file]="file"
+                [delete]="true"
+                [preview]="true"
+                (onDelete)="onFileDelete($event, 'IMAGE')"
+              ></rd-file-container>
+            </div>
+
+            <div class="rd-form-header">Additional Information</div>
+            <rd-select
+              [id]="'personalInterest'"
+              [label]="'Personal Interest'"
+              [placeholder]="'Select Personal Interest'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Id'"
+              [items$]="personalInterestList$"
+              [required]="true"
+              [multiselect]="true"
+              [max]="4"
+              [checkbox]="true"
+              [labelClass]="'personalInterest'"
+              [form]="brokerProfileForm"
+              [controlName]="'PersonalInterest'"
+            ></rd-select>
+          </ng-container>
+        </div>
+        <div class="rd-form-footer">
+          <div>
+            <button
+              type="button"
+              class="rd-btn rd-btn-secondary rd-btn-lg"
+              (click)="cancel()"
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <button type="submit" class="rd-btn rd-btn-primary rd-btn-lg">
+              Update
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-4" *ngIf="userDetails?.RoleId == 2">
+      <div class="rd-form">
+        <div class="rd-heading rd-heading-md-bold">Preferences</div>
+        <form [formGroup]="brokerProfileForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <!-- <div class="rd-heading rd-heading-md-bold">Sector</div> -->
+            <rd-select
+              [id]="'sector'"
+              [label]="'Sector'"
+              [placeholder]="'Select sector'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Id'"
+              [items$]="sectorList$"
+              [required]="true"
+              [multiselect]="true"
+              [max]="2"
+              [checkbox]="true"
+              [form]="brokerProfileForm"
+              [labelClass]="'Sector'"
+              [controlName]="'Sector'"
+            ></rd-select>
+
+            <div class="location-picker__custom-dropdown" *ngIf="areaList.length > 0">
+              <app-all-location-dropdown
+                [inputLabel]="inputLabel"
+                [fieldRequired]="true"
+                [selectedAreas]="brokerProfileForm.value.Areas"
+                [areaList]="areaList"
+                (newItemEvent)="getLocation($event)"
+              >
+              </app-all-location-dropdown>
+              <div
+                *ngIf="brokerProfileForm.value?.Areas?.length == 0"
+                class="error-msg"
+              >
+                <small>Areas is required</small>
+              </div>
+            </div>
+
+            <div>
+              <rd-select
+                [id]="'SubscriptionPreferences'"
+                [label]="'Subscription Preferences'"
+                [placeholder]="'Select Subscription Preferences'"
+                [bindLabel]="'Name'"
+                [bindValue]="'Id'"
+                [items$]="subscriptionPreferenceList$"
+                [required]="true"
+                [multiselect]="true"
+                [max]="1"
+                [checkbox]="true"
+                [labelClass]="'Subscription Preferences'"
+                [form]="brokerProfileForm"
+                [controlName]="'SubscriptionPreferences'"
+              ></rd-select>
+            </div>
+
+            <div class="rd-heading rd-heading-md-bold">
+              Vacancy Schedule Preference
+            </div>
+            <p class="vacany-label">
+              How often would you like to receive an updated vacancy schedule
+            </p>
+            <div class="radio-input" *ngFor="let preference of vacancySchedule">
+              <input
+                id="preference.Id"
+                name="VacancySchedule"
+                type="radio"
+                [checked]="preference.checked"
+                (change)="selectVacancySchedule($event, preference)"
+              />
+              {{ preference?.Name }}
+            </div>
+            <!-- <div class="rd-checkbox-group display">
+              <div class="checkbox-input rd-checkbox">
+                <input
+                  type="checkbox"
+                  name=""
+                  id="item-all"
+                  value="All"
+                  [checked]="allComplete"
+                  (change)="setAll($event)"
+                />
+                <label for="item-all">All</label>
+              </div>
+              <ng-container *ngFor="let sector of sectorList; let i = index">
+                <div class="checkbox-input rd-checkbox" >
+                  <input
+                    type="checkbox"
+                    [name]="sector.Name"
+                    [id]="sector.Name + i"
+                    [value]="sector.Name"
+                    [checked]="sector.checked"
+                    (click)="sectorSelect($event, sector)"
+                  />
+                  <label [for]="sector.Name + i">{{ sector.Name }}</label>
+                </div>
+              </ng-container>
+            </div> -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

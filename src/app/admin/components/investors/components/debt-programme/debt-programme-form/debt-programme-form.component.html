@@ -1,0 +1,317 @@
+<div class="rd-container" *ngIf="formConfig">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} Debt Programme &
+        Credit Ratings
+      </div>
+    </div>
+  </div>
+  <form
+    *ngIf="formConfig.mode == formMode.CREATE"
+    [formGroup]="debtProgrammeForm"
+    (ngSubmit)="onSubmit($event)"
+    class="rd-form"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">Debt Programme Details</div>
+
+    <div class="rd-form-body">
+      <div class="row">
+        <div class="col-md-6">
+          <rd-select
+            [id]="'type'"
+            [label]="'Type'"
+            [placeholder]="'Please Select'"
+            [bindLabel]="'Title'"
+            [bindValue]="'DebtCreditTypeId'"
+            [required]="true"
+            [items$]="typeList$"
+            [form]="debtProgrammeForm"
+            (onChange)="onTypeSelect($event)"
+            [controlName]="'DebtCreditTypeId'"
+          ></rd-select>
+        </div>
+        <div class="col-md-6">
+          <rd-input
+            [label]="'Title'"
+            [id]="'add-title'"
+            [placeholder]="'Please Provide'"
+            [required]="true"
+            [type]="'text'"
+            [controlName]="'Title'"
+            (onChange)="onChange($event)"
+            [form]="debtProgrammeForm"
+          >
+          </rd-input>
+        </div>
+      </div>
+
+    <div class="rd-form-body">
+      <rd-select  *ngIf="typeId === 1"
+        [id]="'add-category'"
+        [label]="'Category'"
+        [placeholder]="'Please Select'"
+        [bindLabel]="'Title'"
+        [bindValue]="'DebtCreditCategoryId'"
+        [items$]="categoryList$"
+        [required]="true"
+        [form]="debtProgrammeForm"
+        [controlName]="'DebtCreditCategoryId'"
+      ></rd-select>
+
+      <rd-file
+        [label]="'Upload PDF'"
+        [id]="'pdf-input'"
+        [types]="[fileType.PDF]"
+        [required]="true"
+        [fileList]="fileContainer?.Pdf"
+        (onSelect)="onFileSelect($event, 3)"
+        (onDelete)="onFileDelete($event, 3)"
+      ></rd-file>
+      <div
+      *ngIf="debtProgrammeForm.get('Pdf')?.hasError('invalid')"
+      class="error-msg"
+    >
+      <small
+        >{{ debtProgrammeForm.get('Pdf')?.errors?.['invalid'] }}</small
+      >
+    </div>
+    </div>
+  </div>
+
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">Submit</button>
+      </div>
+    </div>
+  </form>
+  <form
+    *ngIf="formConfig.mode == 'edit'"
+    [formGroup]="debtProgrammeForm"
+    (ngSubmit)="onSubmit($event)"
+    class="rd-form"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">Debt Programme Details</div>
+    <div class="rd-form-body">
+      <div class="row">
+        <div class="col-md-6">
+         <rd-select
+            [id]="'type'"
+            [label]="'Type'"
+            [placeholder]="'Please Select'"
+            [bindLabel]="'Title'"
+            [bindValue]="'DebtCreditTypeId'"
+            [required]="true" 
+            [items$]="typeList$"
+            [form]="debtProgrammeForm"
+            (onChange)="onTypeSelect($event)"
+            [controlName]="'DebtCreditTypeId'"
+          ></rd-select>
+        </div>
+        <div class="col-md-6">
+          <rd-input
+            [label]="'Title'"
+            [id]="'add-title'"
+            [placeholder]="'Please Provide'"
+            [required]="true"
+            [type]="'text'"
+            [controlName]="'Title'"
+            [form]="debtProgrammeForm"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+        </div>
+      </div>
+
+    <div class="rd-form-body">
+      <rd-select  *ngIf="typeId === 1"
+        [id]="'add-category'"
+        [label]="'Category'"
+        [placeholder]="'Please Select'"
+        [bindLabel]="'Title'"
+        [bindValue]="'DebtCreditCategoryId'"
+        [items$]="categoryList$"
+        [required]="true"
+        [form]="debtProgrammeForm"
+        [controlName]="'DebtCreditCategoryId'"
+      ></rd-select>
+      <ng-container>
+        <rd-file
+          *ngIf="!debtDetails?.Pdf"
+          [label]="'Upload PDF'"
+          [id]="'pdf-input'"
+          [types]="[fileType.PDF]"
+          [required]="true"
+          [fileList]="fileContainer?.Pdf"
+          (onSelect)="onFileSelect($event, 3)"
+          (onDelete)="onFileDelete($event, 3)"
+        ></rd-file>
+        <div
+        *ngIf="debtProgrammeForm.get('Pdf')?.hasError('invalid')"
+        class="error-msg"
+      >
+        <small
+          >{{ debtProgrammeForm.get('Pdf')?.errors?.['invalid'] }}</small
+        >
+      </div>
+        <div
+          class="incentive-desc control-container"
+          *ngIf="
+          debtDetails?.Pdf != null &&
+          debtDetails?.Pdf != ''
+          "
+        >
+          <label>PDF</label>
+          <div class="file-container">
+            <div class="file-icon">
+              <img src="assets/images/pdf.svg" alt="file" />
+            </div>
+            <div class="file-info">
+              <p class="file-name">
+                <a [href]="debtDetails.Pdf" target="_blank">{{
+                  debtDetails.PdfName | titlecase
+                }}</a>
+              </p>
+              <p class="file-desc">
+                <small>{{
+                  debtDetails.CreatedOn | date : "medium"
+                }}</small>
+              </p>
+            </div>
+            <div class="file-actions">
+              <button
+                type="button"
+                class="rd-btn-text rd-btn-sm"
+                (click)="deleteFile('Pdf', 3)"
+              >
+                <img src="assets/images/trash.svg" alt="trash-icon" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">
+          Save & Update
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <form *ngIf="formConfig?.mode == 'view' && debtDetails" class="rd-form">
+    <div class="rd-form-header">Debt Programme Details</div>
+    <div class="attribute-container">
+      <div class="attribute-item">
+        <div class="attribute-label">Type</div>
+        <div class="attribute-desc">{{ debtDetails.TypeName }}</div>
+      </div>
+
+      <div class="attribute-item">
+        <div class="attribute-label">Title</div>
+        <div class="attribute-desc">
+          {{ debtDetails.Title }}
+        </div>
+      </div>
+      <div class="attribute-item" *ngIf="debtDetails?.DebtCreditCategoryId !=0 && debtDetails?.CategoryName != null">
+        <div class="attribute-label">Category</div>
+        <div class="attribute-desc">
+          {{ debtDetails.CategoryName }}
+        </div>
+      </div>
+
+      <div class="attribute-item">
+        <div class="attribute-label">Pdf</div>
+        <div class="attribute-desc">
+          <div class="file-container">
+            <ng-container
+              *ngIf="
+                debtDetails?.Pdf != null &&
+                debtDetails?.Pdf != ''
+              "
+            >
+              <div class="file-icon">
+                <img src="assets/images/pdf.svg" alt="file" />
+              </div>
+              <div class="file-info">
+                <p class="file-name">
+                  <a [href]="debtDetails.Pdf" target="_blank">{{
+                    debtDetails.PdfName | titlecase
+                  }}</a>
+                </p>
+                <p class="file-desc">
+                  <small>{{
+                    debtDetails.CreatedOn | date : "medium"
+                  }}</small>
+                </p>
+              </div>
+            </ng-container>
+            <ng-container
+              *ngIf="
+              debtDetails?.Pdf == null ||
+              debtDetails?.Pdf == ''
+              "
+              >NA</ng-container
+            >
+          </div>
+        </div>
+      </div>
+      <!-- <div class="attribute-item"></div> -->
+    </div>
+
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button *ngIf="formConfig?.access"
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          (click)="editDebtProgramme()"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,18 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngFor="let banner of banners">
+        <input
+          type="radio"
+          [id]="banner.name"
+          formControlName="type"
+          [value]="banner.type"
+          (change)="selectBanner(banner)"
+        />
+        <label [for]="banner.name" class="preview-card" [title]="banner.name">
+          <img [src]="banner.svg" class="svg-icon" alt="component preview" />
+        </label>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,25 @@
+.rd-dropdown-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rd-dropdown-btn .drop-icon {
+  position: absolute;
+  right: 20px;
+}
+.save-btn-dropdown-wrapper {
+  position: relative;
+}
+.save-dropdown-menu button {
+  justify-content: unset;
+}
+.btn-group-wrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.col-5
+{
+ padding: 0px;
+}

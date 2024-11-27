@@ -1,0 +1,76 @@
+.video-not-found_container{
+   width:40rem;
+}
+
+.video-desc_p {
+    overflow: scroll;
+    height: 25vh;
+    margin: 0;
+}
+.video-desc_p img{
+    width: 100% !important;
+}
+
+::ng-deep{
+    .close-button-video {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        color: #fff;
+    }
+    .ytp-chrome-top.ytp-show-cards-title {
+        top: -65px !important;
+    }
+    .close-videopop-btn{
+        background: #fff;
+        padding: 0;
+        border-radius: 100px;
+    }
+    .propertyeq-video-box iframe {
+       padding: 10px 0 0 0;
+       background: #000;
+    }  
+    @media only screen and (min-width: 768px) {
+        .video-popup-propertyeq {
+            max-width: min-content !important;
+        }   
+    }
+
+    .propertyeq-video .mat-icon.notranslate.material-icons.mat-ligature-font.mat-icon-no-color {
+        background: #fff;
+        display: flex;
+        padding: 0.8rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 100px;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    .video-desc_p p {
+        margin-bottom: 0;
+    }
+    .video-desc_p img{
+        width: 100% !important;
+    }
+    
+    @media only screen and (max-width:678px) {
+        iframe {
+            width: 100%;
+            height: max-content;
+            padding-top: 1.8rem !important;
+            padding-bottom: 1.8rem !important;
+        }
+        .propertyeq-video-box .youtube-player{
+            width: 100% !important;
+        }
+
+        .propertyeq-video .rd-heading {
+            line-height: 25px !important;
+        }
+    }
+}

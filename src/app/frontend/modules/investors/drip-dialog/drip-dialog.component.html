@@ -1,0 +1,383 @@
+<div class="rd-container rd-form border-0">
+  <div class="rd-form-container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div class="rd-heading rd-heading-md-bold">Notice and disclaimer</div>
+      <div>
+        <button type="button" class="rd-btn rd-btn-text" (click)="closeModal()">
+          <span class="btn-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+              ></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+    <div class="rd-form-body m-0">
+      <form
+        class=""
+        autocomplete="on"
+        *ngIf="step1"
+        [formGroup]="dripFilter"
+        (ngSubmit)="onSubmit($event, 'step1')"
+      >
+        <div class="">
+          <div class="position-relative">
+            <div class="rd-heading d rd-heading-md-bold">
+              Important disclaimer
+            </div>
+            <span class="rd-indicator rd-indicator-lg">
+              <span class="rd-indicator-content rd-indicator-primary"></span>
+            </span>
+          </div>
+
+          <p class="rd-text-justify rd-text-light mt-4">
+            The following pages contain information on the Redefine Properties
+            Limited ("Redefine") dividend reinvestment plan (the "DRIP"). For
+            regulatory reasons, access to the content of this website is
+            restricted. As a result, please fill in the fields below to access
+            the following pages.
+          </p>
+
+          <p class="rd-text-justify rd-text-light mt-3">
+            Any personal data will not be retained and will be requested of you
+            each time you seek to access the restricted content.
+          </p>
+
+          <p class="rd-text-justify access-text rd-text mt-3">
+            Access to this information is restricted to South African residents
+            that are physically present in the Republic of South Africa.
+          </p>
+
+          <div class="row">
+            <div class="col-md-4">
+              <rd-select
+                [id]="'country'"
+                [label]="'Choose your country of residence'"
+                [placeholder]="'Please select country'"
+                [bindLabel]="'Name'"
+                [bindValue]="'Id'"
+                [required]="true"
+                [items$]="countries$"
+                [form]="dripFilter"
+                [controlName]="'Country'"
+              >
+              </rd-select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="rd-form-footer py-3">
+            <div class="col-12 text-md-end text-center">
+              <button
+                (click)="closeModal()"
+                type="button"
+                class="rd-btn-secondary rd-btn-lg mt-3 mt-md-0 m-1"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="rd-btn rd-btn-dark rd-btn-lg m-1 mt-3 mt-md-0"
+              >
+                <span class="btn-text">Next</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="">
+        <div *ngIf="step2">
+          <form
+            class=""
+            autocomplete="on"
+            [formGroup]="dripFilter"
+            (ngSubmit)="onSubmit($event, 'step2')"
+          >
+            <div class="">
+              <div class="position-relative">
+                <div class="rd-heading rd-heading-md-bold">
+                  Important disclaimer
+                </div>
+                <span class="rd-indicator rd-indicator-lg">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+
+              <p class="rd-text-justify rd-text-light mt-4">
+                The following pages contain information on the Redefine
+                Properties Limited ("Redefine") dividend reinvestment plan (the
+                "DRIP"). For regulatory reasons, access to the content of this
+                website is restricted. As a result, please fill in the fields
+                below to access the following pages.
+              </p>
+
+              <p class="rd-text-justify rd-text-light mt-3">
+                Any personal data will not be retained and will be requested of
+                you each time you seek to access the restricted content.
+              </p>
+
+              <p class="rd-text-justify access-text rd-text mt-3">
+                Access to this information is restricted to South African
+                residents that are physically present in the Republic of South
+                Africa.
+              </p>
+              <div class="row">
+                <div class="col-md-4">
+                  <rd-input
+                    [label]="'Please provide postal code'"
+                    [id]="'id-number'"
+                    [placeholder]="'Please enter postal code'"
+                    [required]="true"
+                    [type]="'text'"
+                    [controlName]="'PostalCode'"
+                    [form]="dripFilter"
+                    (onChange)="onChange($event, 'step2')"
+                  >
+                  </rd-input>
+                </div>
+              </div>
+              <div class="required-checks">
+                <div
+                  class="checkbox-input rd-checkbox required-check-acknowledge"
+                >
+                  <input
+                    type="checkbox"
+                    class="rd-border-dark-grey"
+                    [name]="'citizen-consent'"
+                    [id]="'citizen-consent-checkbox'"
+                    formControlName="Step2Terms"
+                    (change)="citizenChange('Step2Terms')"
+                  />
+                  <label for="citizen-consent-checkbox"
+                    >I am a South African citizen</label
+                  >
+                </div>
+                <div
+                  *ngIf="dripFilter.get('Step2Terms')?.hasError('invalid')"
+                  class="error-msg"
+                >
+                  <small
+                    >{{ dripFilter.get('Step2Terms')?.errors?.['invalid'] }}</small
+                  >
+                </div>
+                <label for="vehicle1"></label>
+              </div>
+            </div>
+
+            <div class="rd-form-footer py-3">
+              <div class="col-12 text-md-end text-center">
+                <button
+                  (click)="closeModal()"
+                  type="button"
+                  class="rd-btn-secondary rd-btn-lg m-1 mt-3 mt-md-0"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  class="rd-btn rd-btn-dark rd-btn-lg m-1 mt-3 mt-md-0"
+                >
+                  <span class="btn-text">Next</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="">
+        <ng-container *ngIf="step3">
+          <div class="">
+            <form
+              class=""
+              autocomplete="on"
+              [formGroup]="dripFilter"
+              (ngSubmit)="onSubmit($event, 'step3')"
+            >
+              <div class="position-relative">
+                <div class="rd-heading rd-heading-md">Terms & Conditions</div>
+                <span class="rd-indicator rd-indicator-lg">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+
+              <div class="rd-text-justify rd-text-light mt-4">
+                The information contained herein is not intended for, and must
+                not be accessed by, published, distributed or disseminated to
+                persons resident or physically present outside of South Africa,
+                including in the United States of America (including its
+                territories and possessions, the United States”), and does not
+                constitute an offer to sell or the solicitation of an offer to
+                buy or acquire any shares of Redefine in the United States, the
+                EEA, Canada, Japan, Australia or in any other jurisdiction in
+                which it is unlawful to make such an offer or solicitation.<br />
+
+                <div class="mt-2">
+                  The release, publication or distribution of these materials in
+                  jurisdictions other than South Africa may be restricted or
+                  affected by the laws of such jurisdiction, and failure to
+                  comply with any of those restrictions may constitute a
+                  violation of the securities laws of any such jurisdictions.
+                  The shares of Redefine offered pursuant to the DRIP are not
+                  being offered, directly or indirectly, in any jurisdiction
+                  other than South Africa unless certain exemptions from the
+                  requirements of those jurisdictions are applicable.<br />
+                </div>
+
+                <div class="mt-2">
+                  The shares of Redefine offered pursuant to the DRIP may not be
+                  sold in the United States absent registration with the U.S.
+                  Securities and Exchange Commission or an applicable exemption
+                  from registration under the U.S. Securities Act of 1933, as
+                  amended. Redefine does not intend to register any portion of
+                  the offering of its securities in the United States or to
+                  conduct a public offering in the United States.
+                  <br />
+                </div>
+
+                <div class="mt-2">
+                  All persons resident outside South Africa who wish to have
+                  access to the documents contained on this website should first
+                  ensure that they are not subject to local laws or regulations
+                  that prohibit or restrict their right to access this website,
+                  or require registration or approval for any acquisition of
+                  securities by them. Redefine assumes no responsibility if
+                  there is any violation of applicable law and regulations by
+                  any person.<br />
+                </div>
+
+                <div class="mt-2">
+                  Access to electronic versions of these materials is being made
+                  available on this webpage by Redefine in good faith and for
+                  information purposes only. Any person seeking access to this
+                  webpage represents and warrants to Redefine that they are
+                  doing so for information purposes only. Making press
+                  announcements and other documents available in electronic
+                  format does not constitute an offer to sell or the
+                  solicitation of an offer to buy securities in Redefine.
+                  Further, it does not constitute a recommendation by Redefine
+                  or any other party to sell or buy securities in Redefine.
+                </div>
+              </div>
+
+              <p class="rd-text-justify access-text mt-3">
+                Access to this information is restricted to South African
+                residents that are physically present in the Republic of South
+                Africa.
+              </p>
+
+              <div class="required-checks">
+                <div
+                  class="checkbox-input rd-checkbox required-check-acknowledge"
+                >
+                  <input
+                    type="checkbox"
+                    class="rd-border-dark-grey"
+                    [name]="'terms-cond-consent'"
+                    [id]="'terms-cond-consent-checkbox'"
+                    formControlName="Step3Terms"
+                    (change)="citizenChange('Step3Terms')"
+                  />
+                  <label for="terms-cond-consent-checkbox"
+                    >I have read and agree to the terms and conditions</label
+                  >
+                </div>
+                <div
+                  *ngIf="dripFilter.get('Step3Terms')?.hasError('invalid')"
+                  class="error-msg"
+                >
+                  <small
+                    >{{ dripFilter.get('Step3Terms')?.errors?.['invalid'] }}</small
+                  >
+                </div>
+                <label for="vehicle1"></label>
+              </div>
+
+              <div class="rd-form-footer py-3">
+                <div></div>
+                <div class="col-12 text-md-end text-center">
+                  <button
+                    (click)="closeModal()"
+                    type="button"
+                    class="rd-btn-secondary rd-btn-lg m-1 mt-3 mt-md-0"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    class="rd-btn rd-btn-dark rd-btn-lg m-1 mt-3 mt-md-0"
+                  >
+                    <span class="btn-text">Next</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="accessDenied">
+          <div class="">
+            <div class="position-relative">
+              <div class="rd-heading rd-heading-md-bold">Access Denied</div>
+              <span class="rd-indicator rd-indicator-lg">
+                <span class="rd-indicator-content rd-indicator-primary"></span>
+              </span>
+            </div>
+
+            <p class="rd-text-justify rd-text-light mt-4">
+              Due to applicable legal restrictions, you are not allowed to
+              access the electronic versions of this information. We apologize
+              for the inconvenience. If you have any questions in relation to
+              your access to the information contained herein, you should
+              immediately seek the advice of your stockbroker, bank manager,
+              solicitor, accountant, fund manager or an appropriate authorised
+              independent financial adviser
+            </p>
+
+            <p class="rd-text-justify access-text rd-text mt-3">
+              Access to this information is restricted to South African
+              residents that are physically present in the Republic of South
+              Africa.
+            </p>
+          </div>
+          <div class="row">
+            <div class="rd-form-footer py-3">
+              <div class="col-12 text-md-end text-center">
+                <button
+                  (click)="closeModal()"
+                  type="button"
+                  class="rd-btn-secondary rd-btn-lg m-1 mt-3 mt-md-0"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  class="rd-btn rd-btn-dark rd-btn-lg m-1 mt-3 mt-md-0"
+                  (click)="stepChange()"
+                >
+                  <span class="btn-text">Back</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

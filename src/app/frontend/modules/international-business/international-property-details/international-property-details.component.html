@@ -1,0 +1,525 @@
+<ng-container *ngIf="propertyDetails; else loader">
+  <app-breadcrumbs [urlData]="urlData"></app-breadcrumbs>
+  <div class="container property-details-contaner mt-5 pb-5">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="property-image-section">
+          <div class="property-image-gallery">
+            <div class="property-image" *ngIf="propertyDetails">
+              <img
+                [src]="
+                  propertyDetails.media?.Image?.length > 0
+                    ? propertyDetails.media?.Image[0].Url
+                    : imagePlaceholders[0].Url
+                "
+                alt="property image"
+                (click)="openCarousel(0)"
+              />
+            </div>
+          </div>
+          <div
+            class="property-image-thumbnails"
+            *ngIf="propertyDetails.media?.Image?.length > 1"
+          >
+            <div
+              *ngFor="
+                let image of propertyDetails.media?.Image.slice(1, 4);
+                let i = index
+              "
+              class="property-image"
+            >
+              <img
+                [src]="image.Url"
+                alt="property image"
+                (click)="openCarousel(i + 1)"
+              />
+            </div>
+            <div
+              class="more-images property-image"
+              *ngIf="propertyDetails.media?.Image?.length > 4"
+              (click)="openCarousel(3)"
+            >
+              +{{ propertyDetails.media?.Image.length - 4 }} Photos
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="preview-section property-details-wrapper d-flex justify-content-end"
+        >
+          <a
+            *ngIf="propertyDetails.details.WebsiteUrl"
+            [href]="
+              propertyDetails.details.WebsiteUrl.includes('http')
+                ? propertyDetails.details.WebsiteUrl
+                : 'https://' + propertyDetails.details.WebsiteUrl
+            "
+            target="_blank"
+            class="link units-wrapper"
+          >
+            {{ propertyDetails.details.WebsiteUrl }}</a
+          >
+        </div>
+
+        <div class="preview-tabs-section">
+          <mat-tab-group
+            mat-stretch-tabs="false"
+            mat-align-tabs="start"
+            animationDuration="0ms"
+            dynamicHeight
+            fitInkBarToContent
+            [selectedIndex]="tab"
+          >
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div class="rd-heading rd-heading-xs">Description</div>
+              </ng-template>
+              <div class="preview-section">
+                <div class="property-details-wrapper">
+                  <div class="key-value-container rd-text-grey-mid">
+                    <div class="key-value-wrapper">
+                      <div>Sector:</div>
+                      <div>
+                        {{
+                          propertyDetails.details.SectorName
+                            ? propertyDetails.details.SectorName
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                    <div class="key-value-wrapper">
+                      <div class="key-color-primary">GLA:</div>
+                      <div>
+                        {{
+                          propertyDetails.details.Gla
+                            ? propertyDetails.details.Gla
+                            : "NA"
+                        }}m<sup>2</sup>
+                      </div>
+                    </div>
+                    <div class="key-value-wrapper">
+                      <div>Year of Completion:</div>
+                      <div>
+                        {{
+                          propertyDetails.details.ProvideYear
+                            ? propertyDetails.details.ProvideYear
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="position-relative mb-5">
+                    <div class="rd-heading rd-heading-xl">
+                      {{ propertyDetails.details.PropertyName }}
+                    </div>
+                    <span class="rd-indicator rd-indicator-xl">
+                      <span
+                        class="rd-indicator-content rd-indicator-primary"
+                      ></span>
+                    </span>
+                  </div>
+
+                  <div class="key-value-container gap-1">
+                    <div
+                      class="key-value-wrapper"
+                      *ngIf="propertyDetails.details.Address"
+                    >
+                      <!-- <div>Address:</div> -->
+                      <div class="rd-text-grey-mid">
+                        {{ propertyDetails.details.Address + "," }}
+                      </div>
+                    </div>
+                    <div
+                      class="key-value-wrapper"
+                      *ngIf="propertyDetails.details.Suburb"
+                    >
+                      <!-- <div>Suburb:</div> -->
+                      <div class="rd-text-grey-mid">
+                        {{ propertyDetails.details.Suburb + "," }}
+                      </div>
+                    </div>
+                    <div
+                      class="key-value-wrapper"
+                      *ngIf="propertyDetails.details.City"
+                    >
+                      <!-- <div>City:</div> -->
+                      <div class="rd-text-grey-mid">
+                        {{ propertyDetails.details.City + "," }}
+                      </div>
+                    </div>
+                    <div
+                      class="key-value-wrapper"
+                      *ngIf="propertyDetails.details.ProvinceName"
+                    >
+                      <!-- <div>Province:</div> -->
+                      <div class="rd-text-grey-mid">
+                        {{ propertyDetails.details.ProvinceName + "," }}
+                      </div>
+                    </div>
+
+                    <div
+                      class="key-value-wrapper"
+                      *ngIf="propertyDetails.details.Country"
+                    >
+                      <!-- <div>Country:</div> -->
+                      <div class="rd-text-grey-mid">
+                        {{ propertyDetails.details.Country + "," }}
+                      </div>
+                    </div>
+                    <div
+                      class="key-value-wrapper"
+                      *ngIf="propertyDetails.details.PostCode"
+                    >
+                      <!-- <div>Postal Code:</div> -->
+                      <div class="rd-text-grey-mid">
+                        {{ propertyDetails.details.PostCode }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="property-details">
+                    <div
+                      class="property-details"
+                      *ngIf="
+                        propertyDetails.details.PropertyDescription != null
+                      "
+                    >
+                      <div class="rd-heading rd-heading-sm-bold">
+                        Description
+                      </div>
+                      <div
+                        class="rd-text-grey-mid pt-2 rd-text-justify"
+                        [innerHTML]="
+                          (propertyDetails.details.PropertyDescription
+                          | safeHtml : 'html')
+                            ? (propertyDetails.details.PropertyDescription
+                              | safeHtml : 'html')
+                            : 'Not available'
+                        "
+                      ></div>
+                    </div>
+                    <div
+                      class="property-details"
+                      *ngIf="propertyDetails?.featureamenities?.length > 0"
+                    >
+                      <div class="rd-heading rd-heading-sm-bold">
+                        Additional Information
+                      </div>
+                      <div class="rd-text-grey-mid">
+                        <div class="key-value-container">
+                          <div
+                            *ngFor="
+                              let feature of propertyDetails.featureamenities
+                            "
+                            class="key-value-wrapper"
+                          >
+                            <div>
+                              <img
+                                [src]="
+                                  'assets/images/' +
+                                  getFeatureIcon(feature.Title)
+                                "
+                                class="feature-icon"
+                                alt="feature_icon"
+                              />
+                            </div>
+                            <div title="{{ feature.Value }}">
+                              {{ feature.Title }}
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div>
+                          {{
+                            propertyDetails.details
+                              .FeatureAmenitiesAddtionalDetails
+                              ? propertyDetails.details
+                                  .FeatureAmenitiesAddtionalDetails
+                              : "Not Available"
+                          }}
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+
+            <mat-tab label="MapView">
+              <ng-template mat-tab-label>
+                <div class="rd-heading rd-heading-xs">Map View</div>
+              </ng-template>
+              <div class="position-relative mb-5">
+                <div class="rd-heading rd-heading-xl">Map View</div>
+                <span class="rd-indicator rd-indicator-xl">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+              <div>
+                <div class="key-value-container gap-1">
+                  <div
+                    class="key-value-wrapper"
+                    *ngIf="propertyDetails.details.Address"
+                  >
+                    <!-- <div>Address:</div> -->
+                    <div class="rd-text-grey-mid">
+                      {{ propertyDetails.details.Address + "," }}
+                    </div>
+                  </div>
+                  <div
+                    class="key-value-wrapper"
+                    *ngIf="propertyDetails.details.Suburb"
+                  >
+                    <!-- <div>Suburb:</div> -->
+                    <div class="rd-text-grey-mid">
+                      {{ propertyDetails.details.Suburb + "," }}
+                    </div>
+                  </div>
+                  <div
+                    class="key-value-wrapper"
+                    *ngIf="propertyDetails.details.City"
+                  >
+                    <!-- <div>City:</div> -->
+                    <div class="rd-text-grey-mid">
+                      {{ propertyDetails.details.City + "," }}
+                    </div>
+                  </div>
+                  <div
+                    class="key-value-wrapper"
+                    *ngIf="propertyDetails.details.ProvinceName"
+                  >
+                    <!-- <div>Province:</div> -->
+                    <div class="rd-text-grey-mid">
+                      {{ propertyDetails.details.ProvinceName + "," }}
+                    </div>
+                  </div>
+                  <div
+                    class="key-value-wrapper"
+                    *ngIf="propertyDetails.details.Country"
+                  >
+                    <!-- <div>Country:</div> -->
+                    <div class="rd-text-grey-mid">
+                      {{ propertyDetails.details.Country + "," }}
+                    </div>
+                  </div>
+                  <div
+                    class="key-value-wrapper"
+                    *ngIf="propertyDetails.details.PostCode"
+                  >
+                    <!-- <div>Postal Code:</div> -->
+                    <div class="rd-text-grey-mid">
+                      {{ propertyDetails.details.PostCode }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="property-details-wrapper">
+                <div class="rd-heading rd-heading-sm-bold gps">
+                  GPS coordinates:
+                </div>
+                <div class="property-details">
+                  <div class="key-value-container">
+                    <div class="key-value-wrapper">
+                      <div>Longitude:</div>
+                      <div class="rd-text-grey-mid">
+                        {{
+                          propertyDetails.details.Longitude
+                            ? propertyDetails.details.Longitude
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                    <div class="key-value-wrapper">
+                      <div>Latitude:</div>
+                      <div class="rd-text-grey-mid">
+                        {{
+                          propertyDetails.details.Latitude
+                            ? propertyDetails.details.Latitude
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="property-details-wrapper">
+                <app-map
+                  *ngIf="
+                    markerPositions && markerPositions.length;
+                    else map_loader
+                  "
+                  [markers]="markerPositions"
+                  [center]="center"
+                  [zoom]="17"
+                  [height]="'400px'"
+                  [directionBtn]="true"
+                ></app-map>
+                <!-- <google-map
+                    id="abc"
+                    height="400px"
+                    width="100%"
+                    [zoom]="zoom"
+                    [center]="center"
+                    id="dfgg"
+                  >
+                    <map-marker
+                      *ngFor="let markerPosition of markerPositions"
+                      [position]="markerPosition"
+                      [options]="{
+                        icon: { url: '/assets/images/all_map_marker.svg' }
+                      }"
+                    ></map-marker>
+                    <map-directions-renderer
+                      *ngIf="directionsResults$ | async as directionsResults"
+                      [directions]="directionsResults"
+                    ></map-directions-renderer>
+                  </google-map> -->
+              </div>
+              <!-- <button
+                  class="directions-button rd-btn-text"
+                  (click)="getDirections()"
+                >
+                  Get directions
+                  <span class="btn-text">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      fill="currentColor"
+                      viewBox="0 0 256 256"
+                    >
+                      <path
+                        d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"
+                      ></path>
+                    </svg>
+                  </span>
+                </button> -->
+              <div class="line"></div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="propertyDetails">
+      <div class="col-md-9">
+        <div>Learn more about {{ propertyDetails.details.PropertyName }}</div>
+      </div>
+      <div class="col-md-3">
+        <div>
+          <a
+            [href]="propertyDetails.details.WebsiteUrl"
+            target="_blank"
+            class="link rd-btn-text"
+          >
+            <div>Visit Website</div>
+            <span class=""
+              ><img
+                class="modal-icon rd-btn-text"
+                src="assets/images/arrow-right-circle.svg"
+                alt="close_icon"
+            /></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <app-featured-properties-carousel></app-featured-properties-carousel>
+  </div>
+</ng-container>
+
+<ng-template #loader>
+  <div class="placeholder-glow property-details-loader">
+    <div class="col-12 placeholder py-3 mb-5"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="property-image-section" (click)="openCarousel(0)">
+            <div class="property-image-gallery placeholder">
+              <div class="property-image" *ngIf="propertyDetails">
+                <span class="placeholder"></span>
+              </div>
+            </div>
+            <div class="property-image-thumbnails">
+              <div
+                *ngFor="let image of [0, 1, 2]"
+                class="property-image placeholder"
+              >
+                <span class="placeholder"></span>
+              </div>
+            </div>
+          </div>
+          <div class="hr-top-line hr-2 my-4"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="mb-4">
+            <span class="col-2 me-3 placeholder placeholder-lg"></span>
+            <span class="col-2 me-3 placeholder placeholder-lg"></span>
+            <span class="col-2 me-3 placeholder placeholder-lg"></span>
+            <span class="col-2 me-3 placeholder placeholder-lg"></span>
+          </div>
+          <div class="mb-5">
+            <span *ngFor="let num of [0, 1, 2]">
+              <span class="col-1 me-2 placeholder"></span>
+              <span class="col-2 me-3 placeholder"></span>
+            </span>
+          </div>
+          <div class="mb-4">
+            <span class="col-4 placeholder placeholder-lg"></span>
+          </div>
+          <div class="mb-4">
+            <span class="col-6 placeholder placeholder-lg"></span>
+          </div>
+          <div class="mb-5">
+            <span class="col-2 mb-3 placeholder"></span>
+            <span class="col-12 placeholder"></span>
+            <span class="col-12 placeholder"></span>
+            <span class="col-4 placeholder"></span>
+          </div>
+          <div class="hr-top-line hr-2 my-4"></div>
+          <div class="mb-5">
+            <span class="col-2 placeholder placeholder-lg mb-4"></span>
+            <div
+              class="d-flex justify-content-between flex-wrap mb-3"
+              *ngFor="let num of [0, 1, 2]"
+            >
+              <span class="col-3 placeholder"></span>
+              <span class="col-1 placeholder"></span>
+            </div>
+          </div>
+          <div class="hr-top-line hr-2 my-4"></div>
+          <div class="mb-5">
+            <span class="col-2 placeholder placeholder-lg mb-2"></span>
+            <div class="mb-4">
+              <span *ngFor="let num of [0, 1, 2]">
+                <span class="px-3 me-2 placeholder"></span>
+                <span class="col-2 me-3 placeholder"></span>
+              </span>
+            </div>
+            <span class="col-12 placeholder mb-2"></span>
+            <span class="col-4 placeholder mb-2"></span>
+          </div>
+          <div class="hr-top-line hr-2 my-4"></div>
+          <div class="mb-5">
+            <span class="col-2 placeholder placeholder-lg mb-4"></span>
+            <div class="mb-4 d-flex gap-1">
+              <div *ngFor="let num of [0, 1, 2]" class="col-12 col-md-4 pe-3">
+                <span class="col-3 mb-3 placeholder"></span>
+                <span class="col-12 placeholder"></span>
+                <span class="col-12 placeholder"></span>
+                <span class="col-5 placeholder"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #map_loader>
+  <div class="d-flex gap-2 placeholder-glow">
+    <div class="w-100 placeholder" [style.height.px]="400"></div>
+  </div>
+</ng-template>

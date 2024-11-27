@@ -1,0 +1,71 @@
+<div class="rd-container">
+  <form
+    class="rd-form rd-form-container"
+    [formGroup]="mailForm"
+    autocomplete="on"
+  >
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div class="rd-heading rd-heading-md-bold">New Message</div>
+      <div>
+        <button
+          type="button"
+          class="rd-btn-text rd-btn-md"
+          (click)="closeModal()"
+        >
+          <span><img src="assets/images/close.svg" alt="close_icon" /></span>
+        </button>
+      </div>
+    </div>
+    <div class="rd-form-body">
+      <div class="rd-grid-count font" *ngIf="data?.BuildingName">
+        <!-- <div class="enquiry">Enquiry: {{ data?.BuildingName }}</div> -->
+        <input type="text" formControlName="Subject" class="subject-box">
+      </div>
+      <div class="rd-grid-count font"  *ngIf="data?.EnquiryType">
+        <!-- <div class="enquiry">Enquiry Type: {{ data?.EnquiryType }}</div> -->
+        <input type="text" formControlName="Subject" class="subject-box">
+      </div>
+      <mat-divider class="mat-divider"></mat-divider>
+      <div class="message">
+        <rd-editor
+          [id]="'message'"
+          [placeholder]="'Type Your Message Here'"
+          [controlName]="'Message'"
+          [form]="mailForm"
+        ></rd-editor>
+        <div *ngIf="formConfig?.mode == 'view'">
+          <div class="rd-heading rd-heading-sm">Message</div>
+          <p
+            [innerHTML]="
+              mailForm.get('Message')?.value == '' ||
+              mailForm.get('Message')?.value == null ||
+              mailForm.get('Message')?.value == undefined
+                ? 'Not available'
+                : (mailForm.get('Message')?.value | safeHtml : 'html')
+            "
+          ></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rd-form-footer">
+      <div></div>
+      <div class="rd-btn-group">
+        <button
+          (click)="closeModal()"
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          (click)="sendMessage()"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

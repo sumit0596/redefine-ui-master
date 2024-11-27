@@ -1,0 +1,76 @@
+<div class="property-card" *ngIf="unitDetails" (click)="unitPreview()">
+  <div *ngIf="unitDetails.UnitStatus" class="ribbon-container">
+    <div class="ribbon">{{unitDetails.UnitStatus}}</div>
+  </div>
+  <div class="property-card-header">
+    <img
+      [src]="unitDetails.Url ? unitDetails.Url : imagePlaceholder"
+      alt="Property image"
+    />
+  </div>
+  <div class="property-card-body">
+    <div class="property-details">
+      <div
+        class="rd-heading rd-heading-sm-bold mb-3 rd-text-ellipsis-line"
+        [title]="unitDetails.PropertyName + ' - ' + unitDetails.UnitName"
+      >
+        {{ unitDetails.PropertyName }} -
+        <small class="rd-heading-xxs">{{ unitDetails.UnitName }}</small>
+      </div>
+      <div class="d-flex justify-content-between rd-gap-10 mb-3">
+        <div class="d-flex align-items-center rd-gap-10">
+          <img src="assets/images/Buildings.svg" alt="building icon" />
+          <span class="rd-text-grey-mid">Unit size (sqm)</span>
+        </div>
+        <div>{{ unitDetails.UnitSize }}</div>
+      </div>
+      <div class="d-flex justify-content-between rd-gap-10 mb-3">
+        <div class="d-flex align-items-center rd-gap-10">
+          <img src="assets/images/Key.svg" alt="key icon" />
+          <span class="rd-text-grey-mid">Gross rental (R/sqm)</span>
+        </div>
+        <div>{{ unitDetails.GrossRental }}</div>
+      </div>
+      <div
+        *ngIf="
+          unitDetails.BrokerIncentives && unitDetails.BrokerIncentives != ''
+        "
+      >
+        <p class="rd-heading-xs">Broker Commission Incentive (%)</p>
+        <p class="rd-text-mid-red">
+          <em>Commission incentive {{ unitDetails.BrokerIncentives }}%</em>
+        </p>
+      </div>
+      <div *ngIf="unitDetails.Incentives && unitDetails.Incentives.length">
+        <p class="rd-heading-xs">Incentives</p>
+        <div class="d-flex justify-content-between flex-wrap rd-gap-10 mb-3">
+          <ng-container *ngFor="let incentive of unitDetails.Incentives">
+            <div class="d-flex align-items-start rd-gap-10" *ngIf="incentive">
+              <img
+                src="assets/images/property-attributes.svg"
+                alt="incentive icon"
+              />
+              <span class="rd-text-grey-mid">{{ incentive }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="property-flags" [ngClass]="unitDetails.UnitStatus ? 'property-flags-tag' : ''">
+        <p
+          class="property-flag"
+          *ngFor="let attribute of unitDetails.Attributes"
+          [title]="attribute"
+        >
+          {{ attribute }}
+        </p>
+      </div>
+      <div
+        class="property-type rd-heading-xs"
+        [style.backgroundColor]="getSectorColor(unitDetails.SectorName)"
+      >
+        {{ unitDetails.SectorName }}
+      </div>
+    </div>
+  </div>
+  <div class="overlay"></div>
+</div>

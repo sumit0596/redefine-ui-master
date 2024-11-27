@@ -1,0 +1,51 @@
+.breadcrumbs-container {
+  min-height: 36px;
+  padding: 10px 10px;
+  display: flex;
+  align-items: center;
+}
+
+ul.breadcrumbs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.breadcrumb:last-child span.breadcrumb-link::after {
+  display: none;
+}
+
+.breadcrumb {
+  margin: 0;
+  color: var(--black);
+}
+
+.breadcrumb a.breadcrumb-link,
+.breadcrumb span.breadcrumb-link{
+  font-family: var(--font-din);
+  font-size: 12px;
+  position: relative;
+}
+
+.breadcrumb a.breadcrumb-link::after,
+.breadcrumb span.breadcrumb-link::after {
+  content: "/";
+  margin-left: 8px;  /* space after the text and before the slash */
+  color: var(--black) !important;
+}
+
+.breadcrumb:not(.disabled):hover {
+  cursor: pointer;
+  color: var(--red-color);
+}
+
+.breadcrumb.disabled a.breadcrumb-link,
+.breadcrumb span.breadcrumb-link.disabled {
+  cursor: default;
+  color: var(--grey-color); /* or any color you want for disabled links */
+  pointer-events: none;
+  text-decoration: none; /* prevent any underline or other styles */
+}

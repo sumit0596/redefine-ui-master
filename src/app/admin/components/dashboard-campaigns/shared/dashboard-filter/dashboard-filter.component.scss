@@ -1,0 +1,190 @@
+.mat-mdc-raised-button:not(:disabled) {
+  color: #f44336;
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+  background-color: #fff !important;
+}
+
+.mat-mdc-raised-button {
+  box-shadow: none !important;
+}
+
+.ng-option-label:active {
+  color: #f44336;
+}
+
+.mat-calendar-body-selected {
+  background-color: #f44336 !important;
+  color: #fff;
+}
+
+.error-message {
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: var(--red-color);
+  transition: all 0.3s ease-in;
+  animation: fadeIn 0.3s;
+}
+
+.date-and-error-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-input {
+  flex-shrink: 0;
+}
+
+.date-label {
+  color: black;
+}
+
+::ng-deep {
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: #f9fafb;
+  }
+
+  .mdc-line-ripple {
+    display: none !important;
+  }
+
+  .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+    color: #0009;
+  }
+
+  .mat-mdc-form-field-infix {
+    min-height: 50px;
+    padding-top: 0px !important;
+    padding-bottom: 0 !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .mdc-text-field {
+    border-radius: 4px !important;
+  }
+
+  .mat-mdc-form-field:hover .mat-mdc-form-field-focus-overlay {
+    opacity: 0;
+  }
+
+  .mat-calendar-body-selected {
+    background-color: var(--dominant-red-color);
+  }
+
+  .mat-datepicker-toggle-active {
+    color: var(--dominant-red-color);
+  }
+
+  .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    background-color: #c0001873;
+  }
+
+  .mat-date-range-input-inner::placeholder {
+    font-size: .8rem;
+  }
+
+  .mat-date-range-input-inner {
+    top: 17px !important;
+    position: relative !important;
+  }
+
+  .mat-date-range-input-separator {
+    position: relative;
+    top: 7px;
+  }
+
+  // #mat-date-range-input-0 {
+  //   top: 9px;
+  //   position: relative;
+  // }
+
+  // .mat-date-range-input-container {
+  //   top: 5px;
+  //   position: relative;
+  // }
+
+  @media only screen and (min-width: 1200px) and (max-width: 1290px) {
+    .mat-date-range-input-inner::placeholder {
+      font-size: .65rem;
+    }
+  }
+
+  @media only screen and (min-width: 1580px) and (min-width: 1800px) {
+    .mat-date-range-input-wrapper {
+      flex-basis: 45% !important;
+    }
+  }
+
+  @media only screen and (min-width: 1580px) {
+    .mat-date-range-input-wrapper {
+      flex-basis: 45% !important;
+    }
+
+    @media only screen and (min-width: 1800px) {
+      .mat-date-range-input-wrapper {
+        flex-basis: 45% !important;
+      }
+    }
+  }
+
+  .dash-camp .ng-dropdown-panel {
+    position: relative;
+  }
+
+  .dash-camp .mdc-text-field--filled {
+    padding: 0 !important;
+  }
+
+  .dash-camp .mdc-floating-label {
+    left: 12px !important;
+  }
+  .dash-camp .mat-date-range-input-container {
+    margin-left: 13px;
+}
+}
+
+.dashboard-z-index {
+  z-index: 1;
+}
+
+.dashboard-input-width {
+  width: 100%;
+}
+
+.dashboard-filterbox-hgt {
+  height: 100%;
+  width: 100%;
+  min-width: 250px;
+  padding: 10px 15px;
+}
+
+.switch-label {
+  display: none;
+}
+
+.incstaff {
+  padding-top: 20px;
+}
+
+.flex-container {
+  display: flex;
+  align-items: center;
+}
+::ng-deep{
+  .mat-datepicker-actions button {
+    height: 36px;
+  }
+  button.mdc-button__label {
+    color: #f44336;
+  }
+  .mat-datepicker-actions{
+      gap: 15px;
+  }
+
+}
+.cancel_filter-apply:hover{
+  border-radius: 2px;
+  background: #f5f5f5;
+}

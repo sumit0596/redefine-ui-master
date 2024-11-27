@@ -1,0 +1,41 @@
+.form-container {
+  width: 800px;
+}
+
+.role-list {
+  animation: fadeIn 0.3s;
+}
+.permission-table {
+  width: 100%;
+  margin-top: 10px;
+}
+table thead th {
+  padding: 5px;
+  text-align: center;
+}
+table thead th:nth-child(2) {
+  text-align: left;
+}
+table tbody tr td {
+  padding: 5px;
+}
+table,
+th,
+td {
+  border-bottom: 1px solid #f2f2f2;
+  border-collapse: collapse;
+}
+table .checkbox-input,
+table .radio-input {
+  justify-content: center;
+}
+table td:nth-child(2) .checkbox-input {
+  justify-content: left;
+}
+table tbody tr.role-heading {
+  background-color: #f9fafb;
+}
+// .disabled {
+//   pointer-events: none !important;
+//   color: #919191;
+// }

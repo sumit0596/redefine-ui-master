@@ -1,0 +1,23 @@
+@media only screen and (max-width: 360px) {
+  .breadcrum {
+    display: none;
+  }
+  .rd-heading-xl {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 390px) and (min-width: 390) {
+  .breadcrum {
+    display: none;
+  }
+  .rd-heading-xl {
+    font-size: 30px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .breadcrum {
+    display: none;
+  }
+}

@@ -1,0 +1,430 @@
+<div class="rd-container" *ngIf="formConfig">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} Circular
+      </div>
+    </div>
+    <div class="rd-container-header-right">
+      <ng-container [ngSwitch]="formConfig.mode">
+        <ng-container *ngSwitchCase="formMode.CREATE"> </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-8">
+      <form
+        [formGroup]="circularForm"
+        (ngSubmit)="onSubmit($event)"
+        *ngIf="formConfig.mode == formMode.CREATE"
+        class="rd-form"
+        autocomplete="on"
+      >
+        <div class="rd-form-header">Circular Details</div>
+
+        <div class="applyDrip-container levy">
+          <rd-switch
+            [label]="'ApplyDrip'"
+            [id]="'drip-switch'"
+            (onChange)="onSwitchToggle($event)"
+            class="drip"
+          >
+          </rd-switch>
+          <label>Apply Drip</label>
+        </div>
+
+        <div class="rd-form-body">
+          <rd-input
+            [label]="'Title'"
+            [id]="'title-of-circular'"
+            [placeholder]="'Please Provide'"
+            [required]="true"
+            [type]="'text'"
+            [controlName]="'Title'"
+            [form]="circularForm"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+
+          <ng-container>
+            <rd-editor
+              [label]="'Circular Description'"
+              [id]="'Description'"
+              [placeholder]="'Add Description'"
+              [controlName]="'Description'"
+              [form]="circularForm"
+              (onChange)="onChange($event)"
+            ></rd-editor>
+            <div *ngIf="formConfig?.mode == 'view'">
+              <div class="rd-heading rd-heading-sm">Description</div>
+              <p
+                [innerHTML]="
+                  circularForm.get('Description')?.value == '' ||
+                  circularForm.get('Description')?.value == null ||
+                  circularForm.get('Description')?.value == undefined
+                    ? 'Not available'
+                    : (circularForm.get('Description')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+          </ng-container>
+
+          <!-- <rd-input
+            [label]="'Add Link'"
+            [id]="'link-input'"
+            [placeholder]="'Please provide a link'"
+            [type]="'text'"
+            [controlName]="'Url'"
+            [form]="circularForm"
+            (onChange)="onChange($event)"
+          ></rd-input> -->
+          <rd-file
+            [label]="'Upload PDF'"
+            [id]="'pdf-inputddfhfd'"
+            [required]="true"
+            [types]="fileTypes"
+            [fileList]="fileContainer?.Pdf"
+            (onSelect)="onFileSelect($event, 3)"
+            (onDelete)="onFileDelete($event, 3)"
+          ></rd-file>
+
+          <div
+            *ngIf="circularForm.get('Pdf')?.hasError('invalid')"
+            class="error-msg"
+          >
+            <small>{{ circularForm.get('Pdf')?.errors?.['invalid'] }} </small>
+          </div>
+        </div>
+        <div class="rd-form-footer">
+          <div>
+            <button
+              type="button"
+              class="rd-btn-secondary rd-btn-lg"
+              (click)="goToManage()"
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <button type="submit" class="rd-btn-primary rd-btn-lg">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+      <form
+        *ngIf="formConfig.mode == formMode.EDIT"
+        [formGroup]="circularForm"
+        (ngSubmit)="onSubmit($event)"
+        class="rd-form"
+        autocomplete="on"
+      >
+        <div class="rd-form-header">Circular Details</div>
+        <div class="rd-form-body">
+          <div class="applyDrip-container levy">
+            <rd-switch
+              [label]="'ApplyDrip'"
+              [id]="'drip-switch'"
+              [checked]="circularForm.get('Drip')?.value"
+              (onChange)="onSwitchToggle($event)"
+              class="drip"
+            >
+            </rd-switch>
+            <label>Apply Drip</label>
+          </div>
+
+          <rd-input
+            [label]="'Title'"
+            [id]="'title-of-circular'"
+            [placeholder]="'Please Provide'"
+            [required]="true"
+            [type]="'text'"
+            [controlName]="'Title'"
+            [form]="circularForm"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+          <rd-editor
+            [label]="'Circular Description'"
+            [id]="'Description'"
+            [placeholder]="'Add Description'"
+            [controlName]="'Description'"
+            [form]="circularForm"
+            (onChange)="onChange($event)"
+          ></rd-editor>
+
+          <!-- <rd-input
+            [label]="'Add Link'"
+            [id]="'link-input'"
+            [placeholder]="'Please provide a link'"
+            [type]="'text'"
+            [controlName]="'Url'"
+            [form]="circularForm"
+            (onChange)="onChange($event)"
+          ></rd-input> -->
+          <rd-file
+            *ngIf="!circularDetails?.Pdf"
+            [label]="'Upload PDF'"
+            [id]="'pdf-input'"
+            [required]="true"
+            [types]="fileTypes"
+            [fileList]="fileContainer?.Pdf"
+            (onSelect)="onFileSelect($event, 3)"
+            (onDelete)="onFileDelete($event, 3)"
+          ></rd-file>
+          <div
+            *ngIf="circularForm.get('Pdf')?.hasError('invalid')"
+            class="error-msg"
+          >
+            <small>{{ circularForm.get('Pdf')?.errors?.['invalid'] }} </small>
+          </div>
+
+          <div
+            class="incentive-desc control-container"
+            *ngIf="circularDetails?.Pdf != null && circularDetails?.Pdf != ''"
+          >
+            <label>PDF</label>
+            <div class="file-container">
+              <div class="file-icon">
+                <img src="assets/images/pdf.svg" alt="file" />
+              </div>
+              <div class="file-info">
+                <p class="file-name">
+                  <a [href]="circularDetails.Pdf" target="_blank">{{
+                    circularDetails.PdfName | titlecase
+                  }}</a>
+                </p>
+                <p class="file-desc">
+                  <small>{{
+                    circularDetails.CreatedOn | date : "medium"
+                  }}</small>
+                </p>
+              </div>
+              <div class="file-actions">
+                <button
+                  type="button"
+                  class="rd-btn-text rd-btn-sm"
+                  (click)="deleteFile('Pdf')"
+                >
+                  <img src="assets/images/trash.svg" alt="trash-icon" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rd-form-footer">
+          <div>
+            <button
+              type="button"
+              class="rd-btn-secondary rd-btn-lg"
+              (click)="goToManage()"
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <button type="submit" class="rd-btn-primary rd-btn-lg">
+              Save & Update
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!--  -->
+    <div class="col-4">
+      <div class="rd-form" *ngIf="formConfig.mode == formMode.CREATE">
+        <div class="rd-heading rd-heading-md-bold">
+          Set Publishing Date & Time
+        </div>
+
+        <form [formGroup]="circularForm" (ngSubmit)="onSubmit($event)">
+          <div class="row">
+            <div class="col-7">
+              <rd-calendar
+                [label]="'Date'"
+                [required]="true"
+                [id]="'publish-date'"
+                [type]="'text'"
+                [controlName]="'PublishDate'"
+                placeholder="Please Select Date"
+                [form]="circularForm"
+                (dateChange)="onChange($event)"
+              ></rd-calendar>
+            </div>
+            <div class="col-5">
+              <rd-timepicker
+                [label]="'Time'"
+                [required]="true"
+                [id]="'publish-time'"
+                [controlName]="'PublishTime'"
+                [placeholder]="'Please Select Time'"
+                [form]="circularForm"
+                (onCHange)="onChange($event)"
+              ></rd-timepicker>
+            </div>
+          </div>
+        </form>
+
+        <div></div>
+      </div>
+      <div class="rd-form" *ngIf="formConfig.mode == formMode.EDIT">
+        <div class="rd-heading rd-heading-md-bold">
+          Set Publishing Date & Time
+        </div>
+
+        <form [formGroup]="circularForm" (ngSubmit)="onSubmit($event)">
+          <div class="row">
+            <div class="col-7">
+              <rd-calendar
+                [label]="'Date'"
+                [required]="true"
+                [id]="'publish-date'"
+                [type]="'text'"
+                [controlName]="'PublishDate'"
+                placeholder="Please Select Date"
+                [form]="circularForm"
+                (dateChange)="onChange($event)"
+              ></rd-calendar>
+            </div>
+            <div class="col-5">
+              <rd-timepicker
+                [label]="'Time'"
+                [required]="true"
+                [id]="'publish-time'"
+                [controlName]="'PublishTime'"
+                [placeholder]="'Please Select Time'"
+                [form]="circularForm"
+                (onCHange)="onChange($event)"
+              ></rd-timepicker>
+            </div>
+          </div>
+        </form>
+
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <form
+    *ngIf="formConfig.mode == formMode.VIEW && circularDetails"
+    class="rd-form width"
+  >
+    <div class="rd-form-header">Circular Details</div>
+    <div class="attribute-container">
+      <div class="attribute-item">
+        <div class="attribute-label">Title</div>
+        <div class="attribute-desc">{{ circularDetails.Title }}</div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Description</div>
+        <div
+          class="attribute-desc"
+          [innerHTML]="
+          circularDetails.Description == null
+              ? 'NA'
+              : (circularDetails.Description | safeHtml : 'html')
+          "
+        ></div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">PDF</div>
+        <div class="attribute-desc">
+          <div class="file-container">
+            <ng-container
+              *ngIf="circularDetails?.Pdf != null && circularDetails?.Pdf != ''"
+            >
+              <div class="file-icon">
+                <img src="assets/images/pdf.svg" alt="file" />
+              </div>
+              <div class="file-info">
+                <p class="file-name">
+                  <a [href]="circularDetails.Pdf" target="_blank">{{
+                    circularDetails.PdfName | titlecase
+                  }}</a>
+                </p>
+                <p class="file-desc">
+                  <small>{{
+                    circularDetails.CreatedOn | date : "medium"
+                  }}</small>
+                </p>
+              </div>
+            </ng-container>
+            <ng-container
+              *ngIf="circularDetails?.Pdf == null || circularDetails?.Pdf == ''"
+              >NA</ng-container
+            >
+          </div>
+        </div>
+      </div>
+      <!-- <div class="attribute-item">
+        <div class="attribute-label">Link</div>
+        <div class="attribute-desc">
+          <a *ngIf="circularDetails.Url != '' &&
+          circularDetails.Url != null &&
+          circularDetails.Url != undefined"
+          [href]="
+          circularDetails.Url.includes('http')
+              ? circularDetails.Url
+              : 'https://' + circularDetails.Url
+          "
+          target="_blank"
+          class="attribute-desc link"
+        >
+          {{ circularDetails.Url }}
+        </a>
+        <span class="attribute-desc"  *ngIf="circularDetails.Url== '' ||
+        circularDetails.Url == null ||
+        circularDetails.Url == undefined">NA</span>
+        </div>
+      </div> -->
+      <div class="attribute-item">
+        <div class="attribute-label">Publish Date</div>
+        <div class="attribute-desc">
+          {{ circularDetails.PublishDate | date : "dd-MM-yyyy" }}
+        </div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Publish Time</div>
+        <div class="attribute-desc">
+          {{ circularDetails.PublishTime }}
+        </div>
+      </div>
+      <div class="attribute-item"></div>
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button
+          *ngIf="formConfig?.access"
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          (click)="editCircular()"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

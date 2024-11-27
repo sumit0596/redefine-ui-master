@@ -1,0 +1,170 @@
+<div class="rd-container" *ngIf="formConfig">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} Attribute
+      </div>
+    </div>
+    <div class="rd-container-header-right">
+      <ng-container [ngSwitch]="formConfig.mode">
+        <ng-container *ngSwitchCase="formMode.VIEW">
+          <button *ngIf="formConfig?.access"
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="deleteAttribute()"
+          >
+            Delete
+          </button>
+          <button *ngIf="formConfig?.access"
+            type="button"
+            class="rd-btn-primary rd-btn-lg"
+            (click)="editAttribute()"
+          >
+            Edit
+          </button>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <form
+    *ngIf="formConfig.mode == formMode.CREATE"
+    [formGroup]="attributeForm"
+    (ngSubmit)="onSubmit($event)"
+    class="rd-form"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">Attribute Details</div>
+    <div class="rd-form-body">
+      <rd-input
+        [label]="'Title of Attribute'"
+        [id]="'title-of-attribute'"
+        [placeholder]="'Title of Attribute'"
+        [required]="true"
+        [type]="'text'"
+        [controlName]="'Title'"
+        [form]="attributeForm"
+        (onChange)="onChange($event)"
+      >
+      </rd-input>
+      <rd-textarea
+        [label]="'Description'"
+        [id]="'additional-information'"
+        [placeholder]="'Please Comment Here'"
+        [controlName]="'AdditionalInformation'"
+        [form]="attributeForm"
+        [maxLength]="700"
+        (onChange)="onChange($event)"
+      ></rd-textarea>
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">Submit</button>
+      </div>
+    </div>
+  </form>
+  <form
+    *ngIf="formConfig.mode == formMode.EDIT"
+    [formGroup]="attributeForm"
+    (ngSubmit)="onSubmit($event)"
+    class="rd-form"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">Attribute Details</div>
+    <div class="rd-form-body">
+      <rd-input
+        [label]="'Title of Attribute'"
+        [id]="'title-of-attribute'"
+        [placeholder]="'Title of Attribute'"
+        [required]="true"
+        [type]="'text'"
+        [controlName]="'Title'"
+        [form]="attributeForm"
+        (onChange)="onChange($event)"
+      >
+      </rd-input>
+      <rd-textarea
+        [label]="'Additional Information'"
+        [id]="'additional-information'"
+        [placeholder]="'Please Comment Here'"
+        [controlName]="'AdditionalInformation'"
+        [maxLength]="700"
+        [form]="attributeForm"
+        (onChange)="onChange($event)"
+      ></rd-textarea>
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">
+          Save & Update
+        </button>
+      </div>
+    </div>
+  </form>
+  <form
+    *ngIf="formConfig.mode == formMode.VIEW && attributeDetails"
+    class="rd-form"
+  >
+    <div class="rd-form-header">Attribute Details</div>
+    <div class="attribute-container">
+      <div class="attribute-item">
+        <div class="attribute-label">Title of Attribute</div>
+        <div class="attribute-desc">{{ attributeDetails.Title }}</div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Additional Information</div>
+        <div class="attribute-desc">
+          {{ attributeDetails.AdditionalInformation }}
+        </div>
+      </div>
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button *ngIf="formConfig?.access"
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          (click)="editAttribute()"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

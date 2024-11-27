@@ -1,0 +1,133 @@
+.property-cat-label__group .property-category {
+    background: #004b6a;
+        color: #fff;
+        padding: 0.4rem 0.8rem;
+        border-radius: 100px;
+        display: inline-flex;
+        word-break: unset;
+        white-space: nowrap;
+        width: auto;
+}
+
+.property-cat-label__group .property-type {
+    background: #000000;
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 100px;
+    display: inline-flex;
+}
+
+.property-cat-label__group,
+.property-tag-label__group {
+    gap: .4rem;
+}
+
+.mt-top-to-bottom {
+    margin-top: 2.8rem;
+    margin-bottom: 1.8rem;
+}
+
+.property-tag-label__group span {
+    background: #a9a9a9;
+    color: #fff;
+    padding: .4rem 1rem;
+    border-radius: 100px;
+    /* height: 1.9rem; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.properteq-press-share_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.share-buttons-wrapper {
+    direction: rtl !important;
+}
+
+.senses {
+    cursor: pointer;
+}
+
+.property-category,
+.property-type {
+    display: flex;
+    height: 1.9rem;
+    /* max-width: 16rem; */
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.recent-announcements-heading {
+    font-size: 22px;
+}
+.relatedArticlefont,
+.relatedArticlefont span{
+    font-size: 12px;
+}
+
+.propertyEq-banner .banner-title {
+    cursor: context-menu;
+}
+
+.propertyeq-mediabtn span.btn-text {
+    width: 100%;
+}
+.article-content img {
+    width: 100%;
+}
+.sens-line {
+    height: 1px;
+    width: 100%;
+    background-color: #cccccc;
+}
+
+
+@media (min-width: 360px) and (max-width: 440px) {
+    .share-buttons-wrapper {
+        direction: initial;
+        right: 80px;
+        position: relative;
+        top: 40px;
+    }
+}
+
+
+@media (min-width: 412px) and (max-width: 420px) {
+    .share-buttons-wrapper {
+        direction: initial;
+        position: relative;
+        top: 40px;
+    }
+}
+
+@media (min-width: 360px) and (max-width: 440px) {
+    .share-buttons-wrapper {
+        direction: initial;
+        position: relative;
+        top: 40px;
+    }
+}
+
+
+@media print {
+    .property-cat-label__group .property-category {
+        background: #004b6a;
+        color: #fff;
+        padding: 0.4rem 0.8rem;
+        border-radius: 100px;
+        display: inline-flex;
+        word-break: unset;
+        white-space: nowrap;
+        width: auto;
+      }
+
+}

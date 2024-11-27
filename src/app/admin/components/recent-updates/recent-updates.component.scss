@@ -1,0 +1,36 @@
+// .updat-color {
+//   color: #4e4f52;
+// }
+
+.small,
+small {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.ago-text-size {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 23px;
+}
+
+.dashboard-view-button {
+  justify-content: center;
+}
+
+.recent-update-main>.ng-star-inserted>.ng-star-inserted {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 350px;
+  padding-right: 10px;
+}
+
+.rd-disabled-link {
+  color: rgb(128, 128, 128) !important;
+  pointer-events: none;
+  position: relative;
+  box-shadow: none;
+  bottom: 0;
+}
+

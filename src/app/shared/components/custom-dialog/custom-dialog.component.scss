@@ -1,0 +1,47 @@
+.dialog-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  min-height: 150px;
+  padding-top: 10px;
+}
+
+.dialog-container .dialog-header {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+  
+  font-weight: 600;
+  font-size: 14px;
+  color: #999999;
+  padding: 10px 20px;
+}
+
+.dialog-container .dialog-header .btn-close {
+  position: absolute;
+  right: 0;
+  height: 14px;
+  width: 14px;
+  text-align: center;
+  line-height: 0.8;
+}
+.dialog-container .dialog-body {
+  width: 100%;
+  padding: 10px 20px;
+  height: 100%;
+}
+.dialog-container .dialog-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+  background: #f9fafb;
+}
+.btn-wrapper button {
+  width: 100px;
+  height: 35px;
+}

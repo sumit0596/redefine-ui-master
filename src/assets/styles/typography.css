@@ -1,0 +1,377 @@
+@font-face {
+  font-family: "DIN";
+  src: url('/assets/fonts/DIN-2014/din-2014_regular.woff');
+  font-display: swap;
+}
+@font-face {
+  font-family: "DIN Medium";
+  src: url('/assets/fonts/DIN-2014/din-2014_demi.woff');
+  font-display: swap;
+}
+/* @font-face {
+  font-family: "DIN Large";
+  src: url("/assets/fonts/DIN Black.ttf");
+} */
+
+@font-face {
+  font-family: "DIN Large";
+	src: url('/assets/fonts/DIN-2014/din-2014_extra-bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: "DIN Light";
+	src: url('/assets/fonts/DIN-2014/din-2014_light.woff') format('woff');
+}
+
+:root {
+  --font-arial: "DIN";
+  --rd-font-din: "DIN", "DIN Medium", "DIN Large";
+  --font-din: "DIN";
+  --font-din-medium: "DIN Medium";
+  --font-din-large: "DIN Large";
+}
+* {
+  font-family: var(--font-arial) !important;
+  font-size: 1.02rem;
+  /* // font-size: 1.5rem; */
+  letter-spacing: .25px;
+}
+
+.rd-text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rd-text-ellipsis-line {
+  display: -webkit-box !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: initial;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.rd-ellipsis-line-2 {
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+}
+.rd-ellipsis-line-3 {
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+}
+.rd-text-justify {
+  text-align: justify !important;
+}
+
+.rd-heading {
+  position: relative;
+  font-weight: 400;
+  line-height: 39px;
+  font-family: var(--font-din);
+}
+
+.rd-heading-xxl {
+  font-family: var(--font-din) !important;
+  font-size: 64px;
+  line-height: 77px;
+}
+
+.rd-heading-xl {
+  font-family: var(--font-din) !important;
+  font-size: 40px;
+  line-height: 48px;
+}
+.rd-heading-lg {
+  font-family: var(--font-din-large) !important;
+  font-size: 32px;
+  letter-spacing: .5px;
+}
+.rd-heading-lg-normal {
+  font-family: var(--font-din) !important;
+  font-size: 32px;
+}
+.rd-heading-lg-bold {
+  font-family: var(--font-din-medium) !important;
+  font-size: 32px;
+}
+.rd-heading-md {
+  font-family: var(--font-din) !important;
+  font-size: 20px;
+  transition: all 0.3s ease-in-out;
+}
+.rd-heading-md-bold {
+  font-family: var(--font-din-medium) !important;
+  font-size: 20px;
+}
+.rd-heading-sm {
+  font-family: var(--font-din) !important;
+  font-size: 18px;
+  line-height: 24px;
+}
+.rd-heading-sm-bold {
+  font-family: var(--font-din-medium) !important;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: .5px;
+}
+.rd-heading-xs {
+  font-family: var(--font-din-medium) !important;
+  font-size: 16px;
+  line-height: 24px !important;
+}
+
+.rd-heading-xs-bold {
+  font-family: var(--font-din-medium) !important;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 24px !important;
+}
+
+.rd-heading-xxs {
+  font-family: var(--font-din-medium) !important;
+  font-size: 14px;
+  line-height: normal;
+}
+
+.rd-heading-secondary {
+  color: var(--mist);
+}
+
+/*****************************************************************
+*                   indicator                                    *   
+*****************************************************************/
+
+.rd-indicator {
+  display: flex;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  justify-content: center;
+  width: 85px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  color: var(--black);
+  transition: width 0.3s ease-in-out;
+}
+.rd-indicator[data-gjs-highlightable="true"] {
+  pointer-events: all !important;
+}
+.rd-indicator .rd-indicator-content {
+  box-sizing: border-box;
+  width: 100%;
+  border-bottom-width: 4px;
+  border-bottom-color: currentColor;
+  border-bottom-style: solid;
+  pointer-events: none;
+}
+
+.rd-indicator.rd-indicator-xxl {
+  width: 84px;
+  top: 20px;
+}
+.rd-indicator.rd-indicator-xl {
+  width: 72px;
+  top: 20px;
+}
+.rd-indicator.rd-indicator-lg {
+  width: 60px;
+  top: 15px;
+}
+.rd-indicator.rd-indicator-md {
+  width: 48px;
+  top: 7px;
+}
+.rd-indicator.rd-indicator-sm {
+  width: 36px;
+  top: 10px;
+}
+.rd-indicator.rd-indicator-xs {
+  width: 24px;
+  top: 10px;
+}
+.rd-indicator.rd-indicator-xxs {
+  width: 12px;
+  top: 5px;
+}
+
+.rd-indicator-content.rd-indicator-primary {
+  border-bottom-color: var(--red-color) !important;
+}
+
+.rd-indicator-content.rd-indicator-secondary {
+  border-bottom-color: var(--mist) !important;
+}
+
+/*****************************************************************
+*                   text-color                                   *   
+*****************************************************************/
+
+/* TEXT COLORS */
+
+.rd-text-deep-red {
+  color: var(--deep-red-color) !important;
+}
+.rd-text-dominant-red {
+  color: var(--dominant-red-color) !important;
+}
+.rd-text-mid-red {
+  color: var(--mid-red-color) !important;
+}
+.rd-text-red {
+  color: var(--red-color) !important;
+}
+.rd-text-bright-green {
+  color: var(--bright-green) !important;
+}
+.rd-text-teal-light {
+  color: var(--teal-light) !important;
+}
+.rd-text-teal-dark {
+  color: var(--teal-dark) !important;
+}
+.rd-text-black {
+  color: var(--black) !important;
+}
+.rd-text-grey-dark {
+  color: var(--grey-dark) !important;
+}
+.rd-text-grey-900 {
+  color: var(--grey-900) !important;
+}
+.rd-text-grey-darker {
+  color: var(--grey-darker) !important;
+}
+.rd-text-grey {
+  color: var(--grey) !important;
+}
+.rd-text-grey-mid,
+.rd-text-light {
+  color: var(--grey-mid) !important;
+}
+.rd-text-grey-light {
+  color: var(--grey-light) !important;
+}
+.rd-text-grey-very-light {
+  color: var(--grey-very-light) !important;
+}
+.rd-text-neutral-grey {
+  color: var(--neutral-grey) !important;
+}
+.rd-text-white {
+  color: var(--white) !important;
+}
+.rd-text-orange-bright {
+  color: var(--orange-bright) !important;
+}
+.rd-text-purple-dark {
+  color: var(--purple-dark) !important;
+}
+.rd-text-turquoise {
+  color: var(--turquoise) !important;
+}
+.rd-text-turquoise-mid {
+  color: var(--turquoise-mid) !important;
+}
+.rd-text-turquoise-dark {
+  color: var(--turquoise-dark) !important;
+}
+.rd-text-mist {
+  color: var(--mist) !important;
+}
+.rd-text-nude {
+  color: var(--nude) !important;
+}
+.rd-text-sky-blue {
+  color: var(--sky-blue) !important;
+}
+.rd-text-orange {
+  color: var(--orange) !important;
+}
+.rd-text-purple {
+  color: var(--purple) !important;
+}
+.rd-text-secondary-leaf {
+  color: var(--secondary-leaf) !important;
+}
+.rd-text-industrial-grey {
+  color: var(--industrial-grey) !important;
+}
+
+/* TEXT COLORS */
+@media (max-width: 768px) {
+  .rd-heading-xl {
+    font-family: var(--font-din) !important;
+    font-size: 32px;
+    line-height: 48px;
+  }
+  .rd-heading-lg {
+    font-family: var(--font-din-large) !important;
+    font-size: 20px;
+  }
+  .rd-heading-lg-normal {
+    font-family: var(--font-din) !important;
+    font-size: 20px;
+  }
+  .rd-heading-lg-bold {
+    font-family: var(--font-din-medium) !important;
+    font-size: 20px;
+  }
+  .rd-heading-md {
+    font-family: var(--font-din) !important;
+    font-size: 18px;
+  }
+  .rd-heading-md-bold {
+    font-family: var(--font-din-medium) !important;
+    font-size: 18px;
+  }
+  .rd-heading-sm {
+    font-family: var(--font-din) !important;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .rd-heading-sm-bold {
+    font-family: var(--font-din-medium) !important;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .rd-heading-xs {
+    font-family: var(--font-din-medium) !important;
+    font-size: 14px;
+    line-height: 24px !important;
+  }
+  .rd-heading-xxs {
+    font-family: var(--font-din-medium) !important;
+    font-size: 12px;
+    line-height: normal;
+  }
+
+  .rd-indicator.rd-indicator-xxl {
+    width: 72px;
+    top: 20px;
+  }
+  .rd-indicator.rd-indicator-xl {
+    width: 60px;
+    top: 20px;
+  }
+  .rd-indicator.rd-indicator-lg {
+    width: 48px;
+    top: 15px;
+  }
+  .rd-indicator.rd-indicator-md {
+    width: 36px;
+    top: 7px;
+  }
+  .rd-indicator.rd-indicator-sm {
+    width: 24px;
+    top: 10px;
+  }
+  .rd-indicator.rd-indicator-xs {
+    width: 20px;
+    top: 10px;
+  }
+  .rd-indicator.rd-indicator-xxs {
+    width: 12px;
+    top: 5px;
+  }
+}

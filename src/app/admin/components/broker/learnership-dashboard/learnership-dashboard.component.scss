@@ -1,0 +1,66 @@
+.rd-text-learnership {
+  font-family: "DIN Medium";
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 0px;
+}
+
+.market-data-loader {
+  text-align: center;
+}
+
+.market-data-loader img {
+  width: 50px;
+  top: -90px;
+  position: relative;
+}
+
+button{
+  float: right;
+}
+
+.accordion-dashboard{
+  height: 390px !important;
+  overflow: scroll !important;
+}
+
+.mat-menu-analytic{
+  overflow: visible !important;
+}
+.learnership-align-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: .8rem;
+}
+
+.learnership-align-center .rd-heading-lg-bold{
+    font-family: DIN;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 34.19px;
+}
+
+.badge-filter{
+  left:67%;
+  top:0px;
+}
+.filter-badge-icon-size{
+  height:10px;
+  width: 10px;
+}
+.padicon{
+  padding: 1px;
+  padding-right: 3.5px;
+}
+
+.rd-total-size {
+  font-family: DIN;
+  font-size: 55px;
+  font-weight: 400;
+  line-height: 34.19px;
+}
+.alingment-button-dashborad{
+  padding: 0 0.5rem !important;
+}

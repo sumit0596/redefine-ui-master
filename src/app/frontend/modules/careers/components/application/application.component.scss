@@ -1,0 +1,84 @@
+.radio-input input[type="radio"]:checked:before {
+  background: black;
+}
+
+.radio-input input[type="radio"]:checked {
+  border-color: black;
+}
+
+.radio-input input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+
+.rd-form {
+  background: #ffffff;
+  border: 1.12666px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 38px 32px 10px;
+  width: 100%;
+  margin: 0 auto;
+  animation: fadeIn 1s;
+}
+
+.rd-form-header {
+  /*  */
+  /* font-weight: 200; */
+  /* font-size: 20px; */
+  /* line-height: 19px; */
+  margin-bottom: 15px !important;
+}
+
+.line {
+  height: 1px;
+  width: 100%;
+  background-color: #cccccc;
+  margin-bottom: 20px;
+}
+
+p span {
+  color: #c00018;
+}
+
+button.rd-btn-primary {
+  background-color: black !important;
+  border-color: black;
+}
+
+.error-id-msg {
+  margin-top: -20px;
+  margin-bottom: 10px;
+  color: #e63f3d;
+  transition: all 0.3s ease-in;
+  animation: fadeIn 0.3s;
+}
+
+.radio-input-group {
+  margin-bottom: -15px !important;
+  margin-top: 15px !important;
+}
+
+.label {
+  font-weight: 600 !important;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (min-width: 600px) and (max-width: 1920px) {
+  .rd-form .rd-form-footer button {
+    min-width: 160px;
+    width: auto !important;
+  }
+}

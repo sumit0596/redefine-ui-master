@@ -1,0 +1,47 @@
+<div class="rd-box">
+  <app-header></app-header>
+  <app-ticker></app-ticker>
+  <ng-template #page></ng-template>
+  <app-footer></app-footer>
+</div>
+
+<div class="rd-form-footer justify-content-end">
+    <button
+    [matMenuTriggerFor]="saveMenu"
+    type="button"
+    class="rd-btn rd-btn-primary rd-btn-lg justify-content-evenly"
+    >
+    <span>Save</span>
+      <span><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        ><polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </span>
+    </button>
+</div>
+
+<mat-menu #saveMenu="matMenu">
+    <div class="d-flex flex-column gap-3 px-2">
+        <button
+            (click)="onSave(status.DRAFT)"
+            class="rd-btn rd-btn-text justify-content-start gap-2"
+          >
+          <span><img src="assets/images/edit-pencile.svg" alt="icon" /></span>
+          <span>Save as draft</span>
+        </button>
+        <button (click)="onSave(status.PUBLISH)" class="rd-btn rd-btn-text justify-content-start gap-2">
+        <span><img src="assets/images/upload.svg" alt="icon" /></span>
+        <span>Save & Publish</span>
+      </button>
+    </div>
+</mat-menu>
+

@@ -1,0 +1,19 @@
+.dashboard_Chart {
+  width: 100%;
+  min-height: 470px;
+  height: 90%;
+  max-height: 470px;
+  margin-top: -48px;
+}
+
+// #chartDivAllLeadsBySource.dashboard_Chart {
+//   min-height: 660px !important;
+//   max-height: 660px !important;
+// }
+
+@media only screen and (min-width: 768px) and (max-width: 1335) {
+  #chartDivAllLeadsBySource.dashboard_Chart {
+    min-height: 660px !important;
+    max-height: 660px !important;
+  }
+}

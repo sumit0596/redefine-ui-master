@@ -1,0 +1,33 @@
+.map-container {
+    margin-bottom: 20px;
+}
+.location-alert {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+  background: #f2f4f3;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.location-alert-icon {
+  width: auto;
+  text-align: center;
+}
+
+.location-alert-image {
+  width: 50px;
+  padding: 10px;
+  border: 1px solid #fdc54d;
+  border-radius: 50px;
+}
+
+.location-alert-desc {
+  width: auto;
+  font-size: 12px;
+}
+
+.placement{
+  justify-content: flex-start;
+}

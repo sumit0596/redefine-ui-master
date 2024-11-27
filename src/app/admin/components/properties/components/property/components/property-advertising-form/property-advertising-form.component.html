@@ -1,0 +1,86 @@
+<div class="rd-container">
+  <form
+    *ngIf="advertisingForm"
+    class="rd-form form-container"
+    [formGroup]="advertisingForm"
+    (ngSubmit)="onSubmit()"
+    autocomplete="on"
+  >
+    <div class="rd-container-header">
+      <div class="rd-form-header">
+        {{ this.data.mode | titlecase }} Advertising Opportunities
+      </div>
+      <div>
+        <button type="button" (click)="close()">
+          <span><img src="assets/images/close.svg" alt="" /></span>
+        </button>
+      </div>
+    </div>
+    <rd-select
+      [label]="'Advertising Type'"
+      [id]="'advertising-type'"
+      [placeholder]="'Please Select Advertising Opportunities'"
+      [items$]="advertisingTypes$"
+      [bindLabel]="'Name'"
+      [bindValue]="'Id'"
+      [required]="true"
+      [controlName]="'AdvertisingTypeId'"
+      [form]="advertisingForm"
+    ></rd-select>
+    <rd-textarea
+      [label]="'Description and Location'"
+      [id]="'Description'"
+      [placeholder]="'Please Comment Here'"
+      [required]="true"
+      [maxLength]="255"
+      [controlName]="'DescriptionAndLocation'"
+      [form]="advertisingForm"
+      (onChange)="onChange($event)"
+    ></rd-textarea>
+    <div class="mb-4">
+      <rd-file
+        *ngIf="
+          data.advertisingDetails?.RateCard == null ||
+          data.advertisingDetails?.RateCard == undefined
+        "
+        [label]="'Rate Card'"
+        [id]="'advertising-rate-card'"
+        [types]="['application/pdf']"
+        [fileList]="fileList"
+        (onSelect)="onFileSelect($event)"
+        (onDelete)="onFileDelete($event)"
+      ></rd-file>
+      <rd-file-container
+        *ngIf="data.advertisingDetails?.RateCard"
+        [label]="'Uploaded File'"
+        [file]="data.advertisingDetails?.RateCard"
+        (onDelete)="deleteFile(data.advertisingDetails.PropertyAdvertisingId)"
+      ></rd-file-container>
+    </div>
+    <div class="rd-form-footer justify-content-end">
+      <div class="rd-btn-group">
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="close()"
+        >
+          Cancel
+        </button>
+        <button
+          *ngIf="data.mode == 'create'"
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+        >
+          Add
+        </button>
+        <button
+          *ngIf="data.mode == 'edit'"
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+        >
+          Save & Update
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

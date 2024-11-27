@@ -1,0 +1,26 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div>{{ data.label }}</div>
+    <div>
+      <button type="button" (click)="close()">
+        <span><img src="assets/images/close.svg" alt="" /></span>
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <div class="dialog-body">
+      {{ data.text1 }}
+      <p class="second-text">{{ data.text2 }}</p>
+    </div>
+
+    <div class="dialog-footer btn-wrapper">
+      <button type="button" class="rd-btn rd-btn-text" (click)="No()">
+        {{ data.btn1Text }}
+      </button>
+      <button type="button" class="rd-btn rd-btn-primary" (click)="Yes()">
+        {{ data.btn2Text }}
+      </button>
+    </div>
+  </div>
+</div>

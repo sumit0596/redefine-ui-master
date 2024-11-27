@@ -1,0 +1,124 @@
+<app-breadcrumbs [urlData]="urlData"></app-breadcrumbs>
+<div class="container">
+  <div class="position-relative">
+    <div class="rd-heading rd-heading-lg-normal">Enquiry</div>
+    <span class="rd-indicator rd-indicator-lg">
+      <span class="rd-indicator-content rd-indicator-primary"></span>
+    </span>
+  </div>
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <form
+        class="rd-form"
+        [formGroup]="personalDetailsForm"
+        (ngSubmit)="onSubmit($event)"
+        autocomplete="on"
+      >
+        <div class="rd-form-header">Personal Details</div>
+        <div class="row">
+          <div class="col-md-6">
+            <rd-input
+              class="label"
+              [label]="'First name'"
+              [id]="'first-name'"
+              [placeholder]="'Please provide first name'"
+              [type]="'text'"
+              [required]="true"
+              [controlName]="'FirstName'"
+              (onChange)="onChange($event)"
+              [form]="personalDetailsForm"
+            >
+            </rd-input>
+          </div>
+
+          <div class="col-md-6">
+            <rd-input
+              [label]="'Last name'"
+              [id]="'sur-name'"
+              [placeholder]="'Please provide last name'"
+              [type]="'text'"
+              [required]="true"
+              [controlName]="'LastName'"
+              (onChange)="onChange($event)"
+              [form]="personalDetailsForm"
+            >
+            </rd-input>
+          </div>
+
+          <div class="col-md-6">
+            <rd-input
+              [label]="'Mobile number'"
+              [id]="'mobile'"
+              [placeholder]="'Please provide mobile number'"
+              [type]="'text'"
+              [controlName]="'Mobile'"
+              [required]="true"
+              (onChange)="onChange($event)"
+              [form]="personalDetailsForm"
+            >
+            </rd-input>
+          </div>
+
+          <div class="col-md-6">
+            <rd-input
+              [label]="'Email address'"
+              [id]="'emial'"
+              [placeholder]="'Please provide email address'"
+              [type]="'text'"
+              [controlName]="'Email'"
+              [required]="true"
+              (onChange)="onChange($event)"
+              [form]="personalDetailsForm"
+            >
+            </rd-input>
+          </div>
+
+          <div class="col-md-12">
+            <div class="line"></div>
+            <div class="rd-form-header">Company Name</div>
+            <rd-input
+              [label]="'Company name'"
+              [id]="'company-name'"
+              [placeholder]="'Please provide company name'"
+              [type]="'text'"
+              [required]="true"
+              [controlName]="'CompanyName'"
+              (onChange)="onChange($event)"
+              [form]="personalDetailsForm"
+            >
+            </rd-input>
+            <rd-textarea
+              [label]="
+                'Please give a brief description of what your company does (Optional)'
+              "
+              [id]="'description'"
+              [placeholder]="'Type your message here...'"
+              [controlName]="'CompanyDescription'"
+              [form]="personalDetailsForm"
+              [maxLength]="700"
+            ></rd-textarea>
+            <div class="row btn-captch">
+              <div class="col-md-8">
+                <button
+                  type="submit"
+                  class="mt-4 rd-btn rd-btn-dark rd-btn-lg"
+                >
+                  <span class="btn-text">Submit</span>
+                </button>
+              </div>
+              <div class="col-md-4">
+                <app-captcha
+                  [controlName]="'Recaptcha'"
+                  [id]="'enquiry-captcha'"
+                  [form]="personalDetailsForm"
+                ></app-captcha>
+              </div>
+              <!-- <div class="col-md-2"></div> -->
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="mt-5"></div>
+</div>

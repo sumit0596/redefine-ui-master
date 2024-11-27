@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="slider_section1">
+    <div class="imgs_container1">
+      <div
+        class="single_img1 row"
+        *ngFor="let slider of sliders; let i = index"
+        [ngClass]="{ active1: i === imgNumber1 }"
+      >
+        <div class="image-container1 col-md-5 col-sm-12">
+          <img [src]="slider.image" alt="{{ slider.title }}" />
+        </div>
+        <div class="content-container col-md-7 col-sm-12">
+          <div class="rd-slide-content1">
+            <div class="position-relative mb-5">
+              <div class="rd-heading rd-heading-lg-normal">
+                {{ slider.title }}
+              </div>
+              <span class="rd-indicator rd-indicator-xl">
+                <span class="rd-indicator-content rd-indicator-primary"></span>
+              </span>
+            </div>
+            <div class="mt-4">
+              <p class="rd-text-grey-mid text-justify">
+                {{ slider.description }}
+              </p>
+              <button class="rd-btn rd-btn-dark rd-btn-lg home-content-button">
+                <span class="btn-text">Learn More</span>
+              </button>
+            </div>
+          </div>
+          <div class="slider-dots1">
+            <span
+              class="dot1"
+              *ngFor="let slider of sliders; let i = index"
+              (click)="goToSlide(i)"
+              [ngClass]="{ 'active-dot1': i === imgNumber1 }"
+            ></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

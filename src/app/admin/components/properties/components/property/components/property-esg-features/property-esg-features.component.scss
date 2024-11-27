@@ -1,0 +1,17 @@
+.esg-feature-section {
+}
+.esg-feature-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.esg-feature-item .esg-feature-item-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.switch-label{
+  cursor: pointer;
+}

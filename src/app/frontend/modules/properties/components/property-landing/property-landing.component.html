@@ -1,0 +1,33 @@
+<app-breadcrumbs></app-breadcrumbs>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="position-relative mb-5">
+        <h2 class="rd-heading rd-heading-sm rd-text-grey-mid">
+          A well-located
+        </h2>
+        <div class="rd-heading rd-heading-xl">
+          High-quality and efficient local property portfolio
+        </div>
+        <span class="rd-indicator rd-indicator-xl">
+          <span class="rd-indicator-content rd-indicator-primary"></span>
+        </span>
+      </div>
+      <p class="rd-text-grey-mid mb-5">
+        Redefine’s internally managed local property portfolio comprises premium
+        retail, office and industrial properties that are strategically spread
+        across South Africa’s major metropolitan areas. We continue to improve,
+        expand and protect our local properties in order to attract and retain
+        quality tenants.
+      </p>
+      <!-- <div class="hr-top-line"></div> -->
+      <div class="">
+        <!-- <label class="mt-3 search-label"
+          >Search for Office, Retail and Industrial Properties</label
+        > -->
+        <rd-grid [propertyType]="propertyType"></rd-grid>
+      </div>
+    </div>
+  </div>
+  <app-featured-properties-carousel></app-featured-properties-carousel>
+</div>

@@ -1,0 +1,59 @@
+<div class="rd-container">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          routerLink="../"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">Leads</div>
+    </div>
+    <!-- <div class="rd-container-header-right">
+      <button
+        type="button"
+        class="rd-btn-primary rd-btn-lg"
+        (click)="createLeads()"
+      >
+        Create New
+      </button>
+    </div> -->
+  </div>
+  <div class="preview-tabs-section">
+    <mat-tab-group
+      *ngIf="userDetails.RoleId == 3"
+      mat-stretch-tabs="false"
+      mat-align-tabs="start"
+      animationDuration="0ms"
+      dynamicHeight
+      fitInkBarToContent
+      (selectedTabChange)="onTabChange($event)"
+    >
+      <mat-tab [label]="'AllProperties'">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">All Properties</div>
+        </ng-template>
+      </mat-tab>
+
+      <mat-tab [label]="'MyProperties'">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">My Properties</div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+
+    <app-datatable
+      [tableSettings]="tableConfig"
+      [filterColumns]="filterColumns"
+      [emitClicks]="true"
+      (rowBasedAction)="rowActions($event)"
+      (toolbarEvent)="onToolbarClick($event)"
+      (actionEvent)="onActionClick($event)"
+    ></app-datatable>
+  </div>
+</div>

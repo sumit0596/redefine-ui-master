@@ -1,0 +1,39 @@
+<div class="rd-container propertyeq__main">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          routerLink="../"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">Content</div>
+    </div>
+    <div
+      class="rd-container-header-right"
+      *ngIf="this.propertyEqDetails?.FullAccess"
+    >
+      <button
+        type="button"
+        class="rd-btn-primary rd-btn-lg"
+        (click)="createPropertyEq()"
+      >
+        Create New
+      </button>
+    </div>
+  </div>
+  <app-datatable
+    [tableSettings]="tableConfig"
+    [filterColumns]="filterColumns"
+    [emitClicks]="true"
+    (rowBasedAction)="rowActions($event)"
+    (toolbarEvent)="onToolbarClick($event)"
+    (actionEvent)="onActionClick($event)"
+  >
+</app-datatable>
+</div>

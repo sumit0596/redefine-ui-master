@@ -1,0 +1,93 @@
+<mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel [expanded]="true" (opened)="panelOpenState[0] = true"
+    (closed)="panelOpenState[0] = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="align-items-start">
+        <div class="col-md-10 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+          Source Split
+          <small class="selected-filter-label">
+            <small class="selected-filter-label">
+              <ng-container> ({{ selectedEventDays }}) </ng-container>
+            </small>
+          </small>
+        </div>
+        <div class="col-md-2 d-flex justify-content-end" [ngClass]="{'invisible' : !panelOpenState[0]}">
+            
+            <button type="button" id="more-btn" class="rd-btn rd-btn-text alingment-button-dashborad position-relative"
+              [matMenuTriggerFor]="splitfilter" aria-label="More" (click)="$event.stopPropagation()">
+              <img src="assets/images/filter.svg" alt="Filter" />
+              <ng-container>
+                <span *ngIf="filterApplied" class="position-absolute badge-filter  badge page padicon bg-secondary"
+                (click)="badgereset($event)">
+                <mat-icon class="fsmaticon filter-badge-icon-size">close</mat-icon>
+                <span class="visually-hidden">unread messages</span>
+              </span>
+              </ng-container>
+            </button>
+            <mat-menu class="mat-menu mat-menu-analytic" #splitfilter="matMenu">
+              <app-dashboard-filter 
+              [filter]="filter" 
+              (filteredData)="filterData(filter)"
+              (selectedEventFilter)="selectedEventFilter($event)" 
+              (filterApplied)="handleFilterApplied($event)"
+              [typeOfBlock]="'split'">
+              </app-dashboard-filter>
+            </mat-menu>
+            <button type="button" class="rd-btn rd-btn-text alingment-button-dashborad" (click)="refresh($event)">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div> 
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+  
+    <!-- <div class="sourchAnalytics dashboard-container">
+          <app-donut-chart 
+             [chartData$]="chartData$"
+             [chartId]="'sourceAnalyticsLead'" 
+             [isadmin]="true"
+             [type]="'Source'"
+             [insideLabel]="'Total'">
+          </app-donut-chart> 
+    </div> -->
+
+    <div class="sourchAnalytics dashboard-container">
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" dynamicHeight
+        fitInkBarToContent (selectedTabChange)="onTabChanges($event)" [selectedIndex]="activeTab"
+        class="dashboard-pie-chart" mat-align-tabs="end">
+        <mat-tab [label]="'Page'">
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs dashboard-pie-chart">
+              Sessions
+            </div>
+          </ng-template>
+          <div *ngIf="tabLabel=='Page'">
+            <app-donut-chart 
+             [chartData$]="chartData$"
+             [chartId]="'sourceAnalyticsLead'" 
+             [isadmin]="true"
+             [type]="'Source'"
+             [insideLabel]="'Total Sessions'">
+            </app-donut-chart>
+          </div>
+        </mat-tab>
+
+        <mat-tab [label]="'Lead'">
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">Leads</div>
+          </ng-template>
+          
+          <div *ngIf="tabLabel=='Lead'">
+            <app-donut-chart 
+             [chartData$]="chartData$"
+             [chartId]="'sourceAnalyticsLead'" 
+             [isadmin]="true"
+             [type]="'Source'"
+             [insideLabel]="'Total Leads'">
+          </app-donut-chart> 
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </mat-expansion-panel>
+  </mat-accordion>
+  

@@ -1,0 +1,141 @@
+<div class="navbar-container">
+  <div class="container p-0">
+    <nav #nav class="nav">
+      <div class="d-flex align-items-center gap-5">
+        <a [routerLink]="['/']" class="brand-logo">
+          <img
+            class="logo"
+            [ngSrc]="'assets/images/logo.svg'"
+            alt="Redefine logo"
+            fill
+            priority
+          />
+        </a>
+        <ul class="nav-links" *ngIf="menuItems; else loader">
+          <li>
+            <button class="rd-btn rd-btn-text nav-close-btn" aria-label="nav-btn-close" (click)="closeNav()">
+              <span class="btn-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  viewBox="0 0 256 256"
+                >
+                  <path
+                    d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"
+                  ></path>
+                </svg>
+              </span>
+            </button>
+          </li>
+          <li class="nav-item position-relative" *ngFor="let item of menuItems">
+            <a
+              class="nav-item-link"
+              [routerLink]="item.Route ? item.Route : '/login'"
+              [routerLinkActive]="'link-active'"
+              [attr.data-id]="item.MenuId"
+              (click)="closeNav()"
+              >{{ item.Title }}</a
+            >
+            <span class="rd-indicator"
+              ><span class="rd-indicator-content rd-indicator-primary"></span
+            ></span>
+          </li>
+        </ul>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="search-box-container">
+          <button
+            class="rd-btn rd-btn-text search-close-btn rd-text-white"
+            aria-label="search-close"
+            (click)="closeNav()"
+            aria-label="search-close"
+          >
+            <span class="btn-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"
+                ></path>
+              </svg>
+            </span>
+          </button>
+          <div class="search-box">
+            <input
+            name="search"
+              aria-label="Search Button"
+              #search
+              type="text"
+              placeholder="Search here..."
+              aria-label="Search Button"
+              (keyup.enter)="onSearch(search.value)"
+            />
+            <button class="rd-btn rd-btn-text" aria-label="btn-search-icon" (click)="onSearch(search.value)">
+              <span class="btn-icon search-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  viewBox="0 0 256 256"
+                >
+                  <path
+                    d="M232.49,215.51,185,168a92.12,92.12,0,1,0-17,17l47.53,47.54a12,12,0,0,0,17-17ZM44,112a68,68,0,1,1,68,68A68.07,68.07,0,0,1,44,112Z"
+                  ></path>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+        <button class="rd-btn rd-btn-text search-btn" aria-label="btn-open-search" (click)="openSearch()">
+          <span class="btn-icon search-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M232.49,215.51,185,168a92.12,92.12,0,1,0-17,17l47.53,47.54a12,12,0,0,0,17-17ZM44,112a68,68,0,1,1,68,68A68.07,68.07,0,0,1,44,112Z"
+              ></path>
+            </svg>
+          </span>
+        </button>
+        <button class="rd-btn rd-btn-text nav-open-btn" aria-label="nav-button-open" (click)="openNav()">
+          <span class="btn-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M228,128a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,128ZM40,76H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24ZM216,180H40a12,12,0,0,0,0,24H216a12,12,0,0,0,0-24Z"
+              ></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<ng-template #loader>
+  <ul class="nav-links">
+    <li
+      class="nav-item placeholder-wave"
+      *ngFor="let item of [1, 2, 3, 4, 5, 6]"
+      [ngStyle]="{ 'min-Width': '100px' }"
+    >
+      <span class="col-12 placeholder placeholder-lg"></span>
+    </li>
+  </ul>
+</ng-template>

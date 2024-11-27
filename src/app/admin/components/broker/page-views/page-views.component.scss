@@ -1,0 +1,103 @@
+.rd-total-count {
+  font-family: "DIN";
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.views-page-size {
+  font-family: "DIN Medium";
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 0px;
+}
+
+.rd-page-views-heading {
+  font-family: "DIN Medium";
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.rd-page-views-table-heading {
+  font-family: "DIN";
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.table-data {
+  font-family: "DIN";
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.market-data-loader{
+  text-align: center;
+}
+
+.market-data-loader img {
+  width: 50px;
+}
+
+button{
+  float: right;
+}
+
+/* Style for the tooltip content */
+
+.text-elipses{
+  width: 92%;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.accordion-dashboard{
+  height: 390px !important;
+  overflow: scroll !important;
+}
+.mat-menu-analytic{
+  overflow: visible !important;
+}
+
+.badge-filter{
+  left:67%;
+  top:0px;
+}
+.filter-badge-icon-size{
+  height:13px;
+  width: 13px;
+}
+.padicon{
+  padding:1.5px;
+  padding-right: 3.3px;
+}
+.searchinput input{
+  min-height: 48px;
+  font-weight: 500;
+  border-radius: 4px;
+  border: 0;
+  position: relative;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 40px;
+  background-color: var(--input-bg-color);
+}
+.searchinput{
+  padding: 10px 15px;
+}
+.searchinput button{
+  position: absolute;
+  width: 11px;
+  top: 100;
+  right: 36px;
+  top: 27px;
+}
+
+.searchinput input:focus{
+  outline: none;
+  border: 1px solid #adadad;
+}
+.searchinput input::placeholder { 
+  // padding: 10px; 
+} 

@@ -1,0 +1,48 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-md-6">
+      <rd-input
+        [label]="'Name'"
+        [id]="'name'"
+        [placeholder]="'Please provide name'"
+        [required]="true"
+        [type]="'text'"
+        [form]="form"
+        [controlName]="'name'"
+      ></rd-input>
+    </div>
+    <div class="col-md-6">
+      <rd-input
+        [label]="'Label'"
+        [id]="'label'"
+        [placeholder]="'Please provide label'"
+        [required]="true"
+        [type]="'text'"
+        [form]="form"
+        [controlName]="'label'"
+      ></rd-input>
+    </div>
+    <div class="col-md-6">
+      <rd-select
+        [label]="'Size'"
+        [id]="'button-size'"
+        [placeholder]="'Select size'"
+        [required]="true"
+        [bindLabel]="'name'"
+        [bindValue]="'value'"
+        [items$]="sizes$"
+        [form]="form"
+        [controlName]="'size'"
+      ></rd-select>
+    </div>
+    <div class="col mt-4 align-self-end">
+      <button
+        (click)="onSubmit()"
+        type="button"
+        class="rd-btn rd-btn-primary rd-btn-lg float-end"
+      >
+        Save & Update
+      </button>
+    </div>
+  </div>
+</form>

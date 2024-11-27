@@ -1,0 +1,55 @@
+<div class="rd-container">
+  <form
+    class="rd-form form-container"
+    [formGroup]="propertyContactDetailsForm"
+    (ngSubmit)="onSubmit($event)"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">Contact Details</div>
+
+    <div class="rd-form-control-group">
+      <rd-select
+        [id]="'leasing-executive'"
+        [label]="'Leasing Contact'"
+        [placeholder]="'Select Leasing Contact'"
+        [bindLabel]="'Name'"
+        [bindValue]="'Id'"
+        [required]="true"
+        [items$]="leasingExecutives$"
+        [form]="propertyContactDetailsForm"
+        [controlName]="'LeasingExecutiveId'"
+      ></rd-select>
+    </div>
+
+    <div class="rd-form-control-group">
+      <rd-select
+        [id]="'broker-liaison'"
+        [label]="'Broker Liaison'"
+        [placeholder]="'Select Broker Liaison'"
+        [bindLabel]="'Name'"
+        [bindValue]="'Id'"
+        [required]="true"
+        [items$]="brokerLiaison$"
+        [form]="propertyContactDetailsForm"
+        [controlName]="'BrokerLiaisonId'"
+      ></rd-select>
+    </div>
+
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="changeStep(route.CREATE_PROPERTY_MEDIA)"
+        >
+          Previous
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,26 @@
+.disclaimer {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 25px;
+  background-color: var(--grey-very-light);
+  border-radius: 12px;
+  user-select: none;
+  .disclaimer-image {
+    width: auto;
+    text-align: center;
+  }
+
+  .disclaimer-image img {
+    width: 25px;
+    outline: 1px solid #fdc54d;
+    outline-offset: 10px;
+    border-radius: 50%;
+  }
+
+  .disclaimer-desc {
+    width: auto;
+    font-size: 12px;
+  }
+}

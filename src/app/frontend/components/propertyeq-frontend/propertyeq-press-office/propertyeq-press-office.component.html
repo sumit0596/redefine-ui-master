@@ -1,0 +1,180 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [breadcrumbLinks]="breadcrumbLinks"
+></app-banner-breadcrumb>
+
+<div class="container propertyeq-press-office-container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="form-group col-md-12 col-lg-3">
+          <rd-calendar
+            [label]="''"
+            [id]="'dob'"
+            [type]="'text'"
+            [placeholder]="'Select start date'"
+            [controlName]="'StartDate'"
+            [form]="filterForm"
+            (dateChange)="onChange($event)"
+          ></rd-calendar>
+        </div>
+        <div class="form-group col-md-12 col-lg-3">
+          <rd-calendar
+            [label]="''"
+            [id]="'dob'"
+            [type]="'text'"
+            [placeholder]="'Select end date'"
+            [controlName]="'EndDate'"
+            [form]="filterForm"
+            (dateChange)="onChange($event)"
+          ></rd-calendar>
+        </div>
+        <div class="col-md-12 col-lg-5">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="text-search"
+              [(ngModel)]="searchText"
+              placeholder="Search"
+              (keyup)="search($event)"
+            />
+
+            <div class="input-group-append search-button">
+              <button
+                title="search"
+                class="btn btn-secondary"
+                type="button"
+                (click)="searchValue($event)"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+          
+        </div>
+        <div class="col-md-12 col-lg-1 d-flex justify-content-center group-btn-clear">
+          <button
+          type="button"
+          class="rd-btn-text rd-btn-md h-100 clear-button"
+          *ngIf="
+            this.filterForm.get('Search')?.value != '' ||
+            (this.filterForm.get('StartDate')?.value != null &&
+              this.filterForm.get('EndDate')?.value != null)
+          "
+          (click)="clear()"
+        >
+          <span>Clear</span>
+          <span
+            ><img
+              src="assets/images/close.svg"
+              [style.width]="'16px'"
+              alt="clear"
+          /></span>
+        </button>
+        </div>
+        <small class="error-message">
+          <div class="error-text placement">{{ errorMessage }}</div>
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 sens-line"></div>
+</div>
+
+<div class="container">
+  <div class="row press-list">
+    <div
+      class="col-md-12 senses"
+      *ngFor="let press of pressDetails; let i = index"
+      (click)="pressDetailsPage(press)"
+      (mouseover)="getHovercolor(i)"
+      (mouseleave)="getLeavecolor(i)"
+    >
+      <div class="row" [ngClass]="{ 'py-2': i === 0, 'pb-2': i !== 0 }">
+        <div class="col-md-10 col-12 hght-box-press">
+          <div id="{{ 'sens-data' + i }}">
+            <div class="position-relative">
+              <h2 class="rd-heading rd-heading-md">
+                {{ press.Title }}
+              </h2>
+              <span class="rd-indicator rd-indicator-xs">
+                <span class="rd-indicator-content rd-indicator-primary"></span>
+              </span>
+            </div>
+            <div class="rd-text-grey-mid mt-4">
+              {{ press.CreatedOn | date : "dd MMMM, yyyy" }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-md-2 col-12 d-flex justify-content-end"
+          *ngIf="press.MediaUrl"
+        >
+          <div class="image-container-search">
+            <img
+              *ngIf="press.MediaUrl"
+              src="{{ press.MediaUrl }}"
+              class="img-thumbnail"
+              alt="thumbnail"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 sens-line"></div>
+    </div>
+    <div class="col-md-12" *ngIf="pressDetails && pressDetails.length">
+      <div *ngIf="errorMessage == ''">
+        <mat-paginator
+          #paginator
+          customPaginator
+          showFirstLastButtons
+          class="custom-paginator"
+          previousPageLabel="'pre'"
+          [length]="totalRowsCount"
+          [pageSize]="filter.PerPage"
+          [pageIndex]="filter && filter.PageNo ? filter.PageNo - 1 : 0"
+          (page)="paginate($event)"
+          [hidePageSize]="true"
+        >
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="loadingData">
+    <div class="container">
+      <div class="row">
+        <div class="col-12" *ngFor="let item of [1, 2, 3]">
+          <div class="card border-0" aria-hidden="true">
+            <div class="card-body">
+              <h5 class="card-title placeholder-glow">
+                <span class="placeholder col-6"></span>
+              </h5>
+              <p class="card-text placeholder-glow">
+                <span class="placeholder col-7"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-6"></span>
+                <span class="placeholder col-8"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div
+    class="col-12 py-2 text-center mt-5"
+    *ngIf="pressDetails?.length == 0 && loadingData != true"
+  >
+    <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+  </div>
+</div>
+
+<div class="quicklinks-gap mt-3">
+  <app-quick-links></app-quick-links>
+</div>

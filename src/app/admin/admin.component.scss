@@ -1,0 +1,44 @@
+.rd-container {
+  display: flex;
+  flex-flow: column;
+}
+
+.rd-header-container {
+  position: sticky;
+  top: 0;
+  flex: 0 1 auto;
+  height: 80px;
+  background: #ffffff;
+  box-shadow: 1px 0px 4px rgb(102 102 102 / 30%);
+  z-index: 1099;
+  width: 100%;
+  transition: all 250ms ease-in;
+}
+.main-container {
+  flex: 1 1 auto;
+}
+.rd-sidenav-container {
+  position: fixed;
+  left: 0rem;
+  // top: 80px;
+  width: 88px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 1px 0px 4px rgba(102, 102, 102, 0.3);
+  z-index: 9;
+  overflow-x: hidden;
+  white-space: nowrap;
+  transition: all 250ms ease-in;
+}
+.rd-sidenav-open {
+  width: 310px;
+}
+.rd-main-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  padding: 25px 40px 0;
+  transition: all 250ms ease-in;
+}

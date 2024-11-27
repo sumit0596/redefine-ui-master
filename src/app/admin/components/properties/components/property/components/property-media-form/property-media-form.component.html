@@ -1,0 +1,384 @@
+<form
+  class="rd-form form-container"
+  [formGroup]="propertyMediaForm"
+  (ngSubmit)="onSubmit()"
+  autocomplete="on"
+>
+  <div class="rd-form-header">Media</div>
+  <div class="rd-form-body">
+    <div class="property-image-wrapper">
+      <div class="control-container">
+        <label>Add Property Image</label>
+      </div>
+      <div class="file-upload-wrapper">
+        <rd-file
+          [id]="'property-image'"
+          [multiple]="true"
+          [types]="['image/png', 'image/jpeg']"
+          [fileList]="mediaType == 'Image' ? progressFiles : []"
+          (onSelect)="onFileSelect($event, 'Image')"
+          (onDelete)="onFileDelete($event)"
+        ></rd-file>
+        <rd-file-container
+          [label]="'Uploaded Images'"
+          [preview]="true"
+          [reorder]="true"
+          [fileList]="imageForms.value"
+          (onDelete)="deletePropertyImage($event)"
+          (onReorder)="onImageReorder($event)"
+        ></rd-file-container>
+      </div>
+    </div>
+
+    <small class="error-msg">
+      <div class="error-text placement mb-3">{{ imageLengtherrorMessage }}</div>
+    </small>
+
+    <!-- Brochure input -->
+    <div class="property-media-wrapper">
+      <div class="control-container rd-switch-wrapper">
+        <label>Brochure</label>
+        <rd-switch
+          [isLabel]="true"
+          [onLabel]="'File'"
+          [offLabel]="'Link'"
+          [label]="MEDIA_CONSTANTS.BROCHURE"
+          [id]="'brochure-switch'"
+          [checked]="brochureForm.value.IsFile"
+          (onChange)="toggleSwitch($event)"
+        ></rd-switch>
+      </div>
+      <rd-input
+        *ngIf="!brochureForm.value.IsFile"
+        [label]="''"
+        [id]="'brochure-input'"
+        [placeholder]="'Please Provide Link'"
+        [type]="'text'"
+        (onClickEvent)="uploadMediaLink($event, MEDIA_CONSTANTS.BROCHURE)"
+        [controlName]="'Url'"
+        [form]="brochureForm"
+        (onChange)="onChange($event)"
+      ></rd-input>
+      <ng-container *ngIf="brochureForm.value.IsFile">
+        <rd-file
+          [id]="'brochure-input'"
+          [types]="['application/pdf']"
+          [fileList]="
+            mediaType == MEDIA_CONSTANTS.BROCHURE ? progressFiles : []
+          "
+          (onSelect)="onFileSelect($event, MEDIA_CONSTANTS.BROCHURE)"
+          (onDelete)="onFileDelete($event)"
+        ></rd-file>
+        <rd-file-container
+          *ngIf="propertyData?.media?.Brochure?.IsFile == 1"
+          [label]="''"
+          [file]="brochureForm.value"
+          (onDelete)="deletePdf($event, MEDIA_CONSTANTS.BROCHURE)"
+        ></rd-file-container>
+      </ng-container>
+    </div>
+
+    <!-- Rate Card input -->
+    <div class="property-media-wrapper">
+      <div class="control-container rd-switch-wrapper">
+        <label>Rate Card</label>
+        <rd-switch
+          [isLabel]="true"
+          [onLabel]="'File'"
+          [offLabel]="'Link'"
+          [label]="MEDIA_CONSTANTS.RATE_CARD"
+          [id]="'rate-card-switch'"
+          [checked]="rateCardForm.value.IsFile"
+          (onChange)="toggleSwitch($event)"
+        ></rd-switch>
+      </div>
+      <rd-input
+        *ngIf="!rateCardForm.value.IsFile"
+        [label]="''"
+        [id]="'rate-card'"
+        [placeholder]="'Please Provide Link'"
+        [type]="'text'"
+        (onClickEvent)="uploadMediaLink($event, MEDIA_CONSTANTS.RATE_CARD)"
+        [controlName]="'Url'"
+        [form]="rateCardForm"
+        (onChange)="onChange($event)"
+      ></rd-input>
+      <ng-container *ngIf="rateCardForm.value.IsFile">
+        <rd-file
+          [id]="'rate-card-input'"
+          [types]="['application/pdf']"
+          [fileList]="
+            mediaType == MEDIA_CONSTANTS.RATE_CARD ? progressFiles : []
+          "
+          (onSelect)="onFileSelect($event, MEDIA_CONSTANTS.RATE_CARD)"
+          (onDelete)="onFileDelete($event)"
+        ></rd-file>
+
+        <rd-file-container
+          *ngIf="propertyData?.media?.RateCard?.IsFile == 1"
+          [label]="''"
+          [file]="rateCardForm.value"
+          (onDelete)="deletePdf($event, MEDIA_CONSTANTS.RATE_CARD)"
+        ></rd-file-container>
+      </ng-container>
+    </div>
+
+    <!-- Video input -->
+    <div class="property-media-wrapper">
+      <div class="control-container rd-switch-wrapper">
+        <label>Video</label>
+        <rd-switch
+          [isLabel]="true"
+          [onLabel]="'File'"
+          [offLabel]="'Link'"
+          [label]="MEDIA_CONSTANTS.VIDEO"
+          [id]="'video-switch'"
+          [checked]="videoForm.value.IsFile"
+          (onChange)="toggleSwitch($event)"
+        ></rd-switch>
+      </div>
+      <rd-input
+        *ngIf="!videoForm.value.IsFile"
+        [label]="''"
+        [id]="'property-video'"
+        [placeholder]="'Please Provide YouTube Link'"
+        [type]="'text'"
+        (onClickEvent)="uploadMediaLink($event, MEDIA_CONSTANTS.VIDEO)"
+        [controlName]="'Url'"
+        [form]="videoForm"
+        (onChange)="onChange($event)"
+      ></rd-input>
+      <ng-container *ngIf="videoForm.value.IsFile">
+        <rd-file
+          [id]="'video-input'"
+          [types]="['video/mp4', 'video/x-m4v', 'video/*']"
+          [fileList]="mediaType == MEDIA_CONSTANTS.VIDEO ? progressFiles : []"
+          (onSelect)="onFileSelect($event, MEDIA_CONSTANTS.VIDEO)"
+          (onDelete)="onFileDelete($event)"
+        ></rd-file>
+        <rd-file-container
+          *ngIf="propertyData?.media?.Video?.IsFile == 1"
+          [label]="''"
+          [file]="videoForm.value"
+          (onDelete)="deletePdf($event, MEDIA_CONSTANTS.VIDEO)"
+        ></rd-file-container>
+      </ng-container>
+    </div>
+
+    <!-- Floor plan input -->
+    <div class="property-media-wrapper">
+      <div class="control-container rd-switch-wrapper">
+        <label>Floor Plan</label>
+        <rd-switch
+          [isLabel]="true"
+          [onLabel]="'File'"
+          [offLabel]="'Link'"
+          [label]="MEDIA_CONSTANTS.FLOOR_PLAN"
+          [id]="'floor-plan-switch'"
+          [checked]="floorPlanForm.value.IsFile"
+          (onChange)="toggleSwitch($event)"
+        ></rd-switch>
+      </div>
+      <rd-input
+        *ngIf="!floorPlanForm.value.IsFile"
+        [label]="''"
+        [id]="'floor-plan'"
+        [placeholder]="'Please Provide Link'"
+        [type]="'text'"
+        (onClickEvent)="uploadMediaLink($event, MEDIA_CONSTANTS.FLOOR_PLAN)"
+        [controlName]="'Url'"
+        [form]="floorPlanForm"
+        (onChange)="onChange($event)"
+      ></rd-input>
+      <ng-container *ngIf="floorPlanForm.value.IsFile">
+        <rd-file
+          [id]="'floor-plan-input'"
+          [types]="['application/pdf']"
+          [fileList]="
+            mediaType == MEDIA_CONSTANTS.FLOOR_PLAN ? progressFiles : []
+          "
+          (onSelect)="onFileSelect($event, MEDIA_CONSTANTS.FLOOR_PLAN)"
+          (onDelete)="onFileDelete($event)"
+        ></rd-file>
+        <rd-file-container
+          *ngIf="propertyData?.media?.FloorPlan?.IsFile == 1"
+          [label]="''"
+          [file]="floorPlanForm.value"
+          (onDelete)="deletePdf($event, MEDIA_CONSTANTS.FLOOR_PLAN)"
+        ></rd-file-container>
+      </ng-container>
+    </div>
+
+    <!-- Fact Sheet input -->
+    <div class="property-media-wrapper">
+      <div class="control-container rd-switch-wrapper">
+        <label>Fact Sheet</label>
+        <rd-switch
+          [isLabel]="true"
+          [onLabel]="'File'"
+          [offLabel]="'Link'"
+          [label]="MEDIA_CONSTANTS.FACT_SHEET"
+          [id]="'fact-sheet-switch'"
+          [checked]="factSheetForm.value.IsFile"
+          (onChange)="toggleSwitch($event)"
+        ></rd-switch>
+      </div>
+      <rd-input
+        *ngIf="!factSheetForm.value.IsFile"
+        [label]="''"
+        [id]="'fact-sheet'"
+        [placeholder]="'Please Provide Link'"
+        [type]="'text'"
+        (onClickEvent)="uploadMediaLink($event, MEDIA_CONSTANTS.FACT_SHEET)"
+        [controlName]="'Url'"
+        [form]="factSheetForm"
+        (onChange)="onChange($event)"
+      ></rd-input>
+      <ng-container *ngIf="factSheetForm.value.IsFile">
+        <rd-file
+          [id]="'factsheet-plan-input'"
+          [types]="['application/pdf']"
+          [fileList]="
+            mediaType == MEDIA_CONSTANTS.FACT_SHEET ? progressFiles : []
+          "
+          (onSelect)="onFileSelect($event, MEDIA_CONSTANTS.FACT_SHEET)"
+          (onDelete)="onFileDelete($event)"
+        ></rd-file>
+        <rd-file-container
+          *ngIf="propertyData?.media?.FactSheet?.IsFile == 1"
+          [label]="''"
+          [file]="factSheetForm.value"
+          (onDelete)="deletePdf($event, MEDIA_CONSTANTS.FACT_SHEET)"
+        ></rd-file-container>
+      </ng-container>
+    </div>
+
+    <!-- Mall Map -->
+    <ng-container *ngIf="sector == 'Retail'">
+      <!-- <rd-file
+        [label]="'Mall Map'"
+        [id]="'mall-map-input'"
+        [types]="['application/pdf']"
+        [fileList]="mediaType == MEDIA_CONSTANTS.MALL_MAP ? progressFiles : []"
+        (onSelect)="onFileSelect($event, MEDIA_CONSTANTS.MALL_MAP)"
+        (onDelete)="onFileDelete($event)"
+      ></rd-file>
+      <rd-file-container
+        [label]="''"
+        [file]="mallMapForm.value"
+        (onDelete)="deletePdf($event, MEDIA_CONSTANTS.MALL_MAP)"
+      ></rd-file-container> -->
+      <div class="property-media-wrapper">
+        <div class="control-container rd-switch-wrapper">
+          <label>Mall Map</label>
+          <rd-switch
+            [isLabel]="true"
+            [onLabel]="'File'"
+            [offLabel]="'Link'"
+            [label]="MEDIA_CONSTANTS.MALL_MAP"
+            [id]="'mall-map-switch'"
+            [checked]="mallMapForm.value.IsFile"
+            (onChange)="toggleSwitch($event)"
+          ></rd-switch>
+        </div>
+        <rd-input
+          *ngIf="!mallMapForm.value.IsFile"
+          [label]="''"
+          [id]="'mall-map'"
+          [placeholder]="'Please Provide Link'"
+          [type]="'text'"
+          (onClickEvent)="uploadMediaLink($event, MEDIA_CONSTANTS.MALL_MAP)"
+          [controlName]="'Url'"
+          [form]="mallMapForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <ng-container *ngIf="mallMapForm.value.IsFile">
+          <rd-file
+            [id]="'mall-map-input'"
+            [types]="['application/pdf']"
+            [fileList]="
+              mediaType == MEDIA_CONSTANTS.MALL_MAP ? progressFiles : []
+            "
+            (onSelect)="onFileSelect($event, MEDIA_CONSTANTS.MALL_MAP)"
+            (onDelete)="onFileDelete($event)"
+          ></rd-file>
+          <rd-file-container
+            *ngIf="propertyData?.media?.MallMap?.IsFile == 1"
+            [label]="''"
+            [file]="mallMapForm.value"
+            (onDelete)="deletePdf($event, MEDIA_CONSTANTS.MALL_MAP)"
+          ></rd-file-container>
+        </ng-container>
+      </div>
+    </ng-container>
+    <div class="property-media-wrapper">
+      <div class="d-flex align-items-center mb-3">
+        <div class="rd-heading rd-heading-md-bold mr-3">
+          Advertising Opportunities (alternative income inventory)
+        </div>
+        <div class="btn-wrapper">
+          <button
+            type="button"
+            class="rd-btn-text rd-btn-lg"
+            (click)="addAdvertisement()"
+          >
+            <span>Add</span>
+            <span><img src="assets/images/plus.svg" alt="plus icon" /></span>
+          </button>
+        </div>
+      </div>
+      <div class="advertisement-section">
+        <div
+          class="advertisement-item"
+          *ngFor="let advertisement of propertyDetails?.advertisments"
+        >
+          <div>
+            <div class="rd-heading rd-heading-xs">
+              {{ advertisement.AdvertisingType }}
+            </div>
+            <div class="advertisement-description">
+              {{ advertisement.DescriptionAndLocation }}
+            </div>
+            <rd-file-container
+              [label]="''"
+              [file]="advertisement?.File"
+              [delete]="false"
+            ></rd-file-container>
+          </div>
+          <div class="btn-wrapper advertisement-action">
+            <button
+              type="button"
+              class="rd-btn-text rd-btn-sm"
+              (click)="editAdvertisement(advertisement)"
+              title="Edit"
+            >
+              <img src="assets/images/edit-pencile.svg" alt="trash-icon" />
+            </button>
+            <button
+              type="button"
+              class="rd-btn-text rd-btn-sm"
+              (click)="deleteAdvertisement(advertisement.PropertyAdvertisingId)"
+              title="Delete"
+            >
+              <img src="assets/images/trash.svg" alt="trash-icon" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rd-form-footer">
+    <div>
+      <button
+        type="button"
+        class="rd-btn-secondary rd-btn-lg"
+        (click)="changeStep(route.CREATE_PROPERTY_DETAILS)"
+      >
+        Previous
+      </button>
+    </div>
+    <div>
+      <button type="submit" class="rd-btn-primary rd-btn-lg">Save</button>
+    </div>
+  </div>
+</form>

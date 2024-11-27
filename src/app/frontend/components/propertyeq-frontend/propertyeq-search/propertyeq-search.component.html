@@ -1,0 +1,163 @@
+
+<div class="container">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div *ngIf="totalRowsCount && !loading" class="mt-5">
+          <div class="clearfix">
+            <h4 class="margin-top-10">
+              About {{ totalRowsCount }} results - Showing results for "{{ s }}"
+            </h4>
+            <hr class="nomargin-bottom margin-top-10" />
+  
+            <div class="" *ngFor="let data of searchData">
+              <div *ngIf="data.totalCount > 0">
+                <h4 class="pt-3">{{ data.heading }} ({{ data.totalCount }})</h4>
+                <div
+                  class="clearfix search-result"
+                  *ngFor="let res of data.results"
+                >
+                  <a
+                    routerLink="{{
+                      '/' +
+                        (res.Type == 1 && data.name == 'Properties'
+                          ? 'properties/' + res.Slug
+                          : res.Type == 2 && data.name == 'Properties'
+                          ? 'international-properties/' + res.Slug
+                          : res.Type == 1 && data.name == 'PropertyEq'
+                          ? 'propertyeq/videos'
+                          : res.Type == 2 && data.name == 'PropertyEq'
+                          ? 'propertyeq/articles/' + res.Slug
+                          : res.Type == 3 && data.name == 'PropertyEq'
+                          ? 'propertyeq/press-office/' + res.Slug
+                          : data.name == 'Job'
+                          ? 'careers/job-details/' + res.Slug
+                          : data.name == 'PressRelease'
+                          ? 'press-office/' + res.Slug
+                          : data.name == 'SensAnnouncement'
+                          ? 'investors/investor-information/sens-announcements/' +
+                            res.Slug
+                          : data.name == 'Presentations'
+                          ? 'investors/announcements-and-webcasts/' +
+                            (res.PublishDate | date : 'yyyy')
+                          : data.name == 'Circulars'
+                          ? 'investors/circulars/' +
+                            (res.PublishDate | date : 'yyyy')
+                          : data.name == 'Events'
+                          ? 'investors/events-calendar'
+                          : data.name == 'DebtCreditRating'
+                          ? res.DebtCreditTypeId == 3
+                            ? 'investors/investor-information/debt-programme/credit-ratings'
+                            : res.DebtCreditTypeId == 2
+                            ? 'investors/investor-information/debt-programme/pricing-supplement'
+                            : 'investors/investor-information/debt-programme'
+                          : data.name == 'IntegratedReport'
+                          ? 'investors/integrated-reports/' + res.Slug
+                          : data.name == 'FinancialResults'
+                          ? 'investors/financial-results/' + res.Slug
+                          : data.name == 'RegionalOffices'
+                          ? 'contact-us'
+                          : data.name == 'Pages'
+                          ? res.ParentId == 4
+                            ? 'investors/' + res.Slug
+                            : res.ParentId == 1
+                            ? 'about-us/' + res.Slug
+                            : res.ParentId == 7
+                            ? 'esg/' + res.Slug
+                            : res.ParentId == 6
+                            ? 'press-office/' + res.Slug
+                            : res.ParentId == 33
+                            ? 'about-us/corporate-governance/' + res.Slug
+                            : res.Slug
+                          : res.Slug)
+                    }}"
+                    ><h5>
+                      {{ res.Name }}
+                    </h5>
+                    <small class="rd-text-red">{{
+                      currentURL +
+                        "/" +
+                        (res.Type == 1 && data.name == "Properties"
+                          ? "properties/" + res.Slug
+                          : res.Type == 2 && data.name == "Properties"
+                          ? "international-properties/" + res.Slug
+                          : res.Type == 1 && data.name == "PropertyEq"
+                          ? "propertyeq/videos"
+                          : res.Type == 2 && data.name == "PropertyEq"
+                          ? "propertyeq/articles/" + res.Slug
+                          : res.Type == 3 && data.name == "PropertyEq"
+                          ? "propertyeq/press-office/" + res.Slug
+                          : data.name == "Job"
+                          ? "careers/job-details/" + res.Slug
+                          : data.name == "PressRelease"
+                          ? "press-office/" + res.Slug
+                          : data.name == "SensAnnouncement"
+                          ? "investors/investor-information/sens-announcements/" +
+                            res.Slug
+                          : data.name == "Presentations"
+                          ? "investors/announcements-and-webcasts/" +
+                            (res.PublishDate | date : "yyyy")
+                          : data.name == "Circulars"
+                          ? "investors/circulars/" +
+                            (res.PublishDate | date : "yyyy")
+                          : data.name == "Events"
+                          ? "investors/events-calendar"
+                          : data.name == "DebtCreditRating"
+                          ? res.DebtCreditTypeId == 3
+                            ? "investors/investor-information/debt-programme/credit-ratings"
+                            : res.DebtCreditTypeId == 2
+                            ? "investors/investor-information/debt-programme/pricing-supplement"
+                            : "investors/investor-information/debt-programme"
+                          : data.name == "IntegratedReport"
+                          ? "investors/integrated-reports/" + res.Slug
+                          : data.name == "FinancialResults"
+                          ? "investors/financial-results/" + res.Slug
+                          : data.name == "RegionalOffices"
+                          ? "contact-us"
+                          : data.name == "Pages"
+                          ? res.ParentId == 4
+                            ? "investors/" + res.Slug
+                            : res.ParentId == 1
+                            ? "about-us/" + res.Slug
+                            : res.ParentId == 7
+                            ? "esg/" + res.Slug
+                            : res.ParentId == 6
+                            ? "press-office/" + res.Slug
+                            : res.ParentId == 33
+                            ? "about-us/corporate-governance/" + res.Slug
+                            : res.Slug
+                          : res.Slug)
+                    }}</small>
+                    <p>{{ res.Extra ? res.Extra : "" }}</p></a
+                  >
+                </div>
+                <div
+                  class="text-center show-more search-result"
+                  *ngIf="data.totalCount > data.perPageLimit * data.pageNo"
+                >
+                  <!--<button (click)="showMore(data.name,data.pageNo)">Show More</button>-->
+                  <button
+                    (click)="showMore(data.name, data.pageNo)"
+                    class="rd-btn rd-btn-dark rd-btn-lg"
+                    style="width: 150px !important"
+                  >
+                    <span class="btn-text">Show More</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!totalRowsCount && !loading">
+          <div class="clearfix search-result">
+            <h4 class="margin-top-10">Showing results for "{{ s }}"</h4>
+            <div class="text-center margin-top-20">
+              <div class="rd-heading-md-bold rd-text-deep-red">
+                No data found!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

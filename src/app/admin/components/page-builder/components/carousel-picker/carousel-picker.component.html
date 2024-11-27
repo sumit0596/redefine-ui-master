@@ -1,0 +1,192 @@
+<div class="contact-us-form-container">
+  <form [formGroup]="form" autocomplete="on" (ngSubmit)="submit($event)">
+    <div class="row">
+      <div>
+        <ng-container>
+          <div class="rd-form-header">
+            <label>
+              Carousel type
+              <span class="required-asterik">*</span>
+            </label>
+          </div>
+          <div class="d-flex column-gap-5 row-gap-3 flex-wrap">
+            <div
+              class="radio-input-group"
+              *ngFor="let carousel of carouselList"
+            >
+              <div class="control-container radio-input">
+                <input
+                  type="radio"
+                  id="{{ carousel.id }}"
+                  [value]="carousel.id"
+                  formControlName="CarouselId"
+                  name="CarouselId"
+                  (change)="onSelectCarousel()"
+                />
+                <label for="{{ carousel.id }}">{{ carousel.label }}</label>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="carouselId?.hasError('invalid')" class="error-msg">
+            <small>{{ carouselId.errors?.['invalid'] }}</small>
+          </div>
+        </ng-container>
+      </div>
+      <div>
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="rd-heading rd-heading-sm-bold">Slides</div>
+          <button
+            type="button"
+            class="rd-btn rd-btn-text"
+            (click)="addSlide()"
+            title="Add slide"
+          >
+            <span class="btn-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"
+                ></path>
+              </svg>
+            </span>
+            <span class="btn-text">Add</span>
+          </button>
+        </div>
+        <div formArrayName="CustomSlider">
+          <div
+            *ngFor="let slider of slideForms.controls; let i = index"
+            [formGroupName]="i"
+            [ngClass]="{ 'hr-top-line': i != 0 }"
+          >
+            <div class="row gap-0 py-3 position-relative">
+              <div class="d-flex align-items-center justify-content-end mb-2">
+                <button
+                  type="button"
+                  class="rd-btn rd-btn-text"
+                  (click)="deleteSlide(i, slideForms.controls[i].value)"
+                  title="Delete"
+                  *ngIf="slideForms.controls.length > 1"
+                >
+                  <span class="btn-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      fill="#e6001c"
+                      viewBox="0 0 256 256"
+                    >
+                      <path
+                        d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"
+                      ></path>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Title'"
+                  [id]="'title'"
+                  [placeholder]="'Please provide title'"
+                  [required]="true"
+                  [type]="'text'"
+                  [controlName]="'Content'"
+                  (onChange)="onChange($event)"
+                  [form]="slideForms.at(i)"
+                ></rd-input>
+              </div>
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Description'"
+                  [id]="'title'"
+                  [placeholder]="'Please provide description'"
+                  [required]="true"
+                  [type]="'text'"
+                  [controlName]="'Description'"
+                  (onChange)="onChange($event)"
+                  [form]="slideForms.at(i)"
+                ></rd-input>
+              </div>
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Button Name'"
+                  [id]="'buttontitle '"
+                  [placeholder]="'Please provide button name'"
+                  [required]="true"
+                  [type]="'text'"
+                  [controlName]="'ButtonTitle'"
+                  (onChange)="onChange($event)"
+                  [form]="slideForms.at(i)"
+                ></rd-input>
+              </div>
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Button Link'"
+                  [id]="'buttonlink'"
+                  [placeholder]="'Please provide button link'"
+                  [required]="true"
+                  [type]="'text'"
+                  [controlName]="'ButtonLink'"
+                  (onChange)="onChange($event)"
+                  [form]="slideForms.at(i)"
+                ></rd-input>
+              </div>
+              <div class="col-12">
+                <ng-container>
+                  <rd-file
+                    *ngIf="slideForms.at(i).get('Image')?.value == null"
+                    [label]="'Image'"
+                    [id]="'document-file'"
+                    [required]="true"
+                    [types]="['image/png', 'image/jpeg']"
+                    [fileList]="fileContainer.Image"
+                    (onSelect)="onFileSelect($event, i)"
+                  ></rd-file>
+
+                  <div
+                    *ngIf="slideForms.at(i).get('Image')?.hasError('invalid')"
+                    class="error-msg"
+                  >
+                    <small
+                      >{{ slideForms.at(i).get('Image')?.errors?.['invalid'] }}
+                    </small>
+                  </div>
+                  <rd-file-container
+                    *ngIf="slideForms.at(i).get('Image')?.value != null"
+                    [label]="'Uploaded Images'"
+                    [file]="slideForms.at(i).get('Image')?.value"
+                    [delete]="true"
+                    [preview]="true"
+                    (onDelete)="onFileDelete($event, 'IMAGE', i)"
+                  ></rd-file-container>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-md-6 order-2 order-md-1 d-flex align-items-end"
+            *ngIf="slideForms.controls.length > 0"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="closeDialogue()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>

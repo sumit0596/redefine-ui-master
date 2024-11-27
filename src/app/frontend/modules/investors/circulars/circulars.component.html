@@ -1,0 +1,241 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [breadcrumbLinks]="breadcrumbLinks"
+></app-banner-breadcrumb>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-3">
+     
+    </div>
+    <div class="d-flex justify-content-end mb-3 share-buttons-wrapper-container">
+      <div class="share-buttons-wrapper" *ngIf="showShareIcon">
+        <app-share-button></app-share-button>
+      </div>
+      <button class="share-button" aria-label="share" (click)="clickedShareIcon($event)">
+        <svg
+          width="25"
+          height="36"
+          viewBox="0 0 36 36"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clip-path="url(#clip0_7785_40294)">
+            <path
+              d="M12.6377 20.4023C14.0184 20.4023 15.1377 19.2831 15.1377 17.9023C15.1377 16.5216 14.0184 15.4023 12.6377 15.4023C11.257 15.4023 10.1377 16.5216 10.1377 17.9023C10.1377 19.2831 11.257 20.4023 12.6377 20.4023Z"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M21.3877 26.0273C22.7684 26.0273 23.8877 24.9081 23.8877 23.5273C23.8877 22.1466 22.7684 21.0273 21.3877 21.0273C20.007 21.0273 18.8877 22.1466 18.8877 23.5273C18.8877 24.9081 20.007 26.0273 21.3877 26.0273Z"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M21.3877 14.7773C22.7684 14.7773 23.8877 13.6581 23.8877 12.2773C23.8877 10.8966 22.7684 9.77734 21.3877 9.77734C20.007 9.77734 18.8877 10.8966 18.8877 12.2773C18.8877 13.6581 20.007 14.7773 21.3877 14.7773Z"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M19.2853 13.6289L14.74 16.5508"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M14.74 19.2539L19.2853 22.1758"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </g>
+          <circle cx="18" cy="18" r="17" stroke="black" stroke-width="2" />
+          <defs>
+            <clipPath id="clip0_7785_40294">
+              <rect
+                width="20"
+                height="20"
+                fill="none"
+                transform="translate(7.6377 7.90234)"
+              />
+            </clipPath>
+          </defs>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+      <div class="row row-data">
+        <div class="col-md-9">
+          <div class="mt-2 disclaimer-text">
+            **Please select year to view historical data
+          </div>
+        </div>
+        <div class="col-md-3">
+          <rd-select
+            [id]="'years'"
+            [label]="'years'"
+            [placeholder]="'Select year'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Name'"
+            [items$]="range$"
+            [required]="true"
+            [form]="filterForm"
+            [controlName]="'Year'"
+            (onChange)="filter('Year', $event)"
+            aria-label="Select a year"
+          ></rd-select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <ng-container>
+        <div class="row">
+          <ng-container *ngFor="let circular of circularDetails">
+            <div class="col-md-2">
+              <div class="position-relative">
+                <div class="rd-heading rd-heading-sm-bold">
+                  {{ circular[0] }}
+                </div>
+                <span class="rd-indicator rd-indicator-lg">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-10">
+              <div class="sens-line sens-mobile"></div>
+              <div
+                class="senses mt-3"
+                *ngFor="let item of circular[1]; let i = index"
+                (mouseover)="getHovercolor(i, item.Month)"
+                (mouseleave)="getLeavecolor(i, item.Month)"
+              >
+                <div class="row">
+                  <div class="m4 col-md-6 d-flex justify-content-start">
+                    <div id="{{ 'sens-data' + item.Month + i }}">
+                      <div class="position-relative">
+                        <div class="rd-heading rd-heading-md">
+                          {{ item.Title }}
+                        </div>
+                        <span class="rd-indicator rd-indicator-xs">
+                          <span
+                            class="rd-indicator-content rd-indicator-primary"
+                          ></span>
+                        </span>
+                      </div>
+
+                      <div class="rd-text-grey-mid mt-4">
+                        {{ item.PublishDate | date : "dd MMMM yyyy" }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 d-flex justify-content-end">
+                    <div>
+                      <button
+                      aria-label="Download pdf"
+                        (click)="downloadPdf(item)"
+                        target="_blank"
+                        [attr.downloadanalytics]="
+                          item?.Title + ' ' + 'ANALOAD' + ' ' + item?.Pdf
+                        "
+                        class="rd-btn rd-btn-text gap-0"
+                      >
+                        <span class="px-1">Download</span>
+                        <span class="btn-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="25"
+                            height="36"
+                            fill="none"
+                            viewBox="0 0 36 36"
+                          >
+                            <path
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                            />
+                            <circle
+                              cx="18"
+                              cy="18"
+                              r="17"
+                              stroke="currentColor"
+                              stroke-width="2"
+                            />
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="col-md-12 sens-line mt-3"></div> -->
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- <ng-template #nodata>
+          <div class="row">
+            <div class="col-md-2">
+              <div class="position-relative" >
+                <div class="rd-heading rd-heading-sm-bold">{{latestYear}}</div>
+                <span class="rd-indicator rd-indicator-lg">
+                  <span class="rd-indicator-content rd-indicator-primary"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </ng-template> -->
+
+        <div
+          class="col-12 py-2 text-center mt-5"
+          *ngIf="circularDetails?.length == 0"
+        >
+          <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+        </div>
+      </ng-container>
+
+      <!-- <div
+        class="col-md-12 mt-3"
+        *ngIf="circularDetails && circularDetails.length"
+      >
+        <div>
+          <mat-paginator
+            #paginator
+            customPaginator
+            showFirstLastButtons
+            class="custom-paginator"
+            previousPageLabel="'pre'"
+            [length]="totalRowsCount"
+            [pageSize]="filters.PerPage"
+            [pageIndex]="filters && filters.PageNo ? filters.PageNo - 1 : 0"
+            (page)="paginate($event)"
+          >
+          </mat-paginator>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="quicklinks-space"></div>
+</div>
+<app-quick-links></app-quick-links>

@@ -1,0 +1,315 @@
+.container {
+  overflow: hidden;
+}
+
+.row {
+  row-gap: 0px;
+}
+.right-align-background {
+  background-position: center right;
+}
+.rd-btn-md {
+  margin-top: -20px;
+}
+.download-box {
+  display: none;
+}
+
+.sens-line {
+  height: 1px;
+  width: 100%;
+  background-color: #cccccc;
+  margin-top: -34px;
+}
+
+.rd-heading-picture {
+  // font-size: 32px;
+  color: #ffff;
+  //font-weight: 600;
+  text-align: initial;
+}
+
+.rd-heading-line {
+  background-color: hsl(0, 96%, 51%);
+  width: 15%;
+  height: 3px;
+  margin-top: 10px;
+}
+
+.banner-image {
+  // width: auto;
+  width: 1304px;
+  height: 300px;
+}
+
+.image-container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.centered-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-25%, -50%);
+}
+
+p {
+  text-align: initial;
+  margin-top: 20px;
+
+  font-size: 16px;
+}
+
+.read-btn {
+  border-color: #fff !important;
+  color: white;
+}
+
+.rd-btn-dark:active {
+  background-color: var(--red-color);
+}
+
+button {
+  // border-radius: 2%;
+  // font-weight: bold;
+  // width: 196px;
+  // height: 43px;
+  //padding-left: 629px;
+  // margin-left: 23px;
+}
+
+.text {
+  justify-content: flex-start;
+}
+
+.card-title {
+  padding: 10px;
+  // text-align: left;
+  font-weight: 550 !important;
+  font-size: 16px;
+  line-height: 1;
+
+  margin-top: 15px;
+  text-align: left;
+  color: #ffff;
+}
+
+a.link {
+  color: #999999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.card {
+  border-radius: 0;
+  height: 96px !important;
+}
+
+.col-md-4 {
+  padding: 2px;
+}
+.fbox {
+  height: 45px;
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 10px;
+  cursor: pointer;
+}
+.horline {
+  display: inline-block;
+  width: 70%;
+  border-top: 3px solid white;
+  padding-top: 3px;
+}
+.dpdf {
+  font-size: 12px;
+}
+// Cards background colours
+
+.GroupAFS {
+  background-color: var(--bright-green);
+}
+.GroupAFS:hover {
+  background-color: #80b778;
+  transition: 0.5s ease-in-out;
+}
+
+.GroupAFS:active {
+  background-color: #b6dfb0;
+}
+.card:hover .download-box {
+  display: block;
+}
+.card:active .download-box {
+  display: block;
+}
+
+.CompanyAFS {
+  background-color: var(--teal-dark);
+}
+.CompanyAFS:hover {
+  background-color: #4ca99c;
+  transition: 0.5s ease-in-out;
+}
+
+.CompanyAFS:active {
+  background-color: #93c5be;
+}
+
+.PropertyInformation {
+  background-color: var(--teal-dark);
+}
+.PropertyInformation:hover {
+  background-color: #32b39c;
+  transition: 0.5s ease-in-out;
+}
+
+.PropertyInformation:active {
+  background-color: #81d7c7;
+}
+
+.Results {
+  background-color: var(--turquoise);
+}
+.Results:hover {
+  background-color: #80bbbf;
+  transition: 0.5s ease-in-out;
+}
+
+.Results:active {
+  background-color: #a3b9bb;
+}
+
+.Presentation {
+  background-color: var(--turquoise-mid);
+}
+.Presentation:hover {
+  background-color: #4ca8bf;
+  transition: 0.5s ease-in-out;
+}
+
+.Presentation:active {
+  background-color: #7eb2bf;
+}
+
+.PressReleaseSlug {
+  background-color: #004b6a;
+}
+.PressReleaseSlug:hover {
+  background-color: #55a3c3;
+  transition: 0.5s ease-in-out;
+}
+
+.PressReleaseSlug:active {
+  background-color: #94b7c5;
+}
+
+.WebcastUrl {
+  background-color: var(--orange);
+}
+.WebcastUrl:hover {
+  background-color: #e5bc90;
+  transition: 0.5s ease-in-out;
+}
+
+.WebcastUrl:active {
+  background-color: #dbc5ad;
+}
+
+.Transcript {
+  background-color: var(--purple);
+}
+.Transcript:hover {
+  background-color: #9692a1;
+  transition: 0.5s ease-in-out;
+}
+
+.Transcript:active {
+  background-color: #bcb7cb;
+}
+
+.JvFinancialInformation {
+  background-color: var(--mist);
+}
+.JvFinancialInformation:hover {
+  background-color: #d3e3d9;
+  transition: 0.5s ease-in-out;
+}
+
+.JvFinancialInformation:active {
+  background-color: #f2f7f4;
+}
+
+.EmpowermentTrustAFS {
+  background-color: #00306a;
+}
+.EmpowermentTrustAFS:hover {
+  background-color: #044aa0;
+  transition: 0.5s ease-in-out;
+}
+
+.JvFinancialInformation:active {
+  background-color: #f2f7f4;
+}
+.PrimaryFinancialStatement {
+  background-color: var(--teal-light);
+}
+.PrimaryFinancialStatement:hover {
+  background-color: #1bccb4;
+  transition: 0.5s ease-in-out;
+}
+
+.PrimaryFinancialStatement:active {
+  background-color: #82f5e5;
+}
+
+.ShortformAdUrl {
+  background-color: var(--secondary-leaf);
+}
+.ShortformAdUrl:hover {
+  background-color: #83a594;
+  transition: 0.5s ease-in-out;
+}
+
+.ShortformAdUrl:active {
+  background-color: #a0b1a8;
+}
+
+.group-afs-card-image {
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+
+.card-position {
+  position: relative;
+}
+
+@media (width: 430px) {
+  button {
+    margin-left: 350px !important;
+    margin-top: 0px;
+    /* display: grid; */
+    position: relative;
+    top: 0px;
+  }
+}
+
+
+@media (min-width: 360px) and (max-width: 430px) {
+  .container {
+    overflow: hidden !important;
+  }
+
+  .row-data {
+    margin-top: 0 !important;
+  }
+}
+.share-buttons-wrapper-container{
+  height: 45px;
+}

@@ -1,0 +1,996 @@
+<div class="rd-container" *ngIf="formConfig">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} Content
+      </div>
+    </div>
+    <div class="rd-container-header-right">
+      <ng-container [ngSwitch]="formConfig.mode">
+        <ng-container *ngSwitchCase="formMode.VIEW">
+          <div *ngIf="propertyEqFormGroup.get('PropertyEqTypeId').value == '2'">
+            <div class="rd-btn-group">
+              <button
+                *ngIf="formConfig?.access"
+                type="submit"
+                class="rd-btn-secondary rd-btn-lg"
+                (click)="openPreviewModal()"
+              >
+                Preview Front-end
+              </button>
+
+              <!-- <div>
+                <ng-container [ngTemplateOutlet]="save_btn"></ng-container>
+              </div> -->
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <form
+        [formGroup]="propertyEqFormGroup"
+        (ngSubmit)="onSubmit($event)"
+        *ngIf="formConfig.mode == formMode.CREATE"
+        class="rd-form"
+        autocomplete="on"
+      >
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="rd-form-header">Content Details</div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="applyDrip-container levy">
+              <div>
+                <rd-switch
+                  [label]="'Feature-toggle'"
+                  [id]="'drip-switch'"
+                  controlName="'Featured'"
+                  (onChange)="onSwitchToggle($event)"
+                  [checked]="propertyEqFormGroup.get('Featured').value === 1"
+                  class="drip"
+                >
+                </rd-switch>
+                <label>Featured Content</label>
+              </div>
+              <div>
+                <div
+                  class="pinstatus"
+                  *ngIf="
+                    propertyEqFormGroup?.get('PropertyEqTypeId').value == '2'
+                  "
+                >
+                  <rd-switch
+                    [label]="'Pin-toggle'"
+                    [id]="'drip-switch'"
+                    controlName="'Pin'"
+                    (onChange)="onPinToggle($event)"
+                    [checked]="propertyEqFormGroup.get('Pin').value === 1"
+                    class="drip"
+                  >
+                  </rd-switch>
+                  <label>Pin</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rd-form-body">
+          <rd-select
+            [id]="'media-category'"
+            [label]="'Media Type'"
+            [placeholder]="'Please Select Media Type '"
+            [bindLabel]="'Title'"
+            [bindValue]="'Id'"
+            [items$]="categoryTypeList$"
+            [required]="true"
+            [form]="propertyEqFormGroup"
+            [controlName]="'PropertyEqTypeId'"
+            (onChange)="typeSelect($event)"
+          ></rd-select>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '3'"
+          >
+            <rd-input
+              [label]="'Title of Press Release'"
+              [id]="'title-of-property-eq-press'"
+              [placeholder]="'Please Provide'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'Title'"
+              [form]="propertyEqFormGroup"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '1'"
+          >
+            <rd-input
+              [label]="'Title of Video'"
+              [id]="'title-of-property-eq-video'"
+              [placeholder]="'Please Provide'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'Title'"
+              [form]="propertyEqFormGroup"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+          </ng-container>
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '2'"
+          >
+            <rd-input
+              [label]="'Title of Article'"
+              [id]="'title-of-property-eq-article'"
+              [placeholder]="'Please Provide'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'Title'"
+              [form]="propertyEqFormGroup"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+          </ng-container>
+          <rd-input
+            [label]="'Name of Author'"
+            [id]="'title-of-property-eq'"
+            [placeholder]="'Please Provide'"
+            [type]="'text'"
+            [controlName]="'Author'"
+            [form]="propertyEqFormGroup"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+
+          <ng-container
+            *ngIf="
+              propertyEqFormGroup?.get('PropertyEqTypeId').value == '1' ||
+              propertyEqFormGroup?.get('PropertyEqTypeId').value == '2'
+            "
+          >
+            <rd-file
+              [label]="'Upload Featured Image'"
+              [id]="'featured-image'"
+              [required]="true"
+              [types]="[fileType.IMAGE_PNG, fileType.IMAGE_JPEG]"
+              [note]="recomendedSize"
+              controlName="FeaturedImageId"
+              class="rd-file_propertyeq-create d-block mb-3"
+              (onSelect)="onFileSelect($event, 'IMAGE')"
+            ></rd-file>
+            <div
+              *ngIf="
+                propertyEqFormGroup.get('FeaturedImageId')?.hasError('invalid')
+              "
+              class="error-msg mb-4"
+            >
+              <small
+                >{{ propertyEqFormGroup.get('FeaturedImageId')?.errors?.['invalid'] }}
+              </small>
+            </div>
+
+            <rd-file-container
+              [label]="'Uploaded Featured Image'"
+              [file]="file"
+              [delete]="true"
+              [preview]="true"
+              (onDelete)="onFileDelete($event)"
+            ></rd-file-container>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '3'"
+          >
+            <rd-file
+              [label]="'Upload Featured Image'"
+              [id]="'featured-image'"
+              [types]="[fileType.IMAGE_PNG, fileType.IMAGE_JPEG]"
+              [note]="recomendedSize"
+              controlName="FeaturedImageId"
+              class="rd-file_propertyeq-create d-block mb-3"
+              (onSelect)="onFileSelect($event, 'IMAGE')"
+            ></rd-file>
+            <div
+              *ngIf="
+                propertyEqFormGroup.get('FeaturedImageId')?.hasError('invalid')
+              "
+              class="error-msg mb-4"
+            >
+              <small
+                >{{ propertyEqFormGroup.get('FeaturedImageId')?.errors?.['invalid'] }}
+              </small>
+            </div>
+
+            <rd-file-container
+              [label]="'Uploaded Featured Image'"
+              [file]="file"
+              [delete]="true"
+              [preview]="true"
+              (onDelete)="onFileDelete($event)"
+            ></rd-file-container>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '1'"
+          >
+            <div class="mt-4">
+              <rd-input
+                [label]="'YouTube Link'"
+                [id]="'link-input'"
+                [placeholder]="'Please Provide Youtube Link'"
+                [type]="'text'"
+                [required]="true"
+                [controlName]="'YoutubeLink'"
+                [form]="propertyEqFormGroup"
+                (onChange)="onChange($event)"
+              ></rd-input>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '1'"
+          >
+            <rd-editor
+              [height]="editorheight"
+              [enableSource]="enableHtml"
+              [label]="'Description'"
+              [id]="'content'"
+              [placeholder]="'Add Description'"
+              [controlName]="'Content'"
+              [form]="propertyEqFormGroup"
+              (onChange)="onChange($event)"
+            ></rd-editor>
+            <div *ngIf="formConfig?.mode == 'view'">
+              <div class="rd-heading rd-heading-sm">Description</div>
+              <p
+                [innerHTML]="
+                  propertyEqFormGroup.get('Content')?.value == '' ||
+                  propertyEqFormGroup.get('Content')?.value == null ||
+                  propertyEqFormGroup.get('Content')?.value == undefined
+                    ? 'Not available'
+                    : (propertyEqFormGroup.get('Content')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '3'"
+          >
+            <div>
+              <rd-editor
+                [height]="editorheight"
+                [enableSource]="enableHtml"
+                [label]="'Content'"
+                [id]="'content'"
+                [placeholder]="'Add Content'"
+                [controlName]="'Content'"
+                [form]="propertyEqFormGroup"
+                (onChange)="onChange($event)"
+              ></rd-editor>
+              <div *ngIf="formConfig?.mode == 'view'">
+                <div class="rd-heading rd-heading-sm">Description</div>
+                <p
+                  class="rd-content-justify"
+                  [innerHTML]="
+                    propertyEqFormGroup.get('Content')?.value == '' ||
+                    propertyEqFormGroup.get('Content')?.value == null ||
+                    propertyEqFormGroup.get('Content')?.value == undefined
+                      ? 'Not available'
+                      : (propertyEqFormGroup.get('Content')?.value
+                        | safeHtml : 'html')
+                  "
+                ></p>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '2'"
+          >
+            <div class="mt-4">
+              <rd-editor
+                [height]="editorheight"
+                [enableSource]="enableHtml"
+                [label]="'Content'"
+                [id]="'content'"
+                [placeholder]="'Add Content'"
+                [controlName]="'Content'"
+                [form]="propertyEqFormGroup"
+                (onChange)="onChange($event)"
+              ></rd-editor>
+              <div *ngIf="formConfig?.mode == 'view'">
+                <div class="rd-heading rd-heading-sm">Description</div>
+                <p
+                  class="rd-content-justify"
+                  [innerHTML]="
+                    propertyEqFormGroup.get('Content')?.value == '' ||
+                    propertyEqFormGroup.get('Content')?.value == null ||
+                    propertyEqFormGroup.get('Content')?.value == undefined
+                      ? 'Not available'
+                      : (propertyEqFormGroup.get('Content')?.value
+                        | safeHtml : 'html')
+                  "
+                ></p>
+              </div>
+            </div>
+          </ng-container>
+
+          <rd-select
+            [id]="'category'"
+            [label]="'Select Category'"
+            [placeholder]="'Please Select'"
+            [bindLabel]="'Title'"
+            [bindValue]="'Id'"
+            [items$]="categoryList$"
+            [form]="propertyEqFormGroup"
+            [controlName]="'PropertyEqCategoryId'"
+          ></rd-select>
+          <rd-select
+            [id]="'tag-category'"
+            [label]="'Add Tag'"
+            [multiselect]="true"
+            [placeholder]="'Please Select'"
+            [bindLabel]="'Title'"
+            [bindValue]="'Id'"
+            [items$]="categoryTagList$"
+            [form]="propertyEqFormGroup"
+            [controlName]="'PropertyEqTagIds'"
+          ></rd-select>
+        </div>
+        <div class="rd-form-footer">
+          <div>
+            <button
+              type="button"
+              class="rd-btn-secondary rd-btn-lg"
+              (click)="goToManage()"
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <ng-container [ngTemplateOutlet]="save_btn"></ng-container>
+          </div>
+        </div>
+      </form>
+      <form
+        *ngIf="formConfig.mode == formMode.EDIT"
+        [formGroup]="propertyEqFormGroup"
+        (ngSubmit)="onSubmit($event)"
+        class="rd-form"
+        autocomplete="on"
+      >
+        <div class="rd-form-body">
+          <div class="rd-form-header">Content Details</div>
+          <div class="row">
+            <div class="col-md-6 col-12"></div>
+            <div class="col-md-6 col-12">
+              <div class="applyDrip-container levy">
+                <div>
+                  <rd-switch
+                    [label]="'Feature-toggle'"
+                    [id]="'drip-switch'"
+                    controlName="'Featured'"
+                    (onChange)="onSwitchToggle($event)"
+                    [checked]="propertyEqFormGroup.get('Featured').value === 1"
+                    class="drip"
+                  >
+                  </rd-switch>
+                  <label>Featured Content</label>
+                </div>
+                <div>
+                  <div
+                    class="pinstatus"
+                    *ngIf="
+                      propertyEqFormGroup?.get('PropertyEqTypeId').value == '2'
+                    "
+                  >
+                    <rd-switch
+                      [label]="'Pin-toggle'"
+                      [id]="'drip-switch'"
+                      controlName="'Pin'"
+                      (onChange)="onPinToggle($event)"
+                      [checked]="propertyEqFormGroup.get('Pin').value === 1"
+                      class="drip"
+                    >
+                    </rd-switch>
+                    <label>Pin</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <rd-select
+            [disable]="true"
+            [id]="'media-category'"
+            [label]="'Media Type'"
+            [placeholder]="'Please Select Media Type '"
+            [bindLabel]="'Title'"
+            [bindValue]="'Id'"
+            [items$]="categoryTypeList$"
+            [required]="true"
+            [form]="propertyEqFormGroup"
+            [controlName]="'PropertyEqTypeId'"
+            (onChange)="typeSelect($event)"
+          ></rd-select>
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '3'"
+          >
+            <rd-input
+              [label]="'Title of Press Release'"
+              [id]="'title-of-property-eq-press'"
+              [placeholder]="'Please Provide'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'Title'"
+              [form]="propertyEqFormGroup"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '1'"
+          >
+            <rd-input
+              [label]="'Title of Video'"
+              [id]="'title-of-property-eq-video'"
+              [placeholder]="'Please Provide'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'Title'"
+              [form]="propertyEqFormGroup"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+          </ng-container>
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '2'"
+          >
+            <rd-input
+              [label]="'Title of Article'"
+              [id]="'title-of-property-eq-article'"
+              [placeholder]="'Please Provide'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'Title'"
+              [form]="propertyEqFormGroup"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+          </ng-container>
+          <rd-input
+            [label]="'Name of Author'"
+            [id]="'title-of-property-eq'"
+            [placeholder]="'Please Provide'"
+            [type]="'text'"
+            [controlName]="'Author'"
+            [form]="propertyEqFormGroup"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '2'"
+          >
+            <rd-file
+              [label]="'Upload Featured Image'"
+              [id]="'featured-image'"
+              [types]="[fileType.IMAGE_PNG, fileType.IMAGE_JPEG]"
+              [note]="articleRecomendedSize"
+              [required]="true"
+              controlName="FeaturedImageId"
+              class="rd-file_propertyeq-create d-block mb-3"
+              (onSelect)="onFileSelect($event, 'IMAGE')"
+            ></rd-file>
+            <div
+              *ngIf="
+                propertyEqFormGroup.get('FeaturedImageId')?.hasError('invalid')
+              "
+              class="error-msg mb-4"
+            >
+              <small
+                >{{ propertyEqFormGroup.get('FeaturedImageId')?.errors?.['invalid'] }}
+              </small>
+            </div>
+
+            <rd-file-container
+              [label]="'Uploaded Featured Image'"
+              [file]="file"
+              [delete]="false"
+              [preview]="true"
+              (onDelete)="onFileDelete($event)"
+            ></rd-file-container>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '3'"
+          >
+            <rd-file
+              [label]="'Upload Featured Image'"
+              [id]="'featured-image'"
+              [types]="[fileType.IMAGE_PNG, fileType.IMAGE_JPEG]"
+              [note]="pressRecomendedSize"
+              controlName="FeaturedImageId"
+              class="rd-file_propertyeq-create d-block mb-3"
+              (onSelect)="onFileSelect($event, 'IMAGE')"
+            ></rd-file>
+            <div
+              *ngIf="
+                propertyEqFormGroup.get('FeaturedImageId')?.hasError('invalid')
+              "
+              class="error-msg mb-4"
+            >
+              <small
+                >{{ propertyEqFormGroup.get('FeaturedImageId')?.errors?.['invalid'] }}
+              </small>
+            </div>
+
+            <rd-file-container
+              [label]="'Uploaded Featured Image'"
+              [file]="file"
+              [delete]="true"
+              [preview]="true"
+              (onDelete)="onFileDelete($event)"
+            ></rd-file-container>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '1'"
+          >
+            <rd-file
+              [label]="'Upload Featured Image'"
+              [id]="'image-file'"
+              [required]="true"
+              [types]="[fileType.IMAGE_PNG, fileType.IMAGE_JPEG]"
+              [note]="videoRecomendedSize"
+              controlName="FeaturedImageId"
+              (onSelect)="onFileSelect($event, 'IMAGE')"
+            ></rd-file>
+
+            <rd-file-container
+              [label]="'Uploaded Featured Image'"
+              [file]="file"
+              [delete]="false"
+              [preview]="true"
+              (onDelete)="onFileDelete($event)"
+            ></rd-file-container>
+          </ng-container>
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '1'"
+          >
+            <div class="mt-4">
+              <rd-input
+                [label]="'YouTube Link'"
+                [id]="'link-input'"
+                [placeholder]="'Please Provide Youtube Link'"
+                [type]="'text'"
+                [required]="true"
+                [controlName]="'YoutubeLink'"
+                [form]="propertyEqFormGroup"
+                (onChange)="onChange($event)"
+              ></rd-input>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '1'"
+          >
+            <rd-editor
+              [height]="editorheight"
+              [enableSource]="enableHtml"
+              [label]="'Description'"
+              [id]="'content'"
+              [placeholder]="'Add Description'"
+              [controlName]="'Content'"
+              [form]="propertyEqFormGroup"
+              (onChange)="onChange($event)"
+            ></rd-editor>
+            <div *ngIf="formConfig?.mode == 'view'">
+              <div class="rd-heading rd-heading-sm">Description</div>
+              <p
+                [innerHTML]="
+                  propertyEqFormGroup.get('Content')?.value == '' ||
+                  propertyEqFormGroup.get('Content')?.value == null ||
+                  propertyEqFormGroup.get('Content')?.value == undefined
+                    ? 'Not available'
+                    : (propertyEqFormGroup.get('Content')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '3'"
+          >
+            <div>
+              <rd-editor
+                [height]="editorheight"
+                [enableSource]="enableHtml"
+                [label]="'Content'"
+                [id]="'content'"
+                [placeholder]="'Add Content'"
+                [controlName]="'Content'"
+                [form]="propertyEqFormGroup"
+                (onChange)="onChange($event)"
+              ></rd-editor>
+
+              <div *ngIf="formConfig?.mode == 'view'">
+                <div class="rd-heading rd-heading-sm">Description</div>
+                <p
+                  [innerHTML]="
+                    propertyEqFormGroup.get('Content')?.value == '' ||
+                    propertyEqFormGroup.get('Content')?.value == null ||
+                    propertyEqFormGroup.get('Content')?.value == undefined
+                      ? 'Not available'
+                      : (propertyEqFormGroup.get('Content')?.value
+                        | safeHtml : 'html')
+                  "
+                ></p>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '2'"
+          >
+            <div class="mt-4">
+              <rd-editor
+                [height]="editorheight"
+                [enableSource]="enableHtml"
+                [label]="'Content'"
+                [id]="'content'"
+                [placeholder]="'Add Content'"
+                [controlName]="'Content'"
+                [form]="propertyEqFormGroup"
+                (onChange)="onChange($event)"
+              ></rd-editor>
+
+              <div *ngIf="formConfig?.mode == 'view'">
+                <div class="rd-heading rd-heading-sm">Description</div>
+                <p
+                  [innerHTML]="
+                    propertyEqFormGroup.get('Content')?.value == '' ||
+                    propertyEqFormGroup.get('Content')?.value == null ||
+                    propertyEqFormGroup.get('Content')?.value == undefined
+                      ? 'Not available'
+                      : (propertyEqFormGroup.get('Content')?.value
+                        | safeHtml : 'html')
+                  "
+                ></p>
+              </div>
+            </div>
+          </ng-container>
+
+          <rd-select
+            [id]="'category'"
+            [label]="'Select Category'"
+            [placeholder]="'Please Select'"
+            [bindLabel]="'Title'"
+            [bindValue]="'Id'"
+            [items$]="categoryList$"
+            [form]="propertyEqFormGroup"
+            [controlName]="'PropertyEqCategoryId'"
+          ></rd-select>
+          <rd-select
+            [id]="'tag-category'"
+            [label]="'Add Tag'"
+            [multiselect]="true"
+            [placeholder]="'Please Select'"
+            [bindLabel]="'Title'"
+            [bindValue]="'Id'"
+            [items$]="categoryTagList$"
+            [form]="propertyEqFormGroup"
+            [controlName]="'PropertyEqTagIds'"
+          ></rd-select>
+        </div>
+
+        <div class="rd-form-footer">
+          <div>
+            <button
+              type="button"
+              class="rd-btn-secondary rd-btn-lg"
+              (click)="goToManage()"
+            >
+              Cancel
+            </button>
+          </div>
+
+          <div>
+            <!-- <button type="submit" class="rd-btn-primary rd-btn-lg">
+              Save & Update
+            </button> -->
+            <ng-container [ngTemplateOutlet]="save_btn"></ng-container>
+          </div>
+        </div>
+      </form>
+    </div>
+    <form
+      *ngIf="formConfig.mode == formMode.VIEW && propertyEqDetails"
+      class="rd-form"
+    >
+      <div class="rd-form-header">Content Details</div>
+      <div class="attribute-container">
+        <div class="attribute-item">
+          <div class="attribute-label">Media Type</div>
+          <div class="attribute-desc">
+            {{ propertyEqDetails.PropertyEqType }}
+          </div>
+        </div>
+        <div class="attribute-item">
+          <div class="attribute-label">Title</div>
+          <div class="attribute-desc">{{ propertyEqDetails.Title }}</div>
+        </div>
+        <div class="attribute-item">
+          <div class="attribute-label">Author</div>
+          <div class="attribute-desc">
+            {{ propertyEqDetails.Author ? propertyEqDetails.Author : "NA" }}
+          </div>
+        </div>
+
+        <div class="attribute-item">
+          <div class="attribute-label featured-image">Featured Image</div>
+          <div class="attribute-desc">
+            <div class="file-container">
+              <ng-container
+                *ngIf="
+                  propertyEqDetails?.MediaId != null ||
+                  propertyEqDetails?.MediaUrl != null
+                "
+              >
+                <div class="file-icon">
+                  <img src="assets/images/jpg.svg" alt="file" />
+                </div>
+                <div class="file-info">
+                  <p class="file-name">
+                    <a [href]="propertyEqDetails.MediaUrl" target="_blank">{{
+                      propertyEqDetails.MediaName | titlecase
+                    }}</a>
+                  </p>
+                  <p class="file-desc">
+                    <small>{{
+                      propertyEqDetails.MediaCreatedOn | date : "medium"
+                    }}</small>
+                  </p>
+                </div>
+              </ng-container>
+              <ng-container
+                *ngIf="
+                  propertyEqDetails?.MediaUrl == null ||
+                  propertyEqDetails?.MediaUrl == ''
+                "
+                >NA</ng-container
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="attribute-item"
+          *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '1'"
+        >
+          <div class="attribute-label">YouTube Link</div>
+          <div class="attribute-desc">
+            <ng-container *ngIf="propertyEqDetails.YoutubeLink != null">
+              <a
+                [href]="
+                  propertyEqDetails.YoutubeLink.includes('http')
+                    ? propertyEqDetails.YoutubeLink
+                    : 'https://' + propertyEqDetails.YoutubeLink
+                "
+                target="_blank"
+                class="link"
+              >
+                {{ propertyEqDetails.YoutubeLink }}
+              </a>
+            </ng-container>
+
+            <ng-container *ngIf="propertyEqDetails.YoutubeLink == null"
+              >NA</ng-container
+            >
+          </div>
+        </div>
+
+        <div class="attribute-item">
+          <ng-container
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '1'"
+          >
+            <div class="attribute-label">Description</div>
+          </ng-container>
+          <ng-container
+            *ngIf="
+              propertyEqFormGroup?.get('PropertyEqTypeId').value == '2' ||
+              propertyEqFormGroup?.get('PropertyEqTypeId').value == '3'
+            "
+          >
+            <div class="attribute-label">Content</div>
+          </ng-container>
+          <div
+            class="attribute-description"
+            [innerHTML]="
+              propertyEqDetails.Content == null
+                ? 'NA'
+                : (propertyEqDetails.Content | safeHtml : 'html')
+            "
+          ></div>
+        </div>
+        <div class="attribute-item">
+          <div class="attribute-label">Category</div>
+          <div class="attribute-desc">
+            {{
+              propertyEqDetails.PropertyEqCategory
+                ? propertyEqDetails.PropertyEqCategory
+                : "NA"
+            }}
+          </div>
+        </div>
+        <div class="attribute-item">
+          <div class="attribute-label">Tags</div>
+          <div class="attribute-desc">
+            <mat-chip
+              class="mat-chip-list-wrapper"
+              *ngFor="let tag of propertyEqDetails.PropertyEqTag"
+            >
+              {{
+                tag.Title
+                  ? tag.Title?.length > 30
+                    ? (tag.Title | slice : 0 : 40) + "..."
+                    : tag.Title
+                  : "NA"
+              }}
+            </mat-chip>
+            <div
+              *ngIf="
+                propertyEqDetails.PropertyEqTagIds == null ||
+                propertyEqDetails.PropertyEqTag.length == 0
+              "
+            >
+              NA
+            </div>
+          </div>
+        </div>
+        <div class="attribute-item">
+          <div
+            class="attribute-label"
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '1'"
+          >
+            Featured Video
+          </div>
+          <div
+            class="attribute-label"
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '2'"
+          >
+            Featured Article
+          </div>
+          <div
+            class="attribute-label"
+            *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '3'"
+          >
+            Featured Press Release
+          </div>
+          <div class="attribute-desc">
+            {{ propertyEqDetails.FeaturedText }}
+          </div>
+        </div>
+        <div
+          class="attribute-item"
+          *ngIf="propertyEqFormGroup?.get('PropertyEqTypeId').value == '2'"
+        >
+          <div class="attribute-label">Pinned Article</div>
+          <div class="attribute-desc">
+            {{ propertyEqDetails.PinStatus }}
+          </div>
+        </div>
+        <div class="attribute-item">
+          <div class="attribute-label">Date Created</div>
+          <div class="attribute-desc">
+            {{ propertyEqDetails.CreatedOnDate }}
+          </div>
+        </div>
+      </div>
+      <div class="rd-form-footer">
+        <div>
+          <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="goToManage()"
+          >
+            Cancel
+          </button>
+        </div>
+        <div class="rd-btn-group">
+          <!-- <button
+          *ngIf="formConfig?.access"
+          type="submit"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="openPreviewModal()"
+        >
+          Preview Front-end
+        </button> -->
+
+          <button
+            *ngIf="formConfig?.access"
+            type="button"
+            class="rd-btn-primary rd-btn-lg"
+            (click)="editPropertyEq()"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<ng-template #save_btn>
+  <div class="save-btn-dropdown-wrapper">
+    <button
+      [matMenuTriggerFor]="saveMenu"
+      type="button"
+      class="rd-btn-primary rd-btn-lg rd-dropdown-btn SaveBTNContainer"
+    >
+      <span>Save</span>
+      <span class="drop-icon"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </span>
+    </button>
+    <mat-menu #saveMenu="matMenu">
+      <div class="save-dropdown-menu">
+        <button
+          (click)="onSave(propertyEqStatus.DRAFT)"
+          class="rd-btn-text rd-btn-lg SaveBTNContainer"
+        >
+          <span
+            ><img
+              class="FormSaveBTN"
+              src="assets/images/edit-pencile.svg"
+              alt="icon"
+          /></span>
+          <span>Save as draft</span>
+        </button>
+        <button
+          (click)="onSave(propertyEqStatus.PUBLISH)"
+          class="rd-btn-text rd-btn-lg SaveBTNContainer"
+        >
+          <span
+            ><img class="FormSaveBTN" src="assets/images/upload.svg" alt="icon"
+          /></span>
+          <span>Save & Publish</span>
+        </button>
+      </div>
+    </mat-menu>
+  </div>
+</ng-template>

@@ -1,0 +1,194 @@
+<app-banner-breadcrumb [bannerDetails]="bannerDetails" [bannerText]="bannerText"
+  [breadcrumbLinks]="breadcrumbLinks"></app-banner-breadcrumb>
+
+<div class="articleListWrapper container my-5">
+  <div class="filter filter-top row mt-4">
+    <div class="col-md-12 col-lg-3 sortFilter">
+	 <rd-select
+            [id]="'sort'"
+            [label]="'sort'"
+            [placeholder]="'Sort by'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Name'"
+            [items$]="sortby$"
+            [required]="true"
+            [form]="filterForm"
+            [controlName]="'SortBy'"
+            (onChange)="onChangeSortBy($event)"
+          >
+          </rd-select>
+      <!--<ng-select 
+      [class.dropdown-ng-select]="isDropdownClassActiveSortby"
+      dropdownPosition="auto" 
+      id="sortby-dropdown" 
+      [items]="sortby" bindLabel="value" 
+      [clearable]="false"
+      [(ngModel)]="selectedSortby" (change)="onChangeSortBy($event)">
+      </ng-select>-->
+    </div>
+    <div class="col-md-12 col-lg-3 categoryFilter">
+	      <rd-select
+            [id]="'category'"
+            [label]="'category'"
+            [placeholder]="'Select category'"
+            [bindLabel]="'Title'"
+            [bindValue]="'Id'"
+            [items$]="categorydropdown$"
+            [required]="true"
+            [form]="filterForm"
+            [controlName]="'CategoryId'"
+            (onChange)="onCategoryChange($event)"
+          >
+          </rd-select>
+      <!--<ng-select 
+      [class.dropdown-ng-select]="isDropdownClassActiveCategory" 
+      dropdownPosition="auto" 
+      id="categories-dropdown" 
+      [items]="categorydropdown" 
+      bindLabel="Title"
+      [clearable]="false" [(ngModel)]="selectedCategories" (change)="onCategoryChange($event)">
+      </ng-select>-->
+    </div>
+    <div class="col-md-12 col-lg-5 searchFilter">
+      <div class="input-group">
+        <input type="text" class="form-control" id="text-search" [(ngModel)]="searchText" placeholder="Search"
+          (keyup)="search($event)" aria-label="Search" />
+
+        <div class="input-group-append search-button">
+          <button class="btn btn-secondary" type="button" (click)="searchValue($event)" aria-label="Search" >
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-1  clearFilterButton">
+      <button type="button" class="rd-btn-text rd-btn-xs height-clr-btn clear-button" *ngIf="
+          this.filterForm.get('Search')?.value != '' ||
+          filter.CategoryId  ||
+          filter.SortBy 
+        " (click)="clear()">
+        <span>Clear</span>
+        <span><img src="assets/images/close.svg" [style.width]="'16px'" alt="clear" /></span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="container my-4">
+  <div class="row g-3 px-3 mb-4">
+    <div (click)="articlesDetailsPage(article)" class="col-12 card position-relative article-card_main" *ngFor="let article of articles; index as i">
+      <div class="row">
+        <div class="col-md-10 articleContent position-relative">
+          <div
+           (click)="$event.stopPropagation(); onFilterTags(article.PropertyEqCategoryId, 'EqCategoryId')"
+          class="category_article col-2" 
+          [title]="article.CategoryDescription" 
+          *ngIf="article.PropertyEqCategory && article.PropertyEqCategory != ''"
+          [style.background-color]="article.PropertyEqCategory ? article.bgColor : 'transparent'">
+            {{ article.PropertyEqCategory }}
+          </div>
+
+          <div class="col-md-12 d-flex align-items-center justify-content-end" (click)="$event.stopPropagation()">
+            <div class="share-buttons-wrapper" *ngIf="showShareIcon[i]">
+              <app-share-button></app-share-button>
+            </div>
+            <button class="ps-1 share-button" (click)="clickedShareIcon($event, i)" aria-label="share-button">
+              <svg width="25" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_7785_40294)">
+                  <path
+                    d="M12.6377 20.4023C14.0184 20.4023 15.1377 19.2831 15.1377 17.9023C15.1377 16.5216 14.0184 15.4023 12.6377 15.4023C11.257 15.4023 10.1377 16.5216 10.1377 17.9023C10.1377 19.2831 11.257 20.4023 12.6377 20.4023Z"
+                    stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M21.3877 26.0273C22.7684 26.0273 23.8877 24.9081 23.8877 23.5273C23.8877 22.1466 22.7684 21.0273 21.3877 21.0273C20.007 21.0273 18.8877 22.1466 18.8877 23.5273C18.8877 24.9081 20.007 26.0273 21.3877 26.0273Z"
+                    stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M21.3877 14.7773C22.7684 14.7773 23.8877 13.6581 23.8877 12.2773C23.8877 10.8966 22.7684 9.77734 21.3877 9.77734C20.007 9.77734 18.8877 10.8966 18.8877 12.2773C18.8877 13.6581 20.007 14.7773 21.3877 14.7773Z"
+                    stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M19.2853 13.6289L14.74 16.5508" stroke="black" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M14.74 19.2539L19.2853 22.1758" stroke="black" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </g>
+                <circle cx="18" cy="18" r="17" stroke="black" stroke-width="2" />
+                <defs>
+                  <clipPath id="clip0_7785_40294">
+                    <rect width="20" height="20" fill="none" transform="translate(7.6377 7.90234)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </button>
+          </div>
+          <div class="d-md-flex justify-content-between align-items-center">
+            <div class="postedby">
+              <p class="rd-text-grey-mid mt-3">
+                <!-- {{ article.CreatedOn | date : "dd MMMM, yyyy" }} -->
+                <span *ngIf="article.Author && article.Author != ''">By</span>
+               <span class="author-name" 
+               (click)="$event.stopPropagation(); onFilterTags(article.Author, 'Author')"> {{ article.Author }}</span>
+              </p>
+            </div>
+          </div>
+          <div class="position-relative mb-2">
+            <h2 class="rd-heading rd-heading-md articleTitle-color" 
+            >{{ article.Title }}</h2>
+            <span class="rd-indicator rd-indicator-md">
+              <span class="rd-indicator-content rd-indicator-primary"></span>
+            </span>
+          </div>
+          <!-- <div class="article-Description" [innerHTML]="article.Content"></div> -->
+        </div>
+        <div class="col-md-2 articleImage"
+        (click)="articlesDetailsPage(article)">
+        <div>
+          <img src='{{article.MediaUrl  || imagePlaceholderImage}}' class="card-img articleCardImage"
+          alt="Article Image" />
+        </div>
+      
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12"  *ngIf="articles && articles.length">
+      <mat-paginator #paginator customPaginator showFirstLastButtons class="custom-paginator" previousPageLabel="'pre'"
+        [length]="totalRowsCount" [pageSize]="filter.PerPage"
+        [pageIndex]="filter && filter.PageNo ? filter.PageNo - 1 : 0" (page)="paginate($event)" [hidePageSize]="true">
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-container *ngIf="loadingData">
+  <div class="container">
+    <div class="row">
+      <div class=" col-12" *ngFor="let item of [1, 2, 3]">
+        <div class="card  border-0" aria-hidden="true">
+          <div class="card-body">
+            <h5 class="card-title placeholder-glow">
+              <span class="placeholder col-6"></span>
+            </h5>
+            <p class="card-text placeholder-glow">
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-6"></span>
+              <span class="placeholder col-8"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-container>
+<div class="col-12 py-2 text-center mt-5" *ngIf="articles?.length == 0 && loadingData!=true">
+  <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+</div>
+
+<div class="quicklinks-gap mt-3">
+    <app-quick-links></app-quick-links>
+</div>

@@ -1,0 +1,109 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-md-6">
+      <div *ngFor="let button of buttonTypes$ | async">
+        <h6 class="rd-heading rd-heading-xs">{{ button.name }}</h6>
+        <input
+          type="radio"
+          [id]="button.name"
+          formControlName="type"
+          [value]="button.value"
+        />
+        <label [for]="button.name" class="preview-card" [title]="button.name">
+          <div
+            [innerHTML]="button.svg | safeHtml : 'html'"
+            class="svg-icon"
+          ></div>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6 mt-3">
+      <div class="row">
+        <div class="col-md-6">
+          <rd-select
+            [label]="'Size'"
+            [id]="'button-size'"
+            [placeholder]="'Select size'"
+            [required]="true"
+            [bindLabel]="'name'"
+            [bindValue]="'value'"
+            [items$]="sizes$"
+            [form]="form"
+            [controlName]="'size'"
+          ></rd-select>
+        </div>
+        <div class="col-md-6 checkbox-input rd-checkbox mb-3">
+          <input
+            type="checkbox"
+            id="leading-icon"
+            formControlName="leadingIcon"
+          />
+          <label for="leading-icon" class="rd-text-grey-mid">
+            Leading icon
+          </label>
+        </div>
+        <div class="col-md-12">
+          <div class="property-media-wrapper">
+            <div class="control-container rd-switch-wrapper">
+              <label>Page</label>
+              <rd-switch
+                [isLabel]="true"
+                [onLabel]="'File'"
+                [offLabel]="'Link'"
+                [label]="'File'"
+                [id]="'file-link-switch'"
+                [checked]="isFile"
+                (onChange)="toggleSwitch($event)"
+              ></rd-switch>
+            </div>
+            <rd-input
+              *ngIf="!isFile"
+              [label]="''"
+              [id]="'page-link-input'"
+              [placeholder]="'Please provide page link'"
+              [type]="'text'"
+              [controlName]="'link'"
+              [form]="form"
+            ></rd-input>
+            <ng-container *ngIf="isFile">
+              <rd-file
+                [id]="'pdf-input'"
+                [types]="['application/pdf']"
+                [fileList]="fileList"
+                (onSelect)="onFileSelect($event)"
+                (onDelete)="onFileDelete($event)"
+              ></rd-file>
+              <rd-file-container
+                [label]="''"
+                [file]="file"
+                [delete]="true"
+                (onDelete)="deleteFile($event)"
+              ></rd-file-container>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-md-6 checkbox-input rd-checkbox mb-3">
+          <input type="checkbox" id="new-tab" formControlName="target" />
+          <label for="new-tab" class="rd-text-grey-mid"> New tab </label>
+        </div>
+        <div class="col-md-6 checkbox-input rd-checkbox mb-3">
+          <input
+            type="checkbox"
+            id="download-flag"
+            formControlName="isDownload"
+          />
+          <label for="download-flag" class="rd-text-grey-mid"> Download </label>
+        </div>
+        <div class="col-md-12 mt-4">
+          <button
+            (click)="onSubmit()"
+            type="button"
+            class="rd-btn rd-btn-primary rd-btn-lg"
+          >
+            Save & Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

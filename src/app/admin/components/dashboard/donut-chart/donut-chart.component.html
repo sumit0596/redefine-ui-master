@@ -1,0 +1,44 @@
+
+<div *ngIf="!loading; else loadingTemplate">
+  <div *ngIf="!isadmin">
+    <div *ngIf="chartId && chartdata; else noData">
+      <div [id]="chartId" class="dashboard_Chart"></div>
+    </div>
+  </div>
+  <div *ngIf="isadmin">
+    <div *ngIf="chartId && chartdata?.length > 0 ; else noData">
+        <div [id]="chartId" class="dashboard_Chart"></div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noData>
+    <div class="col-12 py-2 text-center mt-5">
+      <img src="assets/images/unit-not-found.svg" alt="file" />
+      <p class="rd-heading-md-bold rd-text-deep-red">No data found</p>
+    </div>
+</ng-template>
+  
+<ng-template #loadingTemplate>
+    <div class="placeholder-glow chart-container" [ngClass]="{'screen-size_loader mt-5': !isadmin, 'm-4': isadmin}">
+      <div class="placeholder chart-placeholder"></div>
+      <div>
+        <div>
+          <p>
+            <span
+              class="placeholder"
+              style="
+                width: 200px;
+                height: 60px;
+                border-radius: 3px;
+                margin-right: 10px;
+              "
+            ></span>
+          </p>
+        </div>
+        <div></div>
+      </div>
+    </div>
+</ng-template>
+  
+  

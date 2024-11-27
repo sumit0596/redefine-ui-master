@@ -1,0 +1,73 @@
+<ng-container *ngIf="!isLoading;">
+  <div>
+    <div class="my-3">
+      <h5 class="rd-heading rd-dashboard-heading rd-heading-md fw-bold m-0">Top 20 Properties</h5>
+    </div>
+    <table
+      class="table mt-4 proeprtyeq-table"
+      *ngIf="properties && properties.length; else noData"
+    >
+      <thead>
+        <th scope="col" class="rd-text-grey-darker rd-page-views-heading px-1">
+          Name of Property
+        </th>
+        <th
+          scope="col"
+          class="rd-text-grey-darker rd-page-views-heading text-end px-1"
+        >
+          Sector
+        </th>
+        <th
+          scope="col"
+          class="rd-text-grey-darker rd-page-views-heading text-end px-4"
+        >
+          Number of Leads
+        </th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let property of properties">
+          <td class="rd-text-grey-darker table-data">
+            {{ property?.PropertyName }}
+          </td>
+          <td class="rd-text-grey-darker table-data text-end">
+            {{ property?.SectorName }}
+          </td>
+          <td class="rd-text-grey-darker table-data text-end px-4">
+            {{ property?.Count }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+
+<ng-template #noData>
+    <div class="col-12 py-2 text-center mt-5">
+      <img src="assets/images/unit-not-found.svg" alt="file" />
+      <p class="rd-heading-md-bold rd-text-deep-red">No properties found</p>
+    </div>
+</ng-template>
+<div *ngIf="isLoading">
+  <div>
+    <p class="card-text placeholder-glow py-1">
+      <span class="placeholder col-12"></span>
+      <span class="placeholder col-4"></span>
+    </p>
+    <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+      <span class="placeholder col-12"></span>
+      <span class="placeholder col-6"></span>
+    </p>
+    <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+      <span class="placeholder col-12"></span>
+      <span class="placeholder col-7"></span>
+    </p>
+    <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+      <span class="placeholder col-12"></span>
+      <span class="placeholder col-3"></span>
+    </p>
+  </div>
+</div>
+
+
+
+<!-- // leasing -->

@@ -1,0 +1,89 @@
+.attribute-container {
+  margin-bottom: 50px;
+}
+.attribute-container .attribute-item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 0.5px solid #dfdfdf;
+}
+.attribute-container .attribute-item:last-child {
+  border: none;
+}
+.attribute-container .attribute-item .attribute-label {
+  width: 40%;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+}
+.attribute-container .attribute-item .attribute-desc {
+  width: 60%;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  color: #58595b;
+  word-wrap: break-word;
+  line-height: 18px;
+}
+.attribute-desc .file-name a {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 13px;
+  color: #000000;
+}
+.attribute-desc .file-desc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #999999;
+}
+
+a {
+  color: red;
+}
+
+.user-card {
+  box-shadow: 0px 0px 2px rgba(153, 153, 153, 0.4);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+}
+
+.control-container {
+  display: flex;
+}
+
+.levy {
+  margin-top: -55px;
+  gap: 10px;
+}
+
+.control-container label {
+  font-size: 16px;
+  color: black;
+  margin-bottom: 31px;
+}
+
+.drip {
+  margin-left: auto;
+}
+
+.rd-form .override-fixed-width {
+  width: unset !important;
+}
+
+.center-heading {
+  margin-top: 28px;
+}
+
+.update-cancel-learnship {
+  width: 380px !important;
+}

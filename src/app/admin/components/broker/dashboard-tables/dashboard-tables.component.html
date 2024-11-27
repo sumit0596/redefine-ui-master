@@ -1,0 +1,485 @@
+<mat-accordion [multi]="true">
+  <mat-expansion-panel
+    [expanded]="true"
+    (opened)="dashboardTablePanelOpenState = true"
+    (closed)="dashboardTablePanelOpenState = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title class="align-items-start"
+        ><div
+          class="col-md-8 rd-heading rd-dashboard-heading rd-heading-md fw-bold"
+        >
+          {{ accordianTitle }}
+          <small class="selected-filter-label">
+            <ng-container> ({{ selectedEventDays }}) </ng-container>
+          </small>
+        </div>
+        <div
+          class="col-md-4 d-flex justify-content-end"
+          [ngClass]="{ invisible: !dashboardTablePanelOpenState }"
+        >
+          <button
+            type="button"
+            id="more-btn"
+            [matMenuTriggerFor]="confilter"
+            aria-label="More"
+            class="rd-btn rd-btn-text alingment-button-dashborad position-relative"
+            (click)="$event.stopPropagation()"
+          >
+          <img src="assets/images/filter.svg" alt="Filter" />
+            <span
+              *ngIf="filterApplied"
+              class="position-absolute badge-filter badge padicon bg-secondary"
+              (click)="tablebadgereset($event)"
+            >
+              <mat-icon class="fsmaticon filter-badge-icon-size"
+                >close</mat-icon
+              >
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          </button>
+          <mat-menu class="mat-menu mat-menu-analytic" #confilter="matMenu">
+            <app-dashboard-filter
+              [filter]="filter"
+              (selectedEventFilter)="selectedEventFilter($event)"
+              (filteredData)="filterData(filter)"
+              (filterApplied)="handleFilterApplied($event)"
+            ></app-dashboard-filter>
+          </mat-menu>
+          <button
+            type="button"
+            id="refresh-btn"
+            (click)="refreshFilter($event)"
+            class="rd-btn rd-btn-text alingment-button-dashborad"
+          >
+            <mat-icon>refresh</mat-icon>
+            <!-- <mat-icon class="more-vert-icon"</mat-icon> -->
+          </button>
+          <button
+            *ngIf="type === 'property'"
+            type="button"
+            id="download-btn"
+            (click)="downloadConversionData()"
+            (click)="$event.stopPropagation()"
+            class="rd-btn rd-btn-text alingment-button-dashborad"
+          >
+            <mat-icon>save_alt</mat-icon>
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 32 32"><defs><linearGradient id="vscodeIconsFileTypeExcel0" x1="4.494" x2="13.832" y1="-2092.086" y2="-2075.914" gradientTransform="translate(0 2100)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#18884f"/><stop offset=".5" stop-color="#117e43"/><stop offset="1" stop-color="#0b6631"/></linearGradient></defs><path fill="#185c37" d="M19.581 15.35L8.512 13.4v14.409A1.19 1.19 0 0 0 9.705 29h19.1A1.19 1.19 0 0 0 30 27.809V22.5Z"/><path fill="#21a366" d="M19.581 3H9.705a1.19 1.19 0 0 0-1.193 1.191V9.5L19.581 16l5.861 1.95L30 16V9.5Z"/><path fill="#107c41" d="M8.512 9.5h11.069V16H8.512Z"/><path d="M16.434 8.2H8.512v16.25h7.922a1.2 1.2 0 0 0 1.194-1.191V9.391A1.2 1.2 0 0 0 16.434 8.2" opacity="0.1"/><path d="M15.783 8.85H8.512V25.1h7.271a1.2 1.2 0 0 0 1.194-1.191V10.041a1.2 1.2 0 0 0-1.194-1.191" opacity="0.2"/><path d="M15.783 8.85H8.512V23.8h7.271a1.2 1.2 0 0 0 1.194-1.191V10.041a1.2 1.2 0 0 0-1.194-1.191" opacity="0.2"/><path d="M15.132 8.85h-6.62V23.8h6.62a1.2 1.2 0 0 0 1.194-1.191V10.041a1.2 1.2 0 0 0-1.194-1.191" opacity="0.2"/><path fill="url(#vscodeIconsFileTypeExcel0)" d="M3.194 8.85h11.938a1.193 1.193 0 0 1 1.194 1.191v11.918a1.193 1.193 0 0 1-1.194 1.191H3.194A1.19 1.19 0 0 1 2 21.959V10.041A1.19 1.19 0 0 1 3.194 8.85"/><path fill="#fff" d="m5.7 19.873l2.511-3.884l-2.3-3.862h1.847L9.013 14.6c.116.234.2.408.238.524h.017q.123-.281.26-.546l1.342-2.447h1.7l-2.359 3.84l2.419 3.905h-1.809l-1.45-2.711A2.4 2.4 0 0 1 9.2 16.8h-.024a1.7 1.7 0 0 1-.168.351l-1.493 2.722Z"/><path fill="#33c481" d="M28.806 3h-9.225v6.5H30V4.191A1.19 1.19 0 0 0 28.806 3"/><path fill="#107c41" d="M19.581 16H30v6.5H19.581Z"/></svg> -->
+          </button>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <!--malik-->
+    <div
+      [ngSwitch]="type"
+      class="accordion-dashboard"
+      id="{{ accordianTitle.split(' ').join('') }}"
+    >
+      <ng-container *ngSwitchCase="'reports'">
+        <div *ngIf="!loading">
+          <table class="table" *ngIf="downloadReports?.length; else noData">
+            <thead>
+              <th scope="col" class="rd-page-views-heading rd-text-grey-darker">
+                Name of Report
+              </th>
+              <th
+                scope="col"
+                class="rd-page-views-heading rd-text-grey-darker text-end px-4"
+              >
+                Views/Downloads
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let report of downloadReports">
+                <td
+                  class="table-data rd-text-grey-darker"
+                  [title]="report.Message"
+                  [attr.title]="report.Message"
+                >
+                  <p class="m-0 text-elipses">{{ report.Message }}</p>
+                </td>
+                <td class="table-data rd-text-grey-darker text-end px-4">
+                  {{ report.Downloads }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="col-md-12 dashboard-view-button">
+            <div
+              class="view-button-inner"
+              *ngIf="this.downloadReports.length > 9 || this.filter.PageNo != 1"
+            >
+              <button
+              title="Refresh"
+                [ngClass]="{ 'rd-disabled-link': moredownloadReports }"
+                class="rd-dashboard-viewmore-btn"
+                (click)="loadDownloadReports()"
+              >
+                <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noData>
+          <div class="col-12 py-2 text-center mt-5">
+            <img src="assets/images/unit-not-found.svg" alt="file" />
+            <p class="rd-heading-md-bold rd-text-deep-red">No reports found</p>
+          </div>
+        </ng-template>
+        <div *ngIf="loading">
+          <p class="card-text placeholder-glow py-1">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-4"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-6"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-7"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-3"></span>
+          </p>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'property'">
+        <!--malik-->
+        <div *ngIf="!loading" id="{{ accordianTitle.split(' ').join('') }}">
+          <table
+            class="table propertyConversion"
+            *ngIf="propertyConversion?.length; else noData"
+          >
+            <thead>
+              <th
+                scope="col"
+                class="rd-text-grey-darker rd-page-views-heading px-1"
+              >
+                Property
+              </th>
+              <th
+                scope="col"
+                class="rd-text-grey-darker rd-page-views-heading text-end px-1"
+              >
+                Views
+                <span class="sorting-btn-group">
+                  <img
+                    src="assets/images/chevron-up.svg"
+                    class="sort-asc-btn pb-1"
+                    (click)="sortData('TotalViews', 'Asc')"
+                    alt="Sorting-Ascending"
+                  />
+                  <img
+                    src="assets/images/chevron-down.svg"
+                    class="sort-desc-btn"
+                    (click)="sortData('TotalViews', 'Desc')"
+                    alt="Sorting-Descending"
+                  />
+                </span>
+              </th>
+              <th
+                scope="col"
+                class="rd-text-grey-darker rd-page-views-heading text-end px-1"
+              >
+                Leads
+                <span class="sorting-btn-group">
+                  <img
+                    src="assets/images/chevron-up.svg"
+                    class="sort-asc-btn pb-1"
+                    (click)="sortData('TotalLead', 'Asc')"
+                    alt="Sorting-Ascending"
+                  />
+                  <img
+                    src="assets/images/chevron-down.svg"
+                    class="sort-desc-btn"
+                    (click)="sortData('TotalLead', 'Desc')"
+                    alt="Sorting-Descending"
+                  />
+                </span>
+              </th>
+             
+              <th
+                scope="col"
+                class="rd-text-grey-darker rd-page-views-heading text-end px-1" 
+              >
+                Con.Rate
+                <span class="sorting-btn-group">
+                  <img
+                    src="assets/images/chevron-up.svg"
+                    class="sort-asc-btn pb-1"
+                    (click)="sortData('Conversion', 'Asc')"
+                    alt="Sorting-Ascending"
+                  />
+                  <img
+                    src="assets/images/chevron-down.svg"
+                    class="sort-desc-btn"
+                    (click)="sortData('Conversion', 'Desc')"
+                    alt="Sorting-Descending"
+                  />
+                </span>
+              </th>
+              <th
+              scope="col"
+              class="rd-text-grey-darker rd-page-views-heading text-end"
+            >
+              Gla
+              <span class="sorting-btn-group">
+              </span>
+            </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let property of propertyConversion" [ngClass]="{ 'featured': property.IsFeatured === 1 }">
+                <td class="rd-text-grey-darker table-data ">
+                  <table>
+                    <tr>
+                      <td>
+                        <ng-container *ngIf="property.IsFeatured === 1">
+                          <mat-icon class="feature-button">star</mat-icon>
+                        </ng-container>  
+                      </td>
+                      <td>
+                        {{ property.PropertyName }}
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="rd-text-grey-darker table-data text-end px-4">{{ property.TotalViews }}</td>
+                <td class="rd-text-grey-darker table-data text-end px-4">{{ property.TotalLead }}</td>
+                <td class="rd-text-grey-darker table-data text-end px-4">{{ property.Conversion }}</td>
+                <td class="rd-text-grey-darker table-data text-end">{{ property.Gla }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="col-md-12 dashboard-view-button">
+            <div
+              class="view-button-inner"
+              *ngIf="
+                this.propertyConversion.length > 9 || this.filter.PageNo != 1
+              "
+            >
+              <button
+              title="Refresh"
+                [ngClass]="{ 'rd-disabled-link': moreProperties }"
+                class="rd-dashboard-viewmore-btn"
+                (click)="loadRecentConversions()"
+              >
+                <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noData>
+          <div class="col-12 py-2 text-center mt-5">
+            <img src="assets/images/unit-not-found.svg" alt="file" />
+            <p class="rd-heading-md-bold rd-text-deep-red">
+              No data found
+            </p>
+          </div>
+        </ng-template>
+        <div *ngIf="loading">
+          <p class="card-text placeholder-glow py-1">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-4"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-6"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-7"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-3"></span>
+          </p>
+        </div>
+      </ng-container>
+
+      <div *ngSwitchCase="'jobList'">
+        <div *ngIf="!loading">
+          <table class="table" *ngIf="jobApplicants?.length; else noData">
+            <thead>
+              <th scope="col" class="rd-text-grey-darker rd-page-views-heading">
+                Job Code
+              </th>
+              <th scope="col" class="rd-text-grey-darker rd-page-views-heading">
+                Job Name
+              </th>
+              <th
+                scope="col"
+                class="rd-text-grey-darker rd-page-views-heading text-end px-4"
+              >
+                Total Applications
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let applicant of jobApplicants">
+                <td class="rd-text-grey-darker table-data">
+                  {{ applicant.JobCode }}
+                </td>
+                <td class="rd-text-grey-darker table-data">
+                  {{ applicant.Title }}
+                </td>
+                <td class="rd-text-grey-darker table-data text-end px-4">
+                  {{ applicant.Total }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ng-template #noData>
+          <div class="col-12 py-2 text-center mt-5">
+            <img src="assets/images/unit-not-found.svg" alt="file" />
+            <p class="rd-heading-md-bold rd-text-deep-red">
+              No job applications found
+            </p>
+          </div>
+        </ng-template>
+        <div *ngIf="loading">
+          <p class="card-text placeholder-glow py-1">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-4"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-6"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-7"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-3"></span>
+          </p>
+        </div>
+      </div>
+
+      <ng-container *ngSwitchCase="'propertyEq'">
+        <div *ngIf="!loading" id="{{ accordianTitle.split(' ').join('') }}">
+          <div class="my-3">
+            <p class="rd-total-count">{{ totalEq }}</p>
+            <p class="rd-text-grey-darker views-page-size mt-4">
+              Views by page
+            </p>
+          </div>
+          <table
+            class="table mt-4 proeprtyeq-table"
+            *ngIf="propertyConversion?.length; else noData"
+          >
+            <thead>
+              <th
+                scope="col"
+                class="rd-text-grey-darker rd-page-views-heading px-1"
+              >
+                Title
+              </th>
+              <th
+                scope="col"
+                class="rd-text-grey-darker rd-page-views-heading text-end px-1"
+              >
+                Total Views
+                <!-- <span class="sorting-btn-group">
+                      <img
+                        src="assets/images/chevron-up.svg"
+                        class="sort-asc-btn"
+                        (click)="sortData('TotalViews', 'Asc')"
+                      />
+                      <img
+                        src="assets/images/chevron-down.svg"
+                        class="sort-desc-btn"
+                        (click)="sortData('TotalViews', 'Desc')"
+                      />
+                    </span> -->
+              </th>
+              <th
+                scope="col"
+                class="rd-text-grey-darker rd-page-views-heading text-end px-4"
+              >
+                Type
+                <!-- <span class="sorting-btn-group">
+                      <img
+                        src="assets/images/chevron-up.svg"
+                        class="sort-asc-btn"
+                        (click)="sortData('Type', 'Asc')"
+                      />
+                      <img
+                        src="assets/images/chevron-down.svg"
+                        class="sort-desc-btn"
+                        (click)="sortData('Type', 'Desc')"
+                      />
+                    </span> -->
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let property of propertyConversion">
+                <td class="rd-text-grey-darker table-data">
+                  {{ property.Title }}
+                </td>
+                <td class="rd-text-grey-darker table-data text-end">
+                  {{ property.TotalViews }}
+                </td>
+                <td class="rd-text-grey-darker table-data text-end px-4">
+                  {{ property.Type }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="col-md-12 dashboard-view-button">
+            <div
+              class="view-button-inner"
+              *ngIf="
+                this.propertyConversion.length > 9 || this.filter.PageNo != 1
+              "
+            >
+              <button
+              title="Refresh"
+                [ngClass]="{ 'rd-disabled-link': morePropertyeq }"
+                class="rd-dashboard-viewmore-btn"
+                (click)="loadPropertyeq()"
+              >
+                <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noData>
+          <div class="col-12 py-2 text-center mt-5">
+            <img src="assets/images/unit-not-found.svg" alt="file" />
+            <p class="rd-heading-md-bold rd-text-deep-red">
+              No data found
+            </p>
+          </div>
+        </ng-template>
+        <div *ngIf="loading">
+          <p class="card-text placeholder-glow py-1">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-4"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-6"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-7"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-3"></span>
+          </p>
+        </div>
+      </ng-container>
+    </div>
+    <!-- <div *ngIf="loading" class="market-data-loader">
+  <img src="assets/images/loader.gif" alt="loader" />
+</div> -->
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,261 @@
+.input-group {
+  margin-top: 22px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+  height: 52px;
+}
+
+.search-button :hover {
+  background-color: var(--red-color);
+}
+
+.btn-secondary {
+  width: 55px;
+  background-color: black;
+  border-radius: 0px;
+  height: 53px;
+}
+
+.category_article {
+  cursor: pointer;
+  padding: 5px 10px;
+  // background-color: green;
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-overflow: ellipsis;
+  height: 2rem;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  width: 10rem;
+}
+
+.articleList {
+  border: 0px;
+}
+
+.articleContent {
+  border: 1px 0px 1px 1px solid #999999;
+}
+
+.articleTitle-color {
+  color: #000000 !important;
+  line-height: 26px;
+  cursor: pointer;
+}
+
+.articleCardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* or "object-fit: scale-down;" */
+  border-radius: 0px;
+  position: relative;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  margin: 10px 0px;
+}
+
+.author-name {
+  cursor: pointer;
+}
+
+.articleImage {
+  padding: 0px;
+  cursor: pointer;
+}
+
+.articleImage div {
+  // width: 200px;
+  height: 200px;
+}
+
+.articleCardwrapper {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+/* On mouse-over, add a deeper shadow */
+
+/* Add some padding inside the card container */
+.articleContent {
+  padding: 2px 16px;
+  color: #999999;
+  overflow: hidden;
+}
+
+::ng-deep .article-Description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* Show only 3 lines */
+  -webkit-box-orient: vertical;
+
+  img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+  }
+}
+
+.article-card_main {
+  overflow: hidden;
+  border-radius: 0;
+  border-color: #99999938;
+  cursor: pointer;
+}
+
+.searchFilter .input-group {
+  margin-top: 0px;
+}
+
+@media (min-width: 360px) and (max-width: 440px) {
+  .share-buttons-wrapper {
+    direction: initial;
+    right: 4px;
+    position: relative;
+    top: 0px;
+    z-index: 1;
+  }
+}
+
+@media (min-width: 412px) and (max-width: 420px) {
+  .share-buttons-wrapper {
+    direction: initial;
+    position: relative;
+    top: 0px;
+    z-index: 1
+  }
+}
+
+.form-control:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  //  border: none;
+  //  outline: none;
+  border-radius: 0px;
+}
+
+.error-message {
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: var(--red-color);
+  transition: all 0.3s ease-in;
+  animation: fadeIn 0.3s;
+}
+
+.sens-line {
+  height: 1px;
+  width: 100%;
+  background-color: #cccccc;
+}
+
+.form-control::placeholder,
+.ng-select .ng-select-container .ng-value-container .ng-input>input::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #cccccc;
+}
+
+@media  (max-width: 440px) {
+  .clear-button {
+    position: relative;
+    left: 80%;
+    top: 10px;
+  }
+}
+
+@media (width: 390px) {
+  .clear-button {
+    position: relative;
+    left: 80%;
+    top: 10px;
+  }
+}
+
+@media (width: 430px) {
+  .clear-button {
+    position: relative;
+    left: 80%;
+    top: 10px;
+  }
+}
+
+::ng-deep {
+  .filter-top .ng-select .ng-select-container {
+    min-height: 52px !important;
+  }
+
+  .dropdown-ng-select .ng-select-container .ng-value {
+    color: #cccccc;
+  }
+
+  .articleListWrapper .control-container form {
+    padding: 0px 0px 0px;
+  }
+  @media (min-width: 567px) and (max-width: 1198px) {
+    .filter.filter-top.row.mt-4 {
+        flex-direction: column;
+    }
+
+    .filter.filter-top.row.mt-4>div {
+        width: 100% !important;
+    }
+    .featured-article__card {
+        height: 20.5rem;
+    }
+}
+  @media (max-width: 1024px) {
+
+    .search-button .btn-secondary:hover,
+    .search-button .btn-secondary i {
+      background-color: #000 !important;
+    }
+  }
+}
+
+@media screen and (max-device-width: 640px) {
+  .articleContent {
+    padding: 2px 16px;
+    color: #999999;
+    min-height: 200px;
+    /* Minimum height */
+    max-height: 332px;
+    /* Maximum height */
+    height: auto;
+    /* Automatically adjust height with content */
+    overflow: hidden;
+  }
+  .share-buttons-wrapper {
+    
+    z-index: 1;
+  }
+}
+@media screen and (max-device-width: 567px) {
+  
+  ::ng-deep .articleListWrapper .control-container form {
+    padding: 0px 0px 25px;
+  }
+  .clearFilterButton{
+    display: flex;
+    ;
+}
+}
+@media (min-width: 567px) and (max-width: 1024px) {
+  .clearFilterButton{
+    display: flex;
+    justify-content: end;
+}
+}

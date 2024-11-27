@@ -1,0 +1,16 @@
+.search-label {
+  padding-left: 10px;
+}
+
+.scroll {
+  display: flex;
+  //white-space: nowrap;
+  overflow-x: auto;
+  gap: 15px;
+}
+
+.breadcrum {
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 40px;
+}

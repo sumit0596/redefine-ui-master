@@ -1,0 +1,86 @@
+.sens-line {
+  height: 1px;
+  width: 100%;
+  background-color: #cccccc;
+}
+
+.rd-indicator.rd-indicator-lg {
+  top: 5px;
+}
+
+.link:hover {
+  color: red;
+}
+.document-name {
+  transition: all 0.3s ease;
+  &:hover {
+    color: var(--red-color);
+    transform: translateX(10px);
+  }
+}
+.banner-background {
+  background-color: #333;
+}
+
+.rd-banner_contact {
+  position: relative;
+  padding-top: 140px;
+  padding-left: 122px;
+  min-height: 190px;
+  height: auto;
+  color: #fff;
+  z-index: 2;
+}
+
+@media (max-width: 360px) {
+  .debt-programme {
+    margin-top: 25px !important;
+  }
+
+  .download-display {
+    padding-left: 230px;
+  }
+
+  .sens-line-mobile {
+    display: none;
+  }
+
+  .d-flex {
+    display: block !important;
+  }
+}
+
+@media (min-width: 361px) and (max-width: 395px) {
+  .debt-programme {
+    margin-top: 25px !important;
+  }
+
+  .d-flex {
+    display: block !important;
+  }
+
+  .download-display {
+    padding-left: 250px;
+  }
+
+  .sens-line-mobile {
+    display: none;
+  }
+}
+@media (min-width: 396px) and (max-width: 450px) {
+  .debt-programme {
+    margin-top: 25px !important;
+  }
+
+  .d-flex {
+    display: block !important;
+  }
+
+  .download-display {
+    padding-left: 289px;
+  }
+
+  .sens-line-mobile {
+    display: none;
+  }
+}

@@ -1,0 +1,20 @@
+<div class="container py-5">
+  <div class="position-relative">
+    <div class="rd-heading rd-heading-lg-normal">Thank you</div>
+    <span class="rd-indicator rd-indicator-lg">
+      <span class="rd-indicator-content rd-indicator-primary"></span>
+    </span>
+  </div>
+  <div class="my-5 rd-text-grey-mid">
+    {{ data && data.message ? data.message : "Thank you for visiting us" }}
+  </div>
+  <div>
+    <button
+      type="button"
+      class="rd-btn rd-btn-dark rd-btn-lg"
+      (click)="navigateTo()"
+    >
+      <span class="btn-text">Done</span>
+    </button>
+  </div>
+</div>

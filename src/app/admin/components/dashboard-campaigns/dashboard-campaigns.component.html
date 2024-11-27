@@ -1,0 +1,217 @@
+<div class="mb-5 dashboard-campaign">
+  <div class="rd-container-header rd-dashborad-margin-0">
+    <div class="rd-heading rd-heading-lg rd-dashboard-heading" *ngIf="!environment.DASHBOARD_TAB_VIEW">
+      Campaigns Dashboard
+    </div>
+  </div>
+
+  
+  <div class="table-container" id="printIt">
+    <div class="rd-grid-header rd-gridfilter-header" id="stickyHeader">
+      <div class="col-md-3">
+        <div class="filter-dropdown">
+          <rd-select
+            [id]="'dropdown'"
+            [label]="''"
+            [placeholder]="'Select Campaigns'"
+            [bindLabel]="'Name'"
+            [isLoading]="isLoadingDropdown"
+            [bindValue]="'Name'"
+            [items$]="dropdownItems$" 
+            [required]="true"
+            [form]="filterForm"
+            [controlName]="'Name'"
+            [clear]="false"
+            (onChange)="onChange($event)"
+            (onClear)="clearData(true)"
+          >
+          </rd-select>
+        </div>
+      </div>
+      <!-- filter and search  -->
+
+      <div class="datatable-btn-group" [ngClass]="!displayContent ? 'd-none' : ''">
+        <small class="selected-filter-label">
+          <ng-container
+            *ngIf="displayContent && selectedEventDays !== ''; else yearSelect"
+          >
+            {{ selectedEventDays }}
+          </ng-container>
+          <ng-template #yearSelect>
+            {{ selectedEventYears }}
+          </ng-template>
+        </small>
+        <div class="filter-with-reset position-relative">
+          <button
+            type="button"
+            id="more-btn"
+            title="filter"
+            aria-label="More"
+            class="rd-btn rd-btn-text alingment-button-dashborad position-relative filterbutton"
+            [matMenuTriggerFor]="confilter"
+            [disabled]="onSelected"
+            (click)="$event.stopPropagation()"
+          >
+            <img src="assets/images/filter.svg" alt="Filter" />
+          </button>
+          <span
+            *ngIf="isResetAllow"
+            class="position-absolute badge-filter badge padicon bg-secondary"
+            (click)="resetFilterApplied($event)"
+          >
+            <mat-icon class="fsmaticon filter-badge-icon-size">close</mat-icon>
+            <span class="visually-hidden">unread messages</span>
+          </span>
+        </div>
+
+        <button
+        aria-label="refresh campaign"
+          type="button"
+          [disabled]="onSelected"
+          class="rd-btn rd-btn-text alingment-button-dashborad"
+          (click)="dashboarRefresh($event)"
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M17.65 6.35a7.95 7.95 0 0 0-6.48-2.31c-3.67.37-6.69 3.35-7.1 7.02C3.52 15.91 7.27 20 12 20a7.98 7.98 0 0 0 7.21-4.56c.32-.67-.16-1.44-.9-1.44c-.37 0-.72.2-.88.53a5.994 5.994 0 0 1-6.8 3.31c-2.22-.49-4.01-2.3-4.48-4.52A6.002 6.002 0 0 1 12 6c1.66 0 3.14.69 4.22 1.78l-1.51 1.51c-.63.63-.19 1.71.7 1.71H19c.55 0 1-.45 1-1V6.41c0-.89-1.08-1.34-1.71-.71z" />
+        </svg>
+      </button>
+        <mat-menu class="mat-menu mat-menu-analytic" #confilter="matMenu">
+          <app-dashboard-filter
+            [filter]="filter"
+            (selectedEventFilter)="selectedEventFilter($event)"
+            (filteredData)="filterData(filter)"
+            (filterApplied)="handleFilterApplied($event)"
+          ></app-dashboard-filter>
+        </mat-menu>
+      </div>
+
+      <!-- filter and search  -->
+    </div>
+    <ng-container *ngIf="displayContent; else noContent" >
+      <div class="rd-grid-header py-3" id="content">
+        <div class="title-section">
+          <h3 class="heading">{{displayCampaignName}}</h3>
+        </div>
+        <div class="download-section">
+          <button
+            type="button"
+            class="rd-btn-primary rd-btn-lg"
+            (click)="captureAndPrintPDF()"
+          >
+            Download Report
+          </button>
+        </div>
+      </div>
+      <div class="dashboard-campaign-container" >
+        <div class="row" id="content">
+          <div class="col-12 p-3">
+            <app-campaigns-session
+              [sessions]="sessions"
+              [isLoading]="isLoading"
+            ></app-campaigns-session>
+          </div>
+        </div>
+        <div class="row" id="content">
+          <div class="col-md-4 properties height-box-type">
+            <div class="col-md-10 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+              Qualified Leads By Sector
+            </div>
+            <app-campaigns-quality-leads
+              [isLoadingLeadsByStatusSector]="isLoadingLeadsByStatusSector"
+              [LeadsBySector]="LeadsBySector"
+            ></app-campaigns-quality-leads>
+          </div>
+          
+          <div class="col-md-4 leasingExecutives height-box-type">
+            <div class="col-md-10 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+              All Leads By Status
+            </div>
+            <app-campaigns-quality-leads-by-status
+              [isLoadingLeadsByStatusSector]="isLoadingLeadsByStatusSector"
+              [LeadsByStatus]="LeadsByStatus"
+            >
+            </app-campaigns-quality-leads-by-status>
+          </div>
+
+          <div class="col-md-4 properties leasingExecutives height-box-type">
+            <div class="col-md-10 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+              All Leads By Mechanism
+            </div>
+            <app-all-leads-by-mechanism
+            [isLoadingLeadsByMechanismSector]="isLoadingLeadsByMechanismSector"
+              [LeadsByMechanism]="LeadsByMechanism">
+            </app-all-leads-by-mechanism>
+          </div>
+        </div>
+       
+        <div class="row" id="content">
+          <div class="col-md-4 col-12 properties height-box-type">
+            <div class="col-md-10 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+              All Leads By Source
+            </div>
+            <app-all-leads 
+            [isLoading]="isLoading"
+            [LeadsBySource]="LeadsBySource"
+            ></app-all-leads>
+          </div>
+          <div class="col-md-4 col-12 leasingExecutives height-box-type">
+            <div class="col-md-10 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+              All Leads By Medium
+            </div>
+            <app-campaign-all-leads-by-medium
+              [isLoading]="isLoading"
+              [LeadsByMedium]="LeadsByMedium"
+            ></app-campaign-all-leads-by-medium>
+          </div>
+          <div class="col-md-4 col-12 leasingExecutives height-box-type">
+            <app-top-ten-content
+              [CampaignContent]="CampaignContent"
+              [isLoading]="isLoading"
+            ></app-top-ten-content>
+          </div>
+        </div>
+		 <div class="row" id="content">
+          <div class="col-md-6 properties height-box-type">
+            <app-top-twenty-properties
+              [properties]="properties"
+              [isLoading]="isLoading"
+            ></app-top-twenty-properties>
+          </div>
+          <div class="col-md-6 leasingExecutives height-box-type">
+            <app-top-twenty-leasing-executive
+              [leasingExecutives]="leasingExecutives"
+              [isLoading]="isLoading"
+            ></app-top-twenty-leasing-executive>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noContent>
+      <div class="card-row">
+        <div class="nocontent-container">
+          <div class="col-12 py-2 text-center mt-5">
+            <img src="assets/images/unit-not-found.svg" alt="file" />
+            <p class="rd-heading-md-bold rd-text-deep-red">
+              No Information found
+            </p>
+            <p>You haven’t yet selected a campaign</p>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="" *ngIf="displayContent">
+    <div class="row">
+      <div>
+        <app-campaign-data-table 
+        [filter$]="filter$"
+        [appliedFilter$]="appliedFilter$"
+        [resetFilter$]="resetFilter$"
+        ></app-campaign-data-table>
+      </div>
+    </div>
+  </div>
+</div>
+

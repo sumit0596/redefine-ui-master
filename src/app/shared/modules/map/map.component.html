@@ -1,0 +1,8 @@
+<div
+  #map
+  class="google-map-container"
+  [ngStyle]="{ width: width, height: height }"
+></div>
+<div class="map-loader" *ngIf="loader">
+  <p *ngIf="loadingMessage">{{ loadingMessage }}</p>
+</div>

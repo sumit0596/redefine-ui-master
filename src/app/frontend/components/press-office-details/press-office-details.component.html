@@ -1,0 +1,70 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [urlData]="urlData"
+></app-banner-breadcrumb>
+
+<div class="container mt-5">
+  <div class="row" *ngIf="pressDetails">
+    <div class="col-md-8">
+      <p class="rd-text-grey-mid mt-3">
+        Published: {{ pressDetails.CreatedOn | date : "dd MMMM yyyy" }}
+      </p>
+      <div class="position-relative">
+        <div class="rd-heading rd-heading-lg-normal">
+          {{ pressDetails?.Title }}
+        </div>
+        <span class="rd-indicator rd-indicator-lg">
+          <span class="rd-indicator-content rd-indicator-primary"></span>
+        </span>
+      </div>
+      <div
+        class="mt-5 text-align-announcement"
+        [innerHtml]="pressDetails?.Content"
+      ></div>
+    </div>
+
+    <!-- <div class="container mt-3"> -->
+    <div class="col-md-4 mt-3">
+      <div class="recent-announcements-heading rd-heading-md-bold">
+        Recent Articles
+      </div>
+      <div class="sens-line mt-2 mb-2"></div>
+      <div
+        class="senses mt-3"
+        *ngFor="let press of recentPressDetails; let i = index"
+        (mouseover)="getHovercolor(i)"
+        (mouseleave)="getLeavecolor(i)"
+        (click)="pressDetailsPage(press)"
+      >
+        <div *ngIf="press.show">
+          <div id="{{ 'sens-data' + i }}">
+            <div class="position-relative">
+              <div class="rd-heading rd-heading-sm">{{ press.Title }}</div>
+              <span class="rd-indicator rd-indicator-sm">
+                <span class="rd-indicator-content rd-indicator-primary"></span>
+              </span>
+            </div>
+            <div class="rd-text-grey-mid mt-4">
+              {{ press.CreatedOn | date : "dd MMMM, yyyy" }}
+            </div>
+            <div class="sens-line mt-3"></div>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="recentPressDetails">
+        <button
+          type="submit"
+          class="rd-btn rd-btn-dark rd-btn-lg"
+          (click)="mediaQuery()"
+        >
+          <span class="btn-text">Media enquiries</span>
+        </button>
+      </ng-container>
+    </div>
+    <div></div>
+  </div>
+</div>
+<div class="quicklinks-gap">
+  <app-quick-links></app-quick-links>
+</div>

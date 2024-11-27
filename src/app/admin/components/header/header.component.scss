@@ -1,0 +1,85 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  height: 80px;
+}
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+nav .menu-btn {
+  width: 88px;
+  text-align: center;
+}
+.navbar-right {
+  display: flex;
+  gap: 15px;
+  justify-items: center;
+}
+button .bell-icon {
+  width: 18px;
+}
+.nav-list {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding: 0 10px;
+  list-style: none;
+}
+li.nav-item .user-details {
+  position: relative;
+}
+.user-details:hover .user-actions {
+  -webkit-transform: scaleY(1);
+  -ms-transform: scaleY(1);
+  transform: scaleY(1);
+  opacity: 1;
+  visibility: visible;
+}
+li.nav-item .user-actions {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  min-width: 170px;
+  width: auto;
+  height: auto;
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: 5px;
+  animation: fadeIn 0.3s;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  transform: translateY(20px);
+  -webkit-transform: translateY(20px);
+  -ms-transform: translateY(20px);
+  -webkit-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+}
+.user-actions ul {
+  padding: 0;
+  list-style: none;
+}
+.user-actions li {
+  padding: 10px 0;
+}
+.user-actions button {
+  width: 100%;
+  text-align: left;
+  transition: all 0.3s ease-in;
+}
+.user-actions button img {
+  width: 15px;
+  margin: 0 10px;
+}
+.user-actions button:hover {
+  background-color: #f5f5f5;
+}
+button.user-name-btn .dropdown-icon {
+  margin-left: 10px;
+  width: 15px;
+}

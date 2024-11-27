@@ -1,0 +1,702 @@
+<div class="rd-container">
+  <div class="rd-container-header" *ngIf="formConfig">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} - Lead
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <form
+      *ngIf="formConfig?.mode == formMode.CREATE"
+      [formGroup]="enquiryStatusForm"
+      (ngSubmit)="onSubmit($event)"
+      class="rd-form"
+      autocomplete="on"
+    >
+      <div class="rd-form-header">Lead Details</div>
+
+      <div class="rd-form-body">
+        <div class="row">
+          <div class="col-md-6">
+            <rd-select
+              [id]="'type'"
+              [label]="'Type'"
+              [placeholder]="'Please Select'"
+              [bindLabel]="'label'"
+              [bindValue]="'id'"
+              [required]="true"
+              [items$]="type$"
+              [form]="enquiryStatusForm"
+              [controlName]="'Type'"
+            ></rd-select>
+          </div>
+          <div class="col-md-6">
+            <rd-select
+              [id]="'property-name'"
+              [label]="'Property Name'"
+              [placeholder]="'Please Select'"
+              [bindLabel]="'PropertyName'"
+              [bindValue]="'PropertyId'"
+              [items$]="categoryList$"
+              [required]="true"
+              [form]="enquiryStatusForm"
+              [controlName]="'PropertyId'"
+              (onChange)="propertySelect($event)"
+            ></rd-select>
+          </div>
+          <!-- <rd-select
+            [id]="'units'"
+            [label]="'Property Units'"
+            [placeholder]="'Please Select'"
+            [bindLabel]="'NameAndLocation'"
+            [bindValue]="'PropertyUnitId'"
+            [items$]="unitList$"
+            [required]="true"
+            [form]="enquiryStatusForm"
+            [controlName]="'PropertyUnitsId'"
+          ></rd-select> -->
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <rd-input
+              [label]="'First Name'"
+              [id]="'add-name'"
+              [placeholder]="'Please Provide'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'FirstName'"
+              [form]="enquiryStatusForm"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+          </div>
+          <div class="col-md-6">
+            <rd-input
+              [label]="'Last Name'"
+              [id]="'add-title'"
+              [placeholder]="'Please Provide'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'LastName'"
+              [form]="enquiryStatusForm"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+          </div>
+        </div>
+
+        <div class="rd-form-section">
+          <ng-container>
+            <rd-input
+              [label]="'Email'"
+              [id]="'add-link'"
+              [required]="true"
+              [placeholder]="'Please Provide'"
+              [type]="'text'"
+              [controlName]="'Email'"
+              [form]="enquiryStatusForm"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+            <div *ngIf="formConfig?.mode == 'view'">
+              <div class="rd-heading rd-heading-sm">Linkedin Link</div>
+              <p
+                [innerHTML]="
+                  enquiryStatusForm.get('Email')?.value == '' ||
+                  enquiryStatusForm.get('Email')?.value == null ||
+                  enquiryStatusForm.get('Email')?.value == undefined
+                    ? 'Not available'
+                    : (enquiryStatusForm.get('Email')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+            <rd-input
+              [label]="'Mobile'"
+              [id]="'add-link'"
+              [required]="true"
+              [placeholder]="'Please Provide'"
+              [type]="'text'"
+              [controlName]="'Mobile'"
+              [form]="enquiryStatusForm"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+            <rd-input
+              [label]="'Company Name'"
+              [id]="'add-link'"
+              [required]="true"
+              [placeholder]="'Please Provide'"
+              [type]="'text'"
+              [controlName]="'CompanyName'"
+              [form]="enquiryStatusForm"
+              (onChange)="onChange($event)"
+            >
+            </rd-input>
+          </ng-container>
+        </div>
+
+        <div class="rd-form-header">Additional Information</div>
+
+        <div class="rd-form-section">
+          <!-- <rd-input
+            [label]="'Company Description'"
+            [id]="'add-qualification'"
+            [placeholder]="'Please Provide'"
+            [type]="'text'"
+            [controlName]="'CompanyDescription'"
+            [form]="enquiryStatusForm"
+            (onChange)="onChange($event)"
+          >
+          </rd-input> -->
+
+          <div>
+            <ng-container>
+              <rd-editor
+                [label]="'Company Description'"
+                [id]="'Description'"
+                [placeholder]="'Add Description'"
+                [controlName]="'CompanyDescription'"
+                [form]="enquiryStatusForm"
+                (onChange)="onChange($event)"
+              ></rd-editor>
+              <div *ngIf="formConfig?.mode == 'view'">
+                <div class="rd-heading rd-heading-sm">Description</div>
+                <p
+                  [innerHTML]="
+                    enquiryStatusForm.get('CompanyDescription')?.value == '' ||
+                    enquiryStatusForm.get('CompanyDescription')?.value ==
+                      null ||
+                    enquiryStatusForm.get('CompanyDescription')?.value ==
+                      undefined
+                      ? 'Not available'
+                      : (enquiryStatusForm.get('CompanyDescription')?.value
+                        | safeHtml : 'html')
+                  "
+                ></p>
+              </div>
+            </ng-container>
+          </div>
+
+          <ng-container>
+            <rd-editor
+              [label]="'Campaign'"
+              [id]="'Campaign'"
+              [placeholder]="'Add Campaign'"
+              [controlName]="'Campaign'"
+              [form]="enquiryStatusForm"
+              (onChange)="onChange($event)"
+            ></rd-editor>
+            <div *ngIf="formConfig?.mode == 'view'">
+              <div class="rd-heading rd-heading-sm">Description</div>
+              <p
+                [innerHTML]="
+                  enquiryStatusForm.get('Campaign')?.value == '' ||
+                  enquiryStatusForm.get('Campaign')?.value == null ||
+                  enquiryStatusForm.get('Campaign')?.value == undefined
+                    ? 'Not available'
+                    : (enquiryStatusForm.get('Campaign')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+          </ng-container>
+
+          <ng-container>
+            <rd-editor
+              [label]="'Medium'"
+              [id]="'Medium'"
+              [placeholder]="'Add Medium'"
+              [controlName]="'Medium'"
+              [form]="enquiryStatusForm"
+              (onChange)="onChange($event)"
+            ></rd-editor>
+            <div *ngIf="formConfig?.mode == 'view'">
+              <div class="rd-heading rd-heading-sm">Description</div>
+              <p
+                [innerHTML]="
+                  enquiryStatusForm.get('Medium')?.value == '' ||
+                  enquiryStatusForm.get('Medium')?.value == null ||
+                  enquiryStatusForm.get('Medium')?.value == undefined
+                    ? 'Not available'
+                    : (enquiryStatusForm.get('Medium')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+          </ng-container>
+
+          <ng-container>
+            <rd-editor
+              [label]="'Source'"
+              [id]="'Source'"
+              [placeholder]="'Add Source'"
+              [controlName]="'Source'"
+              [form]="enquiryStatusForm"
+              (onChange)="onChange($event)"
+            ></rd-editor>
+            <div *ngIf="formConfig?.mode == 'view'">
+              <div class="rd-heading rd-heading-sm">Description</div>
+              <p
+                [innerHTML]="
+                  enquiryStatusForm.get('Source')?.value == '' ||
+                  enquiryStatusForm.get('Source')?.value == null ||
+                  enquiryStatusForm.get('Source')?.value == undefined
+                    ? 'Not available'
+                    : (enquiryStatusForm.get('Source')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+          </ng-container>
+
+          <ng-container>
+            <rd-editor
+              [label]="'Keyword'"
+              [id]="'Keyword'"
+              [placeholder]="'Add Keyword'"
+              [controlName]="'Keyword'"
+              [form]="enquiryStatusForm"
+              (onChange)="onChange($event)"
+            ></rd-editor>
+            <div *ngIf="formConfig?.mode == 'view'">
+              <div class="rd-heading rd-heading-sm">Keyword</div>
+              <p
+                [innerHTML]="
+                  enquiryStatusForm.get('Keyword')?.value == '' ||
+                  enquiryStatusForm.get('Keyword')?.value == null ||
+                  enquiryStatusForm.get('Keyword')?.value == undefined
+                    ? 'Not available'
+                    : (enquiryStatusForm.get('Keyword')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+          </ng-container>
+          <ng-container>
+            <rd-editor
+              [label]="'AdContent'"
+              [id]="'AdContent'"
+              [placeholder]="'Add AdContent'"
+              [controlName]="'AdContent'"
+              [form]="enquiryStatusForm"
+              (onChange)="onChange($event)"
+            ></rd-editor>
+            <div *ngIf="formConfig?.mode == 'view'">
+              <div class="rd-heading rd-heading-sm">AdContent</div>
+              <p
+                [innerHTML]="
+                  enquiryStatusForm.get('AdContent')?.value == '' ||
+                  enquiryStatusForm.get('AdContent')?.value == null ||
+                  enquiryStatusForm.get('AdContent')?.value == undefined
+                    ? 'Not available'
+                    : (enquiryStatusForm.get('AdContent')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="rd-form-footer">
+        <!-- SAVE BUTTON -->
+
+        <div>
+          <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="goToManage()"
+          >
+            Cancel
+          </button>
+        </div>
+        <div>
+          <button type="submit" class="rd-btn-primary rd-btn-lg">Submit</button>
+          <!-- <ng-container [ngTemplateOutlet]="save_btn"></ng-container> -->
+        </div>
+      </div>
+    </form>
+    <div class="col-8">
+      <form
+        class="rd-form form-container"
+        *ngIf="
+          (formConfig?.mode == formMode.RESPOND ||
+            formConfig?.mode == formMode.VIEW) &&
+          leadDetails
+        "
+      >
+        <div class="col-12 z-index-1">
+          <button
+            class="rd-accordion-btn rd-heading rd-heading-md-bold"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseOne"
+            aria-expanded="true"
+            aria-controls="panelsStayOpen-collapseOne"
+          >
+            Enquiry Details
+          </button>
+        </div>
+        <div
+          id="panelsStayOpen-collapseOne"
+          class="accordion-collapse collapse show"
+          aria-labelledby="panelsStayOpen-headingOne"
+        >
+          <div class="rd-form-body">
+            <div class="attribute-container">
+              <div class="attribute-item">
+                <div class="attribute-label">Enquiry Type</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.SectorName }}
+                </div>
+              </div>
+              <div class="attribute-item">
+                <div class="attribute-label">Property Name</div>
+                <div class="attribute-desc">
+                  <a class="link rd-text-ellipsis-line">{{
+                    leadDetails?.PropertyName
+                  }}</a>
+                </div>
+              </div>
+              <div class="attribute-item">
+                <div class="attribute-label">Sector</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.SectorName }}
+                </div>
+              </div>
+              <div class="attribute-item">
+                <div class="attribute-label">Unit/s enquired about</div>
+                <div class="attribute-desc">
+                  <ul
+                    class="attribute-item"
+                    *ngFor="let unit of leadDetails?.units"
+                  >
+                    <li class="attribute-desc">{{ unit?.NameAndLocation }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 z-index-1">
+          <button
+            class="rd-accordion-lead-details-btn rd-heading rd-heading-md-bold"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseTwo"
+            aria-expanded="true"
+            aria-controls="panelsStayOpen-collapseTwo"
+          >
+            Lead Details
+          </button>
+        </div>
+        <div
+          id="panelsStayOpen-collapseTwo"
+          class="accordion-collapse collapse show"
+          aria-labelledby="panelsStayOpen-headingOne"
+        >
+          <div class="rd-form-body">
+            <div class="attribute-container">
+              <div class="attribute-item">
+                <div class="attribute-label">Name of Lead</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.FirstName }}
+                  {{ leadDetails?.LastName }}
+                </div>
+              </div>
+              <div class="attribute-item">
+                <div class="attribute-label">Email Address</div>
+                <div class="attribute-desc">
+                  <a
+                    href="mailto:{{ leadDetails?.Email }}"
+                    class="link rd-text-ellipsis-line"
+                    >{{ leadDetails?.Email }}</a
+                  >
+                </div>
+              </div>
+              <div class="attribute-item">
+                <div class="attribute-label">Mobile Number</div>
+                <div class="attribute-desc">
+                  <a
+                    href="tel:+{{ leadDetails?.Mobile }}"
+                    class="link rd-text-ellipsis-line"
+                    >{{ leadDetails?.Mobile }}</a
+                  >
+                </div>
+              </div>
+
+              <div class="attribute-item">
+                <div class="attribute-label">Company Name</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.CompanyName }}
+                </div>
+              </div>
+
+              <div class="attribute-item">
+                <div class="attribute-label">Company Description</div>
+                <div class="attribute-desc">
+                  {{
+                    leadDetails?.CompanyDescription == "" ||
+                    leadDetails?.CompanyDescription == null ||
+                    leadDetails?.CompanyDescription == undefined
+                      ? "NA"
+                      : leadDetails?.CompanyDescription
+                  }}
+                </div>
+              </div>
+
+              <div class="attribute-item">
+                <div class="attribute-label">Date Sent</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.CreatedOn | date : "dd/MM/YYYY" }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 z-index-1">
+          <button
+            class="rd-accordion-campaign-details-btn rd-heading rd-heading-md-bold"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseThree"
+            aria-expanded="true"
+            aria-controls="panelsStayOpen-collapseThree"
+          >
+            Campaign Details
+          </button>
+        </div>
+
+        <div
+          id="panelsStayOpen-collapseThree"
+          class="accordion-collapse collapse show"
+          aria-labelledby="panelsStayOpen-headingOne"
+        >
+          <div class="rd-form-body">
+            <div class="attribute-container">
+              <div class="attribute-item">
+                <div class="attribute-label">Campaign</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.Campaign ? leadDetails?.Campaign : "NA" }}
+                </div>
+              </div>
+
+              <div class="attribute-item">
+                <div class="attribute-label">Source</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.Source ? leadDetails?.Source : "NA" }}
+                </div>
+              </div>
+              <div class="attribute-item">
+                <div class="attribute-label">Medium</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.Medium ? leadDetails?.Medium : "NA" }}
+                </div>
+              </div>
+
+              <div class="attribute-item">
+                <div class="attribute-label">Term</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.Keyword ? leadDetails?.Keyword : "NA" }}
+                </div>
+              </div>
+
+              <div class="attribute-item">
+                <div class="attribute-label">Ad Content</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.AdContent ? leadDetails?.AdContent : "NA" }}
+                </div>
+              </div>
+
+              <div class="attribute-item">
+                <div class="attribute-label">Click Id</div>
+                <div class="attribute-desc">
+                  {{ leadDetails?.ClickId ? leadDetails?.ClickId : "NA" }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 z-index-1">
+          <button
+            class="rd-accordion-response-details-btn rd-heading rd-heading-md-bold"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseFour"
+            aria-expanded="true"
+            aria-controls="panelsStayOpen-collapseFour"
+          >
+            Response
+          </button>
+        </div>
+        <div
+          id="panelsStayOpen-collapseFour"
+          class="accordion-collapse collapse show"
+          aria-labelledby="panelsStayOpen-headingOne"
+        >
+          <div *ngFor="let unit of leadDetails?.messages">
+            <div class="attribute-container">
+              <div class="key-value-wrapper">
+                <div class="color">{{ unit.Name }}:</div>
+                <div class="units-wrapper">
+                  {{ unit.CreatedOn }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="attribute-desc"
+              [innerHTML]="unit?.Message | safeHtml : 'html'"
+            ></div>
+          </div>
+        </div>
+
+        <div class="rd-form-footer" *ngIf="leadDetails?.messages?.length == 0">
+          <div
+            class="rd-container-header move-right"
+            *ngIf="formConfig?.mode == formMode.RESPOND"
+          >
+            <button
+              type="button"
+              class="rd-btn-primary rd-btn-lg"
+              (click)="respondToLead()"
+            >
+              Respond To Lead
+            </button>
+          </div>
+        </div>
+
+        <div class="rd-form-footer" *ngIf="leadDetails?.messages?.length > 0">
+          <div class="rd-container-header move-right">
+            <button
+              disabled
+              type="button"
+              class="rd-btn-primary rd-btn-lg response-btn"
+            >
+              Response Sent
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-4">
+      <form
+        class="rd-form form-container"
+        [formGroup]="enquiryStatusForm"
+        (ngSubmit)="onSubmit($event)"
+        *ngIf="
+          (formConfig?.mode == formMode.RESPOND ||
+            formConfig?.mode == formMode.VIEW) &&
+          leadDetails
+        "
+      >
+        <div class="rd-form-header">Enquiry Status</div>
+        <div class="rd-form-body">
+          <rd-select
+            [id]="'status'"
+            [label]="'Set  Status'"
+            [placeholder]="'Please select status'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Id'"
+            [items$]="leadStatus$"
+            [form]="enquiryStatusForm"
+            [controlName]="'LeadStatusId'"
+            [required]="true"
+          ></rd-select>
+          <rd-textarea
+            [label]="'Status Note'"
+            [id]="'status-note'"
+            [placeholder]="'Type Note:'"
+            [controlName]="'Note'"
+            [form]="enquiryStatusForm"
+          ></rd-textarea>
+
+          <div
+            class="col-12 z-index-1"
+            *ngIf="leadDetails?.statusnote?.length > 0"
+          >
+            <button
+              class="rd-accordion-status-history-btn rd-heading rd-heading-md-bold"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-statusHistory"
+              aria-expanded="true"
+              aria-controls="panelsStayOpen-statusHistory"
+            >
+              Status Note History
+            </button>
+          </div>
+
+          <div
+            *ngIf="leadDetails?.statusnote?.length > 0"
+            id="panelsStayOpen-statusHistory"
+            class="accordion-collapse collapse"
+            aria-labelledby="panelsStayOpen-headingOne"
+          >
+            <div class="rd-form-body scroll-status-history">
+              <div
+                class="attribute-container"
+                *ngFor="let status of leadDetails?.statusnote"
+              >
+                <div class="attribute-item">
+                  <div class="attribute-label">Note:</div>
+                  <div class="attribute-desc">
+                    {{ status.Message }}
+                  </div>
+                </div>
+                <div class="attribute-item">
+                  <div class="attribute-label">CreatedOn:</div>
+                  <div class="attribute-desc">
+                    {{ status.CreatedOn | date : "dd/MM/YYYY" }}
+                  </div>
+                </div>
+                <div class="attribute-item">
+                  <div class="attribute-label">Added By:</div>
+                  <div class="attribute-desc">
+                    {{ status.AddedBy }}
+                  </div>
+                </div>
+                <div class="h-line"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rd-form-footer">
+            <div class="rd-container d-flex flex-column rd-gap-20">
+              <button
+                *ngIf="formConfig?.mode == formMode.RESPOND"
+                type="submit"
+                class="rd-btn-primary rd-btn-lg update-cancel-learnship"
+              >
+                Update
+              </button>
+              <button
+                type="button"
+                class="rd-btn-secondary rd-btn-lg update-cancel-learnship"
+                (click)="goToManage()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row"></div>
+</div>

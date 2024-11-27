@@ -1,0 +1,414 @@
+<div class="table-container">
+  <div class="rd-grid-header">
+    <div>
+      <div class="rd-heading rd-heading-md-bold">
+        {{ tableSettings.tablename }}
+      </div>
+      <small class="rd-text-grey-mid"
+        >Total: {{ tableSettings.totalRowsCount }} &nbsp;
+        <span *ngIf="tableSettings?.totalFeaturedProperty"
+          >(Featured: {{ tableSettings?.totalFeaturedProperty }})</span
+        >
+      </small>
+    </div>
+    <div class="datatable-btn-group" *ngIf="!emitClicks">
+      <div
+        class="search-container search-input-wrapper"
+        *ngIf="tableSettings.isSearchRequired"
+      >
+        <form #searchForm (keydown)="keydown($event, searchText)">
+          <input
+            #search
+            type="text"
+            name="search"
+            id="search-input"
+            class="search-input"
+            placeholder="Search"
+            [(ngModel)]="searchText"
+          />
+          <div class="search-btn-wrapper">
+            <button
+              type="button"
+              title="close"
+              class="rd-btn-close"
+              (click)="toggleSearch(false)"
+            >
+              <img src="assets/images/close.svg" />
+            </button>
+            <button
+              type="button"
+              title="search"
+              class="btn-search"
+              (click)="
+                searchText == null
+                  ? toggleSearch(true)
+                  : applyFilter(searchText)
+              "
+            >
+              <img src="assets/images/search.svg" />
+            </button>
+          </div>
+        </form>
+      </div>
+      <button
+        type="button"
+        *ngIf="tableSettings.isFilterRequired"
+        (click)="filterDialogOpen()"
+        title="filter"
+      >
+        <img src="assets/images/filter.svg" />
+      </button>
+      <button
+        type="button"
+        *ngIf="tableSettings.isColumnGroupRequired"
+        (click)="columnGroupDialogOpen()"
+        title="columns"
+      >
+        <img src="assets/images/grid-columns.svg" />
+      </button>
+      <button
+        type="button"
+        title="Download"
+        *ngIf="tableSettings.isDownloadRequired"
+        (click)="download()"
+        [disabled]="rows.length == 0"
+      >
+        <img src="assets/images/download.svg" />
+      </button>
+    </div>
+    <!-- New toolbar action implements -->
+    <div class="datatable-btn-group" *ngIf="emitClicks">
+      <div *ngFor="let tool of tableSettings.tools">
+        <div [ngSwitch]="tool.name">
+          <div *ngSwitchCase="'Search'">
+            <div
+              class="search-container search-input-wrapper"
+              *ngIf="!tool.disabled"
+            >
+              <form
+                #searchForm
+                [ngClass]="{ 'search-active': searchText != null }"
+              >
+                <input
+                  #search
+                  type="text"
+                  name="search"
+                  id="search-input"
+                  class="search-input"
+                  placeholder="Search"
+                  [(ngModel)]="searchText"
+                  (keyup.enter)="searchData(tool)"
+                />
+                <div class="search-btn-wrapper">
+                  <button
+                    type="button"
+                    title="close"
+                    class="rd-btn-close"
+                    (click)="clearSearch(tool)"
+                  >
+                    <img src="assets/images/close.svg" alt="search close" />
+                  </button>
+                  <button
+                    type="button"
+                    [title]="tool.name"
+                    class="btn-search"
+                    (click)="
+                      searchText == null ? toggleSearch(true) : searchData(tool)
+                    "
+                  >
+                    <img [src]="tool.icon" alt="tool icon" />
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div *ngSwitchDefault>
+            <button
+              *ngIf="!tool.disabled"
+              type="button"
+              [title]="tool.name"
+              (click)="onToolbarClick(tool)"
+            >
+              <img [src]="tool.icon" alt="tool icon" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="datatable-container">
+    <table mat-table #table [dataSource]="rows">
+      <ng-container
+        *ngFor="let column of getColumnToDisplay(); let i = index"
+        [matColumnDef]="column.field"
+      >
+        <th mat-header-cell *matHeaderCellDef>
+          <span *ngIf="column.field === 'checkbox'">
+            <div class="checkbox-input rd-checkbox" *ngIf="rows.length > 0">
+              <input
+                type="checkbox"
+                (change)="$event ? masterToggle($event) : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+              />
+            </div>
+          </span>
+          <b
+            ><span *ngIf="column.field !== 'checkbox' && column.show">{{
+              column.header
+            }}</span></b
+          >
+          <span *ngIf="column.sort" class="sorting-btn-group">
+            <img
+              src="assets/images/chevron-up.svg"
+              (click)="sortData(column.field, true)"
+              class="sort-asc-btn"
+            />
+            <img
+              src="assets/images/chevron-down.svg"
+              (click)="sortData(column.field, false)"
+              class="sort-desc-btn"
+            />
+          </span>
+        </th>
+
+        <td
+          mat-cell
+          *matCellDef="let row; let l = index"
+          [title]="assignTitle(column.field, row)"
+          (click)="onCellClick(row, column)"
+        >
+          <div
+            class="checkbox-input rd-checkbox"
+            *ngIf="column.field === 'checkbox' && column.show"
+          >
+            <input
+              type="checkbox"
+              (click)="$event.stopPropagation()"
+              (change)="selectedRow($event, row)"
+              [checked]="selection.isSelected(row)"
+            />
+          </div>
+
+          <ng-container
+            *ngIf="
+              row[column.field] !== 'actions' &&
+              column.field !== 'checkbox' &&
+              column.show
+            "
+          >
+            <span
+              [ngClass]="{
+                status: column.header === 'Status',
+                vacancy: row[column.field]
+                  ?.toString()
+                  ?.trim()
+                  ?.toLocaleLowerCase()
+                  ?.includes('units'),
+                fullylet:
+                  row[column.field] === 'Fully let' ||
+                  row[column.field] === 'Unpublished',
+                draft: row[column.field] === 'Draft',
+                archived:
+                  row[column.field] === 'Archived' ||
+                  row[column.field] === 'Pending',
+                published:
+                  row[column.field] === 'Published' ||
+                  row[column.field] === 'Resolved' || 
+                  row[column.field] === 'Active' ,
+                unqualified:
+                  row[column.field] === 'Unqualified' ||
+                  row[column.field] === 'New Lead' ||
+                  row[column.field] === 'Rejected' || 
+                  row[column.field] === 'Inactive',
+                marketingQualified:
+                  row[column.field] === 'Marketing Qualified' ||
+                  row[column.field] === 'Active Lead' ||
+                  row[column.field] === 'Short Listed',
+                leasingQualified:
+                  row[column.field] === 'Leasing Qualified' ||
+                  row[column.field] === 'Offer Signed',
+                viewing:
+                  row[column.field] === 'Viewing' ||
+                  row[column.field] === 'Lease Sent',
+                negotiationsContract:
+                  row[column.field] === 'Negotiation / Contract' ||
+                  row[column.field] === 'Offer Out',
+                leaseSignedDealWon:
+                  row[column.field] === 'Lease Signed / Deal Won' ||
+                  row[column.field] === 'Lease Signed' ||
+                  row[column.field] === 'Open',
+                disqualified:
+                  row[column.field] === 'Disqualified' ||
+                  row[column.field] === 'Dead Lead',
+                parked: row[column.field] === 'Parked',
+                unresponsive: row[column.field] === 'Unresponsive',
+                unitsAvaialable: row[column.field] === 'Units available',
+                'availability-toggle':
+                  row[column.field] === 'Yes' || row[column.field] === 'No'
+              }"
+            >
+              <!-- <rd-switch
+                *ngIf="column.field === 'UnitStatus'"
+                [toggleChecked]="setToggle(row[column.field])"
+                (onChange)="onSwitchToggle($event, row)"
+              ></rd-switch> -->
+
+              <ng-container
+                *ngIf="column.field === 'UnitStatus'"
+                fxLayoutAlign="center center"
+              >
+                <button
+                  class="d-flex align-items-center unitStatusButton"
+                  mat-button
+                  [matMenuTriggerFor]="menu"
+                >
+                  <span
+                    class="set-unitStatus"
+                    [innerHTML]="row[column.field] | safeHtml : 'html'"
+                  ></span>
+                  <mat-icon>arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button
+                    mat-menu-item
+                    *ngFor="let status of statuse$"
+                    (click)="onSwitchToggle(status.value, row)"
+                  >
+                    {{ status.label }}
+                  </button>
+                </mat-menu>
+              </ng-container>
+
+              <rd-switch
+                *ngIf="column.field === 'IsFeatured'"
+                [toggleChecked]="setToggle(row[column.field])"
+                (onChange)="onFeaturedSwitchToggle($event, row)"
+              ></rd-switch>
+              <ng-container *ngIf="column.field != 'PropertyName'">
+                <span
+                  class="rd-text-grey-mid"
+                  *ngIf="
+                    (column.field === 'Publishdatetime' ||
+                      column.field === 'Year' ||
+                      column.field === 'PublishDate') &&
+                    (row[column.field] == 0 ||
+                      row[column.field] == '' ||
+                      row[column.field] == null)
+                  "
+                  ><em>Not Set</em></span
+                >
+
+                <ng-container *ngIf="column.id === 'propertyEqTitle'">
+                  <span
+                    class="p-2 rd-pin-status"
+                    *ngIf="row[pinColumn.field] === 1"
+                  >
+                    <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+                  </span>
+                </ng-container>
+
+                <span
+                  *ngIf="
+                    (column.field != 'Publishdatetime' ||
+                      column.field != 'Year' ||
+                      column.field != 'PublishDate') &&
+                    column.field != 'UnitStatus' &&
+                    row[column.field] != null &&
+                    row[column.field] != 0 &&
+                    row[column.field] != ''
+                  "
+                  [innerHTML]="row[column.field] | safeHtml : 'html'"
+                  class="span-text"
+                ></span>
+
+                <span
+                  class="image-count"
+                  title=" "
+                  [ngClass]="{
+                    status: column.header === 'Photos',
+                    imagecount: row[column.field] === 0
+                  }"
+                  *ngIf="column.field == 'ImageCount' && row[column.field] == 0"
+                  >No images</span
+                >
+              </ng-container>
+              <a
+                class="link rd-text-ellipsis-line"
+                routerLink="viewProperty(row)"
+                *ngIf="column.field === 'PropertyName'"
+                (click)="viewProperty(row)"
+                >{{ row[column.field] }}</a
+              >
+            </span>
+          </ng-container>
+
+          <ng-container
+            *ngIf="
+              column.field == 'actions' &&
+              row.operations &&
+              row.operations.length > 0
+            "
+            fxLayoutAlign="center center"
+          >
+            <button
+              type="button"
+              id="more-btn"
+              mat-icon-button
+              [matMenuTriggerFor]="moreMenu"
+              aria-label="More"
+            >
+              <mat-icon class="more-vert-icon">more_vert</mat-icon>
+            </button>
+            <mat-menu class="mat-menu" #moreMenu="matMenu">
+              <button
+                mat-menu-item
+                aria-label="remove"
+                *ngFor="let rowAction of row.operations"
+                (click)="rowWiseAction(rowAction.name, row)"
+              >
+                <div class="d-flex">
+                  <div class="crud-icons">
+                    <img src="{{ rowAction.path }}" />
+                  </div>
+                  <div
+                    [ngClass]="{
+                      'row-action-name font-styles':
+                        rowAction.name !== 'Delete',
+                      'delete-text font-styles': rowAction.name === 'Delete'
+                    }"
+                  >
+                    {{ rowAction.name }}
+                  </div>
+                </div>
+              </button>
+            </mat-menu>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <div *ngIf="isLoading">
+      <div class="no-data-found font-styles">Loading...</div>
+    </div>
+    <div *ngIf="!isLoading && isNoData">
+      <div class="no-data-found font-styles">No Data Found</div>
+    </div>    
+  </div>
+  <mat-paginator
+    #paginator
+    class="radius-10"
+    *ngIf="rows && rows.length != 0 && tableSettings.isPaginationRequired"
+    [length]="totalRowsCount"
+    [pageSize]="10"
+    [pageSizeOptions]="customRowsPerPageOptions"
+    (page)="paginate($event)"
+    [pageIndex]="pageIndex"
+    showFirstLastButtons
+    previousPageLabel="'pre'"
+  >
+  </mat-paginator>
+</div>

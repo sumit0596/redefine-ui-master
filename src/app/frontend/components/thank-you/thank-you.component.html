@@ -1,0 +1,28 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [breadcrumbLinks]=""
+></app-banner-breadcrumb>
+<div class="container">
+  <div class="breadcrum">
+    <a [routerLink]="['/']">Home</a> /
+    <a [routerLink]="['/properties']">Properties</a>
+    /
+    <a [routerLink]="'/properties/' + slug">{{ formConfig?.propertyName }}</a>
+    /
+    <a [routerLink]="'/properties/' + slug + '/thank-you'">Thank you</a>
+  </div>
+  <p class="rd-text-grey-mid pt-5 pb-3 text-center">
+    Your enquiry has been submitted and an advisor will be in contact with you
+    shortly.
+  </p>
+  <div>
+    <button
+      type="button"
+      class="rd-btn rd-btn-dark rd-btn-lg mb-2"
+      (click)="gotoProperties()"
+    >
+      <span class="btn-text">Done</span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,385 @@
+<div class="rd-container preview-container" *ngIf="propertyDetails">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 d-flex align-items-center justify-content-end mb-4">
+        <button type="button" class="rd-btn rd-btn-text" (click)="closeModal()">
+          <span class="btn-icon"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+              ></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <!-- PROPERTY IMAGES -->
+      <div class="property-image-section">
+        <div class="property-image-gallery">
+          <div class="property-image">
+            <img
+              [src]="
+                propertyDetails.media?.Image?.length > 0
+                  ? propertyDetails.media?.Image[0].Url
+                  : imagePlaceholders[0].Url
+              "
+              alt="property image"
+            />
+          </div>
+        </div>
+        <div
+          class="property-image-thumbnails"
+          *ngIf="propertyDetails.media?.Image?.length > 1"
+        >
+          <div
+            *ngFor="
+              let image of propertyDetails.media?.Image?.length > 0
+                ? (propertyDetails.media?.Image | slice : 1 : 4)
+                : imagePlaceholders
+            "
+            class="property-image"
+          >
+            <img [src]="image.Url" alt="property image" />
+          </div>
+          <div
+            class="more-images property-image"
+            *ngIf="propertyDetails.media?.Image?.length > 4"
+          >
+            +{{ propertyDetails.media?.Image.length - 4 }} Photos
+          </div>
+        </div>
+      </div>
+      <div class="preview-tabs-section">
+        <mat-tab-group
+          mat-stretch-tabs="false"
+          mat-align-tabs="start"
+          animationDuration="0ms"
+          dynamicHeight
+          fitInkBarToContent
+        >
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <div class="rd-heading rd-heading-xs">Description</div>
+            </ng-template>
+            <div class="preview-section">
+              <div class="property-details-wrapper">
+                <div class="key-value-container rd-text-grey-mid">
+                  <div class="key-value-wrapper">
+                    <div>Sector:</div>
+                    <div>
+                      {{
+                        propertyDetails.details.SectorName
+                          ? propertyDetails.details.SectorName
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                  <div class="key-value-wrapper">
+                    <div class="key-color-primary">GLA:</div>
+                    <div>
+                      {{
+                        propertyDetails.details.Gla
+                          ? propertyDetails.details.Gla
+                          : "NA"
+                      }}m<sup>2</sup>
+                    </div>
+                  </div>
+                  <div class="key-value-wrapper">
+                    <div>Completion:</div>
+                    <div>
+                      {{
+                        propertyDetails.details.ProvideYear
+                          ? propertyDetails.details.ProvideYear
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                </div>
+                <div class="position-relative mb-5">
+                  <div class="rd-heading rd-heading-xl">
+                    {{ propertyDetails.details.PropertyName }}
+                  </div>
+                  <span class="rd-indicator rd-indicator-xl">
+                    <span
+                      class="rd-indicator-content rd-indicator-primary"
+                    ></span>
+                  </span>
+                </div>
+
+                <div class="key-value-container">
+                  <div class="key-value-wrapper">
+                    <div>Address:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.Address
+                          ? propertyDetails.details.Address
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                  <div class="key-value-wrapper">
+                    <div>Suburb:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.Suburb
+                          ? propertyDetails.details.Suburb
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                  <div class="key-value-wrapper">
+                    <div>City:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.City
+                          ? propertyDetails.details.City
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+
+                  <div class="key-value-wrapper">
+                    <div *ngIf="propertyDetails.details.Type == 1">
+                      Province:
+                    </div>
+                    <div *ngIf="propertyDetails.details.Type == 2">State:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.ProvinceName
+                          ? propertyDetails.details.ProvinceName
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                  <div class="key-value-wrapper">
+                    <div>Country:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.Country
+                          ? propertyDetails.details.Country
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                  <div class="key-value-wrapper">
+                    <div>Postal Code:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.PostCode
+                          ? propertyDetails.details.PostCode
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                </div>
+                <hr />
+
+                <div class="property-details">
+                  <div class="property-details">
+                    <div class="rd-heading rd-heading-sm-bold">Description</div>
+                    <div
+                      class="rd-text-grey-mid pt-2 rd-text-justify"
+                      [innerHTML]="
+                        (propertyDetails.details.PropertyDescription
+                        | safeHtml : 'html')
+                          ? (propertyDetails.details.PropertyDescription
+                            | safeHtml : 'html')
+                          : 'Not available'
+                      "
+                    ></div>
+                    <div class="rd-text-grey-mid pt-3 pb-1">
+                      <div class="key-value-container" *ngIf="featureAmenities">
+                        <div
+                          *ngFor="let feature of featureAmenities"
+                          class="key-value-wrapper"
+                        >
+                          <div>
+                            <img
+                              [src]="
+                                'assets/images/' + getFeatureIcon(feature.Title)
+                              "
+                              class="feature-icon"
+                              alt="feature_icon"
+                            />
+                          </div>
+                          <div>
+                            {{ feature.Title }}:
+                            {{ feature.Value ? feature.Value : "NA" }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+
+          <!-- maps -->
+          <mat-tab label="MapView">
+            <ng-template mat-tab-label>
+              <div class="rd-heading rd-heading-xs">Map View</div>
+            </ng-template>
+            <div class="position-relative mb-5">
+              <div class="rd-heading rd-heading-xl">Map View</div>
+              <span class="rd-indicator rd-indicator-xl">
+                <span class="rd-indicator-content rd-indicator-primary"></span>
+              </span>
+            </div>
+            <div>
+              <div class="key-value-container">
+                <div class="key-value-wrapper">
+                  <div>Address:</div>
+                  <div class="rd-text-grey-mid">
+                    {{
+                      propertyDetails.details.Address
+                        ? propertyDetails.details.Address
+                        : "NA"
+                    }}
+                  </div>
+                </div>
+                <div class="key-value-wrapper">
+                  <div>Suburb:</div>
+                  <div class="rd-text-grey-mid">
+                    {{
+                      propertyDetails.details.Suburb
+                        ? propertyDetails.details.Suburb
+                        : "NA"
+                    }}
+                  </div>
+                </div>
+                <div class="key-value-wrapper">
+                  <div>City:</div>
+                  <div class="rd-text-grey-mid">
+                    {{
+                      propertyDetails.details.City
+                        ? propertyDetails.details.City
+                        : "NA"
+                    }}
+                  </div>
+                </div>
+                <div class="key-value-wrapper">
+                  <div *ngIf="propertyDetails.details.Type == 1">Province:</div>
+                  <div *ngIf="propertyDetails.details.Type == 2">State:</div>
+                  <div class="rd-text-grey-mid">
+                    {{
+                      propertyDetails.details.ProvinceName
+                        ? propertyDetails.details.ProvinceName
+                        : "NA"
+                    }}
+                  </div>
+                </div>
+                <div class="key-value-wrapper">
+                  <div>Country:</div>
+                  <div class="rd-text-grey-mid">
+                    {{
+                      propertyDetails.details.Country
+                        ? propertyDetails.details.Country
+                        : "NA"
+                    }}
+                  </div>
+                </div>
+                <div class="key-value-wrapper">
+                  <div>Postal Code:</div>
+                  <div class="rd-text-grey-mid">
+                    {{
+                      propertyDetails.details.PostCode
+                        ? propertyDetails.details.PostCode
+                        : "NA"
+                    }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="property-details-wrapper">
+              <div class="rd-heading rd-heading-sm-bold">GPS coordinates:</div>
+              <div class="property-details">
+                <div class="key-value-container">
+                  <div class="key-value-wrapper">
+                    <div>Longitude:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.Longitude
+                          ? propertyDetails.details.Longitude
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                  <div class="key-value-wrapper">
+                    <div>Latitude:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.Latitude
+                          ? propertyDetails.details.Latitude
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="property-details-wrapper">
+              <app-map
+                *ngIf="markers && markers.length; else map_loader"
+                [markers]="markers"
+                [height]="'400px'"
+                [zoom]="17"
+                [center]="center"
+              ></app-map>
+              <!-- <google-map
+                height="400px"
+                width="100%"
+                [zoom]="zoom"
+                [center]="center"
+              >
+                <map-marker
+                  *ngFor="let markerPosition of markerPositions"
+                  [position]="markerPosition"
+                  [options]="markerOptions"
+                ></map-marker>
+              </google-map> -->
+              <!-- <google-map height="400px" width="100%" [zoom]="zoom" [center]="center">
+                        <map-marker *ngFor="let markerPosition of markerPositions" [position]="markerPosition"
+                          [options]="markerOptions"></map-marker>
+                      </google-map> -->
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+        <div class="d-flex flex-row justify-content-between pb-5 mb-5">
+          <div>Learn more about {{ propertyDetails.details.PropertyName }}</div>
+          <div class="d-flex flex-row">
+            <a
+              *ngIf="propertyDetails.details.WebsiteUrl"
+              [href]="
+                propertyDetails.details.WebsiteUrl.includes('http')
+                  ? propertyDetails.details.WebsiteUrl
+                  : 'https://' + propertyDetails.details.WebsiteUrl
+              "
+              target="_blank"
+              class="link units-wrapper"
+            >
+              {{ propertyDetails.details.WebsiteUrl }}
+            </a>
+            <span class="px-1"
+              ><img
+                class="modal-icon"
+                src="assets/images/arrow-right-circle.svg"
+                alt="close_icon"
+            /></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #map_loader>
+  <div class="d-flex gap-2 placeholder-glow">
+    <div class="w-100 placeholder" [style.height.px]="400"></div>
+  </div>
+</ng-template>

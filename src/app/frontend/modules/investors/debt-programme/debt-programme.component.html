@@ -1,0 +1,780 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+></app-banner-breadcrumb>
+
+<div class="container mt-5">
+  <div class="preview-tabs-section">
+    <mat-tab-group
+      mat-stretch-tabs="false"
+      mat-align-tabs="start"
+      animationDuration="10ms"
+      dynamicHeight
+      fitInkBarToContent
+      [selectedIndex]="tab"
+      (selectedTabChange)="onTabChange($event)"
+    >
+      <mat-tab [label]="'DebtProgramme'">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">Debt programme</div>
+        </ng-template>
+        <div>
+          <!-- 1 -->
+
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <ng-container>
+                <div class="row">
+                  <div class="col-md-3">
+                    <ng-container>
+                      <div
+                        class="position-relative"
+                        *ngIf="otherDebts?.length > 0"
+                      >
+                        <div class="rd-heading rd-heading-md-bold">
+                          Download any report
+                        </div>
+                        <span class="rd-indicator rd-indicator-lg">
+                          <span
+                            class="rd-indicator-content rd-indicator-secondary"
+                          ></span>
+                        </span>
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="sens-line sens-line-mobile"></div>
+                    <div
+                      class="senses mt-3"
+                      *ngFor="let otherDebt of otherDebts; let i = index"
+                    >
+                      <div class="row">
+                        <div class="col-md-8 d-flex justify-content-start">
+                          <div
+                            class="position-relative document-name"
+                            id="{{ 'feature-name' + i }}"
+                          >
+                            <div class="rd-heading rd-heading-md">
+                              {{ otherDebt?.Title }}
+                            </div>
+                            <span class="rd-indicator rd-indicator-xs">
+                              <span
+                                class="rd-indicator-content rd-indicator-primary"
+                              ></span>
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          class="col-md-4 d-flex download-display justify-content-end"
+                        >
+                          <a
+                            download
+                            (click)="download($event, otherDebt.Pdf)"
+                            [href]="otherDebt?.Pdf"
+                            target="_blank"
+                            [attr.downloadanalytics]="
+                              otherDebt?.Title +
+                              ' ' +
+                              'ANALOAD' +
+                              ' ' +
+                              otherDebt?.Pdf
+                            "
+                            class="rd-btn rd-btn-text gap-0 mt-2"
+                          >
+                            <span class="px-1">Download</span>
+                            <span class="btn-icon">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="25"
+                                height="36"
+                                fill="none"
+                                viewBox="0 0 36 36"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                                />
+                                <circle
+                                  cx="18"
+                                  cy="18"
+                                  r="17"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                />
+                              </svg>
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- end 1 -->
+
+          <!-- 2 -->
+
+          <div class="row">
+            <div class="col-md-12">
+              <ng-container>
+                <div class="row">
+                  <div class="col-md-3 debt-programme">
+                    <div
+                      class="position-relative"
+                      *ngIf="debtsOfficer?.length > 0"
+                    >
+                      <div class="rd-heading rd-heading-md-bold">
+                        {{ debtCategories[1].Name }}
+                      </div>
+                      <span class="rd-indicator rd-indicator-lg">
+                        <span
+                          class="rd-indicator-content rd-indicator-secondary"
+                        ></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <div
+                      class="senses mt-3"
+                      *ngFor="let otherdebt of debtsOfficer; let j = index"
+                    >
+                      <div class="row">
+                        <div class="col-md-6 d-flex justify-content-start">
+                          <div
+                            class="position-relative document-name"
+                            id="{{ 'feature-name-officer' + j }}"
+                          >
+                            <div class="rd-heading rd-heading-md">
+                              {{ otherdebt?.Title }}
+                            </div>
+                            <span class="rd-indicator rd-indicator-xs">
+                              <span
+                                class="rd-indicator-content rd-indicator-primary"
+                              ></span>
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          class="col-md-6 download-display d-flex justify-content-end"
+                        >
+                          <a
+                            [href]="otherdebt?.Pdf"
+                            (click)="download($event, otherdebt?.Pdf)"
+                            [attr.downloadanalytics]="
+                              otherdebt?.Title +
+                              ' ' +
+                              'ANALOAD' +
+                              ' ' +
+                              otherdebt?.Pdf
+                            "
+                            target="_blank"
+                            class="rd-btn rd-btn-text mt-2 gap-0"
+                          >
+                            <span class="px-1">Download</span>
+                            <span class="btn-icon">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="25"
+                                height="36"
+                                fill="none"
+                                viewBox="0 0 36 36"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                                />
+                                <circle
+                                  cx="18"
+                                  cy="18"
+                                  r="17"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                />
+                              </svg>
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- end 2 -->
+
+          <!-- 3 -->
+
+          <div class="row">
+            <div class="col-md-12">
+              <ng-container>
+                <div class="row">
+                  <div class="col-md-3 debt-programme">
+                    <div
+                      class="position-relative"
+                      *ngIf="debtsDisclosures?.length > 0"
+                    >
+                      <div class="rd-heading rd-heading-md-bold">
+                        {{ debtCategories[2].Name }}
+                      </div>
+                      <span class="rd-indicator rd-indicator-lg">
+                        <span
+                          class="rd-indicator-content rd-indicator-secondary"
+                        ></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-9 mb-3">
+                    <div
+                      class="senses mt-3"
+                      *ngFor="let otherdebt of debtsDisclosures; let k = index"
+                    >
+                      <div class="row">
+                        <div class="col-md-6 d-flex justify-content-start">
+                          <div
+                            class="position-relative document-name"
+                            id="{{ 'feature-name-disclosure' + k }}"
+                          >
+                            <div class="rd-heading rd-heading-md">
+                              {{ otherdebt?.Title }}
+                            </div>
+                            <span class="rd-indicator rd-indicator-xs">
+                              <span
+                                class="rd-indicator-content rd-indicator-primary"
+                              ></span>
+                            </span>
+                          </div>
+                        </div>
+                        <div
+                          class="col-md-6 download-display d-flex justify-content-end"
+                        >
+                          <a
+                            [href]="otherdebt?.Pdf"
+                            (click)="download($event, otherdebt?.Pdf)"
+                            target="_blank"
+                            [attr.downloadanalytics]="
+                              otherdebt?.Title +
+                              ' ' +
+                              'ANALOAD' +
+                              ' ' +
+                              otherdebt?.Pdf
+                            "
+                            class="rd-btn rd-btn-text mt-2 gap-0"
+                          >
+                            <span class="px-1">Download</span>
+                            <span class="btn-icon">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="25"
+                                height="36"
+                                fill="none"
+                                viewBox="0 0 36 36"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                                />
+                                <circle
+                                  cx="18"
+                                  cy="18"
+                                  r="17"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                />
+                              </svg>
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- end 3 -->
+        </div>
+      </mat-tab>
+
+      <mat-tab [label]="'PricingSupplement'">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">Pricing supplement</div>
+        </ng-template>
+
+        <!-- Pricing -->
+
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <ng-container>
+              <div class="row">
+                <div class="col-md-3">
+                  <div
+                    class="position-relative"
+                    *ngIf="debtProgramme?.length > 0"
+                  >
+                    <div class="rd-heading rd-heading-md-bold">
+                      Pricing supplement
+                    </div>
+                    <span class="rd-indicator rd-indicator-lg">
+                      <span
+                        class="rd-indicator-content rd-indicator-secondary"
+                      ></span>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-9 mb-3">
+                  <div class="sens-line sens-line-mobile"></div>
+                  <div
+                    class="senses mt-3"
+                    *ngFor="let debtP of debtProgramme; let i = index"
+                  >
+                    <div class="row">
+                      <div class="col-md-6 d-flex justify-content-start">
+                        <div
+                          class="position-relative document-name"
+                          id="{{ 'feature-name' + i }}"
+                        >
+                          <div class="rd-heading rd-heading-md">
+                            {{ debtP?.Title }}
+                          </div>
+                          <span class="rd-indicator rd-indicator-xs">
+                            <span
+                              class="rd-indicator-content rd-indicator-primary"
+                            ></span>
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="col-md-6 download-display d-flex justify-content-end"
+                      >
+                        <a
+                          [href]="debtP?.Pdf"
+                          (click)="download($event, debtP.Pdf)"
+                          target="_blank"
+                          [attr.downloadanalytics]="
+                            debtP?.Title + ' ' + 'ANALOAD' + ' ' + debtP?.Pdf
+                          "
+                          class="rd-btn rd-btn-text mt-2 gap-0"
+                        >
+                          <span class="px-1">Download</span>
+                          <span class="btn-icon">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="25"
+                              height="36"
+                              fill="none"
+                              viewBox="0 0 36 36"
+                            >
+                              <path
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                              />
+                              <circle
+                                cx="18"
+                                cy="18"
+                                r="17"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              />
+                            </svg>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Pricing -->
+      </mat-tab>
+
+      <mat-tab [label]="'CreditRatings'">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">Credit ratings</div>
+        </ng-template>
+
+        <!-- Credit -->
+
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <ng-container>
+              <div class="row">
+                <div class="col-md-3">
+                  <div
+                    class="position-relative"
+                    *ngIf="debtProgramme?.length > 0"
+                  >
+                    <div class="rd-heading rd-heading-md-bold">
+                      Credit ratings
+                    </div>
+                    <span class="rd-indicator rd-indicator-lg">
+                      <span
+                        class="rd-indicator-content rd-indicator-secondary"
+                      ></span>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-9 mb-3">
+                  <div class="sens-line sens-line-mobile"></div>
+                  <div
+                    class="senses mt-3"
+                    *ngFor="let debtP of debtProgramme; let i = index"
+                  >
+                    <div class="row">
+                      <div class="col-md-6 d-flex justify-content-start">
+                        <div
+                          class="position-relative document-name"
+                          id="{{ 'feature-name' + i }}"
+                        >
+                          <div class="rd-heading rd-heading-md">
+                            {{ debtP?.Title }}
+                          </div>
+                          <span class="rd-indicator rd-indicator-xs">
+                            <span
+                              class="rd-indicator-content rd-indicator-primary"
+                            ></span>
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="col-md-6 download-display d-flex justify-content-end"
+                      >
+                        <a
+                          [href]="debtP?.Pdf"
+                          (click)="download($event, debtP?.Pdf)"
+                          target="_blank"
+                          [attr.downloadanalytics]="
+                            debtP?.Title + ' ' + 'ANALOAD' + ' ' + debtP?.Pdf
+                          "
+                          class="rd-btn rd-btn-text mt-2 gap-1"
+                        >
+                          <span class="btn-text">Download</span>
+                          <span class="btn-icon">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="25"
+                              height="36"
+                              fill="none"
+                              viewBox="0 0 36 36"
+                            >
+                              <path
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                              />
+                              <circle
+                                cx="18"
+                                cy="18"
+                                r="17"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              />
+                            </svg>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Credit -->
+      </mat-tab>
+    </mat-tab-group>
+    <div class="text-center" *ngIf="debtProgramme?.length == 0">
+      <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+    </div>
+  </div>
+
+  <div class="col-md-12 sens-line"></div>
+  <div class="col-md-12 mt-4">
+    <div class="position-relative">
+      <div class="rd-heading rd-heading-lg-normal">
+        Sustainable finance framework
+      </div>
+      <span class="rd-indicator rd-indicator-lg mt-2">
+        <span class="rd-indicator-content rd-indicator-primary"></span>
+      </span>
+    </div>
+
+    <div class="rd-text-justify rd-text-light mt-4">
+      <p class="">
+        At Redefine, we understand that the decisions we make today impact the
+        legacy we leave tomorrow. To support our value-creation objectives, we
+        are committed to raising financing that is explicitly linked to projects
+        that help manage our climate risks and to advancing our overall ESG
+        strategy and ensuring our long-term resilience. Our sustainability
+        financing framework clearly outlines how we issue and use financial
+        instruments such as green, social and sustainability bonds and loans to
+        achieve our ESG goals.
+      </p>
+
+      <p>
+        Our sustainability financing framework clearly outlines how we issue and
+        use financial instruments such as green, social and sustainability bonds
+        and loans to achieve our ESG goals.
+      </p>
+    </div>
+
+    <div class="mt-4">
+      <a
+        href="
+        /view-file/Media-1701427693-Sustainable-Finance-Framework.pdf
+      "
+        target="_blank"
+        class="link units-wrapper"
+      >
+        View our sustainability finance framework here
+      </a>
+    </div>
+    <div class="mt-4">
+      <a
+        href="
+        /view-file/Media-1701427743-RdF-SPO.pdf
+      "
+        target="_blank"
+        class="link units-wrapper"
+      >
+        View our second-party opinion here
+      </a>
+    </div>
+
+    <div class="position-relative mt-5">
+      <div class="rd-heading rd-heading-lg-normal">
+        Green bond allocation and impact reporting
+      </div>
+      <span class="rd-indicator rd-indicator-lg mt-2">
+        <span class="rd-indicator-content rd-indicator-primary"></span>
+      </span>
+    </div>
+	
+	 <div class="mt-5">
+	  <p> View assurance report <p>
+	   <div class="mt-3">
+      <a
+        href="
+        /view-file/Assurance-Statement-Redefine-RDFG07-RDFG08-RDFG09.pdf
+      "
+        target="_blank"
+        class="link units-wrapper"
+      >
+        RDFG07, RDFG08, RDFG09
+      </a>
+	     </div>
+		  <div class="mt-3">
+      <a
+        href="
+        /view-file/Assurance-Statement-Redefine-RDFG12.pdf
+      "
+        target="_blank"
+        class="link units-wrapper"
+      >
+        RDFG12
+      </a>
+	     </div>
+	   <div class="mt-3">
+	   <a
+        href="
+        /view-file/Assurance-Statement-Green-Bond-Assurance-Report-RDFG01-RDFG02-RDFG03-RDFG04.pdf
+      "
+        target="_blank"
+        class="link units-wrapper"
+      >
+        RDFG01, RDFG02, RDFG03, RDFG04
+      </a>
+	  </div>
+	   <div class="mt-3">
+	   <a
+        href="
+        /view-file/Assurance-Statement-Green-Bond-Assurance-Report-RDFG10-and-RDFG11.pdf
+      "
+        target="_blank"
+        class="link units-wrapper"
+      >
+        RDFG10 and RDFG11
+      </a>
+	   </div>
+    </div>
+	
+	<div class="mt-4">
+	  <p> View impact report <p>
+	   <div class="mt-3">
+      <a
+        href="
+        /view-file/RDF-Green-Bond-Impact-Report-FY2023-website.pdf"
+        target="_blank"
+        class="link units-wrapper"
+      >
+        FY 2023 – signed PDF
+      </a>
+	     </div>
+	   <div class="mt-3">
+	   <a
+        href="https://redefinedataplatform.blob.core.windows.net/corporate-website-live-docs/RDF-Green-Bond-Impact-Report-FY2023-website.xlsx?t=9"
+        target="_blank"
+        class="link units-wrapper"
+      >
+        FY 2023 – Excel
+      </a>
+	  </div>
+    </div>
+
+
+    <div class="position-relative mt-5">
+      <div class="rd-heading rd-heading-lg-normal">
+        Sustainability linked instruments
+      </div>
+      <span class="rd-indicator rd-indicator-lg mt-2">
+        <span class="rd-indicator-content rd-indicator-primary"></span>
+      </span>
+    </div>
+
+    <div class="mt-5">
+     
+       <p> View our sustainability-linked instrument performance certificate here <p>
+        <div class="mt-3">
+          <a
+               href="
+               /view-file/Sustainability-Certificate-2024.pdf
+             "
+               target="_blank"
+               class="link units-wrapper"
+             >
+               - FY 2024
+             </a>
+           </div>
+	    <div class="mt-3">
+   <a
+        href="
+        /view-file/Sustainability-Certificate-2023.pdf
+      "
+        target="_blank"
+        class="link units-wrapper"
+      >
+        - FY 2023
+      </a>
+	  </div>
+	   <div class="mt-3">
+	    <a
+        href="
+        /view-file/Media-1701427721-Sustainability-linked-instrument-performance-certificate-final.pdf
+      "
+        target="_blank"
+        class="link units-wrapper"
+      >
+        - FY 2022
+      </a>
+    </div>
+    </div>
+	
+    <div class="mt-4">
+	<p>  View the PricewaterhouseCoopers Inc limited assurance report here <p>
+    <div class="mt-3">
+      <a
+           href="
+           /view-file/Redefine-properties-assurance-report-2024.pdf
+         "
+           target="_blank"
+           class="link units-wrapper"
+         >
+           - FY 2024
+         </a>
+       </div>
+	 <div class="mt-3">
+   <a
+        href="
+        /view-file/PwC-Limited-assurance-report-2023.pdf
+      "
+        target="_blank"
+        class="link units-wrapper"
+      >
+        - FY 2023
+      </a>
+	  </div>
+	   <div class="mt-3">
+	    <a
+        href="
+        /view-file/Media-1701427764-Final-Signed-PwC-Assurance-Report.pdf
+      "
+        target="_blank"
+        class="link units-wrapper"
+      >
+        - FY 2022
+      </a>
+	
+	
+     
+    </div>
+    </div>
+	
+  </div>
+</div>
+<div class="col-md-12">
+  <div class="banner banner-background mt-5">
+    <div class="banner-title">Enquiries</div>
+    <div class="rd-banner_contact banner-content">
+      <p>For more information, contact our ESG team on:</p>
+      <div
+        class="d-flex align-items-center justify-content-start flex-wrap gap-3 w-100 py-2"
+      >
+        <div class="d-inline-flex align-items-center gap-3 rd-inline-block">
+          <span class="rd-icon rd-icon-sm">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.66671 2.66675H13.3334C14.0667 2.66675 14.6667 3.26675 14.6667 4.00008V12.0001C14.6667 12.7334 14.0667 13.3334 13.3334 13.3334H2.66671C1.93337 13.3334 1.33337 12.7334 1.33337 12.0001V4.00008C1.33337 3.26675 1.93337 2.66675 2.66671 2.66675Z"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M14.6667 4L8.00004 8.66667L1.33337 4"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span
+            ><a href="mailto:sustain@redefine.co.za"
+              >sustain&#64;redefine.co.za</a
+            ></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-5">
+  <app-quick-links></app-quick-links>
+</div>

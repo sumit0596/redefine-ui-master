@@ -1,0 +1,150 @@
+<div class="rd-container" *ngIf="formConfig">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} Media
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <form
+        [formGroup]="mediaFormGroup"
+        (ngSubmit)="onSubmit($event)"
+        *ngIf="formConfig.mode == formMode.CREATE"
+        class="rd-form"
+        autocomplete="on"
+      >
+        <div class="rd-form-header">Media Details</div>
+        <div class="rd-form-body">
+          <ng-container>
+            <rd-file
+              [label]="'Upload Media'"
+              [id]="'featured-image'"
+              [required]="true"
+              [types]="fileTypes"
+              [fileList]="fileContainer?.File"
+              (onSelect)="onFileSelect($event, 1)"
+              (onDelete)="onFileDelete($event, 1)"
+            ></rd-file>
+            <div
+              *ngIf="mediaFormGroup.get('File')?.hasError('invalid')"
+              class="error-msg mb-4"
+            >
+              <small
+                >{{ mediaFormGroup.get('File')?.errors?.['invalid'] }}
+              </small>
+            </div>
+
+            <rd-file-container
+              [label]="'Uploaded Media'"
+              [file]="file"
+              [delete]="true"
+              [preview]="true"
+              (onDelete)="onFileDelete($event, 1)"
+            ></rd-file-container>
+          </ng-container>
+
+          <div class="checkbox-input rd-checkbox mt-3">
+            <input
+              type="checkbox"
+              name=""
+              id="redefine-website"
+              formControlName="SameName"
+              (change)="toggleTextVisibility($event)"
+            />
+            <label for="redefine-website">Same Name</label>
+          </div>
+          <div>
+            <small *ngIf="isTextVisible" class="disappear-text"
+              >Note: File will be replaced, if it already exists</small
+            >
+          </div>
+        </div>
+
+        <div class="rd-form-footer">
+          <div>
+            <button
+              type="button"
+              class="rd-btn-secondary rd-btn-lg"
+              (click)="goToManage()"
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <button type="submit" class="rd-btn-primary rd-btn-lg">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <form
+      *ngIf="formConfig.mode == formMode.VIEW && mediaDetails"
+      class="rd-form"
+    >
+      <div class="rd-form-header">Media Details</div>
+      <div class="attribute-container">
+        <div class="attribute-item">
+          <div class="attribute-label featured-image">Featured Image</div>
+          <div class="attribute-desc">
+            <div class="file-container">
+              <ng-container
+                *ngIf="
+                  mediaDetails?.MediaId != null ||
+                  mediaDetails?.MediaUrl != null
+                "
+              >
+                <div class="file-icon">
+                  <img src="assets/images/jpg.svg" alt="file" />
+                </div>
+                <div class="file-info">
+                  <p class="file-name">
+                    <a [href]="mediaDetails.MediaUrl" target="_blank">{{
+                      mediaDetails.MediaName | titlecase
+                    }}</a>
+                  </p>
+                  <p class="file-desc">
+                    <small>{{
+                      mediaDetails.MediaCreatedOn | date : "medium"
+                    }}</small>
+                  </p>
+                </div>
+              </ng-container>
+              <ng-container
+                *ngIf="
+                  mediaDetails?.MediaUrl == null || mediaDetails?.MediaUrl == ''
+                "
+                >NA</ng-container
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="rd-form-footer">
+        <div>
+          <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="goToManage()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

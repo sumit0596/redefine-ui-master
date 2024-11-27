@@ -1,0 +1,124 @@
+<app-breadcrumbs [urlData]="urlData"></app-breadcrumbs>
+<div class="container">
+  <div class="position-relative my-5" *ngIf="propertyUnits">
+    <div class="rd-heading rd-heading-lg-normal">Enquiry</div>
+    <span class="rd-indicator rd-indicator-lg">
+      <span class="rd-indicator-content rd-indicator-primary"></span>
+    </span>
+  </div>
+  <div
+    class="border border-light-subtle d-flex flex-column rd-gap-20 p-3"
+    *ngIf="propertyUnits"
+  >
+    <p class="rd-text-grey-mid rd-heading rd-heading-sm">
+      Please select the unit/s that you are interested in or click continue
+    </p>
+    <div class="row">
+      <div class="col-md-4">
+        <label>Gross rental (R/sqm)</label>
+        <rd-slider
+          *ngIf="maxGrossRental"
+          [id]="'gross-rental'"
+          [floor]="this.filter.GrossRentalStart"
+          [ceil]="maxGrossRental"
+          [step]="0"
+          [type]="'gross-rental'"
+          [maxValue]="filter.GrossRentalEnd"
+          [minValue]="filter.GrossRentalStart"
+          [disable]="true"
+          (onChange)="onSliderChange($event, 'GrossRental')"
+        >
+        </rd-slider>
+      </div>
+      <div class="col-md-4">
+        <label>Unit size (sqm)</label>
+        <rd-slider
+          *ngIf="maxUnitSize"
+          [id]="'size-range'"
+          [floor]="filter.SizeStart"
+          [ceil]="maxUnitSize"
+          [step]="0"
+          [type]="'size-range'"
+          [maxValue]="filter.SizeEnd"
+          [minValue]="filter.SizeStart"
+          [disable]="true"
+          (onChange)="onSliderChange($event, 'Size')"
+        >
+        </rd-slider>
+      </div>
+      <div class="col-md-4">
+        <button
+          type="button"
+          class="rd-btn-text move-clear"
+          (click)="clearFilter()"
+        >
+          <span>Clear filter</span>
+        </button>
+      </div>
+    </div>
+    <div
+      class="rd-form d-flex rd-gap-20 flex-column"
+      *ngFor="let unit of propertyUnits"
+    >
+      <div class="checkbox-input rd-checkbox mb-3">
+        <input
+          type="checkbox"
+          class="rd-border__grey-dark"
+          [name]="'all'"
+          [id]="'unit-checkbox'"
+          (change)="unitSelected(unit, $event)"
+        />
+        <label [for]="'sector-checkbox-all'" class="rd-heading-xs">{{
+          unit.NameAndLocation
+        }}</label>
+      </div>
+      <div
+        class="rd-text-grey-mid"
+        [innerHTML]="
+          unit.UnitDescription == '' ||
+          unit.UnitDescription == null ||
+          unit.UnitDescription == undefined
+            ? ''
+            : (unit.UnitDescription | safeHtml : 'html')
+        "
+      ></div>
+      <div class="line"></div>
+      <div class="property-details">
+        <div class="key-value-wrapper">
+          <div class="rd-text-grey-mid">Unit size (sqm)</div>
+          <div class="key-color-primary units-wrapper">
+            {{ unit.UnitSize ? unit.UnitSize : "" }}
+          </div>
+        </div>
+        <div class="key-value-wrapper">
+          <div class="rd-text-grey-mid">Available</div>
+          <div class="units-wrapper">
+            {{ unit.UnitAvailableDate ? unit.UnitAvailableDate : "" }}
+          </div>
+        </div>
+      </div>
+      <div class="rd-container-header-right">
+        <button
+          class="move-right rd-heading-xs rd-btn-text"
+          (click)="navigateToUnit()"
+        >
+          View Unit
+          <span class="px-1">
+            <img
+              class="modal-icon"
+              src="assets/images/arrow-right-circle.svg"
+              alt="close_icon"
+            />
+          </span>
+        </button>
+      </div>
+    </div>
+    <button
+      class="rd-btn rd-btn-dark rd-btn-lg"
+      (click)="NavigateToEnquiryForm()"
+    >
+      <span class="btn-text">Continue</span>
+    </button>
+  </div>
+  <div class="mt-5"></div>
+</div>

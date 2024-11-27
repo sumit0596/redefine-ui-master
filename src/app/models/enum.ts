@@ -1,0 +1,189 @@
+export enum ROLE {
+  SUPER_ADMIN = 1,
+  BROKER = 2,
+  BROKER_LIAISON = 3,
+  LEASING_EXECUTIVE = 4,
+  PROPERTY_ADMINISTRATOR = 5,
+}
+export enum ATTACHMENT_TYPE {
+  BROCHURE = 1,
+  TERMS_CONDITIONS = 2,
+  PDF = 3,
+  ICS = 4,
+  IMAGE = 5,
+  CV = 6,
+  ID_DOCUMENT = 7,
+  EDUCATIONAL_CERTIFICATE = 8,
+  MOTIVATION = 9,
+}
+export enum PROPERTY_STATUS {
+  DRAFT = 0,
+  PUBLISH = 1,
+  INACTIVE = 2,
+}
+export enum INTEGRATED_REPORT_STATUS {
+  DRAFT = 0,
+  PUBLISH = 1,
+  ARCHIVE = 2,
+}
+
+export enum DASHBOARD_FILTER_TYPE {
+  ALL_PROPERTIES = 1,
+  MY_PROPERTIES = 2,
+  RECENTLY_UPDATED_PROP = 3,
+  PROPERTY_TYPE = 4,
+  ATTRIBUTES = 5,
+  INCENTIVES = 6,
+}
+export enum FINANCIAL_RESULTS_STATUS {
+  DRAFT = 0,
+  PUBLISH = 1,
+  ARCHIVE = 2,
+}
+export enum PEOPLE_STATUS {
+  DRAFT = 0,
+  PUBLISH = 1,
+  ARCHIVE = 2,
+}
+
+export enum PROPERTY_EQ_STATUS {
+  DRAFT = 0,
+  PUBLISH = 1,
+  ARCHIVE = 2,
+}
+
+export enum ESG_STATUS {
+  DRAFT = 0,
+  PUBLISH = 1,
+  ARCHIVE = 2,
+}
+
+export enum STATUS {
+  DRAFT = 0,
+  PUBLISH = 1,
+  ARCHIVE = 2,
+}
+
+export enum JOB_STATUS {
+  DRAFT = 0,
+  PUBLISH = 1,
+  ARCHIVE = 2,
+}
+export enum INTEGRATED_REPORT_MEDIA_TYPE {
+  DOCUMENT = 1,
+  EXTERNAL_LINK = 2,
+  INTERNAL_LINK = 3,
+}
+
+export enum PRESENTATION_TYPE {
+  PRESENTATION = 1,
+  WEBCAST = 2,
+}
+
+export enum SENS_STATUS {
+  PUBLISH = 1,
+  UNPUBLISH = 0,
+}
+
+export enum DEBT_PROGRAMME {
+  DEBT_PROGRAMME = 1,
+  PRICING_SUPPLEMENT = 2,
+  CREDIT_RATINGS = 3,
+}
+
+export enum DEBT_PROGRAMME_CATEGORIES {
+  DEBT_PROGRAMME_OTHER = 'Other',
+  DEBT_PROGRAMME_DEBT_OFFICER = "Debt Officer's disclosures",
+  DEBT_PROGRAMME_DISCLOSURES = "Directors' disclosures",
+}
+
+export enum MEDIA_TYPES {
+  GROUP_AFS = 'Group AFS',
+  PRIMARY_FINANCIAL_STATEMENTS = 'Primary financial statements',
+  PROPERTY_INFORMATION = 'Property Information',
+  RESULTS = 'Results',
+  PRESENTATION = 'Presentation',
+  PRESS_RELEASE = 'Press release',
+  WEBCAST = 'Webcast',
+  TRANSCRIPT = 'Transcript',
+  SHORT_FORM_ADVERT = 'Short-form advert',
+}
+
+export enum EVENT_CATEGORY {
+  ESG = 1,
+  FINANCIAL_RESULTS = 2,
+  PRESENTATION = 3,
+  OTHERS = 4,
+}
+
+export enum PROPERTY_EQ_MEDIA_TYPE {
+  ARTICLE = 2,
+  VIDEO = 1,
+  PRESS = 3,
+}
+
+export enum REPORT_TYPE {
+  ANNUAL = 1,
+  INTERIM = 2,
+}
+export enum MEDIA_TYPE {
+  COMPANY_LOGO = 1,
+  CUSTOM_PAGES = 2,
+  FINANCIAL_RESULTS = 3,
+  CAROUSEL = 4,
+  PropertyEQ = 5,
+}
+export enum PROPERTY_TYPE {
+  SOUTH_AFRICA = 1,
+  INTERNATIONAL = 2,
+}
+export enum FILE_UPLOADS {
+  CV = 'Cv',
+  QualificationCertificate = 'QualificationCertificate',
+  ID = 'IdDocument',
+  MOTIVATION = 'Motivation',
+}
+export enum PROPERTY_FILE_UPLOADS {
+  BROCHURE = 'Brochure',
+  RATE_CARD = 'RateCard',
+  MALL_MAP = 'MallMap',
+  FLOOR_PLAN = 'FloorPlan',
+  FACT_SHEET = 'FactSheet',
+}
+export enum SECTOR_TYPES {
+  INDUSTRIAL = 'Industrial',
+  RETAIL = 'Retail',
+  OFFICE = 'Office',
+}
+export enum PROPERTY_GROUP_TYPE {
+  COUNTRY = 1,
+  PROVINCE = 2,
+  CITY = 3,
+  SUBURB = 4,
+  SECTOR = 5,
+}
+export enum DASHBOARD_ACCESS {
+  RECENT_ENQUIRIES = 33,
+  RECENT_JOBs = 34,
+  RECENTLY_UPDATAED_UNITS = 35,
+  APPLICANT_JOBS = 36,
+  JOB_VIEWED = 37,
+  CONVERSION_PROPERTIES = 38,
+  FINANCIAL_RESULTS = 39,
+  LEARNERSHIP_APPLICATIONS = 40,
+  TOTAL_PROPERTIES = 41,
+  STAKEHOLDERS = 42,
+  RECENT_EVENTS = 43,
+  PAGE_VIEWS = 44,
+  SESSIONS = 45,
+  DOWNLOADS = 46,
+  REPORT_DOWLOADS = 47,
+  STAKEHOLDERS_SESSION = 48,
+  PROPERTYEQ_PERFORMANCE = 51,
+  DEVICE_SPLIT = 52,
+  OS_SPLIT = 53,
+  SOURCE_SPLIT = 54,
+  BROWSER_SPLIT = 55,
+  INSIGHTS_ANALYTICS = 56,
+  DASHBOARD_CAMPAIGN = 57,
+}

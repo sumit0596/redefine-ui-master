@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="container">
+    <div class="position-relative">
+      <div class="rd-heading rd-heading-lg-normal">
+        Interesting facts to know
+      </div>
+      <span class="rd-indicator rd-indicator-lg">
+        <span class="rd-indicator-content rd-indicator-primary"></span>
+      </span>
+    </div>
+    <div class="py-5">
+      <div class="row">
+        
+        <div *ngFor="let graph of graphList" class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+         <div class="rd-border ml-2  d-flex align-items-left flex-column p-1 position-relative pd-bottom size-graph"> <p class="rd-text-grey-mid rd-heading rd-heading-sm pd-left rd-head-text">{{ graph.Text }}</p>
+          <div class="afterbanner pd-left">
+            <p class="rd-heading rd-heading-xl p-0 m-0">{{ graph.Value1 }}</p>
+            <span class="rd-text-red">{{ graph.Value2 }}</span>
+          </div>
+          <div class="colored-patch"></div>
+          <div class="colored-patch-red"></div>
+          
+          
+        
+          
+          
+          <div *ngIf="getUpdatedDate()" class="rd-updatedDate rd-text-grey-mid">
+            <div class="rd-note">*last updated ({{ getUpdatedDate() | date : 'MM/dd/yyyy' }})</div>
+          </div>
+        </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,248 @@
+<div class="control-container">
+  <form *ngIf="form" [formGroup]="form ? form : null">
+    <label [class]="labelClass" [for]="id" *ngIf="label"
+      >{{ label }}<span *ngIf="required" class="required-asterik">*</span></label
+    >
+    <!-- Select -->
+    <ng-container *ngIf="!checkbox && !multiselect">
+      <ng-select
+        [clearable]="!clear"
+        [ngClass]="
+          form && form.get(controlName)?.hasError('invalid')
+            ? 'ng-invalid-select'
+            : ''
+        "
+        dropdownPosition="auto"
+        [id]="id"
+        [items]="items$ | async"
+        [loading]="isLoading"
+        loadingText="Loading..."
+        [groupBy]="groupBy"
+        [bindLabel]="bindLabel"
+        [bindValue]="bindValue"
+        [labelForId]="id"
+        [placeholder]="placeholder"
+        [formControlName]="form ? controlName : null"
+        (change)="onDataChange($event)"
+        (clear)="onDataClear($event)"
+        [labelForId]="id"
+      >
+        <ng-template ng-option-tmp let-item="item" *ngIf="optionTemplate">
+          <ng-template
+            [ngTemplateOutlet]="optionTemplate"
+            [ngTemplateOutletContext]="{ item: item }"
+          ></ng-template>
+        </ng-template>
+        <ng-template
+          ng-optgroup-tmp
+          let-item="item"
+          *ngIf="optionGroupTemplate"
+        >
+          <ng-template
+            [ngTemplateOutlet]="optionGroupTemplate"
+            [ngTemplateOutletContext]="{ item: item }"
+          ></ng-template>
+        </ng-template>
+      </ng-select>
+    </ng-container>
+    <!-- Multiselect -->
+    <ng-container *ngIf="multiselect && !checkbox">
+      <ng-select
+        dropdownPosition="auto"
+        [ngClass]="
+          form && form.get(controlName)?.hasError('invalid')
+            ? 'ng-invalid-select'
+            : ''
+        "
+        [id]="id"
+        [items]="items$ | async"
+        [multiple]="multiselect"
+        [groupBy]="groupBy"
+        [bindLabel]="bindLabel"
+        [bindValue]="bindValue"
+        [compareWith]="compareWith"
+        [labelForId]="id"
+        [placeholder]="placeholder"
+        [formControlName]="form ? controlName : null"
+        (add)="onAdd($event)"
+        (remove)="onRemove($event)"
+        (change)="onDataChange($event)"
+        (clear)="onDataClear($event)"
+        [labelForId]="id"
+      >
+        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+          <div class="ng-value" *ngFor="let item of items.slice(0,max)">
+            <span class="ng-value-label" title="{{item[bindLabel]}}"> {{ item[bindLabel] }}</span>
+            <span
+              class="ng-value-icon right"
+              (click)="clear(item)"
+              aria-hidden="true"
+            >
+              ×
+            </span>
+          </div>
+          <div class="ng-value" *ngIf="items.length > max">
+            <span class="ng-value-label">{{ items.length - max }} more...</span>
+          </div>
+        </ng-template>
+      </ng-select>
+    </ng-container>
+    <ng-container *ngIf="multiselect && checkbox">
+      <ng-select
+        dropdownPosition="auto"
+        [ngClass]="
+          form && form.get(controlName)?.hasError('invalid')
+            ? 'ng-invalid-select'
+            : ''
+        "
+        [id]="id"
+        [items]="items$ | async"
+        [multiple]="multiselect"
+        [groupBy]="groupBy"
+        [bindLabel]="bindLabel"
+        [bindValue]="bindValue"
+        [compareWith]="compareWith"
+        [labelForId]="id"
+        [placeholder]="placeholder"
+        [formControlName]="form ? controlName : null"
+        [selectableGroup]="true"
+        [closeOnSelect]="false"
+        (add)="onAdd($event)"
+        (remove)="onRemove($event)"
+        (change)="onDataChange($event)"
+        (clear)="onDataClear($event)"
+        [labelForId]="id"
+      >
+        <ng-template
+          ng-multi-label-tmp
+          let-items="items"
+          let-clear="clear"
+          *ngIf="optionTemplate"
+        >
+          <ng-template
+            [ngTemplateOutlet]="optionTemplate"
+            [ngTemplateOutletContext]="{ items: items }"
+          ></ng-template>
+        </ng-template>
+        <ng-template
+          ng-multi-label-tmp
+          let-items="items"
+          let-clear="clear"
+          *ngIf="!optionTemplate"
+        >
+          <div class="ng-value" *ngFor="let item of items.slice(0,max)">
+            <span class="ng-value-label" title="{{item[bindLabel]}}"> {{ item[bindLabel] }}</span>
+            <span
+              class="ng-value-icon right"
+              (click)="clear(item)"
+              aria-hidden="true"
+            >
+              ×
+            </span>
+          </div>
+          <div class="ng-value" *ngIf="items.length > max">
+            <span class="ng-value-label">{{ items.length - max }} more...</span>
+          </div>
+        </ng-template>
+        <ng-template
+          ng-option-tmp
+          let-item="item"
+          let-item$="item$"
+          let-index="index"
+        >
+          <div class="checkbox-input">
+            <input
+              id="{{ id }}-item-{{ index }}"
+              type="checkbox"
+              [(ngModel)]="item$.selected"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            <label>{{ item[bindLabel] }}</label>
+          </div>
+        </ng-template>
+      </ng-select>
+    </ng-container>
+    <div
+      *ngIf="form && form.get(controlName)?.hasError('invalid')"
+      class="error-msg"
+    >
+      <small>{{ form?.get(controlName)?.errors?.['invalid'] }}</small>
+    </div>
+  </form>
+  <form *ngIf="!form" [attr.formGroup]="form ? form : null">
+    <label [for]="id" *ngIf="label"
+      >{{ label }}
+      <span *ngIf="required" class="required-asterik">*</span></label
+    >
+    <ng-container *ngIf="multiselect && checkbox">
+      <ng-select
+        dropdownPosition="auto"
+        [id]="id"
+        [items]="items$ | async"
+        [multiple]="multiselect"
+        [disabled]="disable"
+        [groupBy]="groupBy"
+        [bindLabel]="bindLabel"
+        [bindValue]="bindValue"
+        [compareWith]="compareWith"
+        [labelForId]="id"
+        [placeholder]="placeholder"
+        [ngModel]="form ? null : selectedItems" (ngModelChange)="form ? null : selectedItems = $event"
+        [selectableGroup]="true"
+        [closeOnSelect]="false"
+        (add)="onAdd($event)"
+        (remove)="onRemove($event)"
+        (change)="onDataChange($event)"
+        (clear)="onDataClear($event)"
+        [labelForId]="id"
+      >
+        <ng-template
+          ng-multi-label-tmp
+          let-items="items"
+          let-clear="clear"
+          *ngIf="optionTemplate"
+        >
+          <ng-template
+            [ngTemplateOutlet]="optionTemplate"
+            [ngTemplateOutletContext]="{ items: items }"
+          ></ng-template>
+        </ng-template>
+        <ng-template
+          ng-multi-label-tmp
+          let-items="items"
+          let-clear="clear"
+          *ngIf="!optionTemplate"
+        >
+          <div class="ng-value" *ngFor="let item of items">
+            <span class="ng-value-label"> {{ item[bindLabel] }}</span>
+            <span
+              class="ng-value-icon right"
+              (click)="clear(item)"
+              aria-hidden="true"
+            >
+              ×
+            </span>
+          </div>
+        </ng-template>
+        <ng-template
+          ng-option-tmp
+          let-item="item"
+          let-item$="item$"
+          let-index="index"
+        >
+          <div class="checkbox-input">
+            <input
+              id="{{ id }}-item-{{ index }}"
+              type="checkbox"
+              [(ngModel)]="item$.selected"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            <label [title]="item[bindLabel]" class="rd-text-ellipsis-line">{{
+              item[bindLabel]
+            }}</label>
+          </div>
+        </ng-template>
+      </ng-select>
+    </ng-container>
+  </form>
+</div>

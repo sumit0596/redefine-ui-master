@@ -1,0 +1,264 @@
+.property-details-container * {
+  animation: fadeIn 0.4s linear;
+}
+.image {
+  margin-top: 10px;
+  height: 59px;
+  /* margin-right: 1022px; */
+  width: 378px;
+  margin-left: 228px;
+}
+
+a.link:hover {
+  color: var(--red-color) !important;
+}
+
+.rd-btn-text {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  color: #000000;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.preview-section {
+  padding: 10px 0;
+}
+
+/* PROPERTY IMAGES  */
+.preview-height {
+  height: 25vh !important;
+}
+
+.property-image-section {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.property-image-gallery {
+  width: 100%;
+}
+.property-image-thumbnails {
+  position: relative;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.property-image {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.property-image img {
+  object-fit: cover;
+}
+.property-image-gallery .property-image img {
+  width: 100%;
+  height: 100%;
+}
+.property-image-thumbnails .property-image {
+  width: 100%;
+  height: 33%;
+}
+.property-image-thumbnails .property-image img {
+  width: 100%;
+  height: 100%;
+}
+.more-images {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 31.5% !important;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: brightness(0.7);
+}
+/* PROPERTY IMAGES  */
+
+/* TABS SECTION  */
+.preview-tabs-section {
+  margin-top: 30px;
+}
+.property-details-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #cccccc;
+  width: 96%;
+}
+
+.property-details {
+  position: relative;
+  margin-bottom: 20px;
+}
+.key-value-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.advertising-card {
+  width: 300px;
+}
+.key-color-primary {
+  color: #e6001c;
+}
+.key-value-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.property-name {
+  position: relative;
+}
+.feature-icon {
+  width: 18px;
+}
+
+.feature-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.units-wrapper {
+  margin-left: auto;
+  padding-bottom: 3px;
+  color: black;
+}
+
+.units-wrapper:hover {
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+a.link {
+  color: black !important;
+}
+
+.scroll {
+  display: flex;
+  //white-space: nowrap;
+  overflow-x: auto;
+  gap: 15px;
+}
+
+.directions-button {
+  float: right;
+  margin-right: 35px;
+  margin-bottom: 50px;
+}
+
+.directions-button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.line {
+  margin-top: 90px;
+  height: 1px;
+  width: 96%;
+  background-color: #cccccc;
+}
+
+.directions-icon {
+  width: 30px;
+}
+
+.property-image-section:hover {
+  cursor: pointer;
+}
+
+.breadcrum {
+  margin-top: -35px;
+  margin-bottom: 26px;
+  width: 100%;
+  height: 30px;
+  // background-color: #f9f9f9;
+}
+.breadcrum a {
+  color: black;
+  font-weight: 600;
+}
+
+.rd-heading-xl {
+  font-size: 30px;
+}
+
+@media only screen and (min-width: 1280px) {
+  .property-portfolio-site {
+    display: flex;
+    // gap: 175px;
+    justify-content: space-between;
+  }
+
+  .property-image-section {
+    width: 100%;
+    height: 40vh;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 600px) {
+  .breadcrum {
+    display: none;
+  }
+
+  .rd-indicator.rd-indicator-xl {
+    top: 0px;
+  }
+
+  .rd-heading-xl {
+    font-size: 16px;
+  }
+
+  .key-value-wrapper-address {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .property-portfolio-site {
+    /* display: flex; */
+    justify-content: space-between;
+  }
+
+  .property-image-section {
+    width: 100%;
+    height: 20vh;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .rd-heading-xl-featured {
+    font-size: 24px;
+  }
+  .key-value-container {
+    gap: 0px !important;
+  }
+  .key-value-wrapper {
+    margin-right: 10px;
+  }
+  .gps {
+    margin-bottom: 10px;
+  }
+}

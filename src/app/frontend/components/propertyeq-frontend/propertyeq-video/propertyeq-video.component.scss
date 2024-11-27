@@ -1,0 +1,211 @@
+.propertyeq-video__section-card {
+    padding: 0;
+    color: #fff;
+}
+
+.propertyeq-video__section-card {
+    border-radius: 0;
+    border: none;
+    cursor: pointer;
+}
+
+.propertyeq-video__section-card .card-img-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    background: #0000003c;
+    border-radius: 0;
+    transition: all .4s ease-in-out;
+}
+
+
+.propertyeq-video__section-card:hover>.card-img-overlay {
+    background: #1c1c1c3c;
+}
+
+.propertyeq-video__section-card:hover>.card-img-overlay>.propertyeq-video__section-postedBy {
+    margin-bottom: .8rem;
+}
+
+.propertyeq-video__section-card img {
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.propertyeq-video__section-card-title {
+    font-weight: 700;
+    font-size: 1.7rem;
+    cursor: pointer;
+}
+
+.propertyeq-video__section-postedBy {
+    gap: 1rem;
+    transition: all .4s ease-in-out;
+}
+
+.propertyeq-video__section-postedBy * {
+    font-size: 0.8rem;
+    padding: 0;
+    margin: 0;
+}
+
+.card.propertyeq-video__section-card {
+    height: 20rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+.input-group {
+    margin-top: 22px;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    height: 52px;
+}
+
+.search-button :hover {
+    background-color: var(--red-color);
+}
+
+.btn-secondary {
+    width: 55px;
+    background-color: black;
+    border-radius: 0px;
+    height: 53px;
+}
+
+.sens-line {
+    height: 1px;
+    width: 100%;
+    background-color: #cccccc;
+}
+
+.form-control:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    //  border: none;
+    //  outline: none;
+    border-radius: 0px;
+}
+
+.autor-name {
+    cursor: pointer;
+}
+
+.error-message {
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: var(--red-color);
+    transition: all 0.3s ease-in;
+    animation: fadeIn 0.3s;
+}
+
+::ng-deep {
+    button.close-videopop-btn.mdc-button.mat-mdc-button.mat-unthemed.mat-mdc-button-base {
+        --mat-mdc-button-persistent-ripple-color: transparent;
+    }
+
+    .filter-top .ng-select .ng-select-container {
+        min-height: 52px !important;
+    }
+
+    .dropdown-ng-select .ng-select-container .ng-value {
+        color: #cccccc;
+    }
+
+    .filter-top .control-container form {
+        padding: 0px 0px 0;
+    }
+    
+    @media (max-width: 1198px) {
+        .col-md-1.clearFilterButton {
+            display: flex !important;
+            justify-content: end !important ;
+        }
+    }
+
+    @media (min-width: 567px) and (max-width: 1000px) {
+        .row.filter-top{
+            flex-direction: column;
+        }
+    
+        .row.filter-top>div {
+            width: 100% !important;
+        }
+    }
+
+    @media (max-width: 1024px) {
+        .search-button .btn-secondary:hover,
+        .search-button .btn-secondary i {
+            background-color: #000 !important;
+        }
+    }
+}
+@media (min-width: 567px) and (max-width: 1000px) {
+    .propertyeq-video__section-card-title {
+        font-size: 1rem;
+    }
+    .propertyeq-video__section-postedBy * {
+        font-size: 0.6rem;
+    }
+}
+
+.error-text {
+    color: red;
+}
+
+.form-control::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #cccccc;
+}
+
+.searchFilter .input-group {
+    margin-top: 0px
+}
+
+
+
+@media (min-width: 360px) and (max-width: 440px) {
+    .clear-button {
+        position: relative;
+        left: 80%;
+        top: 10px;
+    }
+}
+
+@media (width: 390px) {
+    .clear-button {
+        position: relative;
+        left: 80%;
+        top: 10px;
+    }
+}
+
+@media (width: 430px) {
+    .clear-button {
+        position: relative;
+        left: 80%;
+        top: 10px;
+    }
+  }
+  @media screen and (max-device-width: 567px) {
+ ::ng-deep .filter-top .control-container form {
+    padding: 0px 0px 25px;
+}
+.clearFilterButton{
+    display: flex;
+}
+
+}
+
+@media (min-width: 567px) and (max-width: 1024px) {
+    .clearFilterButton{
+      display: flex;
+      justify-content: end;
+  }
+}

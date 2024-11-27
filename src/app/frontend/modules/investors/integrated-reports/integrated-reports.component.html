@@ -1,0 +1,270 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [breadcrumbLinks]="breadcrumbLinks"
+></app-banner-breadcrumb>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-3 share-bttn-align">
+    
+    </div>
+    <div class="d-flex justify-content-end mb-3 share-buttons-wrapper-container">
+      <div class="share-buttons-wrapper" *ngIf="showShareIcon">
+        <app-share-button></app-share-button>
+      </div>
+      <button (click)="clickedShareIcon($event)" aria-label="ShareIcon">
+        <svg
+          width="28"
+          height="36"
+          viewBox="0 0 36 36"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clip-path="url(#clip0_7785_40294)">
+            <path
+              d="M12.6377 20.4023C14.0184 20.4023 15.1377 19.2831 15.1377 17.9023C15.1377 16.5216 14.0184 15.4023 12.6377 15.4023C11.257 15.4023 10.1377 16.5216 10.1377 17.9023C10.1377 19.2831 11.257 20.4023 12.6377 20.4023Z"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M21.3877 26.0273C22.7684 26.0273 23.8877 24.9081 23.8877 23.5273C23.8877 22.1466 22.7684 21.0273 21.3877 21.0273C20.007 21.0273 18.8877 22.1466 18.8877 23.5273C18.8877 24.9081 20.007 26.0273 21.3877 26.0273Z"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M21.3877 14.7773C22.7684 14.7773 23.8877 13.6581 23.8877 12.2773C23.8877 10.8966 22.7684 9.77734 21.3877 9.77734C20.007 9.77734 18.8877 10.8966 18.8877 12.2773C18.8877 13.6581 20.007 14.7773 21.3877 14.7773Z"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M19.2853 13.6289L14.74 16.5508"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M14.74 19.2539L19.2853 22.1758"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </g>
+          <circle cx="18" cy="18" r="17" stroke="black" stroke-width="2" />
+          <defs>
+            <clipPath id="clip0_7785_40294">
+              <rect
+                width="20"
+                height="20"
+                fill="none"
+                transform="translate(7.6377 7.90234)"
+              />
+            </clipPath>
+          </defs>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="preview-tabs-section">
+    <mat-tab-group
+      mat-stretch-tabs="false"
+      mat-align-tabs="start"
+      animationDuration="0ms"
+      dynamicHeight
+      fitInkBarToContent
+      (focusChange)="onTabChange($event)"
+      [selectedIndex]="demo1TabIndex"
+    >
+      <mat-tab [label]="'CurrentReport'">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">Current reports</div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab [label]="'ArchivedReport'">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">Archived reports</div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="container">
+    <div class="row" *ngIf="type == 2">
+      <div class="col-md-9">
+        <div class="mt-2 disclaimer-text">
+          **Please select year to view historical data
+        </div>
+      </div>
+      <div class="col-md-3">
+        <rd-select
+          [id]="'years'"
+          [label]="''"
+          [placeholder]="'Select year'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Name'"
+          [items$]="range$"
+          [required]="true"
+          [form]="filterForm"
+          [controlName]="'Year'"
+          (onChange)="filterByYear($event)"
+        ></rd-select>
+      </div>
+    </div>
+    <div
+      class="row gap-5 pt-5"
+      *ngIf="integratedReport; else no_data"
+      [ngClass]="{ 'current-report-tab': type == 1 }"
+    >
+      <div class="col-12">
+        <div class="position-relative">
+          <div class="rd-heading rd-heading-lg-normal">
+            {{ integratedReport?.Title }}
+          </div>
+          <span class="rd-indicator rd-indicator-lg">
+            <span class="rd-indicator-content rd-indicator-primary"></span>
+          </span>
+        </div>
+      </div>
+      <div
+        *ngIf="integratedReport?.Description != null"
+        class="col-12 text-align-description"
+        [innerHTML]="
+          integratedReport?.Description
+            | highlighter : searchText
+            | safeHtml : 'html'
+        "
+      ></div>
+      <div class="col-12 report-list">
+        <div
+          *ngFor="let report of integratedreportsdocuments"
+          class="report-card"
+          [style.background-image]="'url(' + report.ImageUrl + ')'"
+        >
+          <div class="report-card-body">
+            <div class="report-card-header">
+              <div class="link-heading">
+                <div
+                  class="rd-heading rd-text-ellipsis-line rd-ellipsis-line-2"
+                  [title]="report.Title"
+                >
+                  {{ report.Title }}
+                </div>
+                <span class="rd-indicator rd-indicator-lg">
+                  <span
+                    class="rd-indicator-content"
+                    [style.border-bottom-color]="report.ColorCode"
+                  ></span>
+                </span>
+              </div>
+              <div class="arrow-icon"></div>
+            </div>
+
+            <div class="report-card-content">
+              <div
+                *ngIf="report.Description != null"
+                [innerHTML]="report.Description"
+                class="col-12 text-align-description rd-text-ellipsis-line rd-ellipsis-line-3"
+                [title]="report.Description | safeHtml : 'clean'"
+              ></div>
+              <div
+                *ngIf="report.Description == null"
+                [innerHTML]="''"
+                class="col-12 text-align-description rd-text-ellipsis-line rd-ellipsis-line-3"
+              ></div>
+              <div class="report-link-list">
+                <span
+                  *ngIf="report.PdfUrl?.includes('pdf')"
+                  class="rd-btn rd-btn-outline-light rd-btn-lg w-100 mb-1"
+                  title="View"
+                  target="_blank"
+                  [attr.downloadanalytics]="
+                  integratedReport?.Title
+                  + ' - '
+                  + report.Title 
+                  + ' ' + 'ANALOAD' 
+                  + ' ' 
+                  + report.PdfUrl
+                  "
+                  (click)="viewPdf(report.PdfUrl)"
+                >
+                  <span class="btn-text">View</span>
+                </span>
+                <a
+                  *ngIf="report.PdfUrl?.includes('xlsx' || 'xls')"
+                  class="rd-btn rd-btn-outline-light rd-btn-lg w-100 mb-1"
+                  title="View"
+                  target="_blank"
+                  [attr.downloadanalytics]="
+				  integratedReport?.Title
+                  + ' - '
+                  + 
+                    report.Title + ' ' + 'ANALOAD' + ' ' + report.PdfUrl
+                  "
+                  [href]="report.PdfUrl"
+                >
+                  <span class="btn-text">View</span>
+                </a>
+
+                <div *ngFor="let link of report.integratedreportsdocumentsLink">
+                  <span
+                    *ngIf="link.TypeOfMedia == 1 && link?.DocumentUrl != null"
+                    target="_blank"
+                    (click)="download($event, link?.DocumentUrl)"
+                    [attr.downloadanalytics]="
+					integratedReport?.Title
+                  + ' - '
+                  + 
+                      link.LinkTitle + ' ' + 'ANALOAD' + ' ' + link?.DocumentUrl
+                    "
+                    class="rd-btn rd-btn-outline-light rd-btn-lg w-100 mb-1"
+                    [title]="link.LinkTitle"
+                  >
+                    <span
+                      class="btn-text rd-text-ellipsis-line rd-ellipsis-line-1"
+                      >{{ link.LinkTitle }}</span
+                    >
+                  </span>  
+                  <a
+                    *ngIf="link.TypeOfMedia != 1"
+                    [href]="
+                      link?.Document?.includes('http')
+                        ? link.Document
+                        : 'https://' + link.Document
+                    "
+                    target="_blank"
+                    class="rd-btn rd-btn-outline-light rd-btn-lg w-100 mb-1"
+                    [title]="link.LinkTitle"
+                  >
+                    <span
+                      class="btn-text rd-text-ellipsis-line rd-ellipsis-line-1"
+                      >{{ link.LinkTitle }}</span
+                    >
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="quicklinks-space"></div>
+</div>
+<app-quick-links></app-quick-links>
+
+<ng-template #no_data>
+  <div class="row" *ngIf="integratedReportsData?.length === 0">
+    <div class="col-12 py-2 text-center mt-5">
+      <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+    </div>
+  </div>
+</ng-template>

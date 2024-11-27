@@ -1,0 +1,42 @@
+<div class="rd-container">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          routerLink="../"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">South African Properties</div>
+    </div>
+    <div class="rd-container-header-right">
+      <button *ngIf="(userInfo?.RoleId == roles.SUPER_ADMIN || userInfo?.RoleId == roles.BROKER_LIAISON)"
+        type="button"
+        class="rd-btn-primary rd-btn-xl vacancy"
+        (click)="createVacancy()"
+      >
+        Vacancy Schedule Disclaimer
+      </button>
+      <button *ngIf="(userInfo?.RoleId == roles.SUPER_ADMIN || (userInfo?.RoleId == roles.PROPERTY_ADMINISTRATOR && access == 1))"
+        type="button"
+        class="rd-btn-primary rd-btn-lg"
+        (click)="createProperty()"
+      >
+        Create New Property
+      </button>
+    </div>
+  </div>
+  <app-datatable
+    [tableSettings]="tableSettings"
+    (getTableData)="tableData($event)"
+    [filterColumns]="filterColumns"
+    [sectors$]="sectorList$"
+    (rowBasedAction)="rowActions($event)"
+    (isFeaturedEvent)="isFeatureUpdate($event)"
+  ></app-datatable>
+</div>

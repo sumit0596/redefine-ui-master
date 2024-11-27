@@ -1,0 +1,85 @@
+// .carousel {
+//   overflow: hidden;
+//   position: relative;
+//   width: 100%;
+//   height: 500px;
+// }
+
+// .slides-container {
+//   display: flex;
+//   transition: transform 0.5s ease-in-out;
+//   height: 100%;
+// }
+
+// .slide {
+//   flex-shrink: 0;
+//   width: 100%; /* Default width for each slide */
+// }
+
+// img {
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+// }
+
+// .arrow {
+//   background-color: var(--white);
+//   position: absolute;
+//   top: 35%;
+//   width: 20px;
+//   height: 20px;
+//   cursor: pointer;
+//   color: #333;
+//   padding: 8px;
+//   border-radius: 50%;
+//   z-index: 1;
+//   -webkit-mask-image: url(/assets/images/chevron-down.svg);
+//   -webkit-mask-size: 20px;
+//   -webkit-mask-repeat: no-repeat;
+//   -webkit-mask-position: center;
+// }
+
+// .arrow.left {
+//   transform: rotate(90deg);
+//   right: 5rem;
+// }
+
+// .arrow.right {
+//   transform: rotate(-90deg);
+//   right: 3rem;
+// }
+// .counter {
+//   position: absolute;
+//   right: 4.2rem;
+//   top: 42%;
+//   font-size: 14px;
+//   color: var(--white);
+//   z-index: 1;
+//   -webkit-user-select: none;
+//   -ms-user-select: none;
+//   user-select: none;
+// }
+// /* Thumbnails */
+// .thumbnails {
+//   display: flex;
+//   justify-content: center;
+//   margin-top: 16px;
+// }
+
+// .thumbnail {
+//   flex: 0 0 auto;
+//   cursor: pointer;
+//   margin: 0 8px;
+//   border: 2px solid transparent;
+//   border-radius: 4px;
+// }
+
+// .thumbnail img {
+//   width: 60px;
+//   height: 60px;
+//   border-radius: 4px;
+// }
+
+// .thumbnail.active {
+//   border-color: #007bff; /* Change border color for the active thumbnail */
+// }

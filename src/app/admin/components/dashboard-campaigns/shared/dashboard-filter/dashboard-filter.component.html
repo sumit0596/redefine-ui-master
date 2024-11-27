@@ -1,0 +1,65 @@
+<div class="p-10 dashboard-filterbox-hgt dash-camp">
+  <div class="dashboard-input-width mb-1" #filterPopup>
+    <div class="mb-0">
+      <ng-select
+        dropdownPosition="auto"
+        id="days-dropdown"
+        [items]="days"
+        bindLabel="day"
+        [clearable]="false"
+        [(ngModel)]="selectedDay"
+        (change)="onDataChange($event)"
+        (mousedown)="handleMouseDown($event)"
+        (click)="handleClick($event)"
+      >
+      </ng-select>
+    </div>
+  </div>
+  <div class="date-and-error-container dashboard-input-width mt-1">
+      <div *ngIf="calender">
+        <mat-form-field  class="example-form-field date-input" *ngIf="calender" subscriptSizing="dynamic" >
+          <mat-label class="date-label">Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="rangePicker" [max]="today">
+            <input
+              [readOnly]="true"
+              matStartDate
+              placeholder="MM/DD/YYYY"
+              [(ngModel)]="filter.StartDate"
+            />
+            <input
+              matEndDate
+              [readOnly]="true"
+              placeholder="MM/DD/YYYY"
+              [(ngModel)]="filter.EndDate"
+            />
+          </mat-date-range-input>
+
+          <mat-datepicker-toggle
+            *ngIf="calenderWidow"
+            matIconSuffix
+            [for]="rangePicker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #rangePicker>
+            <mat-date-range-picker-actions>
+              <button class="cancel_filter-apply" mat-button matDateRangePickerCancel>Cancel</button>
+              <button
+                mat-raised-button
+                color="primary"
+                matDateRangePickerApply
+                (click)="applyDates()"
+                class="mdc-button__label"
+              >
+                Apply
+              </button>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      
+      <div class="error-message-container">
+        <small class="error-message" *ngIf="errorMessage">
+          <div class="error-text placement">{{ errorMessage }}</div>
+        </small>
+      </div>
+  </div>
+</div>

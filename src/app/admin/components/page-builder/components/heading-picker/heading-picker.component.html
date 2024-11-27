@@ -1,0 +1,10 @@
+<div class="container row col-md-12" >    
+    <ul  *ngFor="let heading of headingList" (click)="selectHeading(heading)" style="height:120px">
+      <!-- Display card information here -->
+      <li class="col-md-12" > 
+        <p>{{ heading.label }}</p>
+        <div [innerHTML]="heading.media"></div>
+      </li>      
+      <!-- Add other card properties as needed -->
+  </ul>    
+  </div>

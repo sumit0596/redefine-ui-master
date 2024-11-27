@@ -1,0 +1,25 @@
+<ng-container *ngIf="page; else loader">
+  <ng-container *ngIf="page.details.Html; else under_development">
+    <div
+      [@fadeInAnimation]
+      [innerHTML]="page.details.Html | safeHtml : 'html'"
+      class="custom-page-content"
+    ></div>
+  </ng-container>
+</ng-container>
+
+<ng-template #loader>
+  <div [style.height.vh]="50"></div>
+</ng-template>
+
+<ng-template #under_development>
+  <div class="page-not-available">
+    <img
+      src="assets/images/under-construction.svg"
+      class="img-fluid"
+      alt="img"
+    />
+    <p>The page is not available or still under construction.</p>
+    <p>Feel free to navigate to other pages by clicking on the main menu</p>
+  </div>
+</ng-template>

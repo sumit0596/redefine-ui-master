@@ -1,0 +1,12 @@
+.browserAnalytics.dashboard-container{
+    overflow: hidden;
+}
+
+::ng-deep{
+    .browserAnalytics.dashboard-container .dashboard_Chart{
+        margin-top: 50px;
+    }
+    .browserAnalytics .placeholder-glow {
+        margin-top: 4rem !important;
+    }
+}

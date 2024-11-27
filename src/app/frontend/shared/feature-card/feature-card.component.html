@@ -1,0 +1,132 @@
+<!-- UNIT CARDS -->
+<ng-container *ngIf="unit">
+  <div class="property-card" (click)="unitPreview()">
+    <div class="property-card-header">
+      <img
+        [ngSrc]="unit.Url ? unit.Url : imagePlaceholder"
+        alt="Property image"
+        fill
+      />
+    </div>
+    <div class="property-card-body">
+      <div class="property-details">
+        <div class="rd-heading-sm-bold mb-3 rd-text-ellipsis-line">
+          {{ unit.PropertyName }}
+        </div>
+        <div
+          class="rd-text-grey-mid property-desc"
+          [innerHTML]="
+            unit.PropertyDescription == '' ||
+            unit.PropertyDescription == null ||
+            unit.PropertyDescription == undefined
+              ? ''
+              : (unit.PropertyDescription | safeHtml : 'clean')
+          "
+        ></div>
+
+        <div
+          class="property-type rd-heading-xs"
+          [ngClass]="{
+            'rd-bg__teal-dark' :(unit?.SectorName | uppercase) ===  (sector.OFFICE | uppercase) || (unit?.SectorName |uppercase) == (sector.COMMERCIAL | uppercase),
+            'rd-bg__industrial-grey' : (unit?.SectorName | uppercase) === (sector.INDUSTRIAL | uppercase),
+            'rd-bg__turquoise-dark' : (unit?.SectorName | uppercase) === (sector.RETAIL | uppercase),
+            'rd-bg__purple-dark' : (unit?.SectorName |uppercase) == (sector.SPECIALISED | uppercase) || (unit?.SectorName |uppercase) == (sector.OTHER_SPACES | uppercase), 
+           }"
+        >
+          {{ unit.SectorName }}
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-end">
+        <button class="move-right rd-btn rd-btn-text ">
+          <span class="btn-text">View</span>
+          <span class="px-1" class="btn-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-arrow-right-circle"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 16 16 12 12 8"></polyline>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+    <div class="overlay"></div>
+  </div>
+</ng-container>
+
+<!-- International property -->
+<!-- PROPERTY CARDS -->
+<ng-container *ngIf="property">
+  <div class="property-card" (click)="unitPreview()">
+    <div class="property-card-header">
+      <img
+        [src]="property.Url ? property.Url : imagePlaceholder"
+        alt="Property image"
+        loading="lazy"
+      />
+    </div>
+    <div class="property-card-body">
+      <div class="property-details">
+        <div class="rd-heading-sm-bold mb-3 rd-text-ellipsis-line">
+          {{ property.PropertyName }}
+        </div>
+        <div
+          class="rd-text-grey-mid property-desc"
+          [ngClass]="{
+            'h-auto':
+              property.PropertyDescription == '' ||
+              property.PropertyDescription == null ||
+              property.PropertyDescription == undefined
+          }"
+          [innerHTML]="
+            property.PropertyDescription == '' ||
+            property.PropertyDescription == null ||
+            property.PropertyDescription == undefined
+              ? ''
+              : (property.PropertyDescription | safeHtml : 'clean')
+          "
+        ></div>
+
+        <div
+          class="property-type rd-heading-xs"
+          [ngClass]="{
+            'rd-bg__teal-dark' :(property?.SectorName | uppercase) ===  (sector.OFFICE | uppercase) || (property?.SectorName |uppercase) == (sector.COMMERCIAL | uppercase),
+            'rd-bg__industrial-grey' : (property?.SectorName | uppercase) === (sector.INDUSTRIAL | uppercase),
+            'rd-bg__turquoise-dark' : (property?.SectorName | uppercase) === (sector.RETAIL | uppercase),
+            'rd-bg__purple-dark' : (property?.SectorName |uppercase) == (sector.SPECIALISED | uppercase) || (property?.SectorName |uppercase) == (sector.OTHER_SPACES | uppercase), 
+           }"
+        >
+          {{ property.SectorName }}
+        </div>
+      </div>
+      <div class="rd-container-header-right">
+        <button
+          class="move-right rd-heading-xs rd-btn-text"
+          [ngClass]="{
+            'margin-top-featured rd-heading-xs': property.PropertyDescription == null,
+            'move-right rd-heading-xs featured-view-button': property.PropertyDescription != null
+          }"
+        >
+          View
+          <span class="px-1"
+            ><img
+              class="modal-icon"
+              src="assets/images/arrow-right-circle.svg"
+              alt="close_icon"
+          /></span>
+        </button>
+      </div>
+    </div>
+    <div class="overlay"></div>
+  </div>
+</ng-container>

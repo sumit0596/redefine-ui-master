@@ -1,0 +1,102 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [urlData]="urlData"
+></app-banner-breadcrumb>
+
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-8">
+      <div class="position-relative mb-4">
+        <div class="rd-heading rd-heading-lg-normal">
+          {{ jobDetails?.Title }}
+        </div>
+        <span class="rd-indicator rd-indicator-lg">
+          <span class="rd-indicator-content rd-indicator-primary"></span>
+        </span>
+      </div>
+      <div class="job-level-location">
+        <div class="d-inline text-black">
+          Level:
+          <span class="rd-text-grey-mid">{{ jobDetails?.JobLevelName }}</span>
+        </div>
+        <div class="d-inline text-black m-4">
+          Location:
+          <span class="rd-text-grey-mid">{{ jobDetails?.JobAddress }}</span>
+        </div>
+      </div>
+
+      <div class="rd-heading-md-bold mt-3">Primary Purpose of the Job</div>
+      <p
+        class="rd-text-grey-mid rd-text-justify mt-3"
+        [innerHTML]="jobDetails?.PrimaryPurpose | safeHtml : 'html'"
+      ></p>
+
+      <div class="sens-line mt-2 mb-2"></div>
+      <div class="rd-heading-md-bold mt-3">Key Performance Areas (KPA’s)</div>
+      <ul class="rd-text-grey-mid rd-text-justify mt-3">
+        <li [innerHTML]="jobDetails?.KeyPerformance | safeHtml : 'html'"></li>
+      </ul>
+
+      <div class="sens-line mt-2 mb-2"></div>
+      <div class="rd-heading-md-bold mt-3">Job Specific Requirements</div>
+      <ul class="rd-text-justify rd-text-grey-mid mt-3">
+        <li
+          [innerHTML]="jobDetails?.JobSpecificRequirements | safeHtml : 'html'"
+        ></li>
+      </ul>
+      <div class="sens-line mt-2 mb-2"></div>
+      <div class="rd-heading-md-bold mt-3">Competency Requirements</div>
+      <ul class="rd-text-justify rd-text-grey-mid mt-3">
+        <li
+          [innerHTML]="jobDetails?.CompetencyRequirements | safeHtml : 'html'"
+        ></li>
+      </ul>
+      <div class="sens-line mt-2 mb-2"></div>
+      <div class="rd-heading-md-bold mt-3">Disclaimer</div>
+      <p
+        class="rd-text-justify rd-text-grey-mid mt-3"
+        [innerHTML]="jobDetails?.Disclaimer | safeHtml : 'html'"
+      ></p>
+
+      <div>
+        <button
+          type="submit"
+          class="rd-btn rd-btn-dark rd-btn-lg"
+          (click)="applyJob(jobDetails)"
+        >
+          <span class="btn-text">Apply now</span>
+        </button>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="rd-heading-md-bold">Other Job Listings</div>
+      <div class="sens-line mt-2 mb-2"></div>
+      <div
+        class="senses mt-3"
+        *ngFor="let job of recentJobDetails; let i = index"
+        (mouseover)="getHovercolor(i)"
+        (mouseleave)="getLeavecolor(i)"
+        (click)="jobDetailsPage(job)"
+      >
+        <div *ngIf="job.show">
+          <div id="{{ 'sens-data' + i }}">
+            <div class="position-relative mb-4">
+              <div class="rd-heading rd-heading-lg-normal">
+                {{ job?.Title }}
+              </div>
+              <span class="rd-indicator rd-indicator-lg">
+                <span class="rd-indicator-content rd-indicator-primary"></span>
+              </span>
+            </div>
+            <div class="rd-text-grey-mid mb-3">{{ job?.Level }}</div>
+          </div>
+          <div class="sens-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5"></div>
+</div>

@@ -1,0 +1,61 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [urlData]="urlData"
+></app-banner-breadcrumb>
+
+<div class="container mt-5">
+  <div class="row" *ngIf="sensDetails">
+    <div class="col-md-8">
+      <p class="rd-text-grey-mid rd-text-grey mt-3">
+        Published: {{ sensDetails?.Date |  date : "dd MMMM yyyy"}}
+      </p>
+      <div class="position-relative">
+        <div class="rd-heading rd-heading-sm">
+          {{ sensDetails?.Headline }}
+        </div>
+        <span class="rd-indicator rd-indicator-xs">
+          <span class="rd-indicator-content rd-indicator-primary"></span>
+        </span>
+      </div>
+
+      <pre
+        class="mt-5 text-align-announcement"
+        [innerHTML]="sensDetails?.Announcement | safeHtml : 'html'"
+      ></pre>
+    </div>
+
+    <div class="col-md-4 mt-3">
+      <div class="recent-announcements-heading rd-heading-md-bold">
+        Recent Announcements
+      </div>
+      <div class="sens-line mt-2 mb-2"></div>
+      <div
+        class="senses mt-3"
+        *ngFor="let sens of recentSensDetails; let i = index"
+        (mouseover)="getHovercolor(i)"
+        (mouseleave)="getLeavecolor(i)"
+        (click)="sensDetailsPage(sens)"
+      >
+        <div *ngIf="sens.show">
+          <div id="{{ 'sens-data' + i }}">
+            <div class="position-relative">
+              <div class="rd-heading rd-heading-sm">
+                {{ sens.Headline }}
+              </div>
+              <span class="rd-indicator rd-indicator-xs">
+                <span class="rd-indicator-content rd-indicator-primary"></span>
+              </span>
+            </div>
+            <div class="rd-text-light mt-4">
+              {{ sens.Date | date : "MMMM yyyy" }}
+            </div>
+          </div>
+          <div class="sens-line mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="quicklinks-space"></div>
+</div>
+<app-quick-links></app-quick-links>

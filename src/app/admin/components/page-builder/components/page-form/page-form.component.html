@@ -1,0 +1,63 @@
+<div class="px-4 py-4">
+  <form [formGroup]="form" (submit)="onSubmit()">
+    <div class="rd-form-header">Create Custom Page</div>
+    <div class="position-relative">
+      <p class="note" *ngIf="menuName">
+        This page will appear on <strong>{{ menuName }}</strong>
+      </p>
+      <rd-input
+        [label]="'Title'"
+        [id]="'page-title'"
+        [placeholder]="'Provide Title'"
+        [required]="true"
+        [type]="'text'"
+        [controlName]="'Title'"
+        [form]="form"
+      ></rd-input>
+    </div>
+    <div>
+      <rd-select
+        [label]="'Navigation Menu'"
+        [id]="'parent-menu-select'"
+        [placeholder]="'Select Navigation Menu'"
+        [bindValue]="'MenuId'"
+        [bindLabel]="'Title'"
+        [groupBy]="'child'"
+        [items$]="menus$"
+        [form]="form"
+        [controlName]="'ParentId'"
+        (onChange)="onMenuChange($event)"
+      >
+        <ng-template ng-optgroup-tmp let-item="item">
+          {{ item.Title }}
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.Title }}
+        </ng-template>
+      </rd-select>
+    </div>
+    <div>
+      <rd-input
+        [label]="'Slug'"
+        [id]="'page-slug'"
+        [required]="true"
+        [placeholder]="'Page Slug'"
+        [type]="'text'"
+        [controlName]="'Route'"
+        [form]="form"
+      ></rd-input>
+    </div>
+    <div class="rd-form-footer">
+      <div class="w-25">
+        <button class="rd-btn-secondary rd-btn-lg" (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
+      <div class="w-35">
+        <button class="rd-btn-primary rd-btn-lg">
+          {{ data?.Title ? "Update page" : "Create Page" }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,66 @@
+<div
+  class="carousel-wrapper"
+  *ngIf="featuredPropertyList && featuredPropertyList.length > 0; else noData"
+>
+  <div class="position-relative mb-5">
+    <div class="rd-text-grey-mid rd-heading rd-heading-sm">Check out our</div>
+    <div class="rd-heading rd-heading-lg-normal">Featured properties</div>
+    <span class="rd-indicator rd-indicator-xl">
+      <span class="rd-indicator-content rd-indicator-primary"></span>
+    </span>
+  </div>
+  <div class="position-relative">
+    <div class="keen-slider" #sliderRef>
+      <ng-container
+        *ngIf="featuredPropertyList && featuredPropertyList.length; else loader"
+      >
+        <div
+          *ngFor="let property of featuredPropertyList"
+          class="keen-slider__slide"
+        >
+          <rd-feature-card
+            [propertyType]="propertyType"
+            [property]="property"
+            (propertyPreviewPage)="preview($event)"
+          ></rd-feature-card>
+        </div>
+      </ng-container>
+    </div>
+    <button class="arrow arrow--left" aria-label="Button previous" (click)="slider.prev()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"
+        />
+      </svg>
+    </button>
+    <button class="arrow arrow--right" (click)="slider.next()" aria-label="btn-arrow-right">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+      </svg>
+    </button>
+  </div>
+  <div class="dots" *ngIf="slider">
+    <button
+      aria-label="btn-dots-slider"
+      (click)="slider.moveToIdx(i)"
+      *ngFor="let slide of dotHelper; let i = index"
+      [class]="'dot ' + (i === currentSlide ? 'active' : '')"
+    ></button>
+  </div>
+</div>
+<ng-template #loader>
+  <div
+    *ngFor="let num of [0, 1, 2]"
+    class="keen-slider__slide slide-loader rd-bg__grey-very-light mx-1"
+  >
+    <span class="placeholder col-12 slide-image-loader"></span>
+    <div class="px-3 placeholder-glow">
+      <span class="placeholder placeholder-lg col-4 mt-4 mb-3"></span>
+      <span class="placeholder col-12"></span>
+      <span class="placeholder col-12"></span>
+      <span class="placeholder col-10"></span>
+      <span class="placeholder col-7"></span>
+    </div>
+  </div>
+</ng-template>
+<ng-template #noData> </ng-template>

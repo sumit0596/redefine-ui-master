@@ -1,0 +1,634 @@
+<header-banner-breadcrumb
+*ngIf="hideBanner"
+[bannerDetails]="bannerDetails !== null ? bannerDetails : imagePlaceholder"
+[bannerText]="bannerText !== null ? bannerText : 'Default Title'" 
+[breadcrumbLinks]="breadcrumbLinks"
+class="property-eq__breadcrumb"
+>
+<div class="property-eq__readmore" *ngIf="showContent">
+    <div class="d-flex featured-article-postedBy">
+        <p class="card-text" *ngIf="author.name && author.name != ''"><span >By </span>{{author.name}}</p>
+        <!-- <p class="card-text">{{author?.posted !== null ? formatDate(author?.posted) : '01/01/2024'}}</p> -->
+    </div>
+    <div class="property-eq__readmore-button">
+      <span class="rd-readmore-button" (click)="getTopicDetails(bannerData)">Read article</span>
+    </div>
+</div>
+</header-banner-breadcrumb>
+<div *ngIf="showBreadcrumb" class="">
+  <app-breadcrumbs [urlData]="breadcrumbLinks"></app-breadcrumbs>
+</div>
+
+<div class="propertyEqFilterWrapper container my-5">
+    <div class="filter filter-top row mt-4">
+      <div class="col-md-2 authorFilter">
+        <rd-select
+              [id]="'author'"
+              [label]="'author'"
+              [placeholder]="'Select author'"
+              [bindLabel]="'Author'"
+              [bindValue]="'Author'"
+              [items$]="authordropdown$"
+              [required]="true"
+              [form]="filterForm"
+              [controlName]="'Author'"
+              (onChange)="appliedFilter('Author', $event)"
+              
+            >
+          </rd-select>
+          </div> 
+          <div class="col-md-2 categoryFilter">
+            <rd-select
+                  [id]="'category'"
+                  [label]="'category'"
+                  [placeholder]="'Select category'"
+                  [bindLabel]="'Title'"
+                  [bindValue]="'Id'"
+                  [items$]="categorydropdown$"
+                  [required]="true"
+                  [form]="filterForm"
+                  [controlName]="'PropertyEqCategoryId'"
+                  (onChange)="appliedFilter('Category', $event)"
+                >
+              </rd-select>
+          </div>
+         <div class="col-md-2 tagFilter">
+            <rd-select
+              [id]="'tag'"
+              [label]="'tag'"
+              [placeholder]="'Select tag'"
+              [bindLabel]="'Title'"
+              [bindValue]="'Id'"
+              [items$]="tagsdropdown$"
+              [required]="true"
+              [form]="filterForm"
+              [controlName]="'PropertyEqTagId'"
+              (onChange)="appliedFilter('Tag', $event)"
+            >
+            </rd-select>
+          </div>
+          <div class="col-md-5 searchBoxInput">
+            <div class="input-group">
+                <input type="text" class="form-control" id="text-search" 
+                [(ngModel)]="searchInput"
+                (keyup)="search($event)"
+                placeholder="Search"/>
+                <div class="input-group-append search-button">
+                    <button title="search" class="btn btn-secondary" (click)="searchValue(searchInput)">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+          </div>
+          <div *ngIf="searchActive" class="col-md-1 clearFilterButton">
+            <button type="button" class="rd-btn-text rd-btn-xs height-clr-btn clear-button" (click)="clearSearch()">
+              <span>Clear</span>
+              <span><img src="assets/images/close.svg" [style.width]="'16px'" alt="clear" /></span>
+            </button>
+          </div>
+        </div>
+</div>
+
+<!-- Add this section for Search Results -->
+<div *ngIf="searchActive" class="search-results-section">
+  <div class="search-results-content">
+    <!-- Articles Section -->
+    <div class="container my-4 articles-section">
+      <div class="position-relative mb-5">
+        <div class="rd-heading rd-heading-xl">Articles</div>
+        <span class="rd-indicator rd-indicator-xl">
+        <span class="rd-indicator-content rd-indicator-primary">
+        </span>
+      </span>
+    </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-12 sens-line"></div>
+
+        <div
+          class="col-12 card position-relative article-card_main"
+          *ngFor="let article of searchResults.articles.data"
+          (click)="getTopicDetails(article)"
+        >
+          <div class="row">
+            <div class="col-md-8 articleContent position-relative hght-box-press">
+              <div class="d-md-flex justify-content-between align-items-center">
+                <div class="postedby">
+                  <p class="rd-text-grey-mid mt-3">
+                    <!-- {{ formatDate(article.CreatedOn) }} -->
+                    <span *ngIf="article.Author && article.Author != ''">By</span
+                    >
+                    {{ article.Author ? article.Author : "" }}
+                  </p>
+                </div>
+              </div>
+              <div class="position-relative mb-2">
+                <h2 class="rd-heading rd-heading-md articleTitle-color">
+                  {{ article.Title }}
+                </h2>
+                <span class="rd-indicator rd-indicator-md">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+              <!-- <div class="article-Description" [innerHTML]="article.Content"></div> -->
+            </div>
+            <div class="col-md-4 col-12 articleImage d-flex justify-content-end">
+              <div class="image-container-search">
+                <img
+                src="{{ article.MediaUrl || imagePlaceholder }}"
+                class="card-img articleCardImage"
+                alt="Article Image"
+              />
+              </div>
+              
+            </div>
+          </div>
+          <div class="col-md-12 sens-line"></div>
+        </div>
+        <div *ngIf="searchResults.articles.totalCount == 0" class="col-12 py-2 text-center mt-5">
+          <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+        </div>
+        <div
+          class="text-center show-more search-result"
+          *ngIf="
+            searchResults.articles.pageNumber *
+              searchResults.articles.pageCount <
+            searchResults.articles.totalCount
+          "
+        >
+          <button
+            (click)="loadMore(2, searchResults.articles.pageNumber)"
+            class="rd-btn rd-btn-dark rd-btn-lg"
+            style="width: 150px !important"
+          >
+            <span class="btn-text">Show More</span>
+          </button>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Press Releases Section -->
+    <div class="container my-4 press-releases-section">
+      <div class="position-relative mb-5">
+        <div class="rd-heading rd-heading-xl">Press Releases</div>
+        <span class="rd-indicator rd-indicator-xl">
+        <span class="rd-indicator-content rd-indicator-primary">
+        </span>
+      </span>
+    </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-12 sens-line"></div>
+        <div
+          class="col-12 card position-relative article-card_main"
+          *ngFor="let pressRelease of searchResults.pressReleases.data"
+          (click)="getTopicDetails(pressRelease)"
+        >
+          <div class="row">
+            <div class="col-md-8 articleContent position-relative hght-box-press">
+              <div class="d-md-flex justify-content-between align-items-center">
+                <div class="postedby">
+                  <p class="rd-text-grey-mid mt-3">
+                    {{ formatDate(pressRelease.CreatedOn) }}
+                    <span
+                      *ngIf="pressRelease.Author && pressRelease.Author != ''"
+                    >
+                      | By</span
+                    >
+                    {{ pressRelease.Author ? pressRelease.Author : "" }}
+                  </p>
+                </div>
+              </div>
+              <div class="position-relative mb-2">
+                <h2 class="rd-heading rd-heading-md articleTitle-color">
+                  {{ pressRelease.Title }}
+                </h2>
+                <span class="rd-indicator rd-indicator-md">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+              <!-- <div class="article-Description" [innerHTML]="article.Content"></div> -->
+            </div>
+            <div class="col-md-4 col-12 articleImage d-flex justify-content-end" *ngIf="pressRelease.MediaUrl">
+              <div class="image-container-search">
+                <img 
+                src="{{ pressRelease.MediaUrl }}"
+                class="card-img articleCardImage"
+                alt="Article Image"
+              />
+              </div>
+             
+            </div>
+          </div>
+          <div class="col-md-12 sens-line"></div>
+        </div>
+        <div *ngIf="searchResults.pressReleases.totalCount == 0" class="col-12 py-2 text-center mt-5">
+          <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+        </div>
+        <div
+          class="text-center show-more search-result"
+          *ngIf="
+            searchResults.pressReleases.pageNumber *
+              searchResults.pressReleases.pageCount <
+            searchResults.pressReleases.totalCount
+          "
+        >
+          <button
+            (click)="loadMore(3, searchResults.pressReleases.pageNumber)"
+            class="rd-btn rd-btn-dark rd-btn-lg"
+            style="width: 150px !important"
+          >
+            <span class="btn-text">Show More</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+     <!-- Videos Section -->
+     <div class="container my-4 videos-section">
+      <div class="position-relative mb-5">
+        <div class="rd-heading rd-heading-xl">Videos</div>
+        <span class="rd-indicator rd-indicator-xl">
+        <span class="rd-indicator-content rd-indicator-primary">
+        </span>
+      </span>
+    </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-12 sens-line"></div>
+        <div
+          class="col-12 card position-relative article-card_main"
+          *ngFor="let video of searchResults.videos.data"
+          (click)="videoDetailsPage(video)"
+        >
+          <div class="row">
+            <div class="col-md-8 articleContent position-relative hght-box-press">
+              <div class="d-md-flex justify-content-between align-items-center">
+                <div class="postedby">
+                  <p class="rd-text-grey-mid mt-3">
+                    <!-- {{ formatDate(video.CreatedOn) }} -->
+                    <span *ngIf="video.Author && video.Author != ''">By</span
+                    >
+                    {{ video.Author ? video.Author : "" }}
+                  </p>
+                </div>
+              </div>
+              <div class="position-relative mb-2">
+                <h2 class="rd-heading rd-heading-md articleTitle-color">
+                  {{ video.Title }}
+                </h2>
+                <span class="rd-indicator rd-indicator-md">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+              <!-- <div class="article-Description" [innerHTML]="article.Content"></div> -->
+            </div>
+            <div class="col-md-4 col-12 articleImage d-flex justify-content-end">
+              <div class="image-container-search">
+                <img
+                src="{{ video.MediaUrl || imagePlaceholder }}"
+                class="card-img articleCardImage"
+                alt="Article Image"
+              />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 sens-line"></div>
+        </div>
+        <div *ngIf="searchResults.videos.totalCount == 0" class="col-12 py-2 text-center mt-5">
+          <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+        </div>
+       
+        <div
+          class="text-center show-more search-result"
+          *ngIf="
+            searchResults.videos.pageNumber * searchResults.videos.pageCount <
+            searchResults.videos.totalCount
+          "
+        >
+          <button
+            (click)="loadMore(1, searchResults.videos.pageNumber)"
+            class="rd-btn rd-btn-dark rd-btn-lg"
+            style="width: 150px !important"
+          >
+            <span class="btn-text">Show More</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container"  *ngIf="!searchActive">
+    <div class="row my-5">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-10 col-8 my-3">
+                    <div class="position-relative mb-5">
+                        <div class="rd-heading rd-heading-xl">Featured articles</div>
+                        <span class="rd-indicator rd-indicator-xl">
+                            <span class="rd-indicator-content rd-indicator-primary"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-2 col-4 my-3 align-btn-center">
+                      <span class="btn-text rd-btn rd-btn-dark rd-btn-lg w-100" (click)="viewMoreAction('article-list')">View All</span>
+                </div>
+            </div>
+            <div class="row">
+                <ng-container *ngIf="articleList" else loadingData>
+                    <ng-container *ngIf="articleListLength === 3; else sideBysideColumn">
+                        <ng-container *ngFor="let article of articleList; let i = index">
+                            <div class="col-md-4 col-12" *ngIf="i > 0">
+                                <div class="card featured-article__card" (click)="getTopicDetails(article)">
+                                    <img src="{{article.MediaUrl !== null 
+                                                ? article.MediaUrl 
+                                                : imagePlaceholderImage}}" class="card-img" alt="Article Image">
+                                    <div class="card-img-overlay featured-article__card-body">
+                                        <h2 class="featured-article_card-title" 
+                                        >{{article.Title}}</h2>
+                                        <div class="d-flex featured-article-postedBy">
+                                            <p class="card-text" [title]="article.Author" *ngIf="article.Author && article.Author != ''">
+                                              <span >By </span>
+                                              <span class="author-name" (click)="$event.stopPropagation(); onFilterTags(article.Author, 'Author')">
+                                                {{(article.Author?.length>20) ? (article.Author | slice:0:20)
+                                                  +'...' : article.Author}}
+                                              </span>
+                                              </p>
+                                            <!-- <p class="card-text">{{formatDate(article?.CreatedOn)}}</p> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+
+                <ng-template #sideBysideColumn>
+                        <div class="col-md-8 col-12 ipad-col-12">
+                            <div class="row">
+                                <ng-container *ngFor="let article of articleList?.slice(0, 2); let i = index">
+                                    <div class="col-md-6 col-12 margin_bottom_sm">
+                                        <div class="card featured-article__card" (click)="getTopicDetails(article)">
+                                            <img src="{{article.MediaUrl !== null 
+                                            ? article.MediaUrl 
+                                            : imagePlaceholderImage}}" class="card-img" alt="Article Image">
+                                            <div class="card-img-overlay featured-article__card-body">
+                                                <h2 class="featured-article_card-title"
+                                                >{{article.Title}}</h2>
+                                                <div class="d-flex featured-article-postedBy">
+                                                    <p class="card-text" 
+                                                    [title]="article.Author" 
+                                                    *ngIf="article.Author && article.Author != ''">
+                                                    <span >By </span>
+                                                    <span class="author-name" (click)="$event.stopPropagation(); onFilterTags(article.Author, 'Author')">
+                                                      {{(article.Author?.length>20) ? (article.Author |
+                                                        slice:0:20) +'...' : article.Author}}
+                                                    </span>
+                                                      </p>
+                                                    <!-- <p class="card-text">{{formatDate(article?.CreatedOn)}}</p> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12 property-eq__right-cards ipad-col-12">
+                            <div class="card mb-3" *ngFor="let article of articleList?.slice(2, 6); let i = index" (click)="getTopicDetails(article)">
+                                <div class="row">
+                                    <div class="col-md-4 col-4 property-eq__right-card_image">
+                                        <div>
+                                            <img src="{{article.MediaUrl !== null 
+                                            ? article.MediaUrl 
+                                            : imagePlaceholderImage}}" class="" alt="...">
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-8 col-8 ipad-col-5">
+                                        <div class="card-body" >
+                                            <div class="card-body-content">
+                                                <h2 class="card-title" 
+                                                [title]="article.Title"
+                                                >
+                                                    {{article.Title}}
+                                                </h2>
+                                                <!-- <p class="description" [innerHTML]="article.Content"></p> -->
+                                            </div>
+                                            <div class="d-flex featured-article-postedBy justify-content-between">
+                                                <p [title]="article.Author" class="card-text" *ngIf="article.Author && article.Author != ''">
+                                                  <span>By </span>
+                                                  <span class="author-name" (click)="$event.stopPropagation(); onFilterTags(article.Author, 'Author')">
+                                                    {{(article.Author?.length>20) ? (article.Author | slice:0:20) +'...' : article.Author}}
+                                                  </span>
+                                                </p>
+                                                <!-- <p class="card-text">{{formatDate(article?.CreatedOn)}}</p> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 sens-line" *ngIf="i < articleList.slice(2, 6)?.length - 1">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                  
+                </ng-template>
+                <div class="col-12 py-2 text-center mt-5" *ngIf="noRecords && articleList?.length == 0">
+                    <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+                </div>
+                <ng-container *ngIf="loadingData">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-8 col-12 ipad-col-12">
+                                <div class="row">
+                                    <div class="col-md-6 col-12" *ngFor="let item of [1, 2]">
+                                        <div class="card  border-0" aria-hidden="true">
+                                            <div class="card-body p-0">
+                                                <img src="{{imagePlaceholderImage}}" class="card-img-top" alt="...">
+                                                <h5 class="card-title placeholder-glow">
+                                                    <span class="placeholder col-6"></span>
+                                                </h5>
+                                                <p class="card-text placeholder-glow">
+                                                    <span class="placeholder col-7"></span>
+                                                    <span class="placeholder col-4"></span>
+                                                    <span class="placeholder col-4"></span>
+                                                    <span class="placeholder col-6"></span>
+                                                    <span class="placeholder col-8"></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12 ipad-col-12">
+                                <div *ngFor="let item of [1, 2, 3]">
+                                    <div class="card-body row mb-4">
+                                        <div class="col-md-4">
+                                            <img src="{{imagePlaceholderImage}}" class="card-img-top" alt="...">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder col-7"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-6"></span>
+                                                <span class="placeholder col-8"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="row my-5">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-10 col-8 my-3">
+                    <div class="position-relative mb-2">
+                        <div class="rd-heading rd-heading-xl">Press Releases</div>
+                        <span class="rd-indicator rd-indicator-xl">
+                            <span class="rd-indicator-content rd-indicator-primary"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-2 col-4 my-3 align-btn-center">
+                  <span class="btn-text rd-btn rd-btn-dark rd-btn-lg w-100" (click)="viewMoreAction('press-office-list')">View All</span>
+                </div>
+            </div>
+            <div class="col-md-12 sens-line"></div>
+        </div>
+
+        <ng-container *ngIf="pressDetails" else loadingDataPress>
+            <div class="col-md-12 senses propertyeq-press" *ngFor="let press of pressDetails?.slice(0, 3); let i = index"
+                (click)="getTopicDetails(press)" (mouseover)="getHovercolor(i)" (mouseleave)="getLeavecolor(i)">
+                <div class="row py-2">
+                    <div class="col-12 col-md-10 hght-box-press">
+                        <div id="{{ 'sens-data' + i }}">
+                            <div class="position-relative">
+                                <h2 class="rd-heading rd-heading-md">
+                                    {{ press.Title }}
+                                </h2>
+                                <span class="rd-indicator rd-indicator-xs">
+                                    <span class="rd-indicator-content rd-indicator-primary"></span>
+                                </span>
+                            </div>
+                            <div class="rd-text-grey-mid mt-4">
+                                {{ formatDate(press?.CreatedOn) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-12 d-flex justify-content-end" *ngIf="press.MediaUrl">
+                      <div class="image-container-search">
+                        <img *ngIf="press.MediaUrl" src="{{press.MediaUrl}}" class="img-thumbnail" alt="thumbnail">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 sens-line"></div>
+            </div>
+        </ng-container>
+        <div class="col-12 py-2 text-center mt-5" *ngIf="noRecords && pressDetails?.length == 0">
+            <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+        </div>
+        <ng-container *ngIf="loadingDataPress">
+            <div class="col-md-12 col-12" *ngFor="let item of [1, 2, 3]">
+                <div class="card  border-0" aria-hidden="true">
+                    <div class="card-body">
+                        <h5 class="card-title placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                        </h5>
+                        <p class="card-text placeholder-glow">
+                            <span class="placeholder col-7"></span>
+                            <span class="placeholder col-4"></span>
+                            <span class="placeholder col-4"></span>
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-8"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="row my-5">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-10 col-8 my-3">
+                    <div class="position-relative mb-5">
+                        <div class="rd-heading rd-heading-xl">Featured videos</div>
+                        <span class="rd-indicator rd-indicator-xl">
+                            <span class="rd-indicator-content rd-indicator-primary"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-2 col-4 my-3 align-btn-center">
+                  <span class="btn-text rd-btn rd-btn-dark rd-btn-lg w-100" (click)="viewMoreAction('video-list')">View All</span>
+                </div>
+            </div>
+            <div class="row">
+                <ng-container *ngIf="videoList" else loadingDataVideo>
+                    <ng-container *ngIf="videoList?.length > 0">
+                        <div class="col-md-4 col-12 mb-5" *ngFor="let video of videoList?.slice(0, 3)">
+                            <div (click)="videoDetailsPage(video)" class="card featured-article__card" mat-button>
+                                <img src="{{video.MediaUrl !== null 
+                                ? video.MediaUrl 
+                                : imagePlaceholderImage}}" class="card-img" alt="Article Image">
+                                <div class="card-img-overlay featured-article__card-body">
+                                    <h2 class="featured-article_card-title" >{{video.Title}}</h2>
+                                    <div class="d-flex featured-article-postedBy">
+                                        <p class="card-text" [title]="video.Author" *ngIf="video.Author && video.Author != ''">
+                                          <span>By </span>
+                                          <span
+                                          class="author-name" 
+                                          (click)="$event.stopPropagation(); onFilterTags(video.Author, 'Author')">
+                                            {{(video.Author?.length>20) ? (video.Author | slice:0:20) +'...' : video.Author}}
+                                          </span>
+                                        </p>
+                                        <!-- <p class="card-text">{{formatDate(video?.CreatedOn)}}</p> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <div class="col-12 py-2 text-center mt-5" *ngIf="noRecords && videoList?.length === 0">
+                    <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+                </div>
+                <ng-container *ngIf="loadingDataVideo">
+                    <div class="col-md-4 col-12" *ngFor="let item of [1, 2, 3]">
+                        <div class="card  border-0" aria-hidden="true">
+                            <div class="card-body">
+                                <img src="{{imagePlaceholderImage}}" class="card-img-top" alt="...">
+
+                                <h5 class="card-title placeholder-glow">
+                                    <span class="placeholder col-6"></span>
+                                </h5>
+                                <p class="card-text placeholder-glow">
+                                    <span class="placeholder col-7"></span>
+                                    <span class="placeholder col-4"></span>
+                                    <span class="placeholder col-4"></span>
+                                    <span class="placeholder col-6"></span>
+                                    <span class="placeholder col-8"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+
+<div class="quicklinks-gap">
+    <app-quick-links></app-quick-links>
+</div>

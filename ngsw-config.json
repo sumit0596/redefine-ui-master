@@ -1,0 +1,102 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/manifest.webmanifest",
+          "/favicon.ico",
+          "/index.html",
+          "/main.*.js",
+          "/polyfills.*.js",
+          "/runtime.*.js",
+          "/styles.*.css",
+          "/*.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+        ]
+      }
+    },
+    {
+      "name": "cdn-assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css",
+          "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css",
+          "https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js",
+          "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
+        ],
+        "urls": ["https://fonts.googleapis.com/icon?family=Material+Icons"]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "image-performance",
+      "urls": [
+        "**/images/**",
+        "**/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "6h"
+      }
+    },
+    {
+      "name": "list-api-performance",
+      "urls": [
+        "**/api/attributes/list/**",
+        "**/api/city/list/**",
+        "**/api/frontend/property/featured/list/**",
+        "**/api/incentives/list/**",
+        "**/api/province/list/**",
+        "**/api/sector/list/**",
+        "**/api/suburb/list/**"
+      ],
+      "cacheConfig": {
+        "maxSize": 20,
+        "maxAge": "6h",
+        "strategy": "performance"
+      }
+    },
+    {
+      "name": "api-fallback",
+      "urls": ["**/api/market/data/**"],
+      "cacheConfig": {
+        "maxSize": 10,
+        "maxAge": "1h",
+        "timeout": "10s",
+        "strategy": "freshness"
+      }
+    },
+    {
+      "name": "page-details-api",
+      "urls": [
+        "**/api/frontend/menu/details/**",
+        "**/api/frontend/menu/list/**",
+        "**/api/frontend/menu/quicklinks/**",
+        "**/api/frontend/property/featured/**"
+      ],
+      "cacheConfig": {
+        "maxSize": 10,
+        "maxAge": "30m",
+        "strategy": "performance"
+      }
+    }
+  ]
+}

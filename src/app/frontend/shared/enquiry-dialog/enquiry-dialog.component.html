@@ -1,0 +1,56 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <p>What would you like to enquire about?</p>
+    <!-- <div>{{ data.label }}</div> -->
+    <div>
+      <button type="button" (click)="close()">
+        <span><img src="assets/images/close.svg" alt="" /></span>
+      </button>
+    </div>
+  </div>
+  <div class="line"></div>
+  <div class="dialog-body">
+    <p class="message rd-heading-xs rd-text-grey-mid">
+      We’d really like to hear from you. Select from the following options and
+      then click continue and allow
+    </p>
+    <!-- <div class="radio-input-group"> -->
+    <div class="radio-input">
+      <input
+        type="radio"
+        id="full-website"
+        [value]="'option1'"
+        [(ngModel)]="selectedOption"
+      />
+      <label class="rd-heading-xs" for="full-website"
+        >I am interested in renting space at
+        <span class="rd-text-mid-red">{{ data.id.details.PropertyName }}</span>
+      </label>
+    </div>
+    <div class="radio-input">
+      <input
+        type="radio"
+        id="only-broker-portal"
+        [value]="'option2'"
+        [(ngModel)]="selectedOption"
+      />
+      <label class="rd-heading-xs" for="only-broker-portal"
+        >I have a different question unrelated to renting space</label
+      >
+    </div>
+    <div class="dialog-footer btn-wrapper">
+      <button
+        class="rd-btn rd-btn-dark rd-btn-lg w-100"
+        (click)="continueEnquiry()"
+      >
+        <span class="btn-text"> Continue</span>
+      </button>
+      <!-- <button type="button" class="rd-btn rd-btn-text" (click)="No()">
+          {{ data.btn1Text }}
+        </button>
+        <button type="button" class="rd-btn rd-btn-primary" (click)="Yes()">
+          {{ data.btn2Text }} 
+        </button> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<div class="rd-container">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left" *ngIf="formStep">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back-properties rd-btn-lg"
+          [routerLink]="[route.MANAGE_PROPERTY]"
+        >
+          <span
+            ><img src="assets/images/arrow-left.svg" alt="back icon"
+          /></span>
+
+          <span>BACK TO PROPERTIES</span>
+        </button>
+      </div>
+
+      <ng-container [ngSwitch]="formConfig?.mode">
+        <ng-container *ngSwitchCase="'create'">
+          <div class="rd-heading rd-heading-lg">
+            {{ formConfig.mode | titlecase }} New Property -
+            {{ formStep?.label }}
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'edit'">
+          <div class="rd-heading rd-heading-lg">
+            Edit - {{ propertyDetails?.details?.PropertyName }}
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="formConfig?.mode =='view' || formConfig?.mode =='availability' || formConfig.mode=='broker commission incentive' || formConfig.mode=='tenant incentive'">
+        <div class="rd-heading rd-heading-lg">
+          View - {{ propertyDetails?.details?.PropertyName }}
+        </div>
+      </ng-container>
+    </div>
+    <div class="rd-container-header-right" *ngIf="formStep">
+      <ng-container *ngIf="!formStep?.active">
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="previewFrontend()"
+        >
+          Preview front end
+        </button>
+        <ng-container
+          *ngIf="formConfig.mode != 'view'"
+          [ngTemplateOutlet]="save_btn"
+        ></ng-container>
+        <button
+          *ngIf="formConfig.mode == 'view'"
+          class="rd-btn-primary rd-btn-lg"
+          (click)="editBuilding()"
+        >
+          Edit Property
+        </button>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="property-form-container">
+    <div *ngIf="formStep?.active" class="property-form-step-wrapper">
+      <div class="form-steps" *ngFor="let step of formSteps">
+        <button
+          type="button"
+          class="form-step"
+          routerLinkActive="active-step"
+          [routerLink]="[step.stepRoute]"
+          [disabled]="step.stepNumber != 1 && formConfig.mode == 'create'"
+          [title]="
+            step.stepNumber != 1 && formConfig.mode == 'create'
+              ? 'Please complete step 1'
+              : step.stepName
+          "
+        >
+          <div class="step-number">{{ step.stepNumber }}</div>
+          <div class="step-name">{{ step.stepName }}</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="property-form-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<!-- SAVE BUTTON TEMPLATE -->
+<ng-template #save_btn>
+  <div class="save-btn-dropdown-wrapper">
+    <button
+      [matMenuTriggerFor]="saveMenu"
+      type="button"
+      class="rd-btn-primary rd-btn-lg rd-dropdown-btn"
+    >
+      <span>Save</span>
+
+      <span class="drop-icon"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </span>
+    </button>
+
+    <mat-menu #saveMenu="matMenu">
+      <div class="save-dropdown-menu">
+        <button
+          (click)="onSave(propertyStatus.DRAFT)"
+          class="rd-btn-text rd-btn-lg"
+        >
+          <span><img src="assets/images/edit-pencile.svg" alt="icon" /></span>
+
+          <span>Save as draft</span>
+        </button>
+
+        <button (click)="onSave()" class="rd-btn-text rd-btn-lg">
+          <span><img src="assets/images/preview-eye.svg" alt="icon" /></span>
+
+          <span>Save & Preview</span>
+        </button>
+
+        <button
+          (click)="onSave(propertyStatus.PUBLISH)"
+          class="rd-btn-text rd-btn-lg"
+        >
+          <span><img src="assets/images/upload.svg" alt="icon" /></span>
+
+          <span>Save & Publish</span>
+        </button>
+      </div>
+    </mat-menu>
+  </div>
+</ng-template>

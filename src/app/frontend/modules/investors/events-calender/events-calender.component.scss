@@ -1,0 +1,346 @@
+.calender-event-card {
+  width: 100%;
+  // max-width: 400px;
+  height: 220px;
+  box-shadow: 0px 0px 2px 0px rgba(153, 153, 153, 0.4);
+  display: flex;
+  animation: fadeIn 0.5s linear;
+  &:hover {
+    .calender-event__date {
+      color: var(--white) !important;
+      .overlay {
+        width: 100%;
+        // background-size: 80%;
+      }
+    }
+  }
+  .calender-event__date {
+    flex: 1 1 120px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    color: var(--red-color);
+    padding: 10px 10px 10px 0px;
+    user-select: none;
+    transition: all 0.3s ease-in-out;
+  }
+  .calender-event__date .overlay {
+    position: absolute;
+    width: 15px;
+    height: 100%;
+    background-color: var(--red-color);
+    // background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgZmlsbD0iIzRmNGY0ZiIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0yMDIuODMsNTguODFsLTE0NCwxNDRhNCw0LDAsMCwxLTUuNjYtNS42NmwxNDQtMTQ0YTQsNCwwLDEsMSw1LjY2LDUuNjVaTTUzLjM3LDk4LjYyQTMyLDMyLDAsMSwxLDc2LDEwOCwzMS44MiwzMS44MiwwLDAsMSw1My4zNyw5OC42MlpNNTIsNzZhMjQsMjQsMCwxLDAsNy0xN0EyMy44NSwyMy44NSwwLDAsMCw1Miw3NlpNMjEyLDE4MGEzMiwzMiwwLDEsMS05LjM3LTIyLjYzQTMxLjgyLDMxLjgyLDAsMCwxLDIxMiwxODBabS04LDBhMjQsMjQsMCwxLDAtNywxN0EyMy44OSwyMy44OSwwLDAsMCwyMDQsMTgwWiI+PC9wYXRoPjwvc3ZnPg==");
+    // background-repeat: no-repeat;
+    // background-position: 35px -10px;
+    // background-blend-mode: overlay;
+    // background-size: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+  }
+  .calender-event-card__content {
+    flex: 1 1 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 20px 20px 10px;
+
+    .calender-event__details {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 10px;
+      .details-icon {
+        flex: 0 0 auto;
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          width: 2px;
+          height: 20px;
+          background-color: var(--mist);
+          right: -10px;
+          top: 3px;
+        }
+      }
+      .details-text {
+        flex: 1 1 auto;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  .calender-event-card__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+  }
+}
+
+.banner {
+  width: 100%;
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+}
+
+.line {
+  height: 2px;
+  width: 100%;
+  background-color: #cccccc;
+}
+
+.rd-btn-text:hover {
+  color: var(--red-color);
+}
+
+.download-icon {
+  cursor: pointer;
+}
+
+.icon {
+  cursor: pointer;
+  width: 25px;
+}
+.icon :hover {
+  cursor: pointer;
+}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background-color: none;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  color: var(--dropdown-option-hover-color);
+  // background-color: var(--dropdown-option-hover-bg-color);
+  background-color: white !important;
+}
+
+.view {
+  float: right;
+  display: inline-block;
+}
+
+.view-ones {
+  margin-left: 40px;
+}
+
+.cal {
+  margin-left: -44px;
+  display: contents;
+}
+
+.user-contact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 14px;
+  margin-bottom: 5px;
+}
+
+.calendar-icon {
+  margin-left: 5px;
+}
+
+.calendar,
+.download {
+  display: contents;
+  font-weight: bold;
+}
+
+.time {
+  display: contents;
+  color: #999999;
+  font-weight: bolder;
+}
+
+.esg-name {
+  display: contents;
+  font-size: 14px;
+  color: --var(--black);
+  font-weight: bolder;
+}
+
+.card-day {
+  font-size: 28px;
+  font-weight: bolder;
+}
+
+.card-month {
+  font-size: 26px;
+  font-weight: 500;
+}
+
+// css start
+.cardcontainer {
+  border: 1px solid #cccccc;
+}
+.cardtable {
+  display: table;
+}
+.eventbg {
+  height: 160px;
+  width: 15px;
+  margin: 0px;
+  padding: 0px;
+  margin-left: -13px;
+}
+.datemonthbox {
+  height: 160px;
+  display: table-cell;
+  vertical-align: middle;
+}
+.datemonthboxinner {
+  text-align: center;
+}
+.eventcardright {
+  padding-top: 5px;
+}
+.eventcardrightl {
+  min-height: 80px;
+  float: left;
+  padding-left: 3px;
+}
+
+// @media (min-width: 768px) {
+//   .col-md-9 {
+//     flex: 0 0 auto;
+//     max-width: 55% !important;
+//   }
+// }
+
+@media (max-width: 768px) {
+  .eventbg {
+    height: 130px;
+    width: 15px;
+    margin: 0px;
+    padding: 0px;
+    margin-left: -13px;
+  }
+  .datemonthbox {
+    height: 130px;
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
+@media (max-width: 390px) and (min-width: 390px) {
+  .eventcardrightl {
+    min-height: 80px;
+    float: left;
+    padding-left: 3px;
+  }
+}
+
+@media (max-width: 990px) and (min-width: 767px) {
+  .eventcardright {
+    width: 100%;
+  }
+  .cardtable {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1280px) and (min-width: 1280px) {
+  .eventcardrightl {
+    min-height: 80px;
+    float: left;
+    padding-left: 3px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1366px) and (min-width: 1366px) {
+  .eventcardrightl {
+    min-height: 80px;
+    float: left;
+    padding-left: 3px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1920px) and (min-width: 1920px) {
+  .eventcardrightl {
+    min-height: 80px;
+    float: left;
+    padding-left: 3px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1420px) and (min-width: 1420px) {
+  .eventcardrightl {
+    min-height: 80px;
+    float: left;
+    padding-left: 3px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1420px) and (min-width: 1420px) {
+  .eventcardrightl {
+    min-height: 80px;
+    float: left;
+    padding-left: 3px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1533px) and (min-width: 1533px) {
+  .eventcardrightl {
+    min-height: 80px;
+    float: left;
+    padding-left: 3px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1600px) and (min-width: 1600px) {
+  .eventcardrightl {
+    min-height: 80px;
+    float: left;
+    padding-left: 3px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) and (min-width: 360px) {
+  .header-title {
+    font-size: 27px;
+    margin: 0;
+    padding: 20px 0;
+    margin-top: -192px;
+    text-align: center;
+    margin-left: 40px !important;
+    color: #fff;
+  }
+}
+
+@media (max-width: 1366px) and (min-width: 1366px) {
+  .lines {
+    position: absolute;
+    top: 50%;
+    width: 11%;
+    height: 5px;
+    background-color: #fff;
+    transform: translateY(-50%);
+  }
+}
+
+@media (max-width: 1528px) and (min-width: 1528px) {
+}
+
+.download {
+  cursor: pointer;
+}
+
+.calendar {
+  cursor: pointer;
+}

@@ -1,0 +1,8 @@
+.vacancy {
+  min-width: 212px !important;
+}
+::ng-deep{
+  .sa-properties .ng-dropdown-panel.ng-select-bottom{
+    height: 125px;
+  }
+}

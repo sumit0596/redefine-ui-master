@@ -1,0 +1,14 @@
+<div class="banner" *ngIf="bannerDetails; else banner_Loader">
+  <img class="banner-img" [src]="bannerDetails" alt="banner image" />
+  <div class="banner-title">{{ bannerSubText }}</div>
+  <div class="banner-title">{{ bannerText }}</div>
+  <ng-content></ng-content>
+</div>
+
+<div class="">
+  <app-breadcrumbs [urlData]="urlData"></app-breadcrumbs>
+</div>
+
+<ng-template #banner_Loader>
+  <div class="banner-loader"></div>
+</ng-template>

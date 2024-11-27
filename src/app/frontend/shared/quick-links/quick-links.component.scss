@@ -1,0 +1,108 @@
+.background {
+  background-color: #f9f9f9f9;
+  padding: 10px;
+}
+
+.background * {
+  animation: fadeIn 0.4s linear;
+}
+
+.quick-link-wrapper {
+  padding: 2px;
+  min-height: 116px;
+  height: 100%;
+}
+.quick-link {
+  cursor: pointer;
+  height: 100%;
+  padding: 30px 20px 10px 20px;
+  font-family: var(--font-din) !important;
+  color: var(--grey-dark);
+  background-color: #f4f4f4;
+  transition: var(--transition);
+}
+.quick-link:hover {
+  color: var(--red-color);
+}
+.card-title {
+  padding: 17px;
+  font-weight: 400 !important;
+  font-family: var(--font-din) !important;
+  font-size: 16px;
+  line-height: 1;
+  margin-top: 15px;
+  text-align: left;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+@media (min-width: 1280px) and (max-width: 1280px) {
+  .card {
+    width: 100% !important;
+    background-color: #f4f4f4;
+    border: none;
+    border-radius: 0px;
+  }
+}
+
+@media (min-width: 1920px) and (max-width: 1920px) {
+  .card {
+    width: 100%;
+    background-color: #f4f4f4;
+    border: none;
+    border-radius: 0px;
+  }
+  .quickLinks {
+    //width: 155px;
+    height: 90px;
+  }
+}
+
+@media (max-width: 390px) {
+  .card {
+    width: 100% !important;
+    background-color: #f4f4f4;
+    border: none;
+    border-radius: 0px;
+  }
+
+  .quickLinks {
+    //width: 155px;
+    height: 90px;
+  }
+}
+
+@media (max-width: 1366px) {
+  .card {
+    width: 100%;
+    background-color: #f4f4f4;
+    border: none;
+    border-radius: 0px;
+  }
+
+  .quickLinks {
+    //width: 155px;
+    height: 90px;
+  }
+}
+
+.card-title:hover {
+  cursor: pointer;
+  color: var(--red-color);
+}
+
+@media (min-width: 1400px) and (max-width: 1800px) {
+  .card {
+    width: 100%;
+    background-color: #f4f4f4;
+    border: none;
+    border-radius: 0px;
+  }
+
+  .quickLinks {
+    //width: 155px;
+    height: 90px;
+  }
+}

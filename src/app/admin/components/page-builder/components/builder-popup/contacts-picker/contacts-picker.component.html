@@ -1,0 +1,30 @@
+<div class="d-flex flex-wrap justify-content-start align-items-center gap-2"
+  *ngIf="teamMembers$ | async as teamMembers; else loader">
+  <div  class="people-card" *ngFor="let teamMember of teamMembers; let i = index"
+  [style.backgroundImage]="teamMember.Image ? 'url(' + teamMember.Image + ')' : 'url(' + defaultImageUrl + ')'">
+  <input id="checkbox{{i}}" type="checkbox" class="team-checkbox" (change)="onCheckboxChange($event, teamMember)" [checked]="teamMember.isChecked" />
+  <label for="checkbox{{i}}" class="checkbox-box"></label>
+    <div class="people-card-content">
+      <div class="position-relative mb-3">
+        <div class="rd-heading rd-heading-xs">
+          {{ teamMember.EmployeeName }}
+        </div>
+        <span class="rd-indicator rd-indicator-lg">
+          <span class="rd-indicator-content rd-indicator-primary"></span>
+        </span>
+      </div>
+      <div>{{ teamMember.JobTitle }}</div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #loader>
+  <div class="d-flex flex-wrap justify-content-start align-items-center gap-2 placeholder-glow">
+    <div class="people-card placeholder"></div>
+    <div class="people-card placeholder"></div>
+    <div class="people-card placeholder"></div>
+  </div>
+</ng-template>
+
+<div class="p-2"><button (click)="onSubmit()" class="rd-btn-primary rd-btn-lg">Submit Selected</button></div>

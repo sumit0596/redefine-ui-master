@@ -1,0 +1,57 @@
+<nav>
+  <div class="navbar-left">
+    <button type="button" class="menu-btn">
+      <span (click)="sideNavToggle()">
+        <img class="menu-icon" src="assets/images/menu.svg" alt="company logo" />
+      </span>
+    </button>
+    <div class="navbar-brand">
+      <a [routerLink]="['dashboard']">
+        <img class="logo" src="assets/images/logo.svg" alt="company logo" />
+      </a>
+    </div>
+  </div>
+  <div class="navbar-right">
+    <ul class="nav-list">
+      <!-- <li class="nav-item">
+        <button type="button">
+          <img class="bell-icon" src="assets/images/bell.svg" alt="bell" />
+        </button>
+      </li> -->
+      <li class="nav-item" *ngIf="user$ | async as user">
+        <div class="user-details">
+          <button type="" class="user-name-btn">
+            <span>{{ user.FirstName }} {{ user.LastName }}</span>
+            <img
+              class="dropdown-icon"
+              src="assets/images/chevron-down.svg"
+              alt=""
+            />
+          </button>
+          <div class="user-actions">
+            <ul class="">
+              <!-- <li>
+                <button type="button">
+                  <span><img src="assets/images/lock-black.svg" alt="" /></span>
+                  <span>Reset Password</span>
+                </button>
+              </li> -->
+              <li>
+                <button type="button" (click)="profile()">
+                  <span><img src="assets/images/user.svg" alt="" /></span>
+                  <span>Profile</span>
+                </button>
+              </li>
+              <li class="hr-top-line">
+                <button type="button" class="rd-btn-logout" (click)="logout()">
+                  <span><img src="assets/images/log-out.svg" alt="" /></span>
+                  <span>Logout</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

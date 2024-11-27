@@ -1,0 +1,324 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [breadcrumbLinks]="breadcrumbLinks"
+></app-banner-breadcrumb>
+<div class="container mt-5">
+  <div class="row justify-content-end">
+    <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+      <rd-select
+        [id]="'category'"
+        [label]="'category'"
+        [placeholder]="'Select category'"
+        [bindLabel]="'Title'"
+        [bindValue]="'Id'"
+        [required]="true"
+        [items$]="categoryList$"
+        [form]="filterForm"
+        [controlName]="'EventCategoryId'"
+        (onChange)="filterData()"
+      >
+      </rd-select>
+    </div>
+    <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+      <rd-select
+        [id]="'months'"
+        [label]="'months'"
+        [placeholder]="'Select month'"
+        [bindLabel]="'Name'"
+        [bindValue]="'Id'"
+        [required]="true"
+        [items$]="months$"
+        [form]="filterForm"
+        [controlName]="'Month'"
+        (onChange)="filterData()"
+      ></rd-select>
+    </div>
+    <div class="col-auto">
+      <button
+        type="button"
+        aria-label="clear button"
+        class="rd-btn rd-btn-text gap-1 mt-1"
+        *ngIf="
+          this.filterForm.get('Month')?.value != null ||
+          this.filterForm.get('EventCategoryId')?.value != null
+        "
+        (click)="clear()"
+      >
+        <span class="btn-text">Clear</span>
+        <span class="btn-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"
+            ></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="container pt-5 px-3 px-sm-0 hr-top-line hr-2">
+  <div class="row row-gap-md-4" *ngIf="events$ | async as events; else loader">
+    <div
+      class="col-12 col-md-6 col-lg-4"
+      *ngFor="let event of events; let i = index"
+    >
+      <div class="calender-event-card">
+        <div
+          class="calender-event__date"
+          [ngClass]="{
+              'rd-text-turquoise-mid': (event.EventCategoryName | uppercase) === 'PRESENTATION',
+              'rd-text-bright-green': (event.EventCategoryName | uppercase) === 'ESG',
+              'rd-text-red': (event.EventCategoryName | uppercase) === 'FINANCIAL RESULTS',
+              'rd-text-orange': (event.EventCategoryName | uppercase) === 'OTHER',
+            }"
+        >
+          <div
+            class="overlay"
+            [ngClass]="{
+              'rd-bg__turquoise-mid': (event.EventCategoryName | uppercase) === 'PRESENTATION',
+              'rd-bg__bright-green': (event.EventCategoryName | uppercase) === 'ESG',
+              'rd-bg__red': (event.EventCategoryName | uppercase) === 'FINANCIAL RESULTS',
+              'rd-bg__orange': (event.EventCategoryName | uppercase) === 'OTHER',
+            }"
+          ></div>
+          <div class="calender-event__date-day rd-heading rd-heading-xl ps-4">
+            {{ event.EventDate | date : "dd" }}
+          </div>
+          <div
+            class="calender-event__date-month rd-heading rd-heading-lg-normal ps-4"
+          >
+            {{ event.EventDate | date : "MMM" }}
+          </div>
+        </div>
+        <div class="calender-event-card__content">
+          <div class="">
+            <div class="calender-event__details">
+              <span class="details-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-clock"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              </span>
+              <span class="details-text rd-text-grey-mid">{{
+                event.EventStartTime | date : "hh:mm a"
+              }}</span>
+            </div>
+            <div class="calender-event__details">
+              <span class="details-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-edit"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  />
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  />
+                </svg>
+              </span>
+              <span class="details-text">{{ event.Title }}</span>
+            </div>
+          </div>
+          <div class="calender-event-card__actions">
+            <a
+              target="_blank"
+              *ngIf="
+                ((event.EventCategoryName | uppercase) === 'PRESENTATION' &&
+                  event.PresentationsPdf != null) ||
+                ((event.EventCategoryName | uppercase) === 'OTHER' &&
+                  event.Document != null)
+              "
+              [href]="
+                (event.EventCategoryName | uppercase) === 'PRESENTATION'
+                  ? event.PresentationsPdf
+                  : (event.EventCategoryName | uppercase) === 'OTHER'
+                  ? event.Document
+                  : null
+              "
+              download
+              class="rd-btn rd-btn-text gap-1"
+            >
+              <span class="btn-text">Download</span>
+              <span class="btn-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 36 36"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                  />
+                  <circle
+                    cx="18"
+                    cy="18"
+                    r="17"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                </svg>
+              </span>
+            </a>
+            <!-- <a
+              class="rd-btn rd-btn-text gap-1"
+              *ngIf="
+                (event.EventCategoryName | uppercase) === 'FINANCIAL RESULTS' ||
+                ((event.EventCategoryName | uppercase) === 'OTHER' &&
+                  event.Url != null)
+              "
+              (click)="navigateTo(event)"
+            >
+              <span class="btn-text">View</span>
+              <span class="btn-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="16"
+                    cy="16"
+                    r="15"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <g clip-path="url(#clip0_1653_40473)">
+                    <path
+                      d="M6.83331 15.9997C6.83331 15.9997 10.1666 9.33301 16 9.33301C21.8333 9.33301 25.1666 15.9997 25.1666 15.9997C25.1666 15.9997 21.8333 22.6663 16 22.6663C10.1666 22.6663 6.83331 15.9997 6.83331 15.9997Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M16 18.5C17.3807 18.5 18.5 17.3807 18.5 16C18.5 14.6193 17.3807 13.5 16 13.5C14.6193 13.5 13.5 14.6193 13.5 16C13.5 17.3807 14.6193 18.5 16 18.5Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1653_40473">
+                      <rect
+                        width="20"
+                        height="20"
+                        fill="white"
+                        transform="translate(6 6)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </span>
+            </a> -->
+            <button
+              *ngIf="event.Ical != null && event.EventDate >= today"
+              (click)="addToCalendar(event)" aria-label="Add to calendar"
+              class="rd-btn rd-btn-text gap-1"
+            >
+              <span class="btn-text">Add to Calendar</span>
+              <span class="btn-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="16"
+                    cy="16"
+                    r="15"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M16 10.167V21.8337"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10.1667 16H21.8334"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 py-5 text-center mt-5" *ngIf="events?.length == 0">
+      <h1 class="rd-heading rd-heading-md-bold rd-text-deep-red">
+        No result found!
+      </h1>
+      <p class="rd-text-grey-mid">
+        Please change search criteria and try again
+      </p>
+    </div>
+  </div>
+  <div class="quicklinks-space"></div>
+</div>
+<app-quick-links></app-quick-links>
+
+<ng-template #loader>
+  <div class="row row-gap-md-4 placeholder-glow">
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="calender-event-card placeholder"></div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="calender-event-card placeholder"></div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="calender-event-card placeholder"></div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="calender-event-card placeholder"></div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="calender-event-card placeholder"></div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="calender-event-card placeholder"></div>
+    </div>
+  </div>
+</ng-template>

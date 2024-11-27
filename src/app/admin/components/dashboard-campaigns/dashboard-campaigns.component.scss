@@ -1,0 +1,245 @@
+.table-container {
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 0 0 10px 0;
+    overflow: auto;
+    margin-top: 10px;
+}
+
+.rd-grid-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 10px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: top 0.3s ease, left 0.3s ease, box-shadow 0.3s ease, width 0.3s ease;
+}
+
+.dashboard-campaign .title-section .heading {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.dashboard-campaign-container {
+    padding: 10px 20px 10px 20px;
+    border-left: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
+}
+
+.dashboard-campaign-container .properties {
+    border-top: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dashboard-campaign-container .leasingExecutives {
+    border-top: 1px solid #f0f0f0;
+    border-left: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.datatable-btn-group {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.datatable-btn-group .search-container {
+    position: relative;
+    display: inline-block;
+    margin: 4px 0 4px 4px;
+}
+
+.search-container form {
+    position: relative;
+}
+
+::ng-deep .ng-dropdown-panel {
+    box-sizing: border-box;
+    position: absolute !important;
+
+}
+::ng-deep {
+    .filter-dropdown .ng-select .ng-select-container {
+        border: 1px solid #b8b8b8 !important;
+    }
+}
+
+::ng-deep .mat-mdc-menu-panel.mat-mdc-menu-panel {
+    min-width: 112px;
+    max-width: 280px;
+    overflow: visible !important;
+    position: relative;
+}
+
+.search-input {
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
+    height: 40px;
+    padding: 5px 70px 5px 15px;
+    border: 1px solid transparent;
+    border-radius: 25px;
+    font-weight: 500;
+    color: #58595b;
+    background-color: #f9fafb;
+    transition: all 0.3s ease-in;
+}
+
+.search-btn-wrapper {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+}
+
+.search-btn-wrapper button {
+    height: 100%;
+}
+
+.rd-btn-close {
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in;
+    filter: invert(9%) sepia(4%) saturate(5%) hue-rotate(342deg) brightness(94%) contrast(72%);
+}
+
+.rd-btn-close:hover img {
+    background: aliceblue;
+}
+
+.rd-btn-close img {
+    width: 15px;
+    border-radius: 50%;
+    padding: 2px;
+    transition: all 0.3s ease-in;
+}
+
+.search-active .rd-btn-close {
+    visibility: visible;
+    opacity: 1;
+}
+
+.search-active .search-input {
+    width: 340px;
+    visibility: visible;
+    opacity: 1;
+}
+
+input.search-input:focus {
+    outline: none;
+    border-color: #58595b !important;
+}
+
+.nocontent-container .col-12 {
+    height: 55vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.height-box-type {
+    height: 31rem;
+    padding: 1rem;
+    overflow-y: scroll;
+}
+
+.height-pad-type{
+    padding: 1rem;
+}
+
+.selected-filter-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #999999;
+    font-weight: 500;
+}
+
+.dashboard-campaign .filter-with-reset span.position-absolute.badge-filter.badge.padicon.bg-secondary {
+    width: 13px;
+    height: 13px;
+    top: -5px;
+    right: -10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard-campaign .filter-with-reset span.position-absolute.badge-filter.badge.padicon.bg-secondary .mat-icon {
+    font-size: 11px;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+}
+
+.badge-filter {
+    cursor: pointer;
+}
+
+::ng-deep {
+    .filter-dropdown .control-container form {
+        padding: 0 0 0;
+    }
+}
+
+.dashboard_Chart {
+    width: 100%;
+    min-height: 350px;
+    height: 90%;
+    max-height: 350px;
+    margin-top: -48px;
+  }
+
+  .sticky-placeholder {
+    display: none;
+  }
+  
+  .sticky-placeholder.active {
+    display: block;
+    height: 80px; /* Adjust based on your header height */
+  }
+  
+  .sticky {
+    position: fixed;
+    top: 80px;
+    left: 4%;
+    width: 95%;
+    z-index: 8;
+    background-color: white; /* or any color that matches your design */
+  }
+
+  div#stickyHeader.scroll-fixed {
+    position: fixed;
+    top: 80px;
+    background: #fff;
+    right: 10px;
+    box-shadow: -4px 2px 4px rgba(102, 102, 102, 0.3);
+    margin: 0 auto;
+    width: calc(100% - 100px);
+    z-index: 1;
+    padding: 10px 38px;
+}
+div#stickyHeader.scroll-fixed.sideBaropenHeader {
+    width: calc(100% - 300px);
+}
+.mb-5.dashboard-campaign {
+    padding: 0 20px 0 0;
+}
+@media (max-width: 768px) {
+    #stickyHeader.scroll-fixed {
+        left: 20px;
+        width: calc(100% - 40px); /* Adjust width for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    #stickyHeader.scroll-fixed {
+        left: 10px;
+        width: calc(100% - 20px); /* Adjust width for very small screens */
+        top: 60px; /* Optional: Adjust top position for small screens */
+    }
+}
+

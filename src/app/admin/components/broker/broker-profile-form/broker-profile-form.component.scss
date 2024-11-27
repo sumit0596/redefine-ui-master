@@ -1,0 +1,58 @@
+  .rental-alert {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+    background: #f2f4f3;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    margin-top: 25px;
+  }
+  
+  .location-alert-icon {
+    width: auto;
+    text-align: center;
+  }
+  
+  .location-alert-image {
+    width: 50px;
+    padding: 10px;
+    border: 1px solid #fdc54d;
+    border-radius: 50px;
+  }
+  
+  .location-alert-desc {
+    width: auto;
+    font-size: 12px;
+  }
+
+  .rd-form {
+    background: #ffffff;
+    border: 1.12666px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 38px 32px 10px;
+    margin: 0;
+    animation: fadeIn 1s;
+  }
+  
+  .display{
+    display: flex;
+    gap: 35px;
+    padding-bottom: 20px;
+  }
+
+  .vacany-label{
+    font-size: 16px;
+  }
+  .area-name{
+    color: var(--deep-red-color)
+  }
+  .city-name{
+    color: green;
+    font-weight: 400;
+  }
+
+  .location-picker__custom-dropdown{
+    margin-bottom: 1rem;
+  }
+

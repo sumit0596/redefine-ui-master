@@ -1,0 +1,67 @@
+<div class="rd-container">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          routerLink="../"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">Presentations</div>
+    </div>
+    <div class="rd-container-header-right" *ngIf="access">
+      <button
+        type="button"
+        class="rd-btn-primary rd-btn-lg"
+        (click)="createPresentation()"
+      >
+        Create New
+      </button>
+    </div>
+  </div>
+
+  <div class="preview-tabs-section">
+    <mat-tab-group
+      mat-stretch-tabs="false"
+      mat-align-tabs="start"
+      animationDuration="0ms"
+      dynamicHeight
+      fitInkBarToContent
+      (selectedTabChange)="onTabChange($event)"
+      [selectedIndex]="activeTab"
+    >
+      <mat-tab [label]="'Presentation'">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">Presentation</div>
+        </ng-template>
+        <app-datatable
+        [tableSettings]="tableSettings"
+        (getTableData)="tableDataPresentations($event)"
+        [presentationStatuses$]="presentationStatus$"
+        [filterColumns]="filterColumns"
+        (rowBasedAction)="rowActions($event)"
+      ></app-datatable>
+      </mat-tab>
+
+      <mat-tab [label]="'Webcast'">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">Webcast</div>
+        </ng-template>
+        <app-datatable
+        [tableSettings]="tableSettings"
+        (getTableData)="tableDataWebcasts($event)"
+        [presentationStatuses$]="presentationStatus$"
+        [filterColumns]="filterColumns"
+        (rowBasedAction)="rowActions($event)"
+      ></app-datatable>
+      </mat-tab>
+    </mat-tab-group>
+
+
+  </div>
+</div>

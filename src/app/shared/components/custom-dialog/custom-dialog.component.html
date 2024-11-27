@@ -1,0 +1,22 @@
+<div class="dialog-container">
+  <div class="dialog-header" *ngIf="dialogData.heading">
+    {{ dialogData.heading }}
+  </div>
+  <p class="dialog-body" [innerHTML]="dialogData.text | safeHtml : 'html'"></p>
+  <div class="dialog-footer btn-wrapper">
+    <button
+      *ngIf="dialogData.btn1Text"
+      class="rd-btn-text"
+      (click)="onClickButton(dialogData.btn1Text)"
+    >
+      {{ dialogData.btn1Text }}
+    </button>
+    <button
+      *ngIf="dialogData.btn2Text"
+      class="rd-btn-primary"
+      (click)="onClickButton(dialogData.btn2Text)"
+    >
+      {{ dialogData.btn2Text }}
+    </button>
+  </div>
+</div>

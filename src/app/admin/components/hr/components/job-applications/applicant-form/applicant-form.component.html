@@ -1,0 +1,112 @@
+<div class="rd-container" *ngIf="formConfig">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} Applicant
+      </div>
+    </div>
+  </div>
+  <form
+    *ngIf="formConfig.mode == formMode.VIEW && applicantDetails"
+    class="rd-form form-container"
+  >
+    <div class="rd-form-header">Applicant Details</div>
+    <div class="attribute-container">
+      <div class="attribute-item">
+        <div class="attribute-label">ID Number</div>
+        <div class="attribute-desc">{{ applicantDetails.IdNumber }}</div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Date of Birth</div>
+        <div class="attribute-desc">
+          {{ applicantDetails.Dob | date : "dd-MM-yyyy" }}
+        </div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Age</div>
+        <div class="attribute-desc">
+          {{ applicantDetails.Age }}
+        </div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Gender</div>
+        <div class="attribute-desc">
+          {{ applicantDetails.Gender }}
+        </div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Race</div>
+        <div class="attribute-desc">
+          {{ applicantDetails.Race }}
+        </div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Name of Applicant</div>
+        <div class="attribute-desc">
+          {{ applicantDetails.Name }}
+        </div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Mobile Number</div>
+        <div class="attribute-desc">
+          {{ applicantDetails.Mobile }}
+        </div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Email Address</div>
+        <div class="attribute-desc">
+          {{ applicantDetails.Email }}
+        </div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">CV</div>
+        <div class="attribute-desc">
+          <div class="file-container">
+            <ng-container
+              *ngIf="applicantDetails?.Cv != null && applicantDetails?.Cv != ''"
+            >
+              <div class="file-icon">
+                <img src="assets/images/pdf.svg" alt="file" />
+              </div>
+              <div class="file-info">
+                <p class="file-name">
+                  <a [href]="applicantDetails.Cv" target="_blank">{{
+                    applicantDetails.Name | titlecase
+                  }}</a>
+                </p>
+                <p class="file-desc">
+                  <small>{{
+                    applicantDetails.UpdatedOn | date : "medium"
+                  }}</small>
+                </p>
+              </div>
+            </ng-container>
+            <ng-container
+              *ngIf="applicantDetails?.Cv == null || applicantDetails?.Cv == ''"
+              >NA</ng-container
+            >
+          </div>
+        </div>
+      </div>
+      <div class="attribute-item"></div>
+    </div>
+    <app-datatable
+      [tableSettings]="tableConfig"
+      [emitClicks]="true"
+      (rowBasedAction)="rowActions($event)"
+      (toolbarEvent)="onToolbarClick($event)"
+      (actionEvent)="onActionClick($event)"
+    ></app-datatable>
+  </form>
+</div>

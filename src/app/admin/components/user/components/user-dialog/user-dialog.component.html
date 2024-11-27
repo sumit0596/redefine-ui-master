@@ -1,0 +1,61 @@
+<div [ngSwitch]="data.label | lowercase" class="dialog-container">
+  <div class="dialog-header">
+    <div>{{ data.label | uppercase }}</div>
+    <div>
+      <button type="button" class="rd-btn-text rd-btn" (click)="close()">
+        <span><img src="assets/images/close.svg" alt="" /></span>
+      </button>
+    </div>
+  </div>
+  <div class="dialog-body">
+    <ng-container *ngSwitchCase="'filter'">
+      <rd-select
+        [id]="'user-role'"
+        [label]="'Media Type'"
+        [placeholder]="'Select Role'"
+        [bindLabel]="'Name'"
+        [bindValue]="'Id'"
+        [form]="filterForm"
+        [controlName]="'RoleId'"
+        [items$]="roleList$"
+        (onChange)="onSelect($event)"
+      ></rd-select>
+    </ng-container>
+    <ng-container *ngSwitchCase="'column'">
+      <div class="rd-checkbox-group">
+        <div class="checkbox-input rd-checkbox">
+          <input
+            type="checkbox"
+            name=""
+            id="item-all"
+            value="All"
+            [checked]="allChecked(data.columns)"
+            (change)="onCheckAll($event)"
+          />
+          <label for="item-all">All</label>
+        </div>
+        <ng-container *ngFor="let column of data.columns; let i = index">
+          <div class="checkbox-input rd-checkbox" *ngIf="column.visible">
+            <input
+              type="checkbox"
+              [name]="column.field"
+              [id]="column.field + i"
+              [value]="column.header"
+              [checked]="column.show"
+              (click)="onCheck($event, column)"
+            />
+            <label [for]="column.field + i">{{ column.header }}</label>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+  <div class="dialog-footer btn-wrapper">
+    <button type="button" class="rd-btn rd-btn-text" (click)="clearFilter()">
+      Clear {{ data.label | lowercase }}
+    </button>
+    <button type="button" class="rd-btn rd-btn-primary" (click)="onSubmit()">
+      Apply {{ data.label | lowercase }}
+    </button>
+  </div>
+</div>

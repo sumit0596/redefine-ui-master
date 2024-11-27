@@ -1,0 +1,162 @@
+<div [ngSwitch]="data.type" class="container p-4">
+  <div class="modal-header mb-3">
+    <div class="rd-heading rd-heading-sm-bold">{{ data.title }}</div>
+    <button type="button" class="rd-btn-text" (click)="onCancel()">
+      <span><img src="assets/images/close.svg" alt="" /></span>
+    </button>
+  </div>
+  <div *ngSwitchCase="POPUP_TYPE.LINK">
+    <div>
+      <form [formGroup]="form">
+        <rd-input
+          [label]="'Link'"
+          [id]="'link'"
+          [placeholder]="'Please provide link'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'Link'"
+          [form]="form"
+        ></rd-input>
+        <div class="checkbox-input rd-checkbox">
+          <input
+            type="checkbox"
+            [name]="'newTab'"
+            [id]="'new-tab'"
+            formControlName="IsNewTab"
+          />
+          <label [for]="'new-tab'" class="rd-text-grey-mid"
+            >Open in new tab</label
+          >
+        </div>
+        <div class="d-flex align-items-end gap-5 mt-5">
+          <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="onCancel()"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="rd-btn-primary rd-btn-lg"
+            (click)="onSubmit()"
+          >
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Buttons Configuration Form -->
+  <div *ngSwitchCase="POPUP_TYPE.BUTTON">
+    <app-button-picker
+      [buttonData]="data.buttonData"
+      (submitEvent)="saveEvent($event)"
+    ></app-button-picker>
+  </div>
+
+  <div *ngSwitchCase="POPUP_TYPE.IMAGE">
+    <div class="container p-4">
+      <p>
+        <strong>Note:- Image size should be min-16 and max-600 </strong>
+      </p>
+      <form [formGroup]="form">
+        <rd-input
+          [label]="'Height'"
+          [id]="'Height'"
+          [placeholder]="'Please provide height'"
+          [required]="true"
+          [type]="'number'"
+          [controlName]="'Height'"
+          [form]="form"
+        ></rd-input>
+        <rd-input
+          [label]="'Width'"
+          [id]="'Width'"
+          [placeholder]="'Please provide width'"
+          [required]="true"
+          [type]="'number'"
+          [controlName]="'Width'"
+          [form]="form"
+        ></rd-input>
+        <div class="d-flex align-items-end gap-5 mt-5">
+          <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="onCancel()"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="rd-btn-primary rd-btn-lg"
+            (click)="onSubmit()"
+          >
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div *ngSwitchCase="POPUP_TYPE.ICON">
+    <app-icon-picker
+      [iconData]="data.iconData"
+      (saveEvent)="saveEvent($event)"
+    ></app-icon-picker>
+  </div>
+  <div *ngSwitchCase="POPUP_TYPE.CARDS">
+    <div class="container p-4">
+      <app-card-picker (saveEvent)="saveEvent($event)"> </app-card-picker>
+    </div>
+  </div>
+  <div *ngSwitchCase="POPUP_TYPE.LAYOUTS">
+    <div class="container p-4">
+      <app-layout-picker (saveEvent)="saveEvent($event)"> </app-layout-picker>
+    </div>
+  </div>
+  <div *ngSwitchCase="POPUP_TYPE.HEADING">
+    <div class="container p-4">
+      <app-heading-picker (saveEvent)="saveEvent($event)"> </app-heading-picker>
+    </div>
+  </div>
+  <!-- BANNER POP-UP -->
+  <div *ngSwitchCase="POPUP_TYPE.BANNER">
+    <div class="container p-4">
+      <app-banner-picker
+        [bannerData]="data.bannerData"
+        (submitEvent)="saveEvent($event)"
+      ></app-banner-picker>
+    </div>
+  </div>
+  <!-- TEAM POP-UP -->
+  <div *ngSwitchCase="POPUP_TYPE.TEAM_MEMBER">
+    <div class="container p-4">
+      <app-team-picker (submitEvent)="saveEvent($event)"></app-team-picker>
+    </div>
+  </div>
+  <div *ngSwitchCase="POPUP_TYPE.INVESTORS_LIST">
+    <div class="container p-4">
+      <app-contacts-picker [selectedIds]="data.selectedIds" (submitEvent)="saveEvent($event)"></app-contacts-picker>
+    </div>
+  </div>
+  <div *ngSwitchCase="POPUP_TYPE.CAROUSEL">
+    <div class="container p-4">
+      <app-carousel-picker
+        (submitEvent)="saveEvent($event)"
+        [carouselData]="data.carouselData"
+      ></app-carousel-picker>
+    </div>
+  </div>
+  <div *ngSwitchCase="POPUP_TYPE.POPUP">
+    <app-popup-picker
+      (submitEvent)="saveEvent($event)"
+      [popupData]="data.popupData"
+    ></app-popup-picker>
+  </div>
+  <div *ngSwitchCase="POPUP_TYPE.PREVIEW" class="page-preview">
+    <app-page-preview  *ngIf="environment.PREVIEW_CHANGES"
+       (submitEvent)="saveEvent($event)"
+       [previewData]="data.previewData"
+     ></app-page-preview>
+ </div>
+</div>

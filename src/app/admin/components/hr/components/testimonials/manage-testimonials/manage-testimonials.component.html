@@ -1,0 +1,35 @@
+<div class="rd-container">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          routerLink="../"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">Testimonials</div>
+    </div>
+    <div class="rd-container-header-right" *ngIf="access">
+      <button
+        type="button"
+        class="rd-btn-primary rd-btn-lg"
+        (click)="createTestimonial()"
+      >
+        Create New
+      </button>
+    </div>
+  </div>
+  <app-datatable
+    [tableSettings]="tableSettings"
+    (getTableData)="tableData($event)"
+    [types$]="type$"
+    [Year$]="range$"
+    [filterColumns]="filterColumns"
+    (rowBasedAction)="rowActions($event)"
+  ></app-datatable>
+</div>

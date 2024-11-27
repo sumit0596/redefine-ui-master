@@ -1,0 +1,1155 @@
+<div class="rd-container">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToMain()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig?.mode | titlecase) : "" }} Financial Results
+      </div>
+    </div>
+  </div>
+  <!-- CREATE/EDIT FINANCIAL RESULT DETAILS -->
+  <div class="row" *ngIf="formConfig?.mode != formMode.VIEW">
+    <div class="col-md-8">
+      <form
+        id="result-detail"
+        class="rd-form no-margin override-fixed-width"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit($event)"
+        autocomplete="on"
+      >
+        <div class="rd-form-header">Result Details</div>
+        <div class="rd-form-body">
+          <div class="row">
+            <div class="col-12">
+              <label class="title-text" for="title">Title 
+                <span class="required-asterik">*</span>
+              </label>
+            </div>
+            <!-- Title -->
+            <div class="col-md-6">
+              <rd-input
+                [label]="''"
+                [id]="'title'"
+                [placeholder]="'Please Provide Title'"
+                [required]="true"
+                [type]="'text'"
+                [controlName]="'Title'"
+                [form]="form"
+                (onChange)="onChange($event)"
+              ></rd-input>
+            </div>
+            <!-- Type -->
+            <div class="col-md-6">
+              <rd-select
+              [label]="'Type'"
+                [id]="'type'"
+                [placeholder]="'Please Select Type'"
+                [bindLabel]="'Name'"
+                [bindValue]="'Name'"
+                [items$]="resultTypes$"
+                [required]="true"
+                [form]="form"
+                [controlName]="'Type'"
+              ></rd-select>
+            </div>
+          </div>
+          <!-- Media -->
+          <div class="rd-form-header">Media</div>
+          <!-- Result -->
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'Results'"
+                [id]="'media-result'"
+                [checked]="financialResultDetails?.Results?.Checked"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, resultsMedia)"
+              ></rd-switch>
+              <label [for]="'media-result'" class="rd-heading-xs">Result</label>
+            </div>
+            <rd-file
+              *ngIf="
+                financialResultDetails?.Results?.Checked &&
+                form.get('Results')?.value == null
+              "
+              [id]="'result-file'"
+              [types]="fileTypes"
+              [fileList]="fileList"
+              (onSelect)="onFileSelect($event, 'Results')"
+            ></rd-file>
+
+            <rd-file-container
+              *ngIf="form.get('Results')?.value != null"
+              [file]="resultsMedia"
+              [delete]="formConfig?.mode != formMode.VIEW"
+              (onDelete)="onFileDelete($event, 'Results')"
+            ></rd-file-container>
+            <div
+              *ngIf="form.get('Results')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small>{{ form.get('Results')?.errors?.['invalid'] }}</small>
+            </div>
+            <div  *ngIf="
+            financialResultDetails?.Results?.Checked &&
+            form.get('Results')?.value == null
+          "
+            class="error-msg mt-1"
+          >
+            <small>Note : The url for this file will be
+              https://www.redefine.co.za/view-file/name-of-doc.pdf.
+              If the same file name already exists, it will be automatically replaced by this latest version.</small>
+          </div>
+          </div>
+          <!-- Presentation -->
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'Presentation'"
+                [id]="'media-presentation'"
+                [checked]="financialResultDetails?.Presentation?.Checked"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, presentationMedia)"
+              ></rd-switch>
+              <label [for]="'media-presentation'" class="rd-heading-xs"
+                >Presentation</label
+              >
+            </div>
+            <rd-file
+              *ngIf="
+                financialResultDetails?.Presentation?.Checked &&
+                form.get('Presentation')?.value == null
+              "
+              [id]="'Presentation'"
+              [types]="fileTypes"
+              [fileList]="fileList"
+              (onSelect)="onFileSelect($event, 'Presentation')"
+            ></rd-file>
+            <rd-file-container
+              *ngIf="form.get('Presentation')?.value != null"
+              [file]="presentationMedia"
+              [delete]="formConfig?.mode != formMode.VIEW"
+              (onDelete)="onFileDelete($event, 'Presentation')"
+            ></rd-file-container>
+            <div
+              *ngIf="form.get('Presentation')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small>{{ form.get('Presentation')?.errors?.['invalid'] }}</small>
+            </div>
+          </div>
+          <!-- Press Release -->
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'PressRelease'"
+                [id]="'press-release'"
+                [checked]="financialResultDetails?.PressRelease?.Checked"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, null)"
+              ></rd-switch>
+              <label [for]="'press-release'" class="rd-heading-xs"
+                >Press Release</label
+              >
+            </div>
+            <rd-select
+              *ngIf="financialResultDetails?.PressRelease?.Checked"
+              [id]="'PressRelease'"
+              [placeholder]="'Please Select Press Release'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Id'"
+              [items$]="pressReleaseList$"
+              [form]="form"
+              [controlName]="'PressRelease'"
+              (onChange)="onSelect($event, form.get('PressRelease')?.value)"
+            ></rd-select>
+          </div>
+          <!-- Webcast URL -->
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'WebcastUrl'"
+                [id]="'media-webcast-url'"
+                [checked]="financialResultDetails?.WebcastUrl?.Checked"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, null)"
+              ></rd-switch>
+              <label [for]="'media-webcast-url'" class="rd-heading-xs"
+                >Webcast</label
+              >
+            </div>
+
+            <rd-select
+              *ngIf="financialResultDetails?.WebcastUrl?.Checked"
+              [id]="'ghgfhgf'"
+              [placeholder]="'Please Select Webcast Link'"
+              [bindLabel]="'Title'"
+              [bindValue]="'WebCastLink'"
+              [items$]="webcastList$"
+              [form]="form"
+              [controlName]="'WebcastUrl'"
+              (onChange)="onSelect($event, form.get('WebcastUrl')?.value)"
+            ></rd-select>
+          </div>
+          <!-- Transcript -->
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'Transcript'"
+                [id]="'media-transcript'"
+                [checked]="financialResultDetails?.Transcript?.Checked"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, transcriptMedia)"
+              ></rd-switch>
+              <label [for]="'media-transcript'" class="rd-heading-xs"
+                >Transcript</label
+              >
+            </div>
+            <rd-file
+              *ngIf="
+                financialResultDetails?.Transcript?.Checked &&
+                form.get('Transcript')?.value == null
+              "
+              [id]="'Transcript'"
+              [types]="fileTypes"
+              [fileList]="fileList"
+              (onSelect)="onFileSelect($event, 'Transcript')"
+            ></rd-file>
+            <rd-file-container
+              *ngIf="form.get('Transcript')?.value != null"
+              [file]="transcriptMedia"
+              [delete]="formConfig?.mode != formMode.VIEW"
+              (onDelete)="onFileDelete($event, 'Transcript')"
+            ></rd-file-container>
+            <div
+              *ngIf="form.get('Transcript')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small>{{ form.get('Transcript')?.errors?.['invalid'] }}</small>
+            </div>
+          </div>
+          <!-- Short form Ad URL -->
+          <!-- <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'ShortformAdUrl'"
+                [id]="'media-shortform-ad-url'"
+                [checked]="financialResultDetails?.ShortformAdUrl != null"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, null)"
+              ></rd-switch>
+              <label [for]="'media-shortform-ad-url'" class="rd-heading-xs"
+                >Shortform Ad URL</label
+              >
+            </div>
+            <rd-input
+              *ngIf="financialResultDetails?.ShortformAdUrl?.Checked"
+              [id]="'ShortformAdUrl'"
+              [placeholder]="'Please provide a link'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'ShortformAdUrl'"
+              [form]="form"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div> -->
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'ShortformAdUrl'"
+                [id]="'media-shortform-ad-url'"
+                [checked]="financialResultDetails?.ShortformAdUrl?.Checked"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, shortFormUrlMedia)"
+              ></rd-switch>
+              <label [for]="'media-shortform-ad-url'" class="rd-heading-xs"
+                >Short-form Advert</label
+              >
+            </div>
+            <rd-file
+              *ngIf="
+                financialResultDetails?.ShortformAdUrl?.Checked &&
+                form.get('ShortformAdUrl')?.value == null
+              "
+              [id]="'ShortformAdUrl'"
+              [types]="fileTypes"
+              [fileList]="fileList"
+              (onSelect)="onFileSelect($event, 'ShortformAdUrl')"
+            ></rd-file>
+            <rd-file-container
+              *ngIf="form.get('ShortformAdUrl')?.value != null"
+              [file]="shortFormUrlMedia"
+              [delete]="formConfig?.mode != formMode.VIEW"
+              (onDelete)="onFileDelete($event, 'ShortformAdUrl')"
+            ></rd-file-container>
+            <div
+              *ngIf="form.get('ShortformAdUrl')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small>{{ form.get('ShortformAdUrl')?.errors?.['invalid'] }}</small>
+            </div>
+          </div>
+          <!-- Group AFS -->
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'GroupAFS'"
+                [id]="'media-group-afs'"
+                [checked]="financialResultDetails?.GroupAFS?.Checked"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, groupAFSMedia)"
+              ></rd-switch>
+              <label [for]="'media-group-afs'" class="rd-heading-xs"
+                >Group AFS</label
+              >
+            </div>
+            <rd-file
+              *ngIf="
+                financialResultDetails?.GroupAFS?.Checked &&
+                form.get('GroupAFS')?.value == null
+              "
+              [id]="'GroupAFS'"
+              [types]="fileTypes"
+              [fileList]="fileList"
+              (onSelect)="onFileSelect($event, 'GroupAFS')"
+            ></rd-file>
+            <rd-file-container
+              *ngIf="form.get('GroupAFS')?.value != null"
+              [file]="groupAFSMedia"
+              [delete]="formConfig?.mode != formMode.VIEW"
+              (onDelete)="onFileDelete($event, 'GroupAFS')"
+            ></rd-file-container>
+            <div
+              *ngIf="form.get('GroupAFS')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small>{{ form.get('GroupAFS')?.errors?.['invalid'] }}</small>
+            </div>
+          </div>
+          <!-- Company AFS -->
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'CompanyAFS'"
+                [id]="'media-company-afs'"
+                [checked]="financialResultDetails?.CompanyAFS?.Checked"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, companyAFSMedia)"
+              ></rd-switch>
+              <label [for]="'media-company-afs'" class="rd-heading-xs"
+                >Company AFS</label
+              >
+            </div>
+            <rd-file
+              *ngIf="
+                financialResultDetails?.CompanyAFS?.Checked &&
+                form.get('CompanyAFS')?.value == null
+              "
+              [id]="'CompanyAFS'"
+              [types]="fileTypes"
+              [fileList]="fileList"
+              (onSelect)="onFileSelect($event, 'CompanyAFS')"
+            ></rd-file>
+            <rd-file-container
+              *ngIf="form.get('CompanyAFS')?.value != null"
+              [file]="companyAFSMedia"
+              [delete]="formConfig?.mode != formMode.VIEW"
+              (onDelete)="onFileDelete($event, 'CompanyAFS')"
+            ></rd-file-container>
+            <div
+              *ngIf="form.get('CompanyAFS')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small>{{ form.get('CompanyAFS')?.errors?.['invalid'] }}</small>
+            </div>
+          </div>
+          <!-- Property Information -->
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'PropertyInformation'"
+                [id]="'property-information'"
+                [checked]="financialResultDetails?.PropertyInformation?.Checked"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, propertyInformationMedia)"
+              ></rd-switch>
+              <label [for]="'property-information'" class="rd-heading-xs"
+                >Property Information</label
+              >
+            </div>
+            <rd-file
+              *ngIf="
+                financialResultDetails?.PropertyInformation?.Checked &&
+                form.get('PropertyInformation')?.value == null
+              "
+              [id]="'PropertyInformation'"
+              [types]="fileTypes"
+              [fileList]="fileList"
+              (onSelect)="onFileSelect($event, 'PropertyInformation')"
+            ></rd-file>
+            <rd-file-container
+              *ngIf="form.get('PropertyInformation')?.value != null"
+              [file]="propertyInformationMedia"
+              [delete]="formConfig?.mode != formMode.VIEW"
+              (onDelete)="onFileDelete($event, 'PropertyInformation')"
+            ></rd-file-container>
+            <div
+              *ngIf="form.get('PropertyInformation')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small
+                >{{ form.get('PropertyInformation')?.errors?.['invalid'] }}</small
+              >
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'PrimaryFinancialStatement'"
+                [id]="'primary-financial-statement'"
+                [checked]="
+                  financialResultDetails?.PrimaryFinancialStatement?.Checked
+                "
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, primaryFinancialMedia)"
+              ></rd-switch>
+              <label [for]="'primary-financial-statement'" class="rd-heading-xs"
+                >Primary Financial Statement</label
+              >
+            </div>
+            <rd-file
+              *ngIf="
+                financialResultDetails?.PrimaryFinancialStatement?.Checked &&
+                form.get('PrimaryFinancialStatement')?.value == null
+              "
+              [id]="'primary-financial-statement-file'"
+              [types]="fileTypes"
+              [fileList]="fileList"
+              (onSelect)="onFileSelect($event, 'PrimaryFinancialStatement')"
+            ></rd-file>
+            <rd-file-container
+              *ngIf="form.get('PrimaryFinancialStatement')?.value != null"
+              [file]="primaryFinancialMedia"
+              [delete]="formConfig?.mode != formMode.VIEW"
+              (onDelete)="onFileDelete($event, 'PrimaryFinancialStatement')"
+            ></rd-file-container>
+            <div
+              *ngIf="form.get('PrimaryFinancialStatement')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small
+                >{{ form.get('PrimaryFinancialStatement')?.errors?.['invalid'] }}</small
+              >
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'JvFinancialInformation'"
+                [id]="'Jv-Financial-Information'"
+                [checked]="
+                  financialResultDetails?.JvFinancialInformation?.Checked
+                "
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, JvFinancialMedia)"
+              ></rd-switch>
+              <label [for]="'Jv-Financial-Information'" class="rd-heading-xs"
+                >Jv Financial Information</label
+              >
+            </div>
+            <rd-file
+              *ngIf="
+                financialResultDetails?.JvFinancialInformation?.Checked &&
+                form.get('JvFinancialInformation')?.value == null
+              "
+              [id]="'jv-financial-information-file'"
+              [types]="fileTypes"
+              [fileList]="fileList"
+              (onSelect)="onFileSelect($event, 'JvFinancialInformation')"
+            ></rd-file>
+            <rd-file-container
+              *ngIf="form.get('JvFinancialInformation')?.value != null"
+              [file]="JvFinancialMedia"
+              [delete]="formConfig?.mode != formMode.VIEW"
+              (onDelete)="onFileDelete($event, 'JvFinancialInformation')"
+            ></rd-file-container>
+            <div
+              *ngIf="form.get('JvFinancialInformation')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small
+                >{{ form.get('JvFinancialInformation')?.errors?.['invalid'] }}</small
+              >
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <div class="rd-switch-wrapper">
+              <rd-switch
+                [label]="'EmpowermentTrustAFS'"
+                [id]="'Jv-Empowerment-TrustAFS'"
+                [checked]="
+                  financialResultDetails?.EmpowermentTrustAFS?.Checked
+                "
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, EmpowermentTrustAFSMedia)"
+              ></rd-switch>
+              <label [for]="'Jv-Empowerment-TrustAFS'" class="rd-heading-xs"
+                >Redefine Empowerment Trust AFS</label
+              >
+            </div>
+            <rd-file
+              *ngIf="
+                financialResultDetails?.EmpowermentTrustAFS?.Checked &&
+                form.get('EmpowermentTrustAFS')?.value == null
+              "
+              [id]="'Jv-Empowerment-TrustAFS-file'"
+              [types]="fileTypes"
+              [fileList]="fileList"
+              (onSelect)="onFileSelect($event, 'EmpowermentTrustAFS')"
+            ></rd-file>
+            <rd-file-container
+              *ngIf="form.get('EmpowermentTrustAFS')?.value != null"
+              [file]="EmpowermentTrustAFSMedia"
+              [delete]="formConfig?.mode != formMode.VIEW"
+              (onDelete)="onFileDelete($event, 'EmpowermentTrustAFS')"
+            ></rd-file-container>
+            <div
+              *ngIf="form.get('EmpowermentTrustAFS')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small
+                >{{ form.get('EmpowermentTrustAFS')?.errors?.['invalid'] }}</small
+              >
+            </div>
+          </div>
+
+          <!-- Banner -->
+          <div class="mb-3 banner-section">
+            <!-- <div class="rd-switch-wrapper banner-switch">
+              <rd-switch
+                [label]="'Banner'"
+                [id]="'banner-switch'"
+                [checked]="financialResultDetails?.Banner?.Checked"
+                [disable]="formConfig?.mode == formMode.VIEW"
+                (onChange)="toggleSwitch($event, bannerMedia)"
+              ></rd-switch>
+            </div> -->
+            <!-- <div class="rd-form-header">Would you like to add Banner?</div>
+            *ngIf="financialResultDetails?.Banner?.Checked" -->
+            <ng-container>
+              <!-- <div class="mb-3">
+                <div class="control-container">
+                  <label
+                    *ngIf="
+                      financialResultDetails?.Banner?.Checked &&
+                      form.get('Banner')?.value != null
+                    "
+                    >Image</label
+                  >
+                </div>
+                <rd-file
+                  *ngIf="
+                    financialResultDetails?.Banner?.Checked &&
+                    form.get('Banner')?.value == null
+                  "
+                  [label]="'Image'"
+                  [id]="'banner-image'"
+                  [required]="true"
+                  [types]="imageTypes"
+                  [fileList]="fileList"
+                  (onSelect)="onFileSelect($event, 'Banner')"
+                ></rd-file>
+                <rd-file-container
+                  *ngIf="form.get('Banner')?.value != null"
+                  [file]="bannerMedia"
+                  [delete]="true"
+                  (onDelete)="onFileDelete($event, 'Banner')"
+                ></rd-file-container>
+                <div
+                  *ngIf="form.get('Banner')?.hasError('invalid')"
+                  class="error-msg"
+                >
+                  <small>{{ form.get('Banner')?.errors?.['invalid'] }}</small>
+                </div>
+              </div> -->
+              <!-- Banner Title -->
+              <!-- <div class="">
+                <rd-input
+                  [label]="'Banner Title'"
+                  [id]="'banner-title'"
+                  [placeholder]="'Please provide title'"
+                  [required]="true"
+                  [type]="'text'"
+                  [controlName]="'BannerTitle'"
+                  [form]="form"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div> -->
+              <!-- Description -->
+              <div class="">
+                <rd-editor
+                  [label]="'Description'"
+                  [id]="'financial-result-banner-description'"
+                  [placeholder]="'Add Description'"
+                  [controlName]="'Description'"
+                  [form]="form"
+                  (onChange)="onChange($event)"
+                ></rd-editor>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="rd-form-footer">
+          <div>
+            <button
+              type="button"
+              class="rd-btn-secondary rd-btn-lg"
+              (click)="goToMain()"
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <button
+              *ngIf="formConfig?.access"
+              type="submit"
+              class="rd-btn-primary rd-btn-lg"
+            >
+              {{ btnLable }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4">
+      <form
+        id="event-form"
+        class="rd-form no-margin override-fixed-width"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit($event)"
+        autocomplete="on"
+      >
+        <div class="rd-form-header" *ngIf="formConfig?.mode != formMode.VIEW">
+          {{ formConfig?.mode != "view" ? "Set" : "" }} Publishing Date & Time
+        </div>
+        <div class="rd-form-body">
+          <div class="row">
+            <div class="col-7">
+              <rd-calendar
+                placeholder="Please Select Date"
+                [label]="'Date'"
+                [id]="'PublishDate'"
+                [controlName]="'PublishDate'"
+                [type]="'text'"
+                [form]="form"
+                (dateChange)="onPublishingDateChange($event)"
+              ></rd-calendar>
+            </div>
+            <div class="col-5">
+              <rd-timepicker
+                [label]="'Time'"
+                [id]="'publish-time'"
+                [controlName]="'PublishTime'"
+                [placeholder]="'Please Select Time'"
+                [form]="form"
+              ></rd-timepicker>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- VIEW FINANCIAL RESULT DETAILS -->
+  <div
+    class="row justify-content-center"
+    *ngIf="formConfig?.mode == formMode.VIEW && financialResultDetails"
+  >
+    <div class="col-7">
+      <form class="rd-form no-margin override-fixed-width">
+        <div class="rd-form-header">Result Details</div>
+        <div class="rd-form-body">
+          <!-- Title -->
+          <div class="row py-2">
+            <div class="col-5 rd-heading-xs">Title</div>
+            <div class="col-7">
+              <div *ngIf="financialResultDetails?.Title" class="text-break">
+                {{ financialResultDetails?.Title }}
+              </div>
+              <div
+                *ngIf="
+                  financialResultDetails?.Title == null ||
+                  financialResultDetails?.Title == ''
+                "
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+            </div>
+          </div>
+          <!-- Type -->
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Type</div>
+            <div class="col-7">
+              <div *ngIf="financialResultDetails?.Type" class="text-break">
+                {{ financialResultDetails?.Type }}
+              </div>
+              <div
+                *ngIf="
+                  financialResultDetails?.Type == null ||
+                  financialResultDetails?.Type == ''
+                "
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+            </div>
+          </div>
+          <!-- Publish Date -->
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Publish date</div>
+            <div class="col-7">
+              <div
+                *ngIf="financialResultDetails?.PublishDate"
+                class="text-break"
+              >
+                {{ financialResultDetails?.PublishDate | date : "dd-MM-yyyy" }}
+              </div>
+              <div
+                *ngIf="
+                  financialResultDetails?.PublishDate == null ||
+                  financialResultDetails?.PublishDate == ''
+                "
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+            </div>
+          </div>
+          <!-- Publish Time -->
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Publish time</div>
+            <div class="col-7">
+              <div
+                *ngIf="financialResultDetails?.PublishTime"
+                class="text-break"
+              >
+                {{ financialResultDetails?.PublishTime }}
+              </div>
+              <div
+                *ngIf="
+                  financialResultDetails?.PublishTime == null ||
+                  financialResultDetails?.PublishTime == ''
+                "
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+            </div>
+          </div>
+          <!-- Media -->
+          <div class="col-12 rd-heading-sm hr-top-line pt-3 mb-2">Media</div>
+          <!-- Result -->
+          <div class="row py-2">
+            <div class="col-5 rd-heading-xs align-middle">Results</div>
+            <div class="col-7">
+              <div
+                *ngIf="form.get('Results')?.value == null"
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+              <rd-file-container
+                *ngIf="form.get('Results')?.value != null"
+                [file]="form.get('Results')?.value"
+                [delete]="false"
+                (onDelete)="onFileDelete($event, 'Results')"
+              ></rd-file-container>
+            </div>
+          </div>
+          <!-- Presentation -->
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Presentation</div>
+            <div class="col-7">
+              <div
+                *ngIf="form.get('Presentation')?.value == null"
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+              <rd-file-container
+                *ngIf="form.get('Presentation')?.value != null"
+                [file]="form.get('Presentation')?.value"
+                [delete]="false"
+                (onDelete)="onFileDelete($event, 'Presentation')"
+              ></rd-file-container>
+            </div>
+          </div>
+          <!-- Press Release -->
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Press Release</div>
+            <div class="col-7">
+              <div
+                *ngIf="financialResultDetails?.PressReleaseName"
+                class="text-break"
+              >
+                {{ financialResultDetails?.PressReleaseName }}
+              </div>
+              <div
+                *ngIf="
+                  financialResultDetails?.PressReleaseName == null ||
+                  financialResultDetails?.PressReleaseName == ''
+                "
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+            </div>
+          </div>
+          <!-- Webcast URL -->
+
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Webcast Url</div>
+            <div class="col-7">
+              <a
+                *ngIf="financialResultDetails?.WebcastUrl"
+                class="link"
+                target="_blank"
+                [href]="
+                  financialResultDetails?.WebcastUrl.Value.includes('http')
+                    ? financialResultDetails?.WebcastUrl.Value
+                    : 'https://' + financialResultDetails?.WebcastUrl.Value
+                "
+              >
+                <span
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="feather feather-link"
+                  >
+                    <path
+                      d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                    ></path>
+                    <path
+                      d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                    ></path>
+                  </svg>
+                </span>
+                <span>Link</span>
+              </a>
+              <div
+                *ngIf="
+                  financialResultDetails?.WebcastUrl == null ||
+                  financialResultDetails?.WebcastUrl == ''
+                "
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+            </div>
+          </div>
+          <!-- Transcript -->
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Transcript</div>
+            <div class="col-7">
+              <div
+                *ngIf="form.get('Transcript')?.value == null"
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+              <rd-file-container
+                *ngIf="form.get('Transcript')?.value != null"
+                [file]="form.get('Transcript')?.value"
+                [delete]="false"
+                (onDelete)="onFileDelete($event, 'Transcript')"
+              ></rd-file-container>
+            </div>
+          </div>
+
+          <!-- Short form Ad URL -->
+          <!-- <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Shortform Ad Url</div>
+            <div class="col-7">
+              <a
+                *ngIf="financialResultDetails?.ShortformAdUrl"
+                class="link"
+                [href]="
+                  financialResultDetails?.ShortformAdUrl.Value.includes('http')
+                    ? financialResultDetails?.ShortformAdUrl.Value
+                    : 'https://' + financialResultDetails?.ShortformAdUrl.Value
+                "
+                target="_blank"
+              >
+                <span
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="feather feather-link"
+                  >
+                    <path
+                      d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                    ></path>
+                    <path
+                      d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                    ></path>
+                  </svg>
+                </span>
+                <span> Link </span>
+              </a>
+              <div
+                *ngIf="
+                  financialResultDetails?.ShortformAdUrl == null ||
+                  financialResultDetails?.ShortformAdUrl == ''
+                "
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+            </div>
+          </div> -->
+          
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Short-form Advert</div>
+            <div class="col-7">
+              <div
+                *ngIf="form.get('ShortformAdUrl')?.value == null"
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+              <rd-file-container
+                *ngIf="form.get('ShortformAdUrl')?.value != null"
+                [file]="form.get('ShortformAdUrl')?.value"
+                [delete]="false"
+                (onDelete)="onFileDelete($event, 'ShortformAdUrl')"
+              ></rd-file-container>
+            </div>
+          </div>
+
+          <!-- Group AFS -->
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Group AFS</div>
+            <div class="col-7">
+              <div
+                *ngIf="form.get('GroupAFS')?.value == null"
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+              <rd-file-container
+                *ngIf="form.get('GroupAFS')?.value != null"
+                [file]="form.get('GroupAFS')?.value"
+                [delete]="false"
+                (onDelete)="onFileDelete($event, 'GroupAFS')"
+              ></rd-file-container>
+            </div>
+          </div>
+          <!-- Company AFS -->
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Company AFS</div>
+            <div class="col-7">
+              <div
+                *ngIf="form.get('CompanyAFS')?.value == null"
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+              <rd-file-container
+                *ngIf="form.get('CompanyAFS')?.value != null"
+                [file]="form.get('CompanyAFS')?.value"
+                [delete]="false"
+                (onDelete)="onFileDelete($event, 'CompanyAFS')"
+              ></rd-file-container>
+            </div>
+          </div>
+          <!-- Property Information -->
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Property Information</div>
+            <div class="col-7">
+              <div
+                *ngIf="form.get('PropertyInformation')?.value == null"
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+              <rd-file-container
+                *ngIf="form.get('PropertyInformation')?.value != null"
+                [file]="form.get('PropertyInformation')?.value"
+                [delete]="formConfig?.mode != formMode.VIEW"
+                (onDelete)="onFileDelete($event, 'PropertyInformation')"
+              ></rd-file-container>
+            </div>
+          </div>
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Primary Financial Statement</div>
+            <div class="col-7">
+              <div
+                *ngIf="form.get('PrimaryFinancialStatement')?.value == null"
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+              <rd-file-container
+                *ngIf="form.get('PrimaryFinancialStatement')?.value != null"
+                [file]="form.get('PrimaryFinancialStatement')?.value"
+                [delete]="formConfig?.mode != formMode.VIEW"
+                (onDelete)="onFileDelete($event, 'PrimaryFinancialStatement')"
+              ></rd-file-container>
+            </div>
+          </div>
+
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Jv Financial Information</div>
+            <div class="col-7">
+              <div
+                *ngIf="form.get('JvFinancialInformation')?.value == null"
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+              <rd-file-container
+                *ngIf="form.get('JvFinancialInformation')?.value != null"
+                [file]="form.get('JvFinancialInformation')?.value"
+                [delete]="formConfig?.mode != formMode.VIEW"
+                (onDelete)="onFileDelete($event, 'JvFinancialInformation')"
+              ></rd-file-container>
+            </div>
+          </div>
+
+          <div class="row py-2 hr-top-line">
+            <div class="col-5 rd-heading-xs">Redefine Empowerment Trust AFS</div>
+            <div class="col-7">
+              <div
+                *ngIf="form.get('EmpowermentTrustAFS')?.value == null"
+                class="rd-text-grey-mid"
+              >
+                Not available
+              </div>
+              <rd-file-container
+                *ngIf="form.get('EmpowermentTrustAFS')?.value != null"
+                [file]="form.get('EmpowermentTrustAFS')?.value"
+                [delete]="formConfig?.mode != formMode.VIEW"
+                (onDelete)="onFileDelete($event, 'EmpowermentTrustAFS')"
+              ></rd-file-container>
+            </div>
+          </div>
+          <!-- Banner -->
+          <!-- *ngIf="financialResultDetails?.Banner?.Checked" -->
+          <ng-container>
+            <!-- <div class="col-12 rd-heading-sm hr-top-line pt-3 mb-2">
+              Banner Details
+            </div> -->
+            <!-- <div class="row py-2">
+              <div class="col-5 rd-heading-xs">Image</div>
+              <div class="col-7">
+                <div
+                  *ngIf="form.get('Banner')?.value == null"
+                  class="rd-text-grey-mid"
+                >
+                  Not available
+                </div>
+                <rd-file-container
+                  *ngIf="form.get('Banner')?.value != null"
+                  [file]="form.get('Banner')?.value"
+                  [delete]="formConfig?.mode != formMode.VIEW"
+                  (onDelete)="onFileDelete($event, 'Banner')"
+                ></rd-file-container>
+              </div>
+            </div> -->
+            <!-- Banner Title -->
+            <!-- <div class="row py-2 hr-top-line">
+              <div class="col-5 rd-heading-xs">Banner Title</div>
+              <div class="col-7">
+                <div
+                  *ngIf="financialResultDetails?.BannerTitle"
+                  class="text-break"
+                >
+                  {{ financialResultDetails?.BannerTitle }}
+                </div>
+                <div
+                  *ngIf="
+                    financialResultDetails?.BannerTitle == null ||
+                    financialResultDetails?.BannerTitle == ''
+                  "
+                  class="rd-text-grey-mid"
+                >
+                  Not available
+                </div>
+              </div>
+            </div> -->
+            <!-- Description -->
+            <div class="row py-2 hr-top-line">
+              <div class="col-5 rd-heading-xs">Description</div>
+              <div
+                class="col-7 text-break"
+                id="description"
+                [innerHTML]="
+                  form.get('Description')?.value == '' ||
+                  form.get('Description')?.value == null ||
+                  form.get('Description')?.value == undefined
+                    ? 'Not available'
+                    : (form.get('Description')?.value | safeHtml : 'html')
+                "
+                [ngClass]="
+                  form.get('Description')?.value == '' ||
+                  form.get('Description')?.value == null ||
+                  form.get('Description')?.value == undefined
+                    ? 'rd-text-grey-mid'
+                    : ''
+                "
+              ></div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="rd-form-footer">
+          <div>
+            <button
+              type="button"
+              class="rd-btn-secondary rd-btn-lg"
+              (click)="goToMain()"
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <button
+              *ngIf="formConfig?.access"
+              type="button"
+              class="rd-btn-primary rd-btn-lg"
+              (click)="editResult()"
+            >
+              Edit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

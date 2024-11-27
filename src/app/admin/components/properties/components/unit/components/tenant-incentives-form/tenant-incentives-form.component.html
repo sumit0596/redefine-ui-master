@@ -1,0 +1,54 @@
+<div class="rd-container">
+    <form
+      *ngIf="tenantIncentiveForm"
+      class="rd-form form-container"
+      [formGroup]="tenantIncentiveForm"
+      (ngSubmit)="onSubmit()"
+      autocomplete="on"
+    >
+      <div class="rd-container-header">
+        <div class="rd-form-header">
+            Tenant Incentive
+        </div>
+        <div>
+          <button type="button" (click)="close()">
+            <span><img src="assets/images/close.svg" alt="" /></span>
+          </button>
+        </div>
+      </div>
+        <rd-select
+          [id]="'lease'"
+          [label]="'Select Incentives'"
+          [items$]="tenantIncentivesList$"
+          [placeholder]="'Search Incentives'"
+          [bindLabel]="'Title'"
+          [bindValue]="'Id'"
+          [multiselect]="true"
+          [max]="2"
+          [form]="tenantIncentiveForm"
+          [controlName]="'Incentives'"
+        ></rd-select>
+
+        <button
+        class="rd-btn-primary rd-btn-lg width" (click)="createNewIncentive()">Create New </button>
+      
+      <div class="rd-form-footer justify-content-end">
+        <div class="rd-btn-group">
+          <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="close()"
+          >
+            Cancel
+        </button>
+          <button
+            type="submit"
+            class="rd-btn-primary rd-btn-lg"
+          >
+            Save & Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  

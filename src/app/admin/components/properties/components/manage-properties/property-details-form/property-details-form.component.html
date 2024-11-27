@@ -1,0 +1,416 @@
+<form
+  class="rd-form form-container"
+  [formGroup]="propertyDetailsForm"
+  (ngSubmit)="onSubmit($event)"
+  autocomplete="on"
+>
+  <div class="rd-form-header">Property Details</div>
+  <div class="rd-form-body">
+    <!-- Property Details -->
+    <div class="rd-form-section">
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'Property Code'"
+          [id]="'property-name'"
+          [placeholder]="'Please Provide Property Code'"
+          [type]="'text'"
+          [controlName]="'BuildingCode'"
+          [form]="propertyDetailsForm"
+        ></rd-input>
+        <rd-input
+          [label]="'Property Name'"
+          [id]="'property-name'"
+          [placeholder]="'Please Provide Property Name'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'PropertyName'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="rd-form-control-group">
+        <rd-select
+          [id]="'property-sector'"
+          [label]="'Sector'"
+          [placeholder]="'Please Select Property Type'"
+          [items$]="sectors$"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [form]="propertyDetailsForm"
+          [controlName]="'SectorId'"
+          (onChange)="onDataChange($event, 'Sector')"
+        ></rd-select>
+        <rd-input
+          [label]="'Grade'"
+          [id]="'grade'"
+          [placeholder]="'Grade'"
+          [type]="'text'"
+          [controlName]="'Grade'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'GLA'"
+          [id]="'gla'"
+          [placeholder]="'Gross Lettable Area (in sqm)'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'Gla'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-input></rd-input>
+      </div>
+      <rd-input
+        [label]="'Website URL'"
+        [id]="'websiteUrl'"
+        [placeholder]="'Please Provide Website URL'"
+        [type]="'text'"
+        [form]="propertyDetailsForm"
+        [controlName]="'WebsiteUrl'"
+        (onChange)="onChange($event)"
+      ></rd-input>
+      <rd-editor
+        [label]="'Property Description'"
+        [id]="'Description'"
+        [placeholder]="'Add Description'"
+        [controlName]="'PropertyDescription'"
+        [form]="propertyDetailsForm"
+        (onChange)="onChange($event)"
+      ></rd-editor>
+    </div>
+    <!-- Location -->
+    <div class="rd-form-section">
+      <div class="rd-form-header">Location Details</div>
+      <div class="location-alert">
+        <div class="location-alert-icon">
+          <img
+            class="location-alert-image"
+            src="assets/images/circle-info.svg"
+            alt=""
+          />
+        </div>
+        <div class="location-alert-desc">
+          The address that corresponds to this latitude and longitude is as
+          follows:
+          <span class="rd-text-mid-red"
+            ><b
+              >{{ address }} <span *ngIf="address !== ''">,</span> {{ city }}
+              <span *ngIf="city !== ''">,</span> {{ suburb }}
+              <span *ngIf="suburb !== ''">,</span> {{ province }}
+              <span *ngIf="province !== ''">,</span> {{ country }}</b
+            >
+          </span>
+          If this location is incorrect, please update the correct GPS
+          Coordinates below for portal and please ensure to update it on MDA.
+        </div>
+      </div>
+
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'Longitude'"
+          [id]="'longitude'"
+          [placeholder]="'xxxxxx'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'Longitude'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-input
+          [label]="'Latitude'"
+          [id]="'latitude'"
+          [placeholder]="'xxxxxx'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'Latitude'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="floating-btn-wrapper md-3">
+        <button
+          type="button"
+          class="rd-btn-primary rd-btn-lg"
+          [disabled]="formConfig && formConfig.mode == 'view'"
+          (click)="
+            markLocation(
+              propertyDetailsForm.get('Latitude')?.value,
+              propertyDetailsForm.get('Longitude')?.value
+            )
+          "
+        >
+          Look Up Location
+        </button>
+      </div>
+
+      <div class="map-container">
+        <app-map
+          *ngIf="markerPositions && markerPositions.length; else map_loader"
+          [markers]="markerPositions"
+          [height]="'400px'"
+          [zoom]="17"
+          [center]="center"
+        ></app-map>
+        <!-- <google-map height="400px" width="100%" [zoom]="zoom" [center]="center">
+          <map-marker
+            *ngFor="let markerPosition of markerPositions"
+            [position]="markerPosition"
+            [options]="markerOptions"
+          ></map-marker>
+        </google-map> -->
+      </div>
+
+      <div class="location-alert">
+        <div class="location-alert-icon">
+          <img
+            class="location-alert-image"
+            src="assets/images/circle-info.svg"
+            alt=""
+          />
+        </div>
+        <div class="location-alert-desc">
+          This address is pulled directly from MDA. If this address is
+          incorrect, please update the address below for portal and also update
+          it on MDA.
+        </div>
+      </div>
+      <rd-input
+        [label]="'Address'"
+        [id]="'address'"
+        [placeholder]="'Please Provide Street Name and Number'"
+        [required]="true"
+        [type]="'text'"
+        [controlName]="'Address'"
+        [form]="propertyDetailsForm"
+        (onChange)="onChange($event)"
+      ></rd-input>
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'Suburb'"
+          [id]="'suburb'"
+          [placeholder]="'Suburb'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'Suburb'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-input
+          [label]="'City'"
+          [id]="'city'"
+          [placeholder]="'City'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'City'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'Province'"
+          [id]="'property-province'"
+          [placeholder]="'Province'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'Province'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-input
+          [label]="'Country'"
+          [id]="'property-country'"
+          [placeholder]="'Country'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'Country'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="rd-form-control-group placement">
+        <rd-input
+          [label]="'Postal Code'"
+          [id]="'postal_code'"
+          [placeholder]="'Postal Code'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'PostCode'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+    </div>
+    <ng-container *ngIf="sector != 'Industrial'">
+      <div class="rd-form-section">
+        <div class="rd-form-header">Parking Details</div>
+        <rd-input
+          [label]="'Parking Ratio (bays/100 sqm)'"
+          [id]="'parking-ratio'"
+          [placeholder]="'5 Bay Per 100 Square Meter'"
+          [type]="'text'"
+          [controlName]="'ParkingRatio'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <div class="rd-form-control-group">
+          <div>
+            <div class="control-container rd-switch-wrapper">
+              <label>Basement bays (R/sqm)</label>
+              <rd-switch
+                [label]="'BasementBays'"
+                [id]="'basement-bays-switch'"
+                [checked]="propertyDetailsForm.get('BasementBays')?.value"
+                (onChange)="onSwitchToggle($event)"
+              ></rd-switch>
+            </div>
+            <rd-input
+              [id]="'basement-bays-input'"
+              [placeholder]="'Per 100 Meter Squared'"
+              [type]="'text'"
+              [controlName]="'BasementBays'"
+              [form]="propertyDetailsForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+          <div>
+            <div class="control-container rd-switch-wrapper">
+              <label>Shaded bays (R/sqm)</label>
+              <rd-switch
+                [label]="'ShadedBays'"
+                [id]="'shaded-bays-switch'"
+                [checked]="propertyDetailsForm.get('ShadedBays')?.value"
+                (onChange)="onSwitchToggle($event)"
+              ></rd-switch>
+            </div>
+            <rd-input
+              [id]="'shaded-bays-input'"
+              [placeholder]="'Per 100 Meter Squared'"
+              [type]="'text'"
+              [controlName]="'ShadedBays'"
+              [form]="propertyDetailsForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+          <div>
+            <div class="control-container rd-switch-wrapper">
+              <label>Open Bays (R/sqm)</label>
+              <rd-switch
+                [label]="'OpenBays'"
+                [id]="'open-bays-switch'"
+                [checked]="propertyDetailsForm.get('OpenBays')?.value"
+                (onChange)="onSwitchToggle($event)"
+              ></rd-switch>
+            </div>
+            <rd-input
+              [id]="'property-open-bays'"
+              [placeholder]="'Per 100 Meter Squared'"
+              [type]="'text'"
+              [controlName]="'OpenBays'"
+              [form]="propertyDetailsForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="sector == 'Industrial'">
+      <!-- Industrial Sector -->
+      <div class="rd-form-section">
+        <div class="rd-form-header">Density Detail</div>
+        <rd-input
+          [label]="'Density Amount'"
+          [id]="'density-amount'"
+          [placeholder]="'Please Provide Density Amount'"
+          [type]="'text'"
+          [controlName]="'Density'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="rd-form-section">
+        <div class="rd-form-header">Grade Detail</div>
+        <rd-select
+          [id]="'property-grade-type'"
+          [label]="'Grade Type'"
+          [placeholder]="'Please Select Grade Type'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [items$]="propertyGrades$"
+          [controlName]="'GradeId'"
+          [form]="propertyDetailsForm"
+        ></rd-select>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="sector == 'Retail'">
+      <!-- Retail Sector -->
+      <div class="rd-form-section">
+        <div class="rd-form-header">Annual Foot Count</div>
+        <rd-input
+          [label]="'Foot Count'"
+          [id]="'annual-foot-count'"
+          [placeholder]="'Please Provide'"
+          [type]="'text'"
+          [controlName]="'AnnualFootCount'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="rd-form-section">
+        <div class="rd-form-header">Anchor Tenants</div>
+        <rd-input
+          [id]="'anchor-tenant'"
+          [label]="'Name of Anchor Tenants'"
+          [placeholder]="'Please Provide'"
+          [type]="'text'"
+          [controlName]="'AnchorTenant'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="rd-form-section">
+        <div class="rd-form-header">Total Tenants</div>
+        <rd-input
+          [id]="'total-tenants'"
+          [label]="'Amount of Tenants'"
+          [placeholder]="'Please Provide'"
+          [type]="'text'"
+          [controlName]="'TotalTenants'"
+          [form]="propertyDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+    </ng-container>
+    <div class="rd-form-section">
+      <div class="rd-form-header">Property Attributes</div>
+      <rd-select
+        [id]="'property-attributes'"
+        [label]="'Property Attributes'"
+        [placeholder]="'Search Attribute'"
+        [multiselect]="true"
+        [max]="3"
+        [bindLabel]="'Title'"
+        [bindValue]="'Id'"
+        [items$]="propertyAttributes$"
+        [controlName]="'PropertyAttributes'"
+        [form]="propertyDetailsForm"
+      ></rd-select>
+    </div>
+  </div>
+  <div class="rd-form-footer">
+    <div></div>
+    <div>
+      <button type="submit" class="rd-btn-primary rd-btn-lg">Save</button>
+    </div>
+  </div>
+</form>
+
+<ng-template #map_loader>
+  <div class="d-flex gap-2 placeholder-glow">
+    <div class="w-100 placeholder" [style.height.px]="400"></div>
+  </div>
+</ng-template>

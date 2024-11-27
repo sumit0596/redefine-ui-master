@@ -1,0 +1,42 @@
+
+  <div class="card-row">
+    <ng-container  *ngIf="!isLoadingLeadsByStatusSector; else isLoadingTemplate">
+      <div *ngIf="LeadsByStatus && 
+      LeadsByStatus.length>0; else noData">
+          <app-campaigns-donut 
+          class="quality-leads-pie"
+          [chartdata]="LeadsByStatus" 
+          [label]="label" 
+          [id]="'leadStatusChart'"></app-campaigns-donut>
+      </div>
+    </ng-container>
+    <ng-template #noData>
+      <div class="col-12 py-2 text-center mt-5">
+        <img src="assets/images/unit-not-found.svg" alt="file" />
+        <p class="rd-heading-md-bold rd-text-deep-red">No data found</p>
+      </div>
+    </ng-template>
+    <ng-template #isLoadingTemplate>
+      <div class="placeholder-glow chart-container" class="m-4">
+        <div class="placeholder chart-placeholder"></div>
+        <div>
+          <div>
+            <p>
+              <span
+                class="placeholder"
+                style="
+                  width: 200px;
+                  height: 60px;
+                  border-radius: 3px;
+                  margin-right: 10px;
+                "
+              ></span>
+            </p>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </ng-template>  
+  </div>
+
+  

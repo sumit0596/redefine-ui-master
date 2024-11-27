@@ -1,0 +1,53 @@
+<div class="control-container custom-auto-complete">
+  <label [for]="id" *ngIf="label"
+    >{{ label }} <span *ngIf="required" class="required-asterik">*</span></label
+  >
+  <ng-select
+    [id]="id"
+    [addTag]="false"
+    [items]="items$ | async"
+    [bindLabel]="bindLabel"
+    [bindValue]="bindValue"
+    [compareWith]="compareWith"
+    [disabled]="disable"
+    [multiple]="multiselect"
+    [trackByFn]="trackByFn"
+    [loading]="loading"
+    [typeToSearchText]="helpingText"
+    [placeholder]="placeholder"
+    [typeahead]="searchInput$"
+    [(ngModel)]="selectedItems"
+    (change)="onDataSelect($event)"
+    (add)="onAdd($event)"
+    (remove)="onRemove($event)"
+    (clear)="onDataClear($event)"
+    (search)="onFilter($event)"
+    (blur)="onFilter($event)"
+    (ngModelChange)="onFilter($event)"
+    aria-label="label"
+  >
+    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+      <div class="ng-value" *ngFor="let item of items.slice(0, max)">
+        <small>
+          <span class="ng-value-label"> {{ item[bindLabel] }}</span>
+          <span
+            class="ng-value-icon right"
+            (click)="clear(item)"
+            aria-hidden="true"
+          >
+            ×
+          </span>
+        </small>
+      </div>
+      <div class="ng-value" *ngIf="items.length > max">
+        <span class="ng-value-label">{{ items.length - max }} more...</span>
+      </div>
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item" *ngIf="optionTemplate">
+      <ng-template
+        [ngTemplateOutlet]="optionTemplate"
+        [ngTemplateOutletContext]="{ item: item }"
+      ></ng-template>
+    </ng-template>
+  </ng-select>
+</div>

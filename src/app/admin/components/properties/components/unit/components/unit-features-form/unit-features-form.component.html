@@ -1,0 +1,303 @@
+<div class="rd-container">
+  <form
+    class="rd-form form-container"
+    [formGroup]="unitFeaturesForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="rd-form-header">Features/ Amenities</div>
+    <div class="rd-form-section" formArrayName="FeaturesAmenitiesSectorId">
+      <div
+        *ngFor="
+          let feature of unitFeaturesAmenitiesForm.controls;
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <div class="switch-wrapper display">
+          <rd-switch
+            *ngIf="formConfig?.mode != 'view'"
+            [label]="mergedFeaturesAmenitiesList[i].Title"
+            [id]="'feature-' + i"
+            [checked]="mergedFeaturesAmenitiesList[i].Checked"
+            (onChange)="toggleSwitch($event, i)"
+          ></rd-switch>
+          <label [for]="'feature-' + i">{{
+            mergedFeaturesAmenitiesList[i].Title
+          }}</label>
+        </div>
+        <div [ngSwitch]="unitFeaturesAmenitiesForm.at(i).value.Title">
+          <div *ngSwitchCase="'Sprinklers'">
+            <rd-select
+              *ngIf="unitFeaturesAmenitiesForm.at(i).value.Checked"
+              [id]="'feature-desc-' + i"
+              [label]="'Sprinkler Spec'"
+              [placeholder]="'Please Select'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Name'"
+              [items$]="sprinklerSpecs$"
+              [controlName]="'Spec'"
+              [form]="unitFeaturesAmenitiesForm.at(i)"
+              (onChange)="
+                sprinklerSpecChange($event, unitFeaturesAmenitiesForm.at(i))
+              "
+            ></rd-select
+            ><rd-input
+              *ngIf="
+                sprinklerSpecId == 3 &&
+                unitFeaturesAmenitiesForm.at(i).value.Checked
+              "
+              [label]="'Description'"
+              [id]="'feature-desc-' + i"
+              [placeholder]="'Please Provide'"
+              [type]="'text'"
+              [controlName]="'Value'"
+              [disable]="formConfig?.mode === 'view'"
+              [form]="unitFeaturesAmenitiesForm.at(i)"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+          <div *ngSwitchCase="'Weigh Bridge'">
+            <ng-container *ngIf="unitFeaturesAmenitiesForm.at(i).value.Checked">
+              <div class="rd-heading rd-heading-xs">
+                Please select Availability
+                <label>
+                  <span class="required-asterik">*</span>
+                </label>
+              </div>
+              <div class="radio-input-group">
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="feature-availabilty-yes"
+                    [value]="'Yes'"
+                    formControlName="Value"
+                  />
+                  <label for="feature-availabilty-no">Yes</label>
+                </div>
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="feature-availabilty-no"
+                    [value]="'No'"
+                    formControlName="Value"
+                  />
+                  <label for="feature-availabilty-no">No</label>
+                </div>
+              </div>
+              <!-- <div *ngIf="visibility?.hasError('invalid')" class="error-msg">
+                  <small>{{ visibility.errors?.['invalid'] }}</small>
+                </div> -->
+            </ng-container>
+          </div>
+          <div *ngSwitchCase="'Backup generator'">
+            <!-- <rd-select
+              *ngIf="unitFeaturesAmenitiesForm.at(i).value.Checked"
+              [id]="'feature-desc-' + i"
+              [label]="'Choose Option'"
+              [placeholder]="'Please Select'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Name'"
+              [items$]="backUpGenerator$"
+              [controlName]="'BackUp'"
+              [clear]="true"
+              [form]="unitFeaturesAmenitiesForm.at(i)"
+              (onChange)="backUpChange($event, unitFeaturesAmenitiesForm.at(i))"
+            ></rd-select> -->
+            <rd-input
+              *ngIf="unitFeaturesAmenitiesForm.at(i).value.Checked"
+              [id]="'feature-desc-' + i"
+              [placeholder]="'Please Provide'"
+              [type]="'text'"
+              [controlName]="'Value'"
+              [disable]="formConfig?.mode === 'view'"
+              [form]="unitFeaturesAmenitiesForm.at(i)"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+          <div *ngSwitchCase="'Standby water'">
+            <!-- <rd-select
+              *ngIf="unitFeaturesAmenitiesForm.at(i).value.Checked"
+              [id]="'feature-desc-' + i"
+              [label]="'Choose Option'"
+              [placeholder]="'Please Select'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Name'"
+              [items$]="standByWaters$"
+              [controlName]="'Stand'"
+              [clear]="true"
+              [form]="unitFeaturesAmenitiesForm.at(i)"
+              (onChange)="
+                standByWaterChange($event, unitFeaturesAmenitiesForm.at(i))
+              "
+            ></rd-select> -->
+            <rd-input
+              *ngIf="unitFeaturesAmenitiesForm.at(i).value.Checked"
+              [id]="'feature-desc-' + i"
+              [placeholder]="'Please Provide'"
+              [type]="'text'"
+              [controlName]="'Value'"
+              [disable]="formConfig?.mode === 'view'"
+              [form]="unitFeaturesAmenitiesForm.at(i)"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+
+          <div *ngSwitchCase="'Outside Gantries'">
+            <ng-container *ngIf="unitFeaturesAmenitiesForm.at(i).value.Checked">
+              <div class="rd-heading rd-heading-xs">
+                Please select Availability
+                <label>
+                  <span class="required-asterik">*</span>
+                </label>
+              </div>
+              <div class="radio-input-group">
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="feature-availabilty-yes"
+                    [value]="'Yes'"
+                    formControlName="Value"
+                  />
+                  <label for="feature-availabilty-no">Yes</label>
+                </div>
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="feature-availabilty-no"
+                    [value]="'No'"
+                    formControlName="Value"
+                  />
+                  <label for="feature-availabilty-no">No</label>
+                </div>
+              </div>
+              <!-- <div *ngIf="visibility?.hasError('invalid')" class="error-msg">
+                  <small>{{ visibility.errors?.['invalid'] }}</small>
+                </div> -->
+            </ng-container>
+          </div>
+          <div *ngSwitchCase="'Pit'">
+            <ng-container *ngIf="unitFeaturesAmenitiesForm.at(i).value.Checked">
+              <div class="rd-heading rd-heading-xs">
+                Please select Availability
+                <label>
+                  <span class="required-asterik">*</span>
+                </label>
+              </div>
+              <div class="radio-input-group">
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="feature-availabilty-yes"
+                    [value]="'Yes'"
+                    formControlName="Value"
+                  />
+                  <label for="feature-availabilty-no">Yes</label>
+                </div>
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="feature-availabilty-no"
+                    [value]="'No'"
+                    formControlName="Value"
+                  />
+                  <label for="feature-availabilty-no">No</label>
+                </div>
+              </div>
+              <!-- <div *ngIf="visibility?.hasError('invalid')" class="error-msg">
+                  <small>{{ visibility.errors?.['invalid'] }}</small>
+                </div> -->
+            </ng-container>
+          </div>
+          <div *ngSwitchCase="'Security'">
+            <ng-container *ngIf="unitFeaturesAmenitiesForm.at(i).value.Checked">
+              <div class="rd-heading rd-heading-xs">
+                Please select Availability
+                <label>
+                  <span class="required-asterik">*</span>
+                </label>
+              </div>
+              <div class="radio-input-group">
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="feature-availabilty-yes"
+                    [value]="'Yes'"
+                    formControlName="Value"
+                  />
+                  <label for="feature-availabilty-no">Yes</label>
+                </div>
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="feature-availabilty-no"
+                    [value]="'No'"
+                    formControlName="Value"
+                  />
+                  <label for="feature-availabilty-no">No</label>
+                </div>
+              </div>
+              <!-- <div *ngIf="visibility?.hasError('invalid')" class="error-msg">
+                  <small>{{ visibility.errors?.['invalid'] }}</small>
+                </div> -->
+            </ng-container>
+          </div>
+          <div *ngSwitchDefault>
+            <rd-input
+              *ngIf="unitFeaturesAmenitiesForm.at(i).value.Checked"
+              [label]="'Description'"
+              [id]="'feature-desc-' + i"
+              [placeholder]="'Please Provide'"
+              [type]="'text'"
+              [controlName]="'Value'"
+              [disable]="formConfig?.mode === 'view'"
+              [form]="unitFeaturesAmenitiesForm.at(i)"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rd-form-header">Additional Details</div>
+    <div>
+      <!-- <rd-textarea
+          [label]="'Additional Information'"
+          [id]="'Description'"
+          [placeholder]="'Add Description'"
+          [controlName]="'FeatureAmenitiesAddtionalDetails'"
+          [form]="propertyFeaturesForm"
+        ></rd-textarea> -->
+
+      <rd-editor
+        [label]="'Additional Information'"
+        [id]="'Description'"
+        [editable]="formConfig?.mode != 'view'"
+        [placeholder]="'Add Description'"
+        [controlName]="'FeatureAmenitiesAddtionalDetails'"
+        [form]="unitFeaturesForm"
+        (onChange)="onChange($event)"
+      ></rd-editor>
+    </div>
+
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="changeStep(route.CREATE_UNIT_MEDIA)"
+        >
+          Previous
+        </button>
+      </div>
+      <div>
+        <button
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          [disabled]="formConfig?.mode === 'view'"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

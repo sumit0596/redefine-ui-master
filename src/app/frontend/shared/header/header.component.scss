@@ -1,0 +1,216 @@
+.navbar-container {
+  position: sticky;
+  top: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  background-color: var(--white);
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+}
+.nav,
+.nav .nav-links {
+  display: flex;
+  margin: 0;
+}
+.nav {
+  justify-content: space-between;
+  padding: 15px;
+}
+.nav .brand-logo {
+  position: relative;
+}
+.nav .brand-logo img.logo {
+  position: relative !important;
+}
+.nav .brand-logo::after {
+  content: "";
+  height: 120%;
+  width: 1px;
+  position: absolute;
+  display: block;
+  background-color: var(--grey-light);
+  right: -25px;
+  top: 4px;
+}
+
+.nav .nav-links {
+  column-gap: 20px;
+  list-style: none;
+  padding: 0;
+  animation: fadeIn 0.3s ease-in-out;
+}
+.nav-item {
+  color: var(--grey-dark);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+.nav-item:hover {
+  color: var(--red-color) !important;
+}
+.nav-item .link-active {
+  color: var(--red-color) !important;
+}
+.nav-item .rd-indicator {
+  width: 0;
+}
+.nav-item:hover .rd-indicator,
+.nav-item:has(.link-active) .rd-indicator {
+  width: 32px;
+}
+.nav .search-btn,
+.search-close-btn {
+  display: none;
+}
+.nav .search-box {
+  height: 35px;
+  max-width: 555px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 0 15px;
+  border: 1px solid #e6001c;
+  border-radius: 2px;
+  box-shadow: 0px 0px 2px 0px rgba(153, 153, 153, 0.4);
+  background-color: var(--white);
+  transition: all 0.3s linear;
+}
+.nav .search-box:hover,
+.nav .search-box:focus {
+  box-shadow: 0px 0px 2px 0px rgba(153, 153, 153, 1);
+}
+.search-box .search-icon {
+  width: 24px;
+  color: #e6001c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-box input {
+  color: #e6001c;
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  background-color: #fff;
+}
+.nav .nav-open-btn,
+.nav .nav-close-btn {
+  display: none;
+}
+.open-search .search-box-container {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  padding: 10px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--black);
+  z-index: 999;
+}
+.open-search .search-box-container .search-close-btn {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+.open-search .search-box-container .search-box {
+  display: flex !important;
+  opacity: 1;
+  pointer-events: all;
+}
+/* responsive */
+@media screen and (max-width: 1400px) {
+  // .nav .search-box {
+  //   opacity: 0;
+  //   display: none;
+  //   pointer-events: none;
+  // }
+  // .nav .search-btn {
+  //   display: block;
+  // }
+  .nav .search-box {
+    max-width: 200px;
+  }
+}
+@media screen and (max-width: 1370px) {
+}
+@media screen and (max-width: 1200px) {
+  .nav .brand-logo::after {
+    display: none;
+  }
+  .nav .nav-open-btn,
+  .nav .nav-close-btn {
+    display: block;
+  }
+
+  .nav .nav-links {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 100%;
+    padding: 50px;
+    row-gap: 30px;
+    flex-direction: column;
+    background-color: var(--black);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    z-index: 100;
+    color: #fff;
+  }
+  .nav-item {
+    color: var(--white);
+  }
+  .nav-item:hover {
+    // color: var(--white) !important;
+  }
+  .nav-item .link-active {
+    // color: var(--white) !important;
+  }
+
+  .nav-item:hover .rd-indicator,
+  .nav-item:has(.link-active) .rd-indicator {
+    width: 32px;
+  }
+  .nav.openNav .nav-links {
+    left: 0;
+  }
+  .nav .nav-close-btn {
+    position: absolute;
+    right: 30px;
+    top: 25px;
+    color: var(--white);
+  }
+  .nav .search-box {
+    max-width: 600px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .nav {
+    padding: 15px 0px;
+  }
+}
+
+@media screen and (max-width: 546px) {
+  .open-search .search-box-container {
+    top: 80px;
+  }
+  .nav .search-box {
+    opacity: 0;
+    display: none;
+    pointer-events: none;
+  }
+  .nav .search-btn {
+    display: block;
+  }
+}
+::placeholder {
+  color: #e6001c;
+}

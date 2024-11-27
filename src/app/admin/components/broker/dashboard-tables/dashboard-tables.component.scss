@@ -1,0 +1,135 @@
+.market-data-loader {
+  text-align: center;
+}
+
+.market-data-loader img {
+  width: 50px;
+}
+
+.rd-page-views-heading {
+  font-family: "DIN Medium";
+  font-size: 15px;
+  font-weight: 600;
+  vertical-align: baseline;
+}
+
+.table-data {
+  font-family: "DIN";
+  font-size: 15px;
+  font-weight: 400;
+}
+
+button{
+  float: right;
+}
+
+.accordion-dashboard{
+  height: 390px !important;
+  overflow: scroll !important;
+}
+.propertyConversion thead th {
+  // width: 50%;
+}
+.propertyConversion thead th:nth-child(1){
+  width: 5%;
+  white-space: nowrap;
+}
+.propertyConversion thead th:nth-child(2){
+  width: 30%;
+  white-space: nowrap;
+}
+.propertyConversion thead th:nth-child(3){
+  width: 13%;
+  white-space: nowrap;
+}
+.propertyConversion thead th:nth-child(4){
+  width: 15%;
+  white-space: nowrap;
+}
+.propertyConversion thead th:nth-child(5){
+  width: 20%;
+  white-space: nowrap;
+}
+.propertyConversion thead th:nth-child(6){
+  width: 17;
+  white-space: nowrap;
+}
+// .rd-disabled-link {
+//   color: rgb(128, 128, 128) !important;
+//   pointer-events: none;
+//   position: relative;
+//   box-shadow: none;
+//   bottom: 0;
+// }
+.mat-menu-analytic{
+  overflow: visible !important;
+}
+
+.view-button-inner{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.badge-filter{
+  left:67%;
+  top:0px;
+}
+.filter-badge-icon-size{
+  height:13px;
+  width: 13px;
+}
+.padicon{
+  padding:1.5px;
+  padding-right: 3.3px;
+}
+.propertyConversion tr td{
+  padding: .5rem .1rem;
+}
+.propertyConversion .sorting-btn-group {
+  position: relative;
+  margin-left: 0px;
+  padding: 0 0.7rem;
+  transition: all 0.3s ease-in;
+}
+
+.propertyConversion .sorting-btn-group .sort-asc-btn {
+  position: absolute;
+  bottom:6px;
+  cursor: pointer;
+}
+
+.propertyConversion .sorting-btn-group .sort-desc-btn {
+  position: absolute;
+  top: 8px;
+  cursor: pointer;
+}
+
+.propertyConversion .sorting-btn-group img.sort-asc-btn,
+.propertyConversion .sorting-btn-group img.sort-desc-btn {
+  width: 12px;
+}
+
+.rd-total-count {
+  font-family: "DIN";
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.views-page-size{
+  font-family: "DIN Medium";
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 0px;
+}
+.proeprtyeq-table thead th:nth-child(2){
+  width: 26%;
+}
+.proeprtyeq-table thead th:nth-child(3) {
+  width: 26%;
+}
+
+.feature-button{
+  color: #b50117;
+  font-size: 16px;
+}

@@ -1,0 +1,32 @@
+<ng-container #container>
+  <ng-container *ngIf="pageDetails; else loader"></ng-container>
+</ng-container>
+<ng-template #loader>
+  <div [ngSwitch]="pageRoute">
+    <div *ngSwitchCase="'home'">
+      <div class="loader-container rd-bg__grey-very-light placeholder-glow">
+        <div class="title-loader w-100 h-100">
+          <div class="mb-4 mb-sm-5">
+            <span
+              class="col-12 col-md-5 py-4 py-md-5 placeholder placeholder-lg rounded"
+            ></span>
+          </div>
+          <div class="mb-4 mb-sm-5">
+            <span class="col-12 col-md-2 py-1 py-md-3 placeholder"></span>
+          </div>
+          <div class="mb-4 mt-3 mt-sm-5">
+            <span class="placeholder p-2 p-md-3 me-4"></span>
+            <span class="col-8 col-md-2 py-sm-3 placeholder"></span>
+          </div>
+        </div>
+        <div class="arrow-loader d-none d-sm-block">
+          <span class="placeholder p-2 me-4"></span>
+          <span class="placeholder p-2"></span>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchDefault class="loading placeholder-glow">
+      <div class="banner-loader placeholder"></div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,257 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [breadcrumbLinks]="breadcrumbLinks"
+></app-banner-breadcrumb>
+
+<div class="container">
+  <div class="position-relative my-5">
+    <div class="rd-heading rd-heading-lg-normal">Application form</div>
+    <span class="rd-indicator rd-indicator-lg">
+      <span class="rd-indicator-content rd-indicator-primary"></span>
+    </span>
+  </div>
+
+  <form
+    [formGroup]="applicationForm"
+    (ngSubmit)="onSubmit($event)"
+    class="rd-form"
+    autocomplete="on"
+  >
+    <div class="rd-form-body">
+      <p>Let's get started:</p>
+      <ng-container>
+        <div class="rd-form-header-sm">
+          Are you a South African Citizen?
+          <label>
+            <span class="required-asterik">*</span>
+          </label>
+        </div>
+        <div class="radio-input-group">
+          <div class="radio-input">
+            <input
+              type="radio"
+              id="full-website"
+              formControlName="Citizen"
+              (change)="citizenChange($event, 1)"
+              [value]="1"
+            />
+
+            <label for="full-website">Yes</label>
+          </div>
+          <div class="radio-input">
+            <input
+              type="radio"
+              id="only-broker-portal"
+              formControlName="Citizen"
+              (change)="citizenChange($event, 2)"
+              [value]="2"
+            />
+
+            <label for="only-broker-portal">No</label>
+          </div>
+        </div>
+
+        <div *ngIf="citizen?.hasError('invalid')" class="error-msg">
+          <small>{{ citizen.errors?.['invalid'] }}</small>
+        </div>
+      </ng-container>
+      <rd-input
+        *ngIf="citizenship == 1"
+        [label]="'ID number'"
+        [id]="'id-number'"
+        [placeholder]="'Please Provide Your ID Number'"
+        [required]="true"
+        [type]="'text'"
+        [controlName]="'IdNumber'"
+        [form]="applicationForm"
+        (onChange)="onChange($event)"
+      >
+      </rd-input>
+      <div *ngIf="idMessage != ''" class="error-id-msg">
+        <small>{{ idMessage }}</small>
+      </div>
+      <div class="row" *ngIf="citizenship == 2">
+        <div class="col-md-6">
+          <rd-select
+            [id]="'country'"
+            [label]="'Country of origin'"
+            [placeholder]="'Please Select'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Id'"
+            [required]="true"
+            [items$]="countryList$"
+            [form]="applicationForm"
+            [controlName]="'Country'"
+          ></rd-select>
+        </div>
+        <div class="col-md-6">
+          <rd-input
+            [label]="'Passport number'"
+            [id]="'passport'"
+            [placeholder]="'Please Provide Your Passport Number'"
+            [type]="'text'"
+            [required]="true"
+            [controlName]="'PassportNumber'"
+            [form]="applicationForm"
+            (onChange)="onChange($event)"
+          ></rd-input>
+        </div>
+      </div>
+      <div class="row" *ngIf="applicationForm.get('Citizen')?.value">
+        <div class="col-md-3">
+          <rd-input
+            *ngIf="applicationForm.get('Citizen')?.value == 1"
+            [label]="'Date Of Birth (DD/MM/YY)'"
+            [id]="'dob'"
+            [placeholder]="''"
+            [type]="'text'"
+            [controlName]="'Dob'"
+            [required]="true"
+            [form]="applicationForm"
+          ></rd-input>
+          <rd-calendar
+            *ngIf="applicationForm.get('Citizen')?.value == 2"
+            [label]="'Date Of Birth (DD/MM/YY)'"
+            [id]="'dob'"
+            [type]="'text'"
+            [max]="today"
+            [placeholder]="'Select Date of Birth'"
+            [controlName]="'Dob'"
+            [required]="true"
+            [form]="applicationForm"
+            (dateChange)="onChange($event)"
+          ></rd-calendar>
+        </div>
+
+        <div class="col-md-3">
+          <rd-input
+            [label]="'Age'"
+            [id]="'age'"
+            [placeholder]="getAgePlaceHolder()"
+            [type]="'text'"
+            [required]="true"
+            [controlName]="'Age'"
+            [form]="applicationForm"
+            (onChange)="onChange($event)"
+          ></rd-input>
+        </div>
+        <div class="col-md-3">
+          <rd-select
+            [id]="'gender'"
+            [label]="'Gender'"
+            [placeholder]="getPlaceHolder()"
+            [bindLabel]="'Name'"
+            [bindValue]="'Id'"
+            [required]="true"
+            [items$]="gender$"
+            [form]="applicationForm"
+            [controlName]="'Gender'"
+          ></rd-select>
+        </div>
+        <div class="col-md-3">
+          <rd-select
+            [label]="'Race'"
+            [id]="'race'"
+            [placeholder]="'Please Select'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Name'"
+            [items$]="race$"
+            [controlName]="'Race'"
+            [required]="true"
+            [form]="applicationForm"
+            (onChange)="onChange($event)"
+          ></rd-select>
+        </div>
+      </div>
+      <div class="line"></div>
+      <p>Personal Details:</p>
+      <div class="row">
+        <div class="col-md-6">
+          <rd-input
+            [label]="'First name'"
+            [id]="'first-name'"
+            [placeholder]="'Please Provide Your First Name'"
+            [type]="'text'"
+            [required]="true"
+            [controlName]="'FirstName'"
+            [form]="applicationForm"
+            (onChange)="onChange($event)"
+          ></rd-input>
+        </div>
+        <div class="col-md-6">
+          <rd-input
+            [label]="'Surname'"
+            [id]="'surname'"
+            [placeholder]="'Please Provide Your Surname'"
+            [type]="'text'"
+            [required]="true"
+            [controlName]="'LastName'"
+            [form]="applicationForm"
+            (onChange)="onChange($event)"
+          ></rd-input>
+        </div>
+        <div class="col-md-6">
+          <rd-input
+            [label]="'Mobile number'"
+            [id]="'mobile-number'"
+            [placeholder]="'Please Provide Your Mobile Number'"
+            [type]="'text'"
+            [controlName]="'Mobile'"
+            [required]="true"
+            [form]="applicationForm"
+            (onChange)="onChange($event)"
+          ></rd-input>
+        </div>
+        <div class="col-md-6">
+          <rd-input
+            [label]="'Email address'"
+            [id]="'email'"
+            [placeholder]="'Please Provide Your Email'"
+            [type]="'text'"
+            [required]="true"
+            [controlName]="'Email'"
+            [form]="applicationForm"
+            (onChange)="onChange($event)"
+          ></rd-input>
+        </div>
+      </div>
+      <div class="line"></div>
+      <p>Required Documentation</p>
+      <p>
+        Upload the latest version of your CV. The CV
+        <span> format can be PDF or Word doc.*</span>
+      </p>
+      <rd-file
+        [label]="''"
+        [id]="'brochure-input'"
+        [types]="fileTypes"
+        [fileList]="fileContainer?.Cv"
+        [controlName]="'Cv'"
+        (onSelect)="onFileSelect($event, 6)"
+        (onDelete)="onFileDelete($event, 6)"
+      ></rd-file>
+      <div
+        *ngIf="applicationForm.get('Cv')?.hasError('invalid')"
+        class="error-msg"
+      >
+        <small>{{ applicationForm.get('Cv')?.errors?.['invalid'] }}</small>
+      </div>
+    </div>
+    <div class="rd-form-footer row">
+      <div class="col-md-8">
+        <button type="submit" class="rd-btn rd-btn-dark rd-btn-lg w-100">
+          <span class="btn-text">Submit</span>
+        </button>
+      </div>
+      <div class="col-md-4">
+        <app-captcha
+          [id]="'application-captcha'"
+          [controlName]="'Recaptcha'"
+          [form]="applicationForm"
+        ></app-captcha>
+      </div>
+    </div>
+  </form>
+  <div class="mt-5"></div>
+</div>

@@ -1,0 +1,8 @@
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.rating-star:hover {
+  cursor: pointer;
+}

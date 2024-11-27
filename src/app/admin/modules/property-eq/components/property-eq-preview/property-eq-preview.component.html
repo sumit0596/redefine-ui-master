@@ -1,0 +1,84 @@
+<div class="rd-container preview-container">
+  <div class="col-12 d-flex align-items-center justify-content-end mb-4">
+    <button type="button" class="rd-btn rd-btn-text" (click)="close()">
+      <span class="btn-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          viewBox="0 0 256 256"
+        >
+          <path
+            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+          ></path>
+        </svg>
+      </span>
+    </button>
+  </div>
+
+  <div class="col-12">
+    <!-- <div class="banner propertyEqTag-bo-banner">
+      <img [src]="data?.MediaUrl" alt="property image" class="banner-img" />
+      <p class="header-banner-title">{{ data.Title }}</p>
+    </div> -->
+
+    <div class="banner d-flex header-banner-breadcrumb">
+      <img class="banner-img" [src]="data?.MediaUrl" alt="banner image" />
+      <div class="banner-title-separator">
+        <div class="left-separator"></div>
+        <div class="banner-title-content">
+          <div class="header-banner-title">{{ data.Title }}</div>
+        </div>
+        <div class="right-separator"></div>
+      </div>
+    </div>
+
+    <div class="article-content mt-3">
+      <div class="content-published-date">
+        <p class="rd-text-grey-mid">
+          Published: {{ data.CreatedOn | date : "dd MMMM, yyyy" }}
+          <span *ngIf="data.Author && data.Author != ''">| By</span>
+          {{ data.Author }}
+        </p>
+      </div>
+      <div class="content-category">
+        <div class="d-flex justify-content-end">
+          <mat-chip *ngIf="data.PropertyEqCategory" class="article-category">{{
+            data.PropertyEqCategory
+          }}</mat-chip>
+          <mat-chip class="article-type">Article</mat-chip>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="position-relative">
+          <div class="rd-heading rd-heading-lg-normal mt-3">
+            {{ data.Title }}
+          </div>
+          <span class="rd-indicator rd-indicator-lg">
+            <span class="rd-indicator-content rd-indicator-primary"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="margin-vieweq">
+      <mat-divider></mat-divider>
+    </div>
+    <div class="vieweq-contents rd-text-grey-mid my-3 rd-content-justify">
+      <div [innerHTML]="data.Content | safeHtml : 'html'"></div>
+    </div>
+    <div class="row">
+      <div class="col-12 mt-3">
+        <div class="propertyEqTag-bo" *ngIf="data.PropertyEqTag">
+          <mat-chip-row *ngFor="let data of data.PropertyEqTag">
+            {{ data.Title ? data.Title : "NA" }}
+          </mat-chip-row>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

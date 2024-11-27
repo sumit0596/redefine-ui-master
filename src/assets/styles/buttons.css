@@ -1,0 +1,368 @@
+/*****************************************************************************************************
+
+  # BUTTON GROUP
+
+  * rd-btn => this is a common class it must be there used on button/link
+  
+  # Button types
+
+    * rd-btn-dark
+    * rd-btn-light
+    * rd-btn-icon
+    * rd-btn-outline
+    * rd-btn-outline-light
+
+  # Button Sizes
+
+    * rd-btn-xxl
+    * rd-btn-xl
+    * rd-btn-lg
+    * rd-btn-md
+    * rd-btn-sm
+    * rd-btn-xs
+  
+*****************************************************************************************************/
+
+/******************************************* 
+*           Reset default button           *
+********************************************/
+
+button {
+  cursor: pointer;
+  background: none;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  outline: none;
+}
+button:focus {
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+button:hover {
+  cursor: pointer;
+}
+.rd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-decoration: none;
+  padding: 5px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+/*******************************************
+*           Redefine button sizes          *
+********************************************/
+
+/*.rd-btn-lg {
+  height: 40px;
+  font-size: 16px;
+  line-height: 15px;
+}
+.rd-btn-md {
+  height: 32px;
+  font-size: 14px;
+  line-height: 13px;
+}
+.rd-btn-sm {
+  height: 20px;
+  font-size: 11px;
+  line-height: 10px;
+}
+*/
+
+.rd-btn-sm {
+  width: 120px;
+  height: 20px;
+  font-size: 12px;
+}
+.rd-btn-sm svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.rd-btn-md {
+  width: 160px;
+  height: 32px;
+  font-size: 16px;
+}
+.rd-btn-md svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.rd-btn-lg {
+  width: 180px;
+  height: 48px;
+  font-size: 16px;
+}
+.rd-btn-lg svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.rd-btn-xl {
+  width: 240px;
+  height: 48px;
+  font-size: 16px;
+}
+.rd-btn-xl svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+.rd-btn-xxl {
+  width: 300px;
+  height: 48px;
+  font-size: 16px;
+}
+.rd-btn-xxl svg {
+  width: 48px !important;
+  height: 48px !important;
+}
+
+/********************************************
+*             Back button                   *
+*             rd-btn-back                   *
+********************************************/
+
+.rd-btn-back {
+  min-width: 100px !important;
+  height: 33px;
+  width: auto;
+  background-color: #e4e9e6;
+  border-radius: 48px;
+  margin-right: 25px;
+}
+
+/********************************************
+*             Primary button                *
+*             rd-btn-primary                *
+********************************************/
+
+.rd-btn-primary {
+  color: #ffffff;
+  background-color: var(--dominant-red-color);
+  border: 2px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 5px 10px;
+  transition: all 0.3s;
+}
+.rd-btn-primary:hover {
+  background: var(--deep-red-color);
+  box-shadow: 0px 0px 8px rgba(102, 102, 102, 0.4);
+}
+.rd-btn-primary:active {
+  background: var(--deep-red-color);
+  border-color: var(--deep-red-color);
+  box-shadow: 0px 0px 8px rgba(102, 102, 102, 0.4);
+}
+.rd-btn-primary:disabled {
+  background: #b8b8b8;
+  pointer-events: none;
+  border-color: transparent !important;
+  box-shadow: none;
+}
+
+/********************************************
+*             Dark button                *
+*             rd-btn-dark                *
+********************************************/
+
+.rd-btn-dark {
+  position: relative;
+  background-color: #000000;
+  color: #ffffff !important;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.rd-btn-light {
+  position: relative;
+  background-color: var(--white);
+  color: var(--black) !important;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.rd-btn-light .btn-text,
+.rd-btn-dark .btn-text {
+  transition: all 0.3s ease;
+}
+.rd-btn-light .btn-text::after,
+.rd-btn-dark .btn-text::after {
+  content: "";
+  position: absolute;
+  width: 25%;
+  height: 20%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto 0;
+  background-color: var(--red-color);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: var(--transition);
+}
+.rd-btn-light:hover {
+  color: var(--black) !important;
+}
+.rd-btn-dark:hover {
+  color: var(--white) !important;
+}
+.rd-btn-light:hover .btn-text::after,
+.rd-btn-dark:hover .btn-text::after {
+  transform: scaleX(1);
+}
+
+.rd-btn-light:hover .btn-text,
+.rd-btn-dark:hover .btn-text {
+  margin-left: -25%;
+}
+
+.rd-btn-light:active,
+.rd-btn-dark:active {
+  background-color: var(--red-color);
+}
+
+.rd-btn-light:active .btn-text::after {
+  background-color: var(--white);
+}
+.rd-btn-dark:active .btn-text::after {
+  background-color: var(--black);
+}
+.rd-btn-light:disabled,
+.rd-btn-dark:disabled {
+  background-color: #b8b8b8;
+  pointer-events: none;
+  user-select: none;
+}
+
+/********************************************
+*             Secondary button              *
+*             rd-btn-secondary              *
+********************************************/
+
+.rd-btn-secondary {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  padding: 5px 10px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s;
+  transition: all 0.3s ease-in;
+}
+.rd-btn-secondary:hover {
+  filter: drop-shadow(0px 0px 8px rgba(102, 102, 102, 0.4));
+}
+.rd-btn-secondary:active {
+  color: var(--red-color);
+}
+.rd-btn-secondary:disabled {
+  pointer-events: none;
+  background: #b8b8b8;
+  cursor: not-allowed;
+  border-color: #b8b8b8;
+}
+/********************************************
+*             Secondary outline button      *
+*             rd-btn-outline-light          *
+********************************************/
+
+.rd-btn-outline-light {
+  color: #fff;
+  background-color: transparent;
+  padding: 5px 10px;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  font-size: 15px;
+  transition: var(--transition);
+  transition: var(--transition);
+}
+.rd-btn-outline-light:hover {
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.32);
+  text-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.32);
+}
+.rd-btn-outline-light:active {
+  color: var(--red-color) !important;
+  border-color: var(--red-color) !important;
+  box-shadow: none;
+  text-shadow: none;
+}
+.rd-btn-outline-light:disabled {
+  pointer-events: none;
+  color: #b8b8b8;
+  background: transparent;
+  border-color: #b8b8b8;
+}
+
+/********************************************
+*             Secondary outline button      *
+*             rd-btn-outline                *
+********************************************/
+
+.rd-btn-outline {
+  border: 1px solid #000;
+}
+.rd-btn-outline:hover {
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.32);
+  text-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.32);
+}
+.rd-btn-outline:active {
+  color: var(--red-color) !important;
+  border-color: var(--red-color) !important;
+  box-shadow: none;
+  text-shadow: none;
+}
+/********************************************
+*             Text button                   *
+*             rd-btn-text                    *
+********************************************/
+
+.rd-btn-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000000;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.rd-btn-text img {
+  width: 20px;
+}
+
+.rd-btn-text:hover {
+  color: var(--red-color) !important;
+}
+.rd-btn-text:hover img {
+  filter: invert(9%) sepia(84%) saturate(6718%) hue-rotate(348deg)
+    brightness(88%) contrast(105%);
+}
+.rd-btn-text:disabled {
+  pointer-events: none;
+  color: #b8b8b8;
+}
+.rd-btn-text:disabled img {
+  filter: invert(71%) sepia(1%) saturate(272%) hue-rotate(319deg)
+    brightness(102%) contrast(96%);
+}
+
+/*******************************************
+*             rd-btn-icon                  *
+*******************************************/
+
+/*******************************************
+*             rd-btn-link                  *
+*******************************************/
+
+/*******************************************
+*             rd-btn-icon                  *
+*******************************************/

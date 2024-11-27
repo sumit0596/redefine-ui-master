@@ -1,0 +1,37 @@
+<div class="container pt-3 px-4 mb-3">
+  <!-- <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="rd-heading rd-heading-sm">{{ data.title }}</div>
+    <button type="button" class="rd-btn rd-btn-text" (click)="close()">
+      <span class="btn-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="currentColor"
+          viewBox="0 0 256 256"
+        >
+          <path
+            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+          ></path>
+        </svg>
+      </span>
+    </button>
+  </div> -->
+  <div class="modal-content">
+    <p *ngIf="data.message">{{ data.message }}</p>
+    <p
+      *ngIf="data.description"
+      [innerHTML]="data.description | safeHtml : 'html'"
+    ></p>
+  </div>
+</div>
+<div class="modal-footer py-2 px-4">
+  <div class="rd-btn-group">
+    <button class="rd-btn rd-btn-text" (click)="submit(false)">
+      {{ data.rejectBtnLabel ?? "No" }}
+    </button>
+    <button class="rd-btn rd-btn-primary" (click)="submit(true)">
+      {{ data.acceptBtnLabel ?? "Yes" }}
+    </button>
+  </div>
+</div>

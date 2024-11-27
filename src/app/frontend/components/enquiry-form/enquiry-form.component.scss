@@ -1,0 +1,78 @@
+
+
+.container {
+  overflow-x: hidden;
+}
+
+.rd-form-header {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 19px;
+  margin-bottom: 19px;
+  margin-top: 10px;
+}
+
+.line {
+  height: 2px;
+  width: 100%;
+  background-color: #cccccc;
+}
+
+.rd-btn-lg {
+  width: 200px;
+}
+
+.breadcrum {
+  margin-bottom: -15px;
+  width: 100%;
+  margin-top: 15px;
+  height: 30px;
+}
+
+.breadcrum a {
+  color: black;
+  font-weight: 600;
+}
+
+
+@media (max-width: 390px) {
+  .breadcrum {
+    display: none;
+  }
+
+  .rd-btn-lg {
+    width: 303px;
+  }
+}
+
+@media (max-width: 360px) {
+  .breadcrum {
+    display: none;
+  }
+
+  .rd-btn-lg {
+    width: 275px;
+  }
+}
+@media (max-width : 567px){
+  .row.btn-captch{
+    flex-direction: column-reverse;
+  }
+}
+@media (min-width : 567px) and (max-width: 850px){
+  .row.btn-captch .col-md-8 {
+    width: 50%;
+  }
+}
+
+// .btn-captch {
+//   display: flex;
+//   justify-content: space-between;
+// }
+
+// @media (min-width: 720px) and (max-width: 1280px) {
+//   .captcha-align {
+//     margin-top: -12px !important;
+//     margin-left: 33px !important;
+//   }
+// }

@@ -1,0 +1,53 @@
+.line {
+  height: 2px;
+  width: 100%;
+  background-color: #cccccc;
+}
+
+.property-portfolio-site {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+button:hover {
+  text-decoration: underline;
+}
+
+.breadcrum {
+  margin-bottom: -15px;
+  width: 100%;
+
+  margin-top: 15px;
+  height: 30px;
+}
+
+.breadcrum a {
+  color: black;
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 360px) {
+  .breadcrum {
+    display: none;
+  }
+  .rd-heading-xl {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 390px) and (min-width: 390) {
+  .breadcrum {
+    display: none;
+  }
+  .rd-heading-xl {
+    font-size: 30px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .breadcrum {
+    display: none;
+  }
+}

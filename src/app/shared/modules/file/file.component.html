@@ -1,0 +1,106 @@
+<div class="control-container">
+  <!-- File with form group -->
+  <form [formGroup]="form" class="form" *ngIf="form">
+    <label [for]="id" *ngIf="label"
+      >{{ label }}
+      <span *ngIf="required" class="required-asterik">*</span></label
+    >
+    <small *ngIf="note" class="form-control-note"
+      ><em>{{ note }}</em></small
+    >
+    <div class="input-wrapper">
+      <div class="file-input">
+        <label [for]="id" DragAndDrop (fileDropped)="selectFile($event, true)">
+          <img src="assets/images/file.svg" alt="file" />
+          <p>Drag and drop file or <a>browse</a></p>
+        </label>
+        <input
+          type="file"
+          [name]="controlName"
+          [id]="id"
+          (change)="selectFile($event, false)"
+          [multiple]="multiple"
+          [formControlName]="controlName"
+          [accept]="types ? types.toString() : ''"
+        />
+        <div
+          *ngIf="form.get(controlName)?.hasError('invalid')"
+          class="error-msg"
+        >
+          <small>{{ form.get(controlName)?.errors?.['invalid'] }}</small>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- File without form group -->
+  <form class="form" *ngIf="!form">
+    <label [for]="id" *ngIf="label"
+      >{{ label }}
+      <span *ngIf="required" class="required-asterik">*</span></label
+    >
+    <small *ngIf="note" class="form-control-note"
+      ><em>{{ note }}</em></small
+    >
+    <div class="input-wrapper">
+      <div class="file-input">
+        <label [for]="id" DragAndDrop (fileDropped)="selectFile($event, true)">
+          <img src="assets/images/file.svg" alt="file" />
+          <p>Drag and drop file or <a>browse</a></p>
+        </label>
+        <input
+          type="file"
+          #fileInput
+          [name]="controlName"
+          [id]="id"
+          (change)="selectFile($event, false)"
+          [multiple]="multiple"
+          [accept]="types ? types.toString() : ''"
+        />
+      </div>
+    </div>
+  </form>
+  <div *ngIf="invalidMessage" class="error-msg">
+    <small>{{ invalidMessage }}</small>
+  </div>
+  <div class="" *ngIf="fileList?.length">
+    <ng-container *ngFor="let file of fileList; let i = index">
+      <div *ngIf="file" class="file-container">
+        <div class="file-icon">
+          <img src="assets/images/file.svg" alt="file" />
+        </div>
+        <div class="file-info">
+          <p class="file-name">{{ file.name }}</p>
+          <p class="file-desc">
+            <small>{{ file.lastModified | date : "medium" }}</small>
+            <ng-container *ngIf="file.size">
+              <small> | </small>
+              <small>{{ file.size }}kb</small>
+            </ng-container>
+          </p>
+        </div>
+        <div class="file-actions">
+          <button
+            type="button"
+            class="rd-btn rd-btn-text rd-text-dominant-red"
+            (click)="deleteFile(i)"
+            title="delete"
+          >
+            <span class="btn-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"
+                ></path>
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

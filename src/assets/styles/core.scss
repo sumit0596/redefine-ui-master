@@ -1,0 +1,105 @@
+/* This file contains Typography, resets code */
+
+.quicklinks-space {
+  margin-top: 100px;
+}
+
+a {
+  color: inherit !important;
+  text-decoration: inherit !important;
+  background-color: inherit;
+}
+
+a:hover {
+  color: inherit !important;
+  text-decoration: inherit !important;
+}
+
+a.link {
+  color: var(--red-color) !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+a.link:hover {
+  color: var(--red-color) !important;
+  text-decoration: underline !important;
+  cursor: pointer;
+}
+
+/* GRID STATUS*/
+.status {
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+  border-radius: 38px;
+  padding-left: 10px;
+  padding-right: 10px;
+  line-height: 30px;
+}
+
+.status.archived {
+  background-color: rgba(239, 178, 112, 0.2);
+}
+
+.status.published {
+  background-color: rgba(120, 195, 108, 0.2);
+}
+
+.status.fullylet {
+  background-color: rgba(230, 0, 28, 0.2);
+}
+
+.status.draft {
+  background-color: rgba(104, 201, 208, 0.2);
+}
+
+.status.vacancy {
+  background-color: rgba(120, 195, 108, 0.2);
+}
+
+.status.unitsAvaialable {
+  background-color: rgba(120, 195, 108, 0.2);
+}
+
+.status.unqualified {
+  background-color: rgba(230, 0, 28, 0.2);
+}
+
+.status.marketingQualified {
+  background-color: rgba(104, 201, 208, 0.2);
+}
+
+.status.leasingQualified {
+  background-color: rgba(0, 113, 141, 0.2);
+}
+
+.status.viewing {
+  background-color: rgba(0, 75, 106, 0.2);
+}
+
+.status.negotiationsContract {
+  background-color: rgba(85, 93, 139, 0.2);
+}
+
+.status.leaseSignedDealWon {
+  background-color: rgba(120, 195, 108, 0.2);
+}
+
+.status.disqualified {
+  background-color: rgba(170, 0, 21, 0.2);
+}
+
+.status.parked {
+  background-color: rgba(245, 130, 32, 0.2);
+}
+
+.status.unresponsive {
+  background-color: rgba(239, 178, 112, 0.2);
+}
+
+.status.imagecount {
+  background-color: var(--red-color);
+}

@@ -1,0 +1,85 @@
+.downloads-count {
+  font-family: "DIN";
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.rd-text-downloads {
+  font-family: "DIN Medium";
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 0px;
+}
+
+.downloads-table-heading {
+  font-family: "DIN Medium";
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.table-data {
+  font-family: "DIN";
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.market-data-loader{
+  text-align: center;
+}
+
+.market-data-loader img {
+  width: 50px;
+}
+
+button{
+  float: right;
+}
+
+// td.table-data[title]:hover::after {
+//   content: attr(title); /* Display the title attribute content as tooltip */
+//   position: absolute; /* Position the tooltip absolutely */
+//   left: 50%; /* Position the tooltip horizontally centered */
+//   transform: translateX(-50%); /* Adjust horizontal position to center */
+//   background-color: #fff; /* Background color of the tooltip */
+//   color: #000; /* Text color of the tooltip */
+//   border: 1px solid #ccc; /* Border of the tooltip */
+//   padding: 5px; /* Padding of the tooltip */
+//   border-radius: 3px; /* Border radius of the tooltip */
+//   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Box shadow of the tooltip */
+//   z-index: 999; /* Ensure tooltip is above other content */
+//   -webkit-appearance: none;
+// }
+
+.text-elipses{
+  width: 92%;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.accordion-dashboard{
+  height: 390px !important;
+  overflow: scroll !important;
+}
+
+.mat-menu-analytic{
+  overflow: visible !important;
+}
+
+.badge-filter{
+  left:67%;
+  top:0px;
+}
+.filter-badge-icon-size{
+  height:10px;
+  width: 10px;
+}
+.padicon{
+  padding: 1px;
+  padding-right: 3.5px;
+}
+
+.downlaod-file{
+  cursor: pointer;
+}

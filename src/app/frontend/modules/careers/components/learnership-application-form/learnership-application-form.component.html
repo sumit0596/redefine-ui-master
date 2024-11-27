@@ -1,0 +1,835 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [breadcrumbLinks]="breadcrumbLinks"
+></app-banner-breadcrumb>
+<div class="container">
+  <div class="logo-container">
+    <img class="learnership-logo" src="assets/images/Learnership_Logo.jpg" />
+  </div>
+  <div class="position-relative my-5">
+    <div class="rd-heading rd-heading-lg-normal">
+      2023 Learnership Application form
+    </div>
+    <span class="rd-indicator rd-indicator-lg">
+      <span class="rd-indicator-content rd-indicator-primary"></span>
+    </span>
+  </div>
+
+  <div class="preview-tabs-section">
+    <mat-tab-group
+      #tabgroup
+      mat-stretch-tabs="false"
+      mat-align-tabs="start"
+      animationDuration="0ms"
+      dynamicHeight
+      fitInkBarToContent
+      (selectedTabChange)="onTabChange($event)"
+    >
+      <mat-tab [label]="'Step1'" [disabled]="step1">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">Step1:</div>
+        </ng-template>
+        <form
+          [formGroup]="learnershipFormStep1"
+          (ngSubmit)="onSubmit($event, 'step1', tabgroup)"
+          class="rd-form"
+          autocomplete="on"
+        >
+          <div class="rd-form-body">
+            <p>Let’s get started with the first step:</p>
+            <ng-container>
+              <div class="rd-form-header-sm">
+                Are you a South African Citizen?
+                <label>
+                  <span class="required-asterik">*</span>
+                </label>
+              </div>
+              <div class="radio-input-group">
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="full-website"
+                    formControlName="SouthAfricanCitizen"
+                    (change)="citizenChange($event, 1)"
+                    [value]="1"
+                  />
+
+                  <label for="full-website">Yes</label>
+                </div>
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="only-broker-portal"
+                    formControlName="SouthAfricanCitizen"
+                    (change)="citizenChange($event, 2)"
+                    [value]="2"
+                  />
+
+                  <label for="only-broker-portal">No</label>
+                </div>
+              </div>
+              <div *ngIf="citizen?.hasError('invalid')" class="error-msg">
+                <small>{{ learnershipFormStep1.get('SouthAfricanCitizen')?.errors?.['invalid'] }}</small>
+              </div>
+            </ng-container>
+
+            <div>
+              <rd-input
+                *ngIf="citizenship == 1"
+                [label]="'ID number'"
+                [id]="'id-number'"
+                [placeholder]="'Please Provide Your ID Number'"
+                [required]="true"
+                [type]="'text'"
+                [controlName]="'IdNumber'"
+                [form]="learnershipFormStep1"
+                (onChange)="onChange($event)"
+              >
+              </rd-input>
+            </div>
+
+            <div *ngIf="idMessage != ''" class="error-id-msg">
+              <small>{{ idMessage }}</small>
+            </div>
+            <div class="row" *ngIf="citizenship == 2">
+              <div class="col-md-6 mt-1">
+                <rd-select
+                  [id]="'country'"
+                  [label]="'Country of origin'"
+                  [placeholder]="'Please Select'"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Id'"
+                  [required]="true"
+                  [items$]="countryList$"
+                  [form]="learnershipFormStep1"
+                  [controlName]="'Country'"
+                ></rd-select>
+              </div>
+
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Passport number'"
+                  [id]="'passport'"
+                  [placeholder]="'Please Provide Your Passport Number'"
+                  [type]="'text'"
+                  [required]="true"
+                  [controlName]="'PassportNumber'"
+                  [form]="learnershipFormStep1"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+            </div>
+
+            <div
+              class="row"
+              *ngIf="learnershipFormStep1.get('SouthAfricanCitizen')?.value"
+            >
+              <div class="col-md-3">
+                <rd-input
+                  *ngIf="
+                    learnershipFormStep1.get('SouthAfricanCitizen')?.value == 1
+                  "
+                  [label]="'Date Of Birth (DD/MM/YY)'"
+                  [id]="'dob'"
+                  [placeholder]="''"
+                  [type]="'text'"
+                  [controlName]="'DOB'"
+                  [required]="true"
+                  [form]="learnershipFormStep1"
+                ></rd-input>
+                <rd-calendar
+                  *ngIf="
+                    learnershipFormStep1.get('SouthAfricanCitizen')?.value == 2
+                  "
+                  [label]="'Date Of Birth (DD/MM/YY)'"
+                  [id]="'dob'"
+                  [type]="'text'"
+                  [max]="today"
+                  [placeholder]="'Select Date of Birth'"
+                  [controlName]="'DOB'"
+                  [required]="true"
+                  (dateChange)="onChange($event)"
+                  [form]="learnershipFormStep1"
+                ></rd-calendar>
+              </div>
+              <div class="col-md-3">
+                <rd-input
+                  [label]="'Age'"
+                  [id]="'age'"
+                  [placeholder]="getAgePlaceHolder()"
+                  [type]="'text'"
+                  [required]="true"
+                  [controlName]="'Age'"
+                  [form]="learnershipFormStep1"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+              <div class="col-md-3">
+                <rd-select
+                  [id]="'gender'"
+                  [label]="'Gender'"
+                  [placeholder]="getPlaceHolder()"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Id'"
+                  [required]="true"
+                  [items$]="gender$"
+                  [form]="learnershipFormStep1"
+                  [controlName]="'Gender'"
+                ></rd-select>
+              </div>
+              <div class="col-md-3">
+                <rd-select
+                  [label]="'Race'"
+                  [id]="'race'"
+                  [placeholder]="'Please Select'"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [items$]="race$"
+                  [controlName]="'Race'"
+                  [required]="true"
+                  [form]="learnershipFormStep1"
+                  (onChange)="onChange($event)"
+                ></rd-select>
+              </div>
+            </div>
+
+            <div class="line"></div>
+            <p>Personal Details:</p>
+
+            <div class="row">
+              <div class="col-md-6">
+                <rd-select
+                  [id]="'title'"
+                  [label]="'Please select your title'"
+                  [placeholder]="'Please Select Your Title'"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [required]="true"
+                  [items$]="title$"
+                  [form]="learnershipFormStep1"
+                  [controlName]="'Title'"
+                ></rd-select>
+              </div>
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Initials'"
+                  [id]="'initial'"
+                  [placeholder]="'Please Provide Your Initials'"
+                  [type]="'text'"
+                  [required]="true"
+                  [controlName]="'Initials'"
+                  [form]="learnershipFormStep1"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'First name'"
+                  [id]="'first-name'"
+                  [placeholder]="'Please Provide Your First Name'"
+                  [type]="'text'"
+                  [required]="true"
+                  [controlName]="'FirstName'"
+                  [form]="learnershipFormStep1"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Surname'"
+                  [id]="'surname'"
+                  [placeholder]="'Please Provide Your Surname'"
+                  [type]="'text'"
+                  [required]="true"
+                  [controlName]="'Surname'"
+                  [form]="learnershipFormStep1"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Mobile number'"
+                  [id]="'mobile-number'"
+                  [placeholder]="'Please Provide Your Mobile Number'"
+                  [type]="'text'"
+                  [controlName]="'Mobile'"
+                  [required]="true"
+                  [form]="learnershipFormStep1"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Alternative contact number'"
+                  [id]="'contact-number'"
+                  [placeholder]="'Please Provide Your Alternate Contact Number'"
+                  [type]="'text'"
+                  [controlName]="'AlternativeMobile'"
+                  [form]="learnershipFormStep1"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Email address'"
+                  [id]="'email'"
+                  [placeholder]="'Please Provide Your Email'"
+                  [type]="'text'"
+                  [required]="true"
+                  [controlName]="'Email'"
+                  [form]="learnershipFormStep1"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Email address confirmation'"
+                  [id]="'email'"
+                  [placeholder]="'Please Confirm Your Email Address'"
+                  [type]="'text'"
+                  [required]="true"
+                  [controlName]="'EmailConfirmation'"
+                  [form]="learnershipFormStep1"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+            </div>
+
+            <ng-container>
+              <div class="rd-form-header-sm">
+                Do you have a disability as contemplated by the Employment
+                Equity Act 55 of 1998?
+                <label>
+                  <span class="required-asterik">*</span>
+                </label>
+              </div>
+              <div class="radio-input-group">
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="full-website"
+                    formControlName="Disability"
+                    (change)="disabilityChange($event, 1)"
+                    [value]="1"
+                  />
+
+                  <label for="full-website">Yes</label>
+                </div>
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="only-broker-portal"
+                    formControlName="Disability"
+                    (change)="disabilityChange($event, 0)"
+                    [value]="0"
+                  />
+
+                  <label for="only-broker-portal">No</label>
+                </div>
+              </div>
+              <div *ngIf="disability?.hasError('invalid')" class="error-msg">
+                <small>{{ disability.errors?.['invalid'] }}</small>
+              </div>
+              <rd-textarea
+                [label]="'If yes, please specify'"
+                [id]="'disability-note'"
+                [placeholder]="'Type Your Message Here...'"
+                [controlName]="'DisabilityComment'"
+                [form]="learnershipFormStep1"
+              ></rd-textarea>
+            </ng-container>
+
+            <ng-container>
+              <div class="rd-form-header-sm">
+                Do you have any previous criminal offenses or pending criminal
+                case(s)?
+                <label>
+                  <span class="required-asterik">*</span>
+                </label>
+              </div>
+              <div class="radio-input-group">
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="full-website"
+                    formControlName="CriminalOffences"
+                    (change)="criminalOffenceChange($event, 1)"
+                    [value]="1"
+                  />
+
+                  <label for="full-website">Yes</label>
+                </div>
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="only-broker-portal"
+                    formControlName="CriminalOffences"
+                    (change)="criminalOffenceChange($event, 0)"
+                    [value]="0"
+                  />
+
+                  <label for="only-broker-portal">No</label>
+                </div>
+              </div>
+              <div
+                *ngIf="criminalOffences?.hasError('invalid')"
+                class="error-msg"
+              >
+                <small>{{ criminalOffences.errors?.['invalid'] }}</small>
+              </div>
+              <rd-textarea
+                [label]="'If yes, please specify'"
+                [id]="'criminal-note'"
+                [placeholder]="'Type Your Message Here...'"
+                [controlName]="'CriminalOffencesComment'"
+                [form]="learnershipFormStep1"
+              ></rd-textarea>
+            </ng-container>
+
+            <ng-container>
+              <div class="rd-form-header-sm">
+                Have you participated in other Learnership programmes?
+                <label> </label>
+              </div>
+              <div class="radio-input-group">
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="full-website"
+                    formControlName="OtherLearnerShip"
+                    (change)="learnershipProgrammeChange($event, 1)"
+                    [value]="1"
+                  />
+
+                  <label for="full-website">Yes</label>
+                </div>
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="only-broker-portal"
+                    formControlName="OtherLearnerShip"
+                    (change)="learnershipProgrammeChange($event, 0)"
+                    [value]="0"
+                  />
+
+                  <label for="only-broker-portal">No</label>
+                </div>
+              </div>
+              <div
+                *ngIf="otherLearnership?.hasError('invalid')"
+                class="error-msg"
+              >
+                <small>{{ otherLearnership.errors?.['invalid'] }}</small>
+              </div>
+              <rd-textarea
+                [label]="'If yes, please specify'"
+                [id]="'programme-note'"
+                [placeholder]="'Type your message here...'"
+                [controlName]="'OtherLearnerShipMessage'"
+                [form]="learnershipFormStep1"
+              ></rd-textarea>
+            </ng-container>
+            <div class="line"></div>
+          </div>
+          <div class="row rd-form-footer">
+            <div class="col-md-8">
+              <button type="submit" class="rd-btn rd-btn-dark rd-btn-lg w-100">
+                <span class="btn-text">Next</span>
+              </button>
+            </div>
+            <div class="col-md-4">
+              <app-captcha
+                [id]="'learnership-captcha'"
+                [controlName]="'Recaptcha'"
+                [form]="learnershipFormStep1"
+              ></app-captcha>
+            </div>
+          </div>
+        </form>
+      </mat-tab>
+      <!-- #tab [disabled]="!tab.isActive" -->
+      <mat-tab [label]="'Step2'" [disabled]="step2">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">Step2:</div>
+        </ng-template>
+        <form
+          [formGroup]="learnershipFormStep2"
+          (ngSubmit)="onSubmit($event, 'step2', tabgroup)"
+          class="rd-form"
+          autocomplete="on"
+        >
+          <div class="rd-form-body">
+            <p>Step 2 Location:</p>
+
+            <div class="row">
+              <div class="col-md-6">
+                <rd-input
+                  [id]="'street1'"
+                  [label]="'Address 1'"
+                  [placeholder]="'Please Provide Address 1'"
+                  [required]="true"
+                  [type]="'text'"
+                  [form]="learnershipFormStep2"
+                  [controlName]="'Street1'"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Address 2'"
+                  [id]="'street2'"
+                  [placeholder]="'Please Provide Address 2'"
+                  [type]="'text'"
+                  [required]="true"
+                  [controlName]="'Street2'"
+                  [form]="learnershipFormStep2"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+              <div class="col-md-6">
+                <rd-select
+                  [id]="'province'"
+                  [label]="'Province'"
+                  [placeholder]="'Please Select'"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [required]="true"
+                  [items$]="provinceList$"
+                  [form]="learnershipFormStep2"
+                  [controlName]="'Province'"
+                  (onChange)="provinceSelect($event)"
+                ></rd-select>
+              </div>
+              <div class="col-md-6">
+                <rd-select
+                  [id]="'city'"
+                  [label]="'City'"
+                  [placeholder]="'Please Select'"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [required]="true"
+                  [items$]="cityList$"
+                  [form]="learnershipFormStep2"
+                  [controlName]="'City'"
+                  (onChange)="citySelect($event)"
+                ></rd-select>
+              </div>
+              <div class="col-md-6">
+                <rd-select
+                  [id]="'suburb'"
+                  [label]="'Suburb'"
+                  [placeholder]="'Please Select'"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [required]="true"
+                  [items$]="suburbList$"
+                  [form]="learnershipFormStep2"
+                  [controlName]="'Suburb'"
+                ></rd-select>
+              </div>
+              <div class="col-md-6">
+                <rd-input
+                  [label]="'Postal Code'"
+                  [id]="'postal_code'"
+                  [placeholder]="'Postal Code'"
+                  [required]="true"
+                  [type]="'text'"
+                  [controlName]="'PostalCode'"
+                  [form]="learnershipFormStep2"
+                  (onChange)="onChange($event)"
+                ></rd-input>
+              </div>
+            </div>
+
+            <ng-container>
+              <div class="rd-form-header-sm">
+                Are you willing to relocate?
+                <label>
+                  <span class="required-asterik">*</span>
+                </label>
+              </div>
+              <div class="radio-input-group">
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="full-website"
+                    formControlName="Relocate"
+                    [value]="1"
+                  />
+
+                  <label for="full-website">Yes</label>
+                </div>
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="only-broker-portal"
+                    formControlName="Relocate"
+                    [value]="0"
+                  />
+
+                  <label for="only-broker-portal">No</label>
+                </div>
+              </div>
+              <div *ngIf="relocate?.hasError('invalid')" class="error-msg">
+                <small>{{ relocate.errors?.['invalid'] }}</small>
+              </div>
+            </ng-container>
+          </div>
+          <div class="rd-form-footer">
+            <div>
+              <button type="submit" class="rd-btn rd-btn-dark rd-btn-lg w-100">
+                <span class="btn-text">Next</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-tab>
+
+      <mat-tab [label]="'Step3'" [disabled]="step3">
+        <ng-template mat-tab-label>
+          <div class="rd-heading rd-heading-xs">Step3:</div>
+        </ng-template>
+        <form
+          [formGroup]="learnershipFormStep3"
+          (ngSubmit)="onSubmit($event, 'step3', tabgroup)"
+          class="rd-form"
+          autocomplete="on"
+        >
+          <div class="rd-form-body">
+            <p class="step-info">We are almost done just some last details:</p>
+
+            <rd-select
+              [id]="'education'"
+              [label]="'What is your highest level of education?'"
+              [placeholder]="'Please Select'"
+              [bindLabel]="'Title'"
+              [bindValue]="'Id'"
+              [required]="true"
+              [items$]="qualificationsList$"
+              [form]="learnershipFormStep3"
+              [controlName]="'HighestQualificationId'"
+            ></rd-select>
+            <rd-input
+              [label]="'What is your qualification specialization?'"
+              [id]="'specialisation'"
+              [placeholder]="'Please Provide Qualification Specialization'"
+              [type]="'text'"
+              [required]="true"
+              [controlName]="'QualificationSpecialisation'"
+              [form]="learnershipFormStep3"
+              (onChange)="onChange($event)"
+            ></rd-input>
+
+            <ng-container>
+              <div class="rd-form-header-sm">
+                Are you currently studying?
+                <label>
+                  <span class="required-asterik">*</span>
+                </label>
+              </div>
+              <div class="radio-input-group">
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="full-website"
+                    formControlName="CurrentlyStudying"
+                    (change)="currentlyStudyingChange($event, 1)"
+                    [value]="1"
+                  />
+
+                  <label for="full-website">Yes</label>
+                </div>
+                <div class="radio-input">
+                  <input
+                    type="radio"
+                    id="only-broker-portal"
+                    formControlName="CurrentlyStudying"
+                    (change)="currentlyStudyingChange($event, 0)"
+                    [value]="0"
+                  />
+
+                  <label for="only-broker-portal">No</label>
+                </div>
+              </div>
+              <div
+                *ngIf="currentlyStudying?.hasError('invalid')"
+                class="error-msg"
+              >
+                <small>{{ currentlyStudying.errors?.['invalid'] }}</small>
+              </div>
+              <rd-input
+                [label]="'What are you studying towards?'"
+                [id]="'study-towards'"
+                [placeholder]="'Please Provide Studying Towards'"
+                [type]="'text'"
+                [controlName]="'StudyingTowards'"
+                [form]="learnershipFormStep3"
+                (onChange)="onChange($event)"
+              ></rd-input>
+            </ng-container>
+            <div class="line"></div>
+            <p class="step-info">Required Documentation</p>
+            <p>
+              Upload a certified copy of your ID document.
+              <span>The formats can be PDF, PNG, or JPEG.*</span>
+            </p>
+            <rd-file
+              [label]="''"
+              [id]="'id-input'"
+              [types]="idDocumentFileTypes"
+              [fileList]="fileContainer?.IdDocument"
+              [controlName]="'IdDocument'"
+              (onSelect)="onFileSelect($event, 7)"
+              (onDelete)="onFileDelete($event, 7)"
+            ></rd-file>
+            <div
+              *ngIf="
+                learnershipFormStep3.get('IdDocument')?.hasError('invalid')
+              "
+              class="error-msg"
+            >
+              <small
+                >{{ learnershipFormStep3.get('IdDocument')?.errors?.['invalid'] }}</small
+              >
+            </div>
+
+            <p>
+              Upload the latest version of your CV. The CV
+              <span> format can be PDF or Word doc.*</span>
+            </p>
+            <rd-file
+              [label]="''"
+              [id]="'cv-input'"
+              [types]="fileTypes"
+              [fileList]="fileContainer?.Cv"
+              [controlName]="'Cv'"
+              (onSelect)="onFileSelect($event, 6)"
+              (onDelete)="onFileDelete($event, 6)"
+            ></rd-file>
+            <div
+              *ngIf="learnershipFormStep3.get('Cv')?.hasError('invalid')"
+              class="error-msg"
+            >
+              <small
+                >{{ learnershipFormStep3.get('Cv')?.errors?.['invalid'] }}</small
+              >
+            </div>
+
+            <p>
+              Upload a certified copy of your qualification certificates. The
+              qualification certificate<span> format can be JPEG or PDF.*</span>
+            </p>
+            <rd-file
+              [label]="''"
+              [id]="'education-input'"
+              [types]="educationalDocumentTypes"
+              [fileList]="fileContainer?.QualificationCertificate"
+              [controlName]="'QualificationCertificate'"
+              (onSelect)="onFileSelect($event, 8)"
+              (onDelete)="onFileDelete($event, 8)"
+            ></rd-file>
+            <div
+              *ngIf="
+                learnershipFormStep3
+                  .get('QualificationCertificate')
+                  ?.hasError('invalid')
+              "
+              class="error-msg"
+            >
+              <small
+                >{{ learnershipFormStep3.get('QualificationCertificate')?.errors?.['invalid']
+                }}</small
+              >
+            </div>
+
+            <p>
+              Please provide us with a motivation
+              <span>(no more than 1500 words) </span>describing the reason for
+              your application. The motivation
+              <span> formats can be JPEG or PDF.*</span>
+            </p>
+            <rd-file
+              [label]="''"
+              [id]="'motivation-input'"
+              [types]="educationalDocumentTypes"
+              [fileList]="fileContainer?.Motivation"
+              [controlName]="'Motivation'"
+              (onSelect)="onFileSelect($event, 9)"
+              (onDelete)="onFileDelete($event, 9)"
+            ></rd-file>
+            <div
+              *ngIf="
+                learnershipFormStep3.get('Motivation')?.hasError('invalid')
+              "
+              class="error-msg"
+            >
+              <small
+                >{{ learnershipFormStep3.get('Motivation')?.errors?.['invalid']
+                }}</small
+              >
+            </div>
+
+            <div class="line"></div>
+            <div class="rd-heading-sm mb-2">Declaration</div>
+            <div class="required-checks">
+              <div class="checkbox-input rd-checkbox mb-3">
+                <input
+                  type="checkbox"
+                  class="rd-border__grey-dark"
+                  [name]="'all'"
+                  [id]="'sector-checkbox-all'"
+                />
+              </div>
+              <div class="rd-text-grey-mid">
+                I declare that all the information provided is complete and
+                correct to the best of my knowledge. I understand that any false
+                information supplied could lead to my application for the
+                Redefine learnership programme being disqualified.
+              </div>
+            </div>
+
+            <div class="line mt-4"></div>
+            <div class="rd-heading-sm mb-2">
+              Consent to processing applicants personal information
+            </div>
+            <div class="required-checks">
+              <div
+                class="checkbox-input rd-checkbox required-check-acknowledge"
+              >
+                <input
+                  type="checkbox"
+                  class="rd-border__grey-dark"
+                  [name]="'all'"
+                  [id]="'sector-checkbox-all'"
+                />
+              </div>
+              <div class="rd-text-grey-mid">
+                I acknowledge that in concluding this application form:A. I will
+                be providing Redefine with my personal information, and that
+                Redefine will process my personal information for the purposes
+                of this application and take any necessary action connected
+                therein; and/orB. I consent, for the purposes of the Protection
+                of Personal Information Act 2013, to Redefine processing any of
+                my personal information and/or sharing any of my personal
+                information with any third parties who may be appointed by
+                Redefine for the purpose of processing this application.
+              </div>
+            </div>
+          </div>
+          <div class="rd-form-footer">
+            <div>
+              <button type="submit" class="rd-btn rd-btn-dark rd-btn-lg w-100">
+                <span class="btn-text">Send</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="mt-5"></div>
+</div>

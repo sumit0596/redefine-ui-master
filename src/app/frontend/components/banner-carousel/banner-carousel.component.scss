@@ -1,0 +1,431 @@
+.slider_section {
+  width: 100%;
+  height: calc(100vh - 130px);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.3s linear;
+  min-height: 600px;
+}
+.imgs_container {
+  height: 100% !important;
+}
+.single_img {
+  position: relative;
+  background-color: #e6e6e6;
+  height: 100% !important;
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 1) 130%
+  );
+}
+
+.single_img:first-child {
+  display: block;
+  height: 100% !important;
+}
+
+.single_img img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+#left_slider,
+#right_slider {
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  padding: 10px;
+  background-color: transparent;
+
+  cursor: pointer;
+}
+
+#left_slider:hover,
+#right_slider:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* position left arrow */
+
+.rd-description {
+  position: absolute;
+  top: 29%;
+  left: 10px;
+  color: white;
+  transform: translateY(-50%);
+  width: 90%;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 10px;
+}
+.rd-slide-count {
+  justify-content: center;
+  color: white;
+}
+/* Additional styles for slider dots */
+.rd-slider-dots {
+  justify-content: center;
+  display: grid;
+}
+
+.rd-dot {
+  height: 23px;
+  width: 2px;
+  margin: 0 5px;
+  background-color: #555;
+  border-radius: 2%;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.rd-active-dot {
+  background-color: #fff;
+  height: 108px;
+}
+.rd-slide-controls {
+  position: absolute;
+  top: 30%;
+  justify-content: center;
+  right: 40px;
+  text-align: center;
+}
+
+.white-text {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 500;
+  font-family: var(--font-din) !important;
+}
+
+.rd-slider-buttons {
+  top: 135%;
+  padding-left: 118px;
+  position: absolute;
+}
+
+.rd-slider-btn-scroll {
+  margin-top: 48px;
+}
+
+.before-title {
+  overflow: hidden;
+  width: 7%;
+  padding-bottom: 15px;
+}
+.before-title-line {
+  height: 0.35vw;
+  content: " ";
+  background-color: #fff;
+  width: 100%;
+}
+.after-title-line {
+  height: 0.35vw;
+  content: " ";
+  background-color: #fff;
+  width: 100%;
+}
+.after-title {
+  overflow: hidden;
+  min-width: 5%;
+  flex-grow: 1;
+  padding-bottom: 15px;
+}
+
+.banner-title {
+  min-width: 40%;
+  max-width: 90%;
+
+  align-items: center;
+}
+/* The following styles are optional and can be adjusted based on your design */
+.before-title {
+  margin-right: 2%;
+}
+
+.after-title {
+  margin-left: 2%;
+}
+.rd-active-circle {
+  background-color: #fff;
+}
+/* Adjust the width of dflex to sum up to 100% */
+.rd-slider-circle {
+  display: none;
+}
+@media only screen and (max-width: 600px) {
+  .rd-slider-buttons {
+    top: 130%;
+    padding-left: 33px;
+    width: 90%;
+  }
+  .rd-slider-circle {
+    justify-content: center;
+    display: flex;
+    bottom: 2%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .rd-circle {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin: 0 5px;
+    background-color: #999999;
+
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .rd-active-circle {
+    background-color: #fff !important;
+  }
+  .rd-circle {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin: 0 5px;
+    background-color: #999999;
+
+    cursor: pointer;
+    margin-top: 4px;
+  }
+
+  .rd-slide-buttons {
+    display: none;
+  }
+  .rd-slide-count {
+    display: none;
+  }
+  .rd-description {
+    position: absolute;
+    top: 28%;
+  }
+  .rd-slider-btn-scroll {
+    display: none;
+  }
+
+  .rd-btn-lg {
+    width: 100%;
+    height: 48px;
+    font-size: 12px !important;
+  }
+
+  .slider_section {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    min-height: 300px;
+  }
+
+  .rd-slide-controls {
+    display: none;
+  }
+
+  .banner .banner-title,
+  .banner1 .banner-title {
+    font-size: 32px; /* transform: translateX(1vw); */
+  }
+  .banner .banner-title {
+    font-size: 18px;
+  }
+
+  .rd-heading-lg-normal {
+    font-family: var(--font-din) !important;
+    font-size: 15px;
+  }
+  .rd-heading-xl {
+    font-family: var(--font-din) !important;
+    font-size: 17px;
+    line-height: 17px;
+  }
+
+  #left_slider,
+  #right_slider {
+    border: none;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    padding: 10px;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .rd-slide-count {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .rd-slide-controls {
+    right: 0px;
+  }
+
+  .rd-description {
+    position: absolute;
+    top: 32%;
+  }
+  .rd-slider-buttons {
+    top: 125%;
+    padding-left: 70px;
+  }
+  .slider_section {
+    width: 100%;
+    height: 500px;
+    min-height: 450px;
+    position: relative;
+  }
+  .rd-heading-lg-normal {
+    font-family: var(--font-din) !important;
+    font-size: 25px;
+  }
+  .rd-heading-xl {
+    font-family: var(--font-din) !important;
+    font-size: 35px;
+    line-height: 35px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .rd-slider-buttons {
+    padding-left: 9.4%;
+  }
+  .slider_section {
+    width: 100%;
+    height: 500px;
+    min-height: 450px;
+    position: relative;
+  }
+  .rd-description {
+    position: absolute;
+    top: 30%;
+  }
+  .rd-heading-lg-normal {
+    font-family: var(--font-din) !important;
+    font-size: 30px;
+  }
+  .rd-heading-xl {
+    font-family: var(--font-din) !important;
+    font-size: 40px;
+    line-height: 40px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .rd-slider-buttons {
+    padding-left: 9%;
+  }
+  .slider_section {
+    width: 100%;
+    height: calc(100vh - 130px);
+    position: relative;
+    // max-height: 600px;
+  }
+  .rd-heading-lg-normal {
+    font-family: var(--font-din) !important;
+    font-size: 60px;
+  }
+  .rd-heading-xl {
+    font-family: var(--font-din) !important;
+    font-size: 64px;
+    line-height: 40px;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .rd-slider-buttons {
+    padding-left: 9.2%;
+  }
+  .slider_section {
+    width: 100%;
+    height: calc(100vh - 130px);
+    position: relative;
+    // max-height: 600px;
+  }
+}
+
+/* Add this to your component's style file or in your global styles */
+.loader-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  max-height: 800px;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-loader {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  top: 25%;
+  padding: 0 10%;
+}
+.arrow-loader {
+  position: absolute;
+  right: 10%;
+  top: 29.5%;
+}
+
+@media (max-width: 576px) {
+  .loader-container {
+    max-height: 300px;
+    min-height: 300px;
+  }
+  .slider_section {
+    max-height: 300px !important;
+  }
+}
+.single_img.loader-container {
+  background: #f0f0f0; /* Background color for the skeleton loader */
+  margin: 10px; /* Adjust margin as needed */
+  /* Add other styles for the skeleton loader */
+}
+
+/* Adjust these styles based on your design */
+.loader {
+  width: 100%;
+
+  height: 100%; /* Adjust height as needed */
+  border-radius: 8px; /* Adjust border-radius as needed */
+  padding: 16px; /* Adjust padding as needed */
+  box-sizing: border-box;
+}
+
+.loader-image {
+  width: 100%;
+  height: 60%; /* Adjust height as needed */
+  background: #d0d0d0; /* Background color for the image placeholder */
+  border-radius: 4px; /* Adjust border-radius as needed */
+}
+
+.loader-content {
+  margin-top: 16px; /* Adjust margin as needed */
+}
+
+.loader-title {
+  width: 80%; /* Adjust width as needed */
+  height: 20px; /* Adjust height as needed */
+  background: #d0d0d0; /* Background color for the title placeholder */
+  border-radius: 4px; /* Adjust border-radius as needed */
+  margin-bottom: 8px; /* Adjust margin as needed */
+}
+
+.loader-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loader-button {
+  width: 45%; /* Adjust width as needed */
+  height: 36px; /* Adjust height as needed */
+  background: #d0d0d0; /* Background color for the button placeholder */
+  border-radius: 4px; /* Adjust border-radius as needed */
+}

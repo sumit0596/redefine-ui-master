@@ -1,0 +1,130 @@
+<div class="rd-tab-wrapper">
+  <div class="container col-md-12">
+    <div class="position-relative mb-5" style="margin-top: 95px">
+      <div class="rd-text-grey-mid rd-heading-sm">Check out our</div>
+      <div class="rd-heading rd-heading-lg-normal">Related news articles</div>
+      <span class="rd-indicator rd-indicator-xl">
+        <span class="rd-indicator-content rd-indicator-primary"></span>
+      </span>
+    </div>
+    <p class="rd-text-grey-mid" style="margin-top: 30px; margin-bottom: 50px">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat.
+    </p>
+    <!-- <mat-tab-group>
+    <mat-tab *ngFor="let tab of asyncTabs | async">
+      <ng-template mat-tab-label class="rd-tab-label">{{tab.label}}</ng-template>
+     <h1 class="rd-tab-h1">SENS announcements</h1>
+      <div class="rd-tab-list" >
+        {{tab.content}}
+      </div>
+    </mat-tab>
+  </mat-tab-group> -->
+    <div class="rd-tab-groups">
+      <mat-tab-group>
+        <mat-tab class="rd-tabs">
+          <ng-template mat-tab-label class="rd-tab-label">
+            View Sens
+          </ng-template>
+          <div class="heading">
+            <div class="rd-heading rd-heading-lg-normal rd-tab-h1">
+              SENS announcements
+            </div>
+            <span class="rd-indicator rd-indicator-xl rd-tab-h">
+              <span class="rd-indicator-content rd-indicator-primary"></span>
+            </span>
+          </div>
+          <div class="rd-tab-list">
+            <div
+              class="rd-tab-content"
+              *ngFor="let announcement of sensList"
+              (click)="sensDetailsPage(announcement)"
+            >
+              <div class="rd-sens-headline">{{ announcement.Headline }}</div>
+              <div class="rd-publish">Published: {{ announcement.Date }}</div>
+            </div>
+          </div>
+          <div class="tab-btn">
+            <a href="/investors/investor-information/sens-announcements">
+              <div class="d-flex align-items-center justify-content-end">
+                <button class="move-right rd-btn rd-btn-text">
+                  <span class="btn-text">View</span>
+                  <span class="px-1" class="btn-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-arrow-right-circle"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 16 16 12 12 8"></polyline>
+                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </a>
+          </div>
+        </mat-tab>
+
+        <mat-tab class="rd-tabs">
+          <ng-template mat-tab-label> Our news </ng-template>
+          <div class="heading">
+            <div class="rd-heading rd-heading-lg-normal rd-tab-h1">
+              News announcements
+            </div>
+            <span class="rd-indicator rd-indicator-xl rd-tab-h">
+              <span class="rd-indicator-content rd-indicator-primary"></span>
+            </span>
+          </div>
+          <div class="rd-tab-list">
+            <div
+              class="rd-tab-content"
+              *ngFor="let news of newsList"
+              (click)="pressDetailsPage(news)"
+            >
+              <div class="rd-sens-headline">{{ news.Title }}</div>
+              <div class="rd-publish">Published: {{ news.CreatedOn }}</div>
+            </div>
+          </div>
+
+          <div class="tab-btn">
+            <a href="/press-office">
+              <div class="d-flex align-items-center justify-content-end">
+                <button class="move-right rd-btn rd-btn-text">
+                  <span class="btn-text">View</span>
+                  <span class="px-1" class="btn-icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-arrow-right-circle"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 16 16 12 12 8"></polyline>
+                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </a>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

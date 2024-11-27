@@ -1,0 +1,60 @@
+<div class="rd-container">
+    <form
+      *ngIf="brokerCommissionIncentiveForm"
+      class="rd-form form-container"
+      [formGroup]="brokerCommissionIncentiveForm"
+      (ngSubmit)="onSubmit()"
+      autocomplete="on"
+    >
+      <div class="rd-container-header">
+        <div class="rd-form-header">
+           Broker Commission Incentives
+        </div>
+        <div>
+          <button type="button" (click)="close()">
+            <span><img src="assets/images/close.svg" alt="" /></span>
+          </button>
+        </div>
+      </div>
+      <rd-select
+        [label]="'Commission incentive over and above standard SAPOA 100% commission'"
+        [id]="'commission-incentive'"
+        [placeholder]="'5% - 300%'"
+        [items$]="brokerCommissionIncentives$"
+        [bindLabel]="'Name'"
+        [bindValue]="'Name'"
+        [controlName]="'BrokerIncentives'"
+        [form]="brokerCommissionIncentiveForm"
+        (onChange)="onDataChange($event)"
+      ></rd-select>
+      <small class="error-msg">
+        <div class="error-text placement">{{errorMessage}}</div>
+      </small>
+      <rd-textarea
+          [label]="'Comment/ Disclaimers'"
+          [id]="'comment-disclaimer'"
+          [placeholder]="'Please Comment Here'"
+          [controlName]="'CommentDisclaimers'"
+          [form]="brokerCommissionIncentiveForm"
+          [maxLength]="700"
+        ></rd-textarea>
+      <div class="rd-form-footer justify-content-end">
+        <div class="rd-btn-group">
+          <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="close()"
+          >
+            Cancel
+        </button>
+          <button
+            type="submit"
+            class="rd-btn-primary rd-btn-lg"
+          >
+            Save & Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  

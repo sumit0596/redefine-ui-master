@@ -1,0 +1,13 @@
+<div class="custom-slider" *ngIf="options">
+    <ngx-slider [options]="options"[value]="minValue" [highValue]="maxValue" (userChangeEnd)="onSliderChange($event)"></ngx-slider>
+</div>
+
+<!-- [id]="id"
+[formControlName]="form ? controlName : null"
+[floor]="floor"
+[ceil]="ceil"
+[step]="step"
+[showTicks]="showTicks"
+[lebalExtention]="lebalExtention"
+[type]="type"
+[disable]="disable" -->

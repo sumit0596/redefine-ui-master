@@ -1,0 +1,96 @@
+.uni-input {
+  width: 300px;
+  height: 30px;
+  background-color: #f9fafb;
+}
+
+.rd-form {
+  width: 800px;
+}
+
+.control-container {
+  // display: flex;
+  gap: 10px;
+}
+
+.attribute-container {
+  margin-bottom: 50px;
+}
+.attribute-container .attribute-item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 0.5px solid #dfdfdf;
+}
+.attribute-container .attribute-item:last-child {
+  border: none;
+}
+.attribute-container .attribute-item .attribute-label {
+  width: 40%;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+}
+.attribute-container .attribute-item .attribute-desc {
+  width: 60%;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  color: #58595b;
+  word-wrap: break-word;
+}
+.attribute-desc .file-name a {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 13px;
+  color: #000000;
+}
+.attribute-desc .file-desc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #999999;
+}
+
+.drop-icon {
+  position: relative;
+  left: 20px;
+}
+
+// button.rd-btn-text {
+//   width: 100%;
+//   display: flex;
+//   justify-content: flex-start;
+//   align-items: center;
+//   color: #000000;
+//   font-weight: 600;
+//   transition: all 0.3s;
+// }
+.SaveBTNContainer {
+  justify-content: flex-start !important;
+}
+.FormSaveBTN {
+  margin-right: 10px !important;
+}
+
+::ng-deep .file-container .image-preview img {
+  width: auto !important;
+}
+.default-profile-image {
+  width: 240px;
+  height: 332px;
+  margin: 10px;
+  display: inline-block;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  background-repeat: no-repeat;
+}

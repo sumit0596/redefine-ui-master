@@ -1,0 +1,42 @@
+<div class="rd-sidenav">
+  <ul class="nav-list" *ngIf="menuItems">
+    <li class="nav-list-item" *ngFor="let item of menuItems">
+      <ng-container [ngSwitch]="item.Title">
+        <ng-container *ngSwitchCase="'Offer To Lease'">
+          <a
+            [href]="item.Url"
+            target="_blank"
+            [title]="item.Title"
+            [attr.data-id]="item.AdminMenuId"
+          >
+            <img [src]="'assets/images/' + item.Code + '.svg'"  alt="menu svg" />
+            <div
+              [ngClass]="sideNavStatus ? 'active' : ''"
+              class="nav-item-title"
+            >
+              {{ item.Title }}
+            </div>
+          </a>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <a
+            [routerLink]="item.Url"
+            routerLinkActive="active-menu"
+            [title]="item.Title"
+            [attr.data-id]="item.AdminMenuId"
+            (click)="toggleSidenav(item.AdminMenuId)"
+          >
+            <img [src]="'assets/images/' + item.Code + '.svg'" alt="menu svg" />
+            <div
+              [ngClass]="sideNavStatus ? 'active' : ''"
+              class="nav-item-title"
+            >
+              {{ item.Title }}
+            </div>
+          </a>
+        </ng-container>
+      </ng-container>
+    </li>
+  </ul>
+</div>
+

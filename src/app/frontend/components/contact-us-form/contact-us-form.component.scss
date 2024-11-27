@@ -1,0 +1,90 @@
+.contact-us-form-container {
+  position: relative;
+  padding: 40px;
+  box-shadow: var(--box-shadow);
+}
+
+.form-indicator {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 40px;
+  width: 20px;
+  height: 100px;
+  background-color: #c00018;
+}
+
+.rd-dark-button {
+  position: relative;
+  width: 160px;
+  height: 32px;
+  background-color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  .button-text {
+    transition: all 0.3s ease;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 25%;
+      height: 20%;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto 0;
+      background-color: #e6001c;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: all 0.3s ease;
+    }
+  }
+
+  &.button-sm {
+    width: 120px;
+    height: 20px;
+  }
+
+  &.button-lg {
+    width: 240px;
+    height: 48px;
+  }
+
+  &:hover .button-text::after {
+    transform: scaleX(1);
+  }
+
+  &:hover .button-text {
+    padding-right: 30%;
+  }
+
+  &:active {
+    background-color: #e6001c;
+  }
+
+  &:active .button-text::after {
+    background-color: #000000;
+  }
+  &:disabled {
+    background-color: #b8b8b8;
+    pointer-events: none;
+    user-select: none;
+  }
+}
+
+@media (min-width: 1000px) and (max-width: 1440px) {
+  .ipad-captcha {
+    width: 100%;
+    order: 1 !important;
+  }
+
+  .col-md-6.order-2.order-md-1.d-flex {
+    order: 2 !important;
+  }
+}

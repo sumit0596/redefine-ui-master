@@ -1,0 +1,137 @@
+<app-banner-breadcrumb [bannerDetails]="bannerDetails" [bannerText]="bannerText"
+  [breadcrumbLinks]="breadcrumbLinks"></app-banner-breadcrumb>
+<!-- add search here -->
+
+<div class="container mt-5">
+  <div class="row">
+    <!-- <div class="col-md-2"></div> -->
+    <div class="col-md-12">
+      <div class="row filter-top">
+        <div class="col-md-3">
+		    <rd-select
+            [id]="'sort'"
+            [label]="'sort'"
+            [placeholder]="'Sort by'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Name'"
+            [items$]="sortby$"
+            [required]="true"
+            [form]="filterForm"
+            [controlName]="'SortBy'"
+            (onChange)="onChangeSortBy($event)"
+          >
+          </rd-select>
+        </div>
+        <div class="col-md-3">
+			  <rd-select
+            [id]="'category'"
+            [label]="'category'"
+            [placeholder]="'Select category'"
+            [bindLabel]="'Title'"
+            [bindValue]="'Id'"
+            [items$]="categorydropdown$"
+            [required]="true"
+            [form]="filterForm"
+            [controlName]="'CategoryId'"
+            (onChange)="onCategoryChange($event)"
+          >
+          </rd-select> 
+        </div>
+        <div class="col-md-5 searchFilter">
+          <div class="input-group">
+            <input type="text" class="form-control" id="text-search" placeholder="Search" [(ngModel)]="searchText"
+              (keyup)="search($event)"  aria-label="video-search"/>
+
+            <div class="input-group-append search-button">
+              <button class="btn btn-secondary" type="button" (click)="searchValue($event)" aria-label="video-clear-button">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-1 clearFilterButton">
+          <button type="button" class="rd-btn-text rd-btn-xs h-100 clear-button" *ngIf="
+          this.filterForm.get('Search')?.value != '' ||
+          filter.CategoryId ||
+          filter.SortBy
+        "  (click)="clear()" aria-labelledby="labeldiv">
+            <span>Clear</span>
+            <span><img src="assets/images/close.svg" [style.width]="'16px'" alt="clear" /></span>
+          </button>
+        </div>
+        <small class="error-message">
+          <div class="error-text placement">{{ errorMessage }}</div>
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="propertyEqVideosList">
+  <div class="row propertyeq-video__section" *ngIf="propertyEqVideosList.PropertyEq?.length > 0" else loadingData>
+    <div *ngFor="let property of propertyEqVideosList?.PropertyEq" class="col-lg-4 col-md-4 col-12 p-0">
+      <ng-container *ngIf="propertyEqVideosList?.PropertyEq; ">
+      <div class="row propertyeq-video__section-row mx-2 mb-2">
+        <div (click)="videoDetailsPage(property)" class="card propertyeq-video__section-card" mat-button>
+          <img src="{{ property.MediaUrl !== null 
+            ? property.MediaUrl 
+            : imagePlaceholderImage }}" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h2  class="propertyeq-video__section-card-title">{{property.Title}}</h2>
+            <div class="d-flex propertyeq-video__section-postedBy">
+              <p class="card-text" [title]="property.Author" *ngIf="property.Author && property.Author != ''">
+                <span>By </span>
+                <span class="autor-name"
+                (click)="$event.stopPropagation(); onFilterTags(property.Author, 'Author')">{{(property.Author?.length >20) 
+                  ? (property.Author | slice:0:20) +'...' : property.Author}}
+                </span>
+              </p>
+              <!-- <p class="card-text">{{ property.CreatedOn | date : "dd MMMM, yyyy" }}</p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      </ng-container>
+    </div>
+    <div class="col-md-12" *ngIf="propertyEqVideosList && propertyEqVideosList.PropertyEq?.length ">
+      <div *ngIf="errorMessage == ''">
+        <mat-paginator #paginator customPaginator showFirstLastButtons class="custom-paginator" previousPageLabel="'pre'"
+          [length]="totalRowsCount" [pageSize]="filter.PerPage"
+          [pageIndex]="filter && filter.PageNo ? filter.PageNo - 1 : 0" (page)="paginate($event)" [hidePageSize]="true">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 py-2 text-center mt-5" *ngIf="!loadingData && propertyEqVideosList.PropertyEq?.length == 0">
+    <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+  </div>
+
+</div>
+  
+<ng-container *ngIf="loadingData">
+  <!-- Loader template -->
+   <div class="container">
+  <div class="col-md-12 d-flex">
+  <div class="col-md-4 col-12" *ngFor="let item of [1, 2, 3]">
+    <div class="card  border-0" aria-hidden="true">
+      <div class="card-body">
+        <h5 class="card-title placeholder-glow">
+          <span class="placeholder col-6"></span>
+        </h5>
+        <p class="card-text placeholder-glow">
+          <span class="placeholder col-7"></span>
+          <span class="placeholder col-4"></span>
+          <span class="placeholder col-4"></span>
+          <span class="placeholder col-6"></span>
+          <span class="placeholder col-8"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+</ng-container>
+
+<div class="quicklinks-gap mt-3">
+  <app-quick-links></app-quick-links> 
+</div>

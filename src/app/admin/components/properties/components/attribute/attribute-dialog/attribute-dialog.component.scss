@@ -1,0 +1,54 @@
+.dialog-container {
+  position: relative;
+  height: auto;
+  width: 450px;
+  min-height: 350px;
+  margin: 20px 30px;
+  overflow: auto;
+}
+
+.dialog-container .dialog-header {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+
+  font-weight: 600;
+  font-size: 14px;
+  color: #999999;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dialog-container .dialog-header .btn-close {
+  position: absolute;
+  right: 0;
+  height: 14px;
+  width: 14px;
+  text-align: center;
+  line-height: 0.8;
+}
+.dialog-container .dialog-body {
+  width: 100%;
+}
+.dialog-container .dialog-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.btn-wrapper button {
+  width: 30%;
+}
+
+.rd-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.rd-checkbox {
+  font-size: 16px;
+  margin-bottom: 10px;
+  width: 50%;
+}

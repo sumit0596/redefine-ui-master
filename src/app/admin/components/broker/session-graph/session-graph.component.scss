@@ -1,0 +1,101 @@
+.rd-text-session {
+  font-family: "DIN Medium";
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 0px;
+}
+
+.session-table-heading {
+  font-family: "DIN Medium";
+  font-size: 15px;
+  font-weight: 600;
+  vertical-align: baseline;
+}
+
+.session-table-heading>span {
+  font-size: .6rem !important;
+  margin-left: .3rem;
+}
+
+.session-count {
+  font-family: DIN;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.table-data {
+  font-family: "DIN";
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.market-data-loader {
+  text-align: center;
+}
+
+.market-data-loader img {
+  width: 50px;
+}
+
+button {
+  float: right;
+}
+
+.accordion-dashboard {
+  height: 390px !important;
+  overflow: scroll !important;
+}
+
+.mat-menu-analytic {
+  overflow: visible !important;
+}
+
+.badge-filter {
+  left: 67%;
+  top: 0px;
+}
+
+.filter-badge-icon-size {
+  height: 13px;
+  width: 13px;
+}
+
+.padicon {
+  padding: 1.5px;
+  padding-right: 3.3px;
+}
+
+
+.session-per-table .sorting-btn-group {
+  position: relative;
+  margin-left: 0px;
+  padding: 0 0.5rem;
+  transition: all 0.3s ease-in;
+}
+
+.session-per-table .sorting-btn-group .sort-asc-btn {
+  position: absolute;
+  bottom: 3px;
+  cursor: pointer;
+}
+
+.session-per-table .sorting-btn-group .sort-desc-btn {
+  position: absolute;
+  top: 5px;
+  cursor: pointer;
+}
+
+.session-per-table .sorting-btn-group img.sort-asc-btn,
+.session-per-table .sorting-btn-group img.sort-desc-btn {
+  width: 12px;
+}
+
+.session-per-table {
+  overflow-x: clip;
+}
+
+@media only screen and (max-width:1350px) {
+  .session-per-table thead th:nth-child(1) {
+    width: 30% !important;
+  }
+}

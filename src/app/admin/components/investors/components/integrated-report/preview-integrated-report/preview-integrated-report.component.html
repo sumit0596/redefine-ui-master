@@ -1,0 +1,109 @@
+<div class="rd-container preview-container">
+  <div class="btn-wrapper">
+    <button type="button" class="rd-btn-txt rd-btn-sm" (click)="close()">
+      <span>
+        <img src="assets/images/close.svg" alt="" />
+      </span>
+    </button>
+  </div>
+  <div class="report-name">
+    <div class="rd-heading rd-heading-lg rd-text-ellipsis">
+      {{ data.Title }}
+    </div>
+    <span class="rd-indicator rd-indicator-lg">
+      <span class="rd-indicator-content rd-indicator-primary"></span>
+    </span>
+  </div>
+  <p
+    class="rd-text-grey-mid"
+    [innerHTML]="
+      data.Description == '' ||
+      data.Description == null ||
+      data.Description == undefined
+        ? ''
+        : (data.Description | safeHtml : 'html')
+    "
+  ></p>
+  <div class="report-list">
+    <div
+      *ngFor="let report of data.integratedreportsdocuments"
+      class="report-card"
+      [style.background-image]="'url(' + report.Image.Url + ')'"
+    >
+      <div class="report-card-body">
+        <div class="report-card-header">
+          <div class="link-heading">
+            <div
+              class="rd-heading rd-text-ellipsis-line rd-ellipsis-line-2"
+              [title]="report.Title"
+            >
+              {{ report.Title }}
+            </div>
+            <span class="rd-indicator rd-indicator-lg">
+              <span
+                class="rd-indicator-content"
+                [style.border-bottom-color]="report.ColorCode"
+              ></span>
+            </span>
+          </div>
+          <div class="arrow-icon"></div>
+        </div>
+        <div class="report-card-content">
+          <div
+          *ngIf="report?.Description != null"
+          class="col-12 text-align-description rd-text-ellipsis-line rd-ellipsis-line-3"
+          [innerHTML]="
+            report?.Description"
+             [title]="report.Description | safeHtml : 'clean'"
+        ></div>
+        <div
+          *ngIf="report?.Description == null"
+          class="col-12 text-align-description rd-text-ellipsis-line rd-ellipsis-line-3"
+          [innerHTML]="''"
+        ></div>
+          <!-- <p
+            *ngIf="report.Description != null"
+            [innerHTML]="report.Description"
+            class="rd-text-ellipsis-line rd-ellipsis-line-3 link-description"
+            [title]="report.Description | safeHtml : 'clean'"
+          ></p>
+          <p
+            *ngIf="report.Description == null"
+            [innerHTML]="''"
+            class="rd-text-ellipsis-line rd-ellipsis-line-3 link-description"
+          ></p> -->
+          <div class="report-link-list">
+            <!-- <a
+              class="rd-btn rd-btn-outline-light rd-btn-lg w-100 mb-1"
+              title="Download PDF"
+              download
+            >
+              <span class="btn-text">Download PDF</span>
+            </a> -->
+            <a
+              class="rd-btn rd-btn-outline-light rd-btn-lg w-100 mb-1"
+              title="View" *ngIf="report?.PdfUrl != null"
+            >
+              <span class="btn-text">View</span>
+            </a>
+            <div *ngFor="let link of report.integratedreportsdocumentsLink">
+            <a class="rd-btn rd-btn-outline-light rd-btn-lg w-100 mb-1" *ngIf="link.TypeOfMedia == 1 && link?.DocumentUrl != null"
+              [title]="link.LinkTitle">
+              <span class="btn-text rd-text-ellipsis-line rd-ellipsis-line-1">{{
+                link.LinkTitle
+                }}</span>
+            </a>
+            <a class="rd-btn rd-btn-outline-light rd-btn-lg w-100 mb-1" *ngIf="link.TypeOfMedia != 1 && link?.Document != null"
+              [title]="link.LinkTitle">
+              <span class="btn-text rd-text-ellipsis-line rd-ellipsis-line-1">{{
+                link.LinkTitle
+                }}</span></a>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <pre>{{ reportData | json }}</pre> -->
+</div>

@@ -1,0 +1,23 @@
+<div class="slider_section">
+  <div class="imgs_container">
+    <div
+      class="single_img"
+      *ngFor="let slide of slides; let i = index"
+      [ngClass]="{ active: i === imgNumber }"
+    >
+      <div class="rd-slide-content banner">
+        <p class="banner-title">
+          {{ slide.testimonial }}
+        </p>
+        <div class="rd-slider-btn">
+          <button id="left_slider" class="left-slider" style="color: white">
+            ❮
+          </button>
+          <button id="right_slider" class="right-slider" style="color: white">
+            ❯
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

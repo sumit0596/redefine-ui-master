@@ -1,0 +1,211 @@
+<div class="rd-container">
+  <div class="rd-container-header" *ngIf="formConfig">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} - Press Release
+      </div>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-8">
+      <form
+        class="rd-form form-container"
+        [formGroup]="pressReleaseForm"
+        (ngSubmit)="onSubmit()"
+        autocomplete="on"
+      >
+        <div class="rd-form-header">Press Release</div>
+        <div class="rd-form-body">
+          <ng-container>
+            <rd-input
+              *ngIf="formConfig?.mode != 'view'"
+              [label]="'Title of Press Release'"
+              [id]="'title'"
+              [placeholder]="'Provide Press Release Title'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'Title'"
+              [form]="pressReleaseForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+
+            <!-- <div *ngIf="formConfig?.mode == 'view'">
+                <div class="rd-heading rd-heading-sm">Title</div>
+                <p>{{ pressReleaseForm.get("Title")?.value }}</p>
+              </div> -->
+          </ng-container>
+          <div class="col-md-6" *ngIf="formConfig?.mode != 'view'">
+            <rd-calendar
+              [label]="'Release Date'"
+              [required]="true"
+              [id]="'event-date'"
+              [type]="'text'"
+              [max]="today"
+              [controlName]="'PublishDate'"
+              placeholder="Select Date"
+              [form]="pressReleaseForm"
+              (dateChange)="onChange($event)"
+            ></rd-calendar>
+          </div>
+          <ng-container>
+            <rd-editor
+              *ngIf="formConfig?.mode != 'view'"
+              [label]="'Content'"
+              [id]="'content'"
+              [placeholder]="'Add Description'"
+              [controlName]="'Content'"
+              [required]="true"
+              [form]="pressReleaseForm"
+              (onChange)="onChange($event)"
+            ></rd-editor>
+            <!-- <div *ngIf="formConfig?.mode == 'view'">
+                <div class="rd-heading rd-heading-sm">Content</div>
+                <p
+                  [innerHTML]="
+                    pressReleaseForm.get('Content')?.value == '' ||
+                    pressReleaseForm.get('Content')?.value == null ||
+                    pressReleaseForm.get('Content')?.value == undefined
+                      ? 'Not available'
+                      : (pressReleaseForm.get('Content')?.value
+                        | safeHtml : 'html')
+                  "
+                ></p>
+              </div> -->
+          </ng-container>
+          <!-- <ng-container>
+                <div *ngIf="formConfig?.mode == 'view'">
+                    <div class="rd-heading rd-heading-sm">CreatedOn</div>
+                    <p>{{ pressReleaseDetails?.CreatedOn | date: 'dd/MM/yyyy'}}</p>
+                  </div>
+            </ng-container> -->
+        </div>
+        <div class="attribute-container" *ngIf="formConfig?.mode == 'view'">
+          <div class="attribute-item">
+            <div class="attribute-label">Title</div>
+            <div class="attribute-desc">
+              {{ pressReleaseForm.get("Title")?.value }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Release Date</div>
+            <div class="attribute-desc">
+              {{ pressReleaseForm.get("PublishDate")?.value }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Content</div>
+            <div class="attribute-desc">
+              <p
+                [innerHTML]="
+                  pressReleaseForm.get('Content')?.value == '' ||
+                  pressReleaseForm.get('Content')?.value == null ||
+                  pressReleaseForm.get('Content')?.value == undefined
+                    ? 'Not available'
+                    : (pressReleaseForm.get('Content')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Date Created</div>
+            <div class="attribute-desc">
+              {{ pressReleaseDetails?.CreatedOn | date : "dd/MM/yyyy" }}
+            </div>
+          </div>
+        </div>
+        <div class="rd-form-footer">
+          <div>
+            <button
+              type="button"
+              class="rd-btn-secondary rd-btn-lg"
+              (click)="goToManage()"
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <div class="rd-container-header-right">
+              <button
+                type="submit"
+                class="rd-btn-primary rd-btn-lg"
+                *ngIf="formConfig?.access && formConfig?.mode == 'view'"
+              >
+                Edit
+              </button>
+              <ng-container
+                *ngIf="formConfig?.access && formConfig?.mode != 'view'"
+              >
+                <div class="rd-container-header-right">
+                  <button
+                    type="button"
+                    class="rd-btn-primary rd-btn-lg"
+                    (click)="onSubmit()"
+                  >
+                    {{ btnLabel }}
+                  </button>
+                </div>
+              </ng-container>
+              <!-- [ngTemplateOutlet]="save_btn" -->
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row"></div>
+</div>
+<!-- SAVE BUTTON TEMPLATE -->
+<!-- <ng-template #save_btn>
+    <div class="save-btn-dropdown-wrapper">
+      <button
+        [matMenuTriggerFor]="saveMenu"
+        type="button"
+        class="rd-btn-primary rd-btn-lg rd-dropdown-btn"
+      >
+        <span> {{ btnLabel }}</span>
+  
+        <span class="drop-icon"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-chevron-down"
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </button>
+  
+      <mat-menu #saveMenu="matMenu">
+        <div class="save-dropdown-menu">
+          <button (click)="onSubmit(status.DRAFT)" class="rd-btn-text rd-btn-lg">
+            <span><img src="assets/images/edit-pencile.svg" alt="icon" /></span>
+            <span>Save as Draft</span>
+          </button>
+  
+          <button (click)="onSubmit(status.PUBLISH)" class="rd-btn-text rd-btn-lg">
+            <span><img src="assets/images/preview-eye.svg" alt="icon" /></span>
+            <span>Save & Publish</span>
+          </button>
+        </div>
+      </mat-menu>
+    </div>
+  </ng-template> -->

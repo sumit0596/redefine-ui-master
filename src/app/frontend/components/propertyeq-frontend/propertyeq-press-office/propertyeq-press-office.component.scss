@@ -1,0 +1,177 @@
+.input-group {
+  // margin-top: 22px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+  height: 52px;
+}
+
+.search-button :hover {
+  background-color: var(--red-color);
+}
+
+.btn-secondary {
+  width: 55px;
+  background-color: black;
+  border-radius: 0px;
+  height: 53px;
+}
+
+.sens-line {
+  height: 1px;
+  width: 100%;
+  background-color: #cccccc;
+}
+
+.form-control:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  //  border: none;
+  //  outline: none;
+  border-radius: 0px;
+}
+
+.error-text {
+  color: red;
+}
+
+.error-message {
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: var(--red-color);
+  transition: all 0.3s ease-in;
+  animation: fadeIn 0.3s;
+}
+
+.form-control::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #cccccc;
+}
+
+.press-list {
+  cursor: pointer;
+}
+
+.senses img {
+  width: 50%;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+
+.image-container-search {
+  width: 9rem;
+  height: 9rem;
+  overflow: hidden;
+}
+
+.image-container-search img {
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.hght-box-press {
+  min-height: 9rem;
+}
+
+
+
+@media (max-width: 576px) {
+  .image-container-search {
+    width: 100%;
+    height: 12rem;
+  }
+
+  .group-btn-clear {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 440px) {
+  .clear-button {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    margin-top: 1rem;
+  }
+}
+
+@media (width: 390px) {
+  .clear-button {
+    position: relative;
+    left: 80%;
+    top: 10px;
+  }
+}
+
+@media (width: 430px) {
+  .clear-button {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    margin-top: 1rem;
+  }
+
+}
+
+::ng-deep {
+  .propertyeq-press-office-container .control-container form {
+    padding: 0px;
+  }
+
+  .propertyeq-press-office-container .control-container form label {
+    display: none;
+  }
+
+  @media (max-width: 1198px) {
+    button.rd-btn-text.rd-btn-md.h-100.clear-button {
+      width: 100%;
+      justify-content: end;
+  }
+}
+
+  @media (min-width: 567px) and (max-width: 1000px) {
+
+    .propertyeq-press-office-container .form-group.col-md-3,
+    .propertyeq-press-office-container .col-md-6.d-flex.group-btn-clear {
+      width: 100% !important;
+    }
+
+    .col-md-6.d-flex.group-btn-clear {
+      flex-direction: column;
+      align-items: end;
+    }
+
+    .propertyeq-press-office-container button.rd-btn-text.rd-btn-md.h-100.clear-button {
+      justify-content: flex-end !important;
+      margin-top: 1rem;
+    }
+
+    .col-md-12.col-lg-6.d-flex.group-btn-clear {
+      flex-direction: column;
+  }
+  }
+
+  @media (max-width: 1024px) {
+
+    .search-button .btn-secondary:hover,
+    .search-button .btn-secondary i {
+      background-color: #000 !important;
+    }
+  }
+}
+
+@media screen and (max-device-width: 567px) {
+  ::ng-deep .propertyeq-press-office-container .control-container form {
+    padding: 0px 0px 25px;
+  }
+}

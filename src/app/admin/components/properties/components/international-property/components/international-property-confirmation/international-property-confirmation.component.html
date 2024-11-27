@@ -1,0 +1,561 @@
+<div class="rd-container" *ngIf="propertyDetails">
+  <div class="rd-form form-container">
+    <div class="rd-form-body">
+      <div class="property-image-section">
+        <div class="property-image-gallery">
+          <div class="property-image">
+            <img
+              [src]="
+                propertyDetails.media?.Image?.length > 0
+                  ? propertyDetails.media?.Image[0].Url
+                  : imagePlaceholders[0].Url
+              "
+              alt="property image"
+            />
+          </div>
+        </div>
+        <div
+          class="property-image-thumbnails"
+          *ngIf="propertyDetails.media?.Image?.length > 1"
+        >
+          <div
+            *ngFor="
+              let image of propertyDetails.media?.Image?.length > 0
+                ? (propertyDetails.media?.Image | slice : 1 : 4)
+                : imagePlaceholders
+            "
+            class="property-image"
+          >
+            <img [src]="image.Url" alt="property image" />
+          </div>
+          <div
+            class="more-images property-image"
+            *ngIf="propertyDetails.media?.Image?.length > 4"
+          >
+            +{{ propertyDetails.media?.Image.length - 4 }} Photos
+          </div>
+        </div>
+      </div>
+      <!-- ACCORDION -->
+      <div class="rd-accordion">
+        <div
+          class="rd-accordion-item"
+          *ngFor="let field of fieldData; let i = index"
+        >
+          <button
+            class="rd-accordion-btn rd-heading rd-heading-md-bold"
+            [ngClass]="{ collapsed: !field.isActive }"
+            [attr.data-bs-toggle]="'collapse'"
+            [attr.data-bs-target]="'#accordion-item-' + i"
+            [attr.aria-expanded]="false"
+            [attr.aria-controls]="'accordion-item-' + i"
+          >
+            {{ field.parentName }}
+            <div class="accordion-action" *ngIf="formConfig.mode != 'view'">
+              <button
+                [routerLink]="field.formPath"
+                type="button"
+                class="rd-btn-secondary"
+              >
+                Edit
+              </button>
+            </div>
+          </button>
+          <div
+            class="rd-accordion-panel collapse"
+            [ngClass]="{ show: field.isActive }"
+            [id]="'accordion-item-' + i"
+            [attr.hide]="field.isActive"
+          >
+            <ng-container [ngSwitch]="field.parentName">
+              <ng-container *ngSwitchCase="'Property Details'">
+                <div
+                  *ngFor="let child of field.childProperties"
+                  class="detail-section"
+                >
+                  <div [ngSwitch]="child.childName">
+                    <div *ngSwitchCase="'Property Info'">
+                      <ng-container
+                        [ngTemplateOutlet]="property_details_list"
+                        [ngTemplateOutletContext]="{ data: child }"
+                      ></ng-container>
+                    </div>
+                    <div *ngSwitchCase="'Location'">
+                      <ng-container
+                        [ngTemplateOutlet]="property_details_list"
+                        [ngTemplateOutletContext]="{ data: child }"
+                      ></ng-container>
+                    </div>
+                    <div *ngSwitchCase="'GPS Coordinates'">
+                      <ng-container
+                        [ngTemplateOutlet]="property_details_list"
+                        [ngTemplateOutletContext]="{ data: child }"
+                      ></ng-container>
+                    </div>
+                    <div *ngSwitchCase="'Description'">
+                      <div class="rd-heading rd-heading-md-bold">
+                        Description
+                      </div>
+                      <div
+                        [innerHTML]="
+                          propertyDetails.details.PropertyDescription == '' ||
+                          propertyDetails.details.PropertyDescription == null ||
+                          propertyDetails.details.PropertyDescription ==
+                            undefined
+                            ? ''
+                            : (propertyDetails.details.PropertyDescription
+                              | safeHtml : 'html')
+                        "
+                      ></div>
+                    </div>
+                    <div *ngSwitchCase="'Parking Details'">
+                      <ng-container
+                        *ngIf="
+                          propertyDetails.details.SectorName != 'Industrial'
+                        "
+                        [ngTemplateOutlet]="property_details_list"
+                        [ngTemplateOutletContext]="{ data: child }"
+                      ></ng-container>
+                    </div>
+                    <div *ngSwitchCase="'Property Attributes'">
+                      <ng-container
+                        [ngTemplateOutlet]="property_attribute"
+                        [ngTemplateOutletContext]="{ data: child }"
+                      ></ng-container>
+                    </div>
+                    <!-- <div *ngSwitchCase="'Greenstar Rating'">
+                      <div class="rd-heading rd-heading-sm-bold">
+                        {{ child.childName }}
+                      </div>
+                      <rd-rating
+                        [count]="6"
+                        [rating]="greenStarRating.value"
+                        (onChange)="setGreenStarRating($event)"
+                        [editable]="false"
+                      ></rd-rating>
+                    </div> -->
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Media'">
+                <div
+                  *ngFor="let child of field.childProperties"
+                  class="detail-section"
+                >
+                  <ng-container
+                    [ngTemplateOutlet]="
+                      child.childName == 'Advertisement'
+                        ? property_advertisement
+                        : property_media
+                    "
+                    [ngTemplateOutletContext]="{ data: child }"
+                  ></ng-container>
+                </div>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Contact Details'">
+                <div class="contact-details-section">
+                  <div class="user-card" *ngIf="propertyDetails.brokerliaison">
+                    <div class="user-image">
+                      <img
+                        src="assets/images/user-icon.svg"
+                        class="user-card-icon"
+                        alt="user icon"
+                      />
+                    </div>
+                    <div>
+                      <p class="user-role">Broker Liaison</p>
+                      <label class="user-name">
+                        {{ propertyDetails.brokerliaison.Name }}
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="user-card"
+                    *ngIf="propertyDetails.leasingexecutive"
+                  >
+                    <div class="user-image">
+                      <img
+                        src="assets/images/user-icon.svg"
+                        class="user-card-icon"
+                        alt="user icon"
+                      />
+                    </div>
+                    <div>
+                      <p class="user-role">Leasing Contact</p>
+                      <label class="user-name">
+                        {{ propertyDetails.leasingexecutive.Name }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Additional Information'">
+                <div class="property-features-section">
+                  <div class="feature-list">
+                    <div
+                      class="label-value-wrapper"
+                      *ngFor="
+                        let feature of propertyDetails.featureamenities.features
+                      "
+                    >
+                      <div>
+                        <img
+                          [src]="
+                            'assets/images/' + getFeatureIcon(feature.Title)
+                          "
+                          class="feature-icon"
+                          alt="feature_icon"
+                        />
+                      </div>
+                      <p class="property-value">
+                        {{ feature.Title }}
+                      </p>
+                    </div>
+                  </div>
+                  <p
+                    [innerHTML]="
+                      propertyDetails.featureamenities
+                        .FeatureAmenitiesAddtionalDetails | safeHtml : 'html'
+                    "
+                  ></p>
+                </div>
+              </ng-container>
+              <!-- <ng-container *ngSwitchCase="'ESG Features'">
+                  <div *ngFor="let feature of mergedEsgFeatureList">
+                    <ng-container *ngIf="feature.Checked">
+                      <div class="esg-feature-section">
+                        <label
+                          class="rd-heading rd-heading-xs esg-feature-name"
+                          >{{ feature.Name }}</label
+                        >
+                        <ng-container *ngFor="let subFeature of feature.Features">
+                          <div
+                            *ngIf="subFeature.Checked"
+                            class="esg-sub-feature-section"
+                          >
+                            <div class="esg-sub-feature-heading">
+                              <label
+                                class="rd-heading rd-heading-xs esg-sub-feature-name"
+                                >{{ subFeature.Name }}</label
+                              >
+                              <div class="label-value-wrapper">
+                                <rd-rating
+                                  *ngIf="
+                                    feature.Name !=
+                                      'Energy Performance Certificate' &&
+                                    feature.Name != 'Net Zero'
+                                  "
+                                  [width]="16"
+                                  [rating]="subFeature.Rating"
+                                  [editable]="false"
+                                ></rd-rating>
+                                <label
+                                  class="rating"
+                                  *ngIf="
+                                    feature.Name ==
+                                      'Energy Performance Certificate' ||
+                                    feature.Name == 'Net Zero'
+                                  "
+                                  >{{
+                                    subFeature.Rating ? subFeature.Rating : "NA"
+                                  }}</label
+                                >
+                              </div>
+                            </div>
+                            <rd-file-container
+                              *ngIf="
+                                subFeature.File != undefined &&
+                                subFeature.File != null
+                              "
+                              [delete]="false"
+                              [file]="subFeature.File"
+                            ></rd-file-container>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ng-container>
+                  </div>
+                </ng-container> -->
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rd-form-footer">
+      <!-- FORM FOOTER -->
+      <ng-container *ngIf="formConfig.mode != 'view'">
+        <div>
+          <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="changeStep(route.CREATE_INTERNATIONAL_PROPERTY_FEATURES)"
+          >
+            Previous
+          </button>
+        </div>
+        <div class="rd-btn-group">
+          <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="previewFrontend()"
+          >
+            Preview front end
+          </button>
+          <ng-container [ngTemplateOutlet]="save_btn"></ng-container>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="formConfig.mode == 'view'">
+        <div></div>
+        <div class="rd-btn-group">
+          <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="previewFrontend()"
+          >
+            Preview front end
+          </button>
+          <button
+            class="rd-btn-primary rd-btn-lg"
+            (click)="editBuilding()"
+            *ngIf="formConfig?.access"
+          >
+            Edit Property
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- SAVE BUTTON -->
+<ng-template #save_btn>
+  <div class="save-btn-dropdown-wrapper">
+    <button
+      [matMenuTriggerFor]="saveMenu"
+      type="button"
+      class="rd-btn-primary rd-btn-lg rd-dropdown-btn"
+    >
+      <span>Save</span>
+      <span class="drop-icon"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </span>
+    </button>
+    <mat-menu #saveMenu="matMenu">
+      <div class="save-dropdown-menu">
+        <button
+          (click)="onSave(propertyStatus.DRAFT)"
+          class="rd-btn-text rd-btn-lg"
+        >
+          <span><img src="assets/images/edit-pencile.svg" alt="icon" /></span>
+          <span>Save as draft</span>
+        </button>
+        <button (click)="onSave()" class="rd-btn-text rd-btn-lg">
+          <span><img src="assets/images/preview-eye.svg" alt="icon" /></span>
+          <span>Save & Preview</span>
+        </button>
+        <button
+          (click)="onSave(propertyStatus.PUBLISH)"
+          class="rd-btn-text rd-btn-lg"
+        >
+          <span><img src="assets/images/upload.svg" alt="icon" /></span>
+          <span>Save & Publish</span>
+        </button>
+      </div>
+    </mat-menu>
+  </div>
+</ng-template>
+<!-- TEMPLATES -->
+<ng-template #property_details_list let-data="data">
+  <div class="rd-heading rd-heading-sm-bold">
+    {{ data.childName }}
+  </div>
+  <div class="label-value-container">
+    <div *ngFor="let property of data.properties" class="label-value-wrapper">
+      <label class="rd-heading rd-heading-xs">{{ property.label }}</label>
+
+      <div [ngSwitch]="property.path">
+        <div *ngSwitchCase="'ShadedBays'">
+          <p class="property-value">
+            <span>R{{ propertyDetails.details[property.path] }}/sqm</span>
+          </p>
+        </div>
+        <div *ngSwitchCase="'BasementBays'">
+          <p class="property-value">
+            <span>R{{ propertyDetails.details[property.path] }}/sqm</span>
+          </p>
+        </div>
+        <div *ngSwitchCase="'OpenBays'">
+          <p class="property-value">
+            <span>R{{ propertyDetails.details[property.path] }}/sqm</span>
+          </p>
+        </div>
+        <div *ngSwitchCase="'ParkingRatio'">
+          <p class="property-value">
+            <span
+              >{{ propertyDetails.details[property.path] }} bays/100 sqm</span
+            >
+          </p>
+        </div>
+        <div *ngSwitchDefault>
+          <a
+            *ngIf="property.label == 'Website URL:'"
+            [href]="propertyDetails.details[property.path]"
+            target="_blank"
+            class="link property-value"
+          >
+            {{ propertyDetails.details[property.path] }}
+          </a>
+          <p *ngIf="property.label != 'Website URL:'" class="property-value">
+            <span *ngIf="property.label != 'GLA:'">{{
+              propertyDetails.details[property.path]
+            }}</span>
+            <span *ngIf="property.label == 'GLA:'"
+              >{{ propertyDetails.details[property.path] }} m<sup>2</sup></span
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #property_details let-data="data">
+  <div>
+    <div class="rd-heading rd-heading-sm-bold">
+      {{ data.childName }}
+    </div>
+    <p class="property-value">
+      {{ propertyDetails.details[data.properties.path] }}
+    </p>
+  </div>
+</ng-template>
+
+<!-- PROPERTY ATTRIBUTE -->
+<ng-template #property_attribute let-data="data">
+  <div class="rd-heading rd-heading-sm-bold">
+    {{ data.childName }}
+  </div>
+  <div class="label-value-container attributes-section">
+    <div
+      class="label-value-wrapper"
+      *ngFor="let attribute of propertyDetails.PropertyAttributes"
+    >
+      <div>
+        <img
+          src="assets/images/attribute.svg"
+          class="attribute-icon"
+          alt="attribute_icon"
+        />
+      </div>
+      <p class="property-value">
+        {{ attribute.Name }}
+      </p>
+    </div>
+  </div>
+</ng-template>
+
+<!-- PROPERTY MEDIA -->
+<ng-template #property_media let-data="data"
+  ><ng-container
+    *ngIf="
+      data.path != 'MallMap' ||
+      (data.path == 'MallMap' && propertyDetails.details.SectorName == 'Retail')
+    "
+  >
+    <div class="rd-heading rd-heading-xs">
+      {{ data.childName }}
+    </div>
+    <ng-container *ngIf="propertyDetails.media[data.path]">
+      <div
+        *ngIf="!propertyDetails.media[data.path]?.IsFile"
+        class="d-flex align-items-center"
+      >
+        <div class="rd-heading rd-heading-xs">Link:</div>
+        <a
+          [href]="propertyDetails.media[data.path]?.Url"
+          class="link media-link"
+          target="_blank"
+        >
+          <span
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-link"
+            >
+              <path
+                d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+              ></path>
+              <path
+                d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+              ></path>
+            </svg>
+          </span>
+          <span>{{ propertyDetails.media[data.path]?.Name }}</span>
+        </a>
+      </div>
+      <rd-file-container
+        *ngIf="propertyDetails.media[data.path]?.IsFile"
+        [delete]="false"
+        [file]="propertyDetails.media[data.path]"
+      ></rd-file-container>
+    </ng-container>
+    <ng-container *ngIf="!propertyDetails.media[data.path]"
+      >Not available</ng-container
+    >
+  </ng-container>
+</ng-template>
+<!-- PROPERTY ADVERTISEMENT -->
+<ng-template #property_advertisement let-data="data">
+  <div class="rd-heading rd-heading-sm-bold">
+    {{ data.label }}
+  </div>
+  <!-- <div
+      *ngFor="let file of propertyDetails[data.path]"
+      class="property-advertisement-section"
+    > -->
+  <div class="advertisement-section">
+    <div
+      class="advertisement-item"
+      *ngFor="let advertisement of propertyDetails[data.path]"
+    >
+      <div>
+        <div class="rd-heading rd-heading-xs">
+          {{ advertisement.AdvertisingType }}
+        </div>
+        <div class="advertisement-description">
+          {{ advertisement.DescriptionAndLocation }}
+        </div>
+        <rd-file-container
+          [label]="''"
+          [file]="advertisement?.File"
+          [delete]="false"
+        ></rd-file-container>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+  <ng-container *ngIf="!propertyDetails[data.path].length"
+    >Not available</ng-container
+  >
+</ng-template>

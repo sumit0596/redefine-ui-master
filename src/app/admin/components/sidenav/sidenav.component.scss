@@ -1,0 +1,77 @@
+.rd-sidenav {
+  transition: width 250ms ease-in;
+  padding: 20px 0;
+}
+.nav-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  list-style: none;
+  animation: slideInFromLeft 0.3s;
+}
+.nav-sub-list {
+  width: 100%;
+  padding-left: 40px;
+  padding-top: 10px;
+  transition: all 0.3s ease-in;
+}
+.nav-list-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 50px;
+  font-weight: 600;
+  padding: 5px 15px;
+}
+.nav-list-sub-item {
+  padding: 0 15px;
+  font-weight: 500;
+}
+.nav-list-item a {
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  display: flex;
+  padding: 10px 15px;
+  border-radius: 12px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+.nav-list-item a:hover {
+  opacity: 1;
+  background-color: #e4e9e6;
+}
+.nav-list-item img {
+  margin-right: 18px;
+}
+.nav-list-item .dropdown-arrow {
+  position: absolute;
+  right: 10px;
+  transition: all 1s ease-in;
+}
+.dropdown-arrow.active img {
+  transform: rotateX(180deg);
+}
+.nav-list-item .dropdown-arrow img {
+  width: 20px;
+  margin-right: 0;
+  transition: all 0.3s ease-in;
+}
+.nav-list-item .nav-item-title {
+  width: 100%;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+.active {
+  opacity: 1 !important;
+}
+.active-menu,
+.active-item {
+  background-color: #e4e9e6;
+  font-weight: 600;
+}
+.active-menu.active-item {
+  background-color: transparent;
+}

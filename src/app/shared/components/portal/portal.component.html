@@ -1,0 +1,50 @@
+<div class="rd-container" *ngIf="portalMenu$ | async as portalMenu">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div class="rd-heading rd-heading-lg">
+        {{ name ? name : portalMenu.Title }}
+      </div>
+    </div>
+  </div>
+  <div class="rd-container-body">
+    <div class="d-flex flex-wrap rd-gap-20 pb-4">
+      <div
+        *ngFor="let menu of portalMenu.submenus"
+        class="rd-card portal-card d-flex flex-column"
+        [routerLink]="menu.Url"
+      >
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="rd-heading rd-heading-sm-bold mb-2">
+              {{ menu.Title }}
+            </div>
+            <div>
+              <small class="rd-text-grey-mid">
+                <span>View more</span>
+                <span class="view-more-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"
+                    ></path>
+                  </svg>
+                </span>
+              </small>
+            </div>
+          </div>
+
+          <img
+            [src]="'assets/images/dashboard/' + getFeatureIcon(menu.Code)"
+            class="rd-card-icon"
+            alt="investor_icon"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

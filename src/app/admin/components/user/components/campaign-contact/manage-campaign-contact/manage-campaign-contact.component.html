@@ -1,0 +1,9 @@
+
+   <app-datatable
+    [tableSettings]="tableConfig"
+    [filterColumns]="filterColumns"
+    [emitClicks]="true"
+    (rowBasedAction)="rowActions($event)"
+    (toolbarEvent)="onToolbarClick($event)"
+    (actionEvent)="onActionClick($event)"
+  ></app-datatable>

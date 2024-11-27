@@ -1,0 +1,20 @@
+.error-container {
+  display: flex;
+  align-items: center;
+  background-color: #f9f8f6;
+}
+.error {
+  width: 600px;
+  margin: auto auto;
+  color: #666666;
+}
+.error-code {
+  height: 100px;
+  font-size: 100px;
+}
+.error-title {
+  margin-bottom: 15px;
+}
+.error-description {
+  color: #b8b8b8;
+}

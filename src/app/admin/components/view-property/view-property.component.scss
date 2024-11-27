@@ -1,0 +1,274 @@
+.property-container {
+    width: 90%;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.property-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.available-units-container{
+display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.property-details {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+}
+.property-img{
+    width: 100%;
+    height: 250px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+}
+.back-button {
+    border-radius: 55px;
+    height: 30px;
+    background: gainsboro;
+    width: 85px;
+}
+
+.my_class{
+   border-radius: 15px; 
+   background-color:aquamarine;
+   padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.my_class2{
+    border-radius: 15px; 
+    background-color:darksalmon;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.available-units{
+    margin-left: 2px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 15px;
+}
+.view-interactive {
+    border-radius: 0;
+    border: solid 1px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: white;
+}
+
+.property-name {
+    margin-left: 20px;
+}
+
+.details {
+    margin-left: 100px;
+    width: 1284px;
+    height: 250px;
+    margin-top: 30px;
+}
+
+.building-photo {
+    margin-left: 2px;
+    width: 1284px;
+    height: 250px;
+    margin-top: 30px;
+}
+
+.sector-type {
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 1160px;
+    margin-top: -32px;
+    position: absolute;
+}
+
+
+
+.total-address {
+    margin-left: -23px;    margin-top: 10px;
+}
+
+.longitude{
+    color: darkgray;
+    margin-left: 5px;
+}
+
+.lattitude{
+    color: darkgray;
+    margin-left: 50px;
+}
+
+.longitude-lattitude{
+    margin-left: -2px;
+}
+
+.descripton-heading{
+    margin-top: 15px;
+    font-size: 17px;
+}
+
+.description-content{font-size: small;
+    font-weight: 300;
+}
+
+.additional-information-content{
+   font-size: small;
+font-weight: 300;
+}
+
+.addition-information-icons{
+    align-items: flex-end;
+    justify-content: space-between;
+    display: flex;
+}
+
+.gps-coordinates-heading{
+    margin-left: 2px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 15px;
+}
+.sector-name {
+    font-weight: normal;
+    color: darkgray;
+}
+
+.contact-info {
+    margin-left: 2px;
+    height: 65px;
+    border-radius: 50px;
+}
+
+.property-name {
+    font-weight: 500;
+}
+
+.building-name {
+    margin-left: 2px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.location{
+    margin-left: 2px;
+}
+.location-heading{
+    font-weight: 300;
+}
+
+.address {
+    color: darkgray;
+    margin-left: 5px;
+}
+
+.address-heading{
+margin-left: 25px;
+}
+
+.description {
+    margin-left: 2px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.gps-cooridinates {
+    margin-left: 2px;
+}
+
+.gps-coordinates-container{
+    padding-bottom: 15px;
+}
+.additional-information-container{
+    padding-bottom: 15px;
+}
+
+.custom-brochure {
+    border-radius: 0;
+    background: #c02424;
+    border: solid 1px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+
+.units-table {
+    width: 100%;
+}
+
+.border-bottom {
+    border-bottom: 2px solid #eeeeee;
+}
+
+.txt-heading {
+    margin-left: 0px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.contact-details-container {
+    padding: 10px 0;
+    margin: 20px 0;
+}
+
+.contact-details {
+    display: flex;
+    align-items: flex-start;
+}
+
+.contact-detail {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.contact-img {
+    width: 25%;
+    display: flex;
+    align-items: center;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 50%;
+    }
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+.contact-role {
+    font-size: 13px;
+    color: #9e9e9e;
+}
+
+.contact-name {
+    font-size: 14px;
+}

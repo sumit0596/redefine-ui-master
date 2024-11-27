@@ -1,0 +1,205 @@
+<div class="rd-container" *ngIf="formConfig">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} Category/Tag
+      </div>
+    </div>
+    <div class="rd-container-header-right">
+      <ng-container [ngSwitch]="formConfig.mode">
+        <ng-container *ngSwitchCase="formMode.VIEW">
+          <!-- <button *ngIf="formConfig?.access"
+              type="button"
+              class="rd-btn-secondary rd-btn-lg"
+              (click)="deletePropertyEqTag()"
+            >
+              Delete
+            </button>
+            <button *ngIf="formConfig?.access"
+              type="button"
+              class="rd-btn-primary rd-btn-lg"
+              (click)="editPropertyEqTag()"
+            >
+              Edit
+            </button> -->
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <form
+    *ngIf="formConfig.mode == formMode.CREATE"
+    [formGroup]="propertyEqTagForm"
+    (ngSubmit)="onSubmit($event)"
+    class="rd-form"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">Category/Tag Details</div>
+    <div class="rd-form-body">
+      <rd-select
+        [id]="'media-category'"
+        [label]="'Type'"
+        [placeholder]="'Please Select'"
+        [bindLabel]="'label'"
+        [bindValue]="'id'"
+        [items$]="type$"
+        [required]="true"
+        [form]="propertyEqTagForm"
+        [controlName]="'Type'"
+      ></rd-select>
+
+      <rd-input
+        [label]="'Title'"
+        [id]="'title-of-tag'"
+        [placeholder]="'Please Provide'"
+        [required]="true"
+        [type]="'text'"
+        [controlName]="'Title'"
+        [form]="propertyEqTagForm"
+        (onChange)="onChange($event)"
+      >
+      </rd-input>
+      <rd-textarea
+        [label]="'Additional Information'"
+        [id]="'Description'"
+        [placeholder]="'Please Comment Here'"
+        [controlName]="'Description'"
+        [form]="propertyEqTagForm"
+        [maxLength]="700"
+        (onChange)="onChange($event)"
+      ></rd-textarea>
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">Submit</button>
+      </div>
+    </div>
+  </form>
+  <form
+    *ngIf="formConfig.mode == formMode.EDIT"
+    [formGroup]="propertyEqTagForm"
+    (ngSubmit)="onSubmit($event)"
+    class="rd-form"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">Category/Tag Details</div>
+    <div class="rd-form-body">
+      <rd-select
+        [id]="'media-category'"
+        [label]="'Type'"
+        [placeholder]="'Please Select'"
+        [bindLabel]="'label'"
+        [bindValue]="'id'"
+        [items$]="type$"
+        [required]="true"
+        [form]="propertyEqTagForm"
+        [controlName]="'Type'"
+      ></rd-select>
+
+      <rd-input
+        [label]="'Title'"
+        [id]="'title-of-tag'"
+        [placeholder]="'Please Provide'"
+        [required]="true"
+        [type]="'text'"
+        [controlName]="'Title'"
+        [form]="propertyEqTagForm"
+        (onChange)="onChange($event)"
+      >
+      </rd-input>
+      <rd-textarea
+        [label]="'Additional Information'"
+        [id]="'Description'"
+        [placeholder]="'Please Comment Here'"
+        [controlName]="'Description'"
+        [maxLength]="700"
+        [form]="propertyEqTagForm"
+        (onChange)="onChange($event)"
+      ></rd-textarea>
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">
+          Save & Update
+        </button>
+      </div>
+    </div>
+  </form>
+  <form
+    *ngIf="formConfig.mode == formMode.VIEW && propertyEqTagDetails"
+    class="rd-form"
+  >
+    <div class="rd-form-header">Category/Tag Details</div>
+    <div class="property-eq-tag-container">
+      <div class="property-eq-tag-item">
+        <div class="property-eq-tag-label">Type</div>
+        <div class="property-eq-tag-desc">
+          {{ propertyEqTagDetails.TypeName }}
+        </div>
+      </div>
+      <div class="property-eq-tag-item">
+        <div class="property-eq-tag-label">Title</div>
+        <div class="property-eq-tag-desc">{{ propertyEqTagDetails.Title }}</div>
+      </div>
+      <div class="property-eq-tag-item">
+        <div class="property-eq-tag-label">Additional Information</div>
+        <div class="property-eq-tag-desc">
+          {{
+            propertyEqTagDetails.Description
+              ? propertyEqTagDetails.Description
+              : "NA"
+          }}
+        </div>
+      </div>
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button
+          *ngIf="formConfig?.access"
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          (click)="editPropertyEqTag()"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

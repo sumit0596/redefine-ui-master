@@ -1,0 +1,27 @@
+<div class="landing-wrapper">
+  <div class="fader" #sliderRef>
+    <div
+      [ngStyle]="{ opacity: opacities[idx] }"
+      class="fader__slide"
+      *ngFor="let src of images; let idx = index"
+    >
+      <img [src]="src" />
+    </div>
+  </div>
+  <div class="landing-content">
+    <div class="d-flex align-items-center z-3">
+      <span class="banner-line banner-line__start"></span>
+      <div class="keen-slider" #titleSliderRef>
+        <div *ngFor="let content of contents" class="keen-slider__slide">
+          <div class="banner-title">
+            <div class="banner-title_short">{{ content.Description }}</div>
+            <div class="banner-title_long">
+              {{ content.Content }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="banner-line banner-line__end"></span>
+    </div>
+  </div>
+</div>

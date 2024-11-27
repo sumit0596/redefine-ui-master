@@ -1,0 +1,133 @@
+<div class="rd-container">
+  <div class="rd-container-header gap-4">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          [routerLink]="['../']"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="back" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <ng-container *ngIf="pageConfig && pageDetails; else loader">
+        <div [ngSwitch]="pageConfig.mode" class="flex-grow-1 rd-text-ellipsis-line text-break">
+          <div *ngSwitchCase="'create'" class="rd-heading rd-heading-lg">
+            Create New Page - {{ pageDetails?.Title }}
+          </div>
+          <div *ngSwitchCase="'edit'" class="rd-heading rd-heading-lg">
+            Edit - {{ pageDetails?.Title }}
+          </div>
+        </div>
+        <div>
+          <button
+            type="button"
+            class="rd-btn rd-btn-text rd-text-mid-grey"
+            title="Edit"
+            (click)="editPage()"
+          >
+            <span class="btn-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"
+                ></path>
+              </svg>
+            </span>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+    <div class="rd-container-header-right">
+      <div class="rd-container-header-right">
+        <!-- <button
+          type="button"
+          class="rd-btn-primary rd-btn-lg"
+          (click)="addUpdate()"
+        >
+          Save
+        </button> -->
+        <button
+          [matMenuTriggerFor]="
+            environment.PREVIEW_CHANGES ? previewMenu : saveMenu
+          "
+          type="button"
+          class="rd-btn rd-btn-primary rd-btn-lg justify-content-evenly"
+        >
+          <span>Save</span>
+          <span
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-chevron-down"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="grapesJsEditor" class="builder-container"></div>
+</div>
+
+<mat-menu #previewMenu="matMenu">
+  <div class="d-flex flex-column gap-3 px-2">
+    <button
+      (click)="preview()"
+      class="rd-btn rd-btn-text justify-content-start gap-2"
+    >
+      <span><img src="assets/images/edit-pencile.svg" alt="icon" /></span>
+      <span>Save as draft</span>
+    </button>
+    <button
+      (click)="preview()"
+      class="rd-btn rd-btn-text justify-content-start gap-2"
+    >
+      <span><img src="assets/images/upload.svg" alt="icon" /></span>
+      <span>Save & Publish</span>
+    </button>
+  </div>
+</mat-menu>
+
+<mat-menu #saveMenu="matMenu">
+  <div class="d-flex flex-column gap-3 px-2">
+    <button
+      (click)="onSave(status.DRAFT)"
+      class="rd-btn rd-btn-text justify-content-start gap-2"
+    >
+      <span><img src="assets/images/edit-pencile.svg" alt="icon" /></span>
+      <span>Save as draft</span>
+    </button>
+    <button
+      (click)="onSave(status.PUBLISH)"
+      class="rd-btn rd-btn-text justify-content-start gap-2"
+    >
+      <span><img src="assets/images/upload.svg" alt="icon" /></span>
+      <span>Save & Publish</span>
+    </button>
+  </div>
+</mat-menu>
+
+<ng-template #loader>
+  <div
+    class="title-loader d-inline-flex align-items-center gap-2 placeholder-glow"
+  >
+    <span class="col-11 placeholder placeholder-lg py-3"></span>
+    <span class="col-1 placeholder placeholder-lg py-3 px-3"></span>
+  </div>
+</ng-template>

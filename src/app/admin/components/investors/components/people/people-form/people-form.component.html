@@ -1,0 +1,865 @@
+<div class="rd-container" *ngIf="formConfig">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg" *ngIf="formConfig.type == 1">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} Investor Contact
+      </div>
+      <div class="rd-heading rd-heading-lg" *ngIf="formConfig.type == 2">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} Leadership
+      </div>
+    </div>
+  </div>
+  <form
+    *ngIf="formConfig.mode == formMode.CREATE"
+    [formGroup]="peopleForm"
+    (ngSubmit)="onSubmit($event)"
+    class="rd-form"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">Employee Details</div>
+
+    <div class="rd-form-body">
+      <div class="row">
+        <div class="col-md-6">
+          <rd-input
+            [label]="'Name of Employee'"
+            [id]="'add-name'"
+            [placeholder]="'Please Provide'"
+            [required]="true"
+            [type]="'text'"
+            [controlName]="'EmployeeName'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+        </div>
+        <div class="col-md-6">
+          <rd-input
+            [label]="'Job Title'"
+            [id]="'add-title'"
+            [placeholder]="'Please Provide'"
+            [required]="true"
+            [type]="'text'"
+            [controlName]="'JobTitle'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+        </div>
+      </div>
+
+      <ng-container>
+        <rd-file
+          [label]="'Profile Image'"
+          [id]="'image-input'"
+          [types]="['image/png', 'image/jpeg']"
+          [fileList]="fileContainer?.Image"
+          (onSelect)="onFileSelect($event, 5)"
+          (onDelete)="onFileDelete($event, 5)"
+        ></rd-file>
+        <div
+          *ngIf="peopleForm.get('Image')?.hasError('invalid')"
+          class="error-msg"
+        >
+          <small>{{ peopleForm.get('Image')?.errors?.['invalid'] }} </small>
+        </div>
+      </ng-container>
+
+      <div class="rd-form-section">
+        <ng-container>
+          <!-- <rd-editor
+            [label]="'Description'"
+            [id]="'Description'"
+            [placeholder]="'Add Description'"
+            [controlName]="'Description'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          ></rd-editor> -->
+          <rd-input
+            [label]="'Linkedin link'"
+            [id]="'add-link'"
+            [placeholder]="'Please Provide'"
+            [type]="'text'"
+            [controlName]="'LinkedIn'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Linkedin Link</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('LinkedIn')?.value == '' ||
+                peopleForm.get('LinkedIn')?.value == null ||
+                peopleForm.get('LinkedIn')?.value == undefined
+                  ? 'Not available'
+                  : (peopleForm.get('LinkedIn')?.value | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="rd-form-header">Additional Information</div>
+
+      <div class="rd-form-section">
+        <rd-input
+          [label]="'Qualification/s'"
+          [id]="'add-qualification'"
+          [placeholder]="'Please Provide'"
+          [type]="'text'"
+          [controlName]="'Qualification'"
+          [form]="peopleForm"
+          (onChange)="onChange($event)"
+        >
+        </rd-input>
+
+        <div class="rd-form-body">
+          <label>Year Appointed</label>
+
+          <div class="control-container levy">
+            <select
+              formControlName="YearAppointed"
+              class="uni-input"
+              name="selectedYear"
+            >
+              <option value="" disabled>Select Year Appointed</option>
+              <option value="{{ item }}" *ngFor="let item of range">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <ng-container>
+            <rd-editor
+              [label]="'Content'"
+              [id]="'Description'"
+              [placeholder]="'Add Description'"
+              [controlName]="'AppointedDescription'"
+              [form]="peopleForm"
+              (onChange)="onChange($event)"
+            ></rd-editor>
+            <div *ngIf="formConfig?.mode == 'view'">
+              <div class="rd-heading rd-heading-sm">Description</div>
+              <p
+                [innerHTML]="
+                  peopleForm.get('AppointedDescription')?.value == '' ||
+                  peopleForm.get('AppointedDescription')?.value == null ||
+                  peopleForm.get('AppointedDescription')?.value == undefined
+                    ? 'Not available'
+                    : (peopleForm.get('AppointedDescription')?.value
+                      | safeHtml : 'html')
+                "
+              ></p>
+            </div>
+          </ng-container>
+        </div>
+
+        <ng-container>
+          <rd-editor
+            [label]="'Committee Membership '"
+            [id]="'Description'"
+            [placeholder]="'Add Description'"
+            [controlName]="'CommitteeMembershipDescription'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          ></rd-editor>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Description</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('CommitteeMembershipDescription')?.value == '' ||
+                peopleForm.get('CommitteeMembershipDescription')?.value ==
+                  null ||
+                peopleForm.get('CommitteeMembershipDescription')?.value ==
+                  undefined
+                  ? 'Not available'
+                  : (peopleForm.get('CommitteeMembershipDescription')?.value
+                    | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+
+        <ng-container>
+          <rd-editor
+            [label]="'External Appointments'"
+            [id]="'AppDescription'"
+            [placeholder]="'Add Description'"
+            [controlName]="'ExternalAppointmentsDescription'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          ></rd-editor>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Description</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('ExternalAppointmentsDescription')?.value ==
+                  '' ||
+                peopleForm.get('ExternalAppointmentsDescription')?.value ==
+                  null ||
+                peopleForm.get('ExternalAppointmentsDescription')?.value ==
+                  undefined
+                  ? 'Not available'
+                  : (peopleForm.get('ExternalAppointmentsDescription')?.value
+                    | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+
+        <ng-container>
+          <rd-editor
+            [label]="'Other public company appointments'"
+            [id]="'othDescription'"
+            [placeholder]="'Add Description'"
+            [controlName]="'OthersAppointmentsDescription'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          ></rd-editor>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Description</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('OthersAppointmentsDescription')?.value == '' ||
+                peopleForm.get('OthersAppointmentsDescription')?.value ==
+                  null ||
+                peopleForm.get('OthersAppointmentsDescription')?.value ==
+                  undefined
+                  ? 'Not available'
+                  : (peopleForm.get('OthersAppointmentsDescription')?.value
+                    | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+
+        <ng-container>
+          <rd-editor
+            [label]="'Previous Experience'"
+            [id]="'PrevDescription'"
+            [placeholder]="'Add Description'"
+            [controlName]="'PreviousExperienceDescription'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          ></rd-editor>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Description</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('PreviousExperienceDescription')?.value == '' ||
+                peopleForm.get('PreviousExperienceDescription')?.value ==
+                  null ||
+                peopleForm.get('PreviousExperienceDescription')?.value ==
+                  undefined
+                  ? 'Not available'
+                  : (peopleForm.get('PreviousExperienceDescription')?.value
+                    | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="rd-form-footer">
+      <!-- SAVE BUTTON -->
+
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <!-- <button type="submit" class="rd-btn-primary rd-btn-lg">Submit</button> -->
+        <ng-container [ngTemplateOutlet]="save_btn"></ng-container>
+      </div>
+    </div>
+  </form>
+  <form
+    *ngIf="formConfig.mode == formMode.EDIT"
+    [formGroup]="peopleForm"
+    (ngSubmit)="onSubmit($event)"
+    class="rd-form"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">Employee Details</div>
+    <div class="rd-form-body">
+      <div class="row">
+        <div class="col-md-6">
+          <rd-input
+            [label]="'Name of Employee'"
+            [id]="'add-name'"
+            [placeholder]="'Please Provide'"
+            [required]="true"
+            [type]="'text'"
+            [controlName]="'EmployeeName'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+        </div>
+        <div class="col-md-6">
+          <rd-input
+            [label]="'Job Title'"
+            [id]="'add-title'"
+            [placeholder]="'Please Provide'"
+            [required]="true"
+            [type]="'text'"
+            [controlName]="'JobTitle'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+        </div>
+      </div>
+
+      <ng-container>
+        <rd-file
+          *ngIf="!peopleDetails?.Image"
+          [label]="'Profile Image'"
+          [id]="'image-input'"
+          [types]="['image/png', 'image/jpeg']"
+          [fileList]="fileContainer?.Image"
+          (onSelect)="onFileSelect($event, 5)"
+          (onDelete)="onFileDelete($event, 5)"
+          preview="true"
+        ></rd-file>
+      
+        <div class="incentive-desc control-container" *ngIf="peopleDetails?.Image != null && peopleDetails?.Image != ''">
+          <label>Profile Image</label>
+          <div class="file-container" *ngIf="peopleDetails.Image">
+            <div class="file-icon">
+              <img src="assets/images/file.svg" alt="file" />
+            </div>           
+            <div class="file-info">
+              <p class="file-name">
+                <a [href]="peopleDetails.Image" target="_blank">{{ peopleDetails.ImageName | titlecase }}</a>
+              </p>
+              <p class="file-desc">
+                <small>{{ peopleDetails.CreatedOn | date : "medium" }}</small>
+              </p>
+            </div>
+            <div class="file-actions">
+              <button type="button" class="rd-btn-text rd-btn-sm" (click)="deleteFile('Image')">
+                <img src="assets/images/trash.svg" alt="trash-icon" />
+              </button>
+            </div>
+            <!-- <div ><img [src]="peopleDetails.Image" alt="" class="image-preview" /></div> -->
+          </div>
+        </div>
+      
+         <!-- <div *ngIf="!peopleDetails?.Image">
+          <img [src]="peopleDetails.Image" alt="" class="default-profile-image" />
+        </div>  -->
+      </ng-container>
+      <div class="rd-form-section">
+        <ng-container>
+          <rd-input
+            [label]="'Linkedin link'"
+            [id]="'add-link'"
+            [placeholder]="'Please Provide'"
+            [type]="'text'"
+            [controlName]="'LinkedIn'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          >
+          </rd-input>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Linkedin Link</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('LinkedIn')?.value == '' ||
+                peopleForm.get('LinkedIn')?.value == null ||
+                peopleForm.get('LinkedIn')?.value == undefined
+                  ? 'Not available'
+                  : (peopleForm.get('LinkedIn')?.value | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="rd-form-header">Additional Information</div>
+
+      <div class="rd-form-section">
+        <rd-input
+          [label]="'Qualification/s'"
+          [id]="'add-qualification'"
+          [placeholder]="'Please Provide'"
+          [type]="'text'"
+          [controlName]="'Qualification'"
+          [form]="peopleForm"
+          (onChange)="onChange($event)"
+        >
+        </rd-input>
+
+        <div class="rd-form-body">
+          <label>Year Appointed</label>
+
+          <div class="control-container levy">
+            <select
+              formControlName="YearAppointed"
+              class="uni-input"
+              name="selectedYear"
+            >
+              <option value="" disabled>Select Year Appointed</option>
+              <option value="{{ item }}" *ngFor="let item of range">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <ng-container>
+          <rd-editor
+            [label]="'Content'"
+            [id]="'ContentDescription'"
+            [placeholder]="'Add Description'"
+            [controlName]="'AppointedDescription'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          ></rd-editor>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Description</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('AppointedDescription')?.value == '' ||
+                peopleForm.get('AppointedDescription')?.value == null ||
+                peopleForm.get('AppointedDescription')?.value == undefined
+                  ? 'Not available'
+                  : (peopleForm.get('AppointedDescription')?.value
+                    | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+
+        <ng-container>
+          <rd-editor
+            [label]="'Committee Membership'"
+            [id]="'CommiteeDescription'"
+            [placeholder]="'Add Description'"
+            [controlName]="'CommitteeMembershipDescription'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          ></rd-editor>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Description</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('CommitteeMembershipDescription')?.value == '' ||
+                peopleForm.get('CommitteeMembershipDescription')?.value ==
+                  null ||
+                peopleForm.get('CommitteeMembershipDescription')?.value ==
+                  undefined
+                  ? 'Not available'
+                  : (peopleForm.get('CommitteeMembershipDescription')?.value
+                    | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+
+        <ng-container>
+          <rd-editor
+            [label]="'External Appointments'"
+            [id]="'ExternalDescription'"
+            [placeholder]="'Add Description'"
+            [controlName]="'ExternalAppointmentsDescription'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          ></rd-editor>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Description</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('ExternalAppointmentsDescription')?.value ==
+                  '' ||
+                peopleForm.get('ExternalAppointmentsDescription')?.value ==
+                  null ||
+                peopleForm.get('ExternalAppointmentsDescription')?.value ==
+                  undefined
+                  ? 'Not available'
+                  : (peopleForm.get('ExternalAppointmentsDescription')?.value
+                    | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+
+        <ng-container>
+          <rd-editor
+            [label]="'Other public company appointments'"
+            [id]="'OtherDescription'"
+            [placeholder]="'Add Description'"
+            [controlName]="'OthersAppointmentsDescription'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          ></rd-editor>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Description</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('OthersAppointmentsDescription')?.value == '' ||
+                peopleForm.get('OthersAppointmentsDescription')?.value ==
+                  null ||
+                peopleForm.get('OthersAppointmentsDescription')?.value ==
+                  undefined
+                  ? 'Not available'
+                  : (peopleForm.get('OthersAppointmentsDescription')?.value
+                    | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+
+        <ng-container>
+          <rd-editor
+            [label]="'Previous Experience '"
+            [id]="'PreviousExperience'"
+            [placeholder]="'Add Description'"
+            [controlName]="'PreviousExperienceDescription'"
+            [form]="peopleForm"
+            (onChange)="onChange($event)"
+          ></rd-editor>
+          <div *ngIf="formConfig?.mode == 'view'">
+            <div class="rd-heading rd-heading-sm">Description</div>
+            <p
+              [innerHTML]="
+                peopleForm.get('PreviousExperienceDescription')?.value == '' ||
+                peopleForm.get('PreviousExperienceDescription')?.value ==
+                  null ||
+                peopleForm.get('PreviousExperienceDescription')?.value ==
+                  undefined
+                  ? 'Not available'
+                  : (peopleForm.get('PreviousExperienceDescription')?.value
+                    | safeHtml : 'html')
+              "
+            ></p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <!-- <button type="submit" class="rd-btn-primary rd-btn-lg">
+          Save & Update
+        </button> -->
+        <ng-container [ngTemplateOutlet]="save_btn"></ng-container>
+      </div>
+    </div>
+  </form>
+
+  <form
+    *ngIf="formConfig.mode == formMode.VIEW && peopleDetails"
+    class="rd-form"
+  >
+    <div class="rd-form-header">Employee Details</div>
+    <div class="attribute-container">
+      <div class="attribute-item">
+        <div class="attribute-label">Job Title</div>
+        <div class="attribute-desc">{{ peopleDetails.JobTitle }}</div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Name of Employee</div>
+        <div class="attribute-desc">
+          {{ peopleDetails.EmployeeName }}
+        </div>
+      </div>
+
+      <ng-container>
+        <div class="attribute-item">
+          <div class="attribute-label">Profile Image</div>
+          <div class="attribute-desc">
+            <rd-file-container
+              *ngIf="peopleDetails?.Image"
+              [label]="'Uploaded Image'"
+              [file]="file"
+              [delete]="false"
+              [preview]="true"
+            ></rd-file-container>
+            <ng-container *ngIf="!peopleDetails?.Image">
+              NA
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="attribute-item">
+        <div class="attribute-label">Linkedin Link</div>
+        <!-- <a
+          *ngIf="
+            peopleDetails.LinkedIn != '' &&
+            peopleDetails.LinkedIn != null &&
+            peopleDetails.LinkedIn != undefined
+          "
+          [href]="
+            peopleDetails?.LinkedIn.includes('http')
+              ? peopleDetails?.LinkedIn
+              : 'https://' + peopleDetails?.LinkedIn
+          "
+          target="_blank"
+          class="attribute-desc link"
+        >
+          {{ peopleDetails?.LinkedIn }}
+        </a> -->
+        <a
+          *ngIf="
+            peopleDetails?.LinkedIn != '' &&
+            peopleDetails?.LinkedIn != null &&
+            peopleDetails?.LinkedIn != undefined
+          "
+          class="attribute-desc link"
+          target="_blank"
+          [href]="
+            peopleDetails?.LinkedIn.includes('http')
+              ? peopleDetails?.LinkedIn
+              : 'https://' + peopleDetails?.LinkedIn
+          "
+        >
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              fill="#000000"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"
+              ></path>
+            </svg>
+          </span>
+          <span>Link</span>
+        </a>
+        <span
+          class="attribute-desc"
+          *ngIf="
+            peopleDetails.LinkedIn == '' ||
+            peopleDetails.LinkedIn == null ||
+            peopleDetails.LinkedIn == undefined
+          "
+          >NA</span
+        >
+      </div>
+
+      <div class="attribute-item">
+        <div class="attribute-label">Qualifications</div>
+        <div
+          class="attribute-desc"
+          [innerHTML]="
+            peopleDetails.Qualification == '' ||
+            peopleDetails.Qualification == null ||
+            peopleDetails.Qualification == undefined
+              ? 'NA'
+              : (peopleDetails.Qualification | safeHtml : 'html')
+          "
+        ></div>
+      </div>
+
+      <ng-container>
+        <div class="attribute-item">
+          <div class="attribute-label">Appointed to Board</div>
+          <div
+            class="attribute-desc"
+            [innerHTML]="
+              peopleDetails.YearAppointed == '' ||
+              peopleDetails.YearAppointed == null ||
+              peopleDetails.YearAppointed == undefined
+                ? 'NA'
+                : (peopleDetails.YearAppointed | safeHtml : 'html')
+            "
+          ></div>
+        </div>
+      </ng-container>
+
+      <!-- <div class="attribute-item">
+        <div class="attribute-label">Appointment Description</div>
+        <div
+          class="attribute-desc"
+          [innerHTML]="
+            peopleDetails.Description == '' ||
+            peopleDetails.Description == null ||
+            peopleDetails.Description == undefined
+              ? 'NA'
+              : (peopleDetails.Description | safeHtml : 'html')
+          "
+        ></div>
+      </div> -->
+
+      <div class="attribute-item">
+        <div class="attribute-label">Content</div>
+        <div
+          class="attribute-desc"
+          [innerHTML]="
+            peopleDetails.AppointedDescription == '' ||
+            peopleDetails.AppointedDescription == null ||
+            peopleDetails.AppointedDescription == undefined
+              ? 'NA'
+              : (peopleDetails.AppointedDescription | safeHtml : 'html')
+          "
+        ></div>
+      </div>
+
+      <div class="attribute-item">
+        <div class="attribute-label">Committee Membership</div>
+        <div
+          class="attribute-desc"
+          [innerHTML]="
+            peopleDetails.CommitteeMembershipDescription == '' ||
+            peopleDetails.CommitteeMembershipDescription == null ||
+            peopleDetails.CommitteeMembershipDescription == undefined
+              ? 'NA'
+              : (peopleDetails.CommitteeMembershipDescription
+                | safeHtml : 'html')
+          "
+        ></div>
+      </div>
+
+      <div class="attribute-item">
+        <div class="attribute-label">External Appointments</div>
+        <div
+          class="attribute-desc"
+          [innerHTML]="
+            peopleDetails.ExternalAppointmentsDescription == '' ||
+            peopleDetails.ExternalAppointmentsDescription == null ||
+            peopleDetails.ExternalAppointmentsDescription == undefined
+              ? 'NA'
+              : (peopleDetails.ExternalAppointmentsDescription
+                | safeHtml : 'html')
+          "
+        ></div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Other public company appointments</div>
+        <div
+          class="attribute-desc"
+          [innerHTML]="
+            peopleDetails.OthersAppointmentsDescription == '' ||
+            peopleDetails.OthersAppointmentsDescription == null ||
+            peopleDetails.OthersAppointmentsDescription == undefined
+              ? 'NA'
+              : (peopleDetails.OthersAppointmentsDescription
+                | safeHtml : 'html')
+          "
+        ></div>
+      </div>
+      <div class="attribute-item">
+        <div class="attribute-label">Previous Experiences</div>
+        <div
+          class="attribute-desc"
+          [innerHTML]="
+            peopleDetails.PreviousExperienceDescription == '' ||
+            peopleDetails.PreviousExperienceDescription == null ||
+            peopleDetails.PreviousExperienceDescription == undefined
+              ? 'NA'
+              : (peopleDetails.PreviousExperienceDescription
+                | safeHtml : 'html')
+          "
+        ></div>
+      </div>
+    </div>
+
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button
+          *ngIf="formConfig?.access"
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          (click)="editPeople()"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<ng-template #save_btn>
+  <div class="save-btn-dropdown-wrapper">
+    <button
+      [matMenuTriggerFor]="saveMenu"
+      type="button"
+      class="rd-btn-primary rd-btn-lg rd-dropdown-btn SaveBTNContainer"
+    >
+      <span>Save</span>
+      <span class="drop-icon"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </span>
+    </button>
+    <mat-menu #saveMenu="matMenu">
+      <div class="save-dropdown-menu">
+        <button
+          (click)="onSave(peopleStatus.DRAFT)"
+          class="rd-btn-text rd-btn-lg SaveBTNContainer"
+        >
+          <span
+            ><img
+              class="FormSaveBTN"
+              src="assets/images/edit-pencile.svg"
+              alt="icon"
+          /></span>
+          <span>Save as draft</span>
+        </button>
+        <button
+          (click)="onSave(peopleStatus.PUBLISH)"
+          class="rd-btn-text rd-btn-lg SaveBTNContainer"
+        >
+          <span
+            ><img class="FormSaveBTN" src="assets/images/upload.svg" alt="icon"
+          /></span>
+          <span>Save & Publish</span>
+        </button>
+      </div>
+    </mat-menu>
+  </div>
+</ng-template>

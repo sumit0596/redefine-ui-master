@@ -1,0 +1,121 @@
+<div class="contatiner">
+  <form [formGroup]="form" (submit)="submit()" class="row">
+    <div class="col-md-8 icon-list-wrapper">
+      <!-- <h6 class="rd-heading rd-heading-xs">Select icon</h6> -->
+      <div class="sticky-top">
+        <rd-input
+          [label]="''"
+          [id]="'icon-search'"
+          [placeholder]="'Search icon'"
+          [type]="'text'"
+          [controlName]="'search'"
+          [form]="form"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <ul>
+        <li *ngFor="let icon of icons" class="svg-icon-item">
+          <input
+            type="radio"
+            class="svg-icon-input"
+            [id]="icon"
+            formControlName="icon"
+            [value]="getIconSVG(icon, true)"
+          />
+          <label [for]="icon" class="svg-icon-card" [title]="icon">
+            <div
+              [innerHTML]="getIconSVG(icon) | safeHtml : 'html'"
+              class="svg-icon"
+            ></div>
+            <div class="icon-name">
+              {{ icon }}
+            </div>
+          </label>
+        </li>
+      </ul>
+      <div class="rd-heading rd-heading-xs my-3">Phosphor Icon</div>
+      <ul>
+        <li *ngFor="let icon of phosphorIcons" class="svg-icon-item">
+          <input
+            type="radio"
+            class="svg-icon-input"
+            [id]="icon.name"
+            formControlName="icon"
+            [value]="icon.svg"
+          />
+          <label [for]="icon.name" class="svg-icon-card" [title]="icon.name">
+            <div
+              [innerHTML]="icon.svg | safeHtml : 'html'"
+              class="svg-icon"
+            ></div>
+            <div class="icon-name">
+              {{ icon.name }}
+            </div>
+          </label>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <h6 class="rd-heading rd-heading-xs">Edit icon</h6>
+      <div class="icon-editor" #iconEditor>
+        <div
+          class="d-flex align-items-center justify-content-center icon-preview-container"
+        >
+          <div
+            class="icon-preview"
+            [innerHTML]="form.get('icon')?.value | safeHtml : 'html'"
+            [style.color]="form.get('color')?.value"
+          ></div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <rd-select
+              [label]="'Size'"
+              [id]="'icon-size'"
+              [placeholder]="'Select size'"
+              [required]="true"
+              [bindLabel]="'Name'"
+              [bindValue]="'Value'"
+              [items$]="sizes$"
+              [form]="form"
+              [controlName]="'size'"
+            ></rd-select>
+          </div>
+          <div class="col-md-6">
+            <rd-select
+              [label]="'color'"
+              [id]="'icon-color'"
+              [placeholder]="'Select color'"
+              [required]="true"
+              [bindLabel]="'name'"
+              [bindValue]="'code'"
+              [items$]="colors$"
+              [form]="form"
+              [controlName]="'color'"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                <div
+                  class="d-flex align-items-center justify-content-between flex-wrap"
+                >
+                  <div>{{ item.name }}</div>
+                  <div
+                    [ngStyle]="{
+                      'background-color': item.code,
+                      width: '28px',
+                      height: '28px',
+                      'border-radius': '3px'
+                    }"
+                  ></div>
+                </div> </ng-template
+            ></rd-select>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="rd-btn-primary rd-btn-lg">
+              Save & Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

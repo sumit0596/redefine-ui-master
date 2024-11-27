@@ -1,0 +1,661 @@
+<form
+  class="rd-form form-container"
+  [formGroup]="propertyEsgFeaturesForm"
+  autocomplete="on"
+  (submit)="onSubmit($event)"
+>
+  <div class="rd-form-header">ESG Building Certification</div>
+  <div class="rd-form-body" formArrayName="EsgFeatures">
+    <div
+      class="esg-feature-section"
+      *ngFor="let feature of esgFeaturesForm.controls; let featureIndex = index"
+      [formGroupName]="featureIndex"
+    >
+      <div class="esg-feature-name rd-switch-wrapper">
+        <label
+          [for]="'esg-feature-' + featureIndex"
+          class="rd-heading rd-heading-md-bold switch-label"
+        >
+          {{ mergedEsgFeatureList[featureIndex].Name }}
+        </label>
+        <rd-switch
+          [label]="mergedEsgFeatureList[featureIndex].Name"
+          [id]="'esg-feature-' + featureIndex"
+          [checked]="esgFeaturesForm.at(featureIndex).value.Checked"
+          (onChange)="onSwitchToggle($event, esgFeaturesForm.at(featureIndex))"
+        ></rd-switch>
+      </div>
+      <div
+        *ngIf="esgFeaturesForm.at(featureIndex).value.Checked"
+        class="esg-feature-list"
+        formArrayName="Features"
+      >
+        <div
+          class="esg-feature-item"
+          *ngFor="
+            let subFeature of subFeatureForm(featureIndex).controls;
+            let subFeatureIndex = index
+          "
+          [formGroupName]="subFeatureIndex"
+        >
+          <div class="esg-feature-item-name rd-switch-wrapper">
+            <rd-switch
+              [label]="
+                mergedEsgFeatureList[featureIndex].Features[subFeatureIndex]
+                  .Name
+              "
+              [id]="'esg-sub-feature-' + featureIndex + subFeatureIndex"
+              [checked]="
+                subFeatureForm(featureIndex).at(subFeatureIndex).value.Checked
+              "
+              (onChange)="
+                onSwitchToggle(
+                  $event,
+                  subFeatureForm(featureIndex).at(subFeatureIndex)
+                )
+              "
+            ></rd-switch>
+            <label
+              [for]="'esg-sub-feature-' + featureIndex + subFeatureIndex"
+              class="rd-heading rd-heading-xs switch-label"
+            >
+              {{
+                mergedEsgFeatureList[featureIndex].Features[subFeatureIndex]
+                  .Name
+              }}
+            </label>
+          </div>
+          <ng-container
+            *ngIf="
+              subFeatureForm(featureIndex).at(subFeatureIndex).value.Checked
+            "
+          >
+            <div
+              [ngSwitch]="
+                mergedEsgFeatureList[featureIndex].Features[subFeatureIndex]
+                  .Name
+              "
+            >
+              <ng-container *ngSwitchCase="'Existing Building Performance'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 1-6 '"
+                  [items$]="performanceRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Office Design V1'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Office As Built V1'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Office Design v1.1'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Office As Built v1.1'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Custom Industrial'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Interiors v1'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Multi Unit Residential v1'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Retail Centre v1'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container
+                *ngSwitchCase="'Public and Educational Building v1'"
+              >
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container
+                *ngSwitchCase="'Custom: Mixed Use (Design or As Built)'"
+              >
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container
+                *ngSwitchCase="'Custom: Hotel (Design or As Built)'"
+              >
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Sustainable Precincts v1.1'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container
+                *ngSwitchCase="
+                  'Existing Building Performance Custom Industrial'
+                "
+              >
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Edge'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Energy Water Performance v1'">
+                <rd-select
+                  [id]="'epc-rating'"
+                  [label]="'Rating scale: 4-6'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="officeRating$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="'Carbon'">
+                <rd-select
+                  [id]="'net-zero-carbon'"
+                  [label]="'Select level: 1 - 5'"
+                  [placeholder]="'Please Select Level'"
+                  [items$]="netZeroCarbon$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+                <rd-select
+                  [id]="'net-zero-carbon-type'"
+                  [label]="'Level Type'"
+                  [placeholder]="'Please Select Level Type'"
+                  [items$]="CarbonLevelType$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'LevelType'"
+                  [clear]="true"
+                ></rd-select>
+                <rd-input
+                  [label]="'Offset Percentage'"
+                  [id]="'Offset Percentage'"
+                  [placeholder]="'Please Provide'"
+                  [type]="'text'"
+                  [controlName]="'OffsetPercentage'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  (onChange)="onChange($event)"
+                >
+                </rd-input>
+                <div class="row">
+                  <div class="col-md-6">
+                    <rd-calendar
+                      [label]="'Validity Start Date'"
+                      [id]="'validity-start-date'"
+                      [type]="'text'"
+                      [controlName]="'ValidityStartDate'"
+                      placeholder="Please Select Date"
+                      (dateChange)="onChange($event)"
+                      [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                    ></rd-calendar>
+                  </div>
+                  <div class="col-md-6">
+                    <rd-calendar
+                      [label]="'Validity End Date'"
+                      [id]="'validity-end-date'"
+                      [type]="'text'"
+                      [controlName]="'ValidityEndDate'"
+                      placeholder="Please Select Date"
+                      [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                      (dateChange)="onChange($event)"
+                    ></rd-calendar>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="'Water'">
+                <rd-select
+                  [id]="'net-zero-water'"
+                  [label]="'Select level: 2 - 5'"
+                  [placeholder]="'Please Select Level'"
+                  [items$]="netZeroWater$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+                <rd-select
+                  [id]="'net-zero-carbon-type'"
+                  [label]="'Level Type'"
+                  [placeholder]="'Please Select Level Type'"
+                  [items$]="CarbonLevelType$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'LevelType'"
+                  [clear]="true"
+                ></rd-select>
+                <rd-input
+                  [label]="'Offset Percentage'"
+                  [id]="'Offset Percentage'"
+                  [placeholder]="'Please Provide'"
+                  [type]="'text'"
+                  [controlName]="'OffsetPercentage'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  (onChange)="onChange($event)"
+                >
+                </rd-input>
+                <div class="row">
+                  <div class="col-md-6">
+                    <rd-calendar
+                      [label]="'Validity Start Date'"
+                      [id]="'validity-start-date'"
+                      [type]="'text'"
+                      [controlName]="'ValidityStartDate'"
+                      placeholder="Please Select Date"
+                      (dateChange)="onChange($event)"
+                      [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                    ></rd-calendar>
+                  </div>
+                  <div class="col-md-6">
+                    <rd-calendar
+                      [label]="'Validity End Date'"
+                      [id]="'validity-end-date'"
+                      [type]="'text'"
+                      [controlName]="'ValidityEndDate'"
+                      placeholder="Please Select Date"
+                      [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                      (dateChange)="onChange($event)"
+                    ></rd-calendar>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- 
+              <ng-container *ngSwitchCase="'Net Zero Water'">
+                <rd-select
+                  [id]="'net-zero-water'"
+                  [label]="'Select Rating (Level 1 - Level 2)'"
+                  [placeholder]="'Please select rating'"
+                  [items$]="netZeroWater$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                ></rd-select>
+              </ng-container> -->
+
+              <ng-container *ngSwitchCase="'Waste'">
+                <rd-select
+                  [id]="'net-zero-waste'"
+                  [label]="'Select level: 1 - 5'"
+                  [placeholder]="'Please Select Level'"
+                  [items$]="netZeroWaste$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+                <rd-select
+                  [id]="'net-zero-waste-type'"
+                  [label]="'Level Type'"
+                  [placeholder]="'Please Select Level Type'"
+                  [items$]="CarbonLevelType$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'LevelType'"
+                  [clear]="true"
+                ></rd-select>
+                <rd-input
+                  [label]="'Offset Percentage'"
+                  [id]="'Offset Percentage'"
+                  [placeholder]="'Please Provide'"
+                  [type]="'text'"
+                  [controlName]="'OffsetPercentage'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  (onChange)="onChange($event)"
+                >
+                </rd-input>
+                <div class="row">
+                  <div class="col-md-6">
+                    <rd-calendar
+                      [label]="'Validity Start Date'"
+                      [id]="'validity-start-date'"
+                      [type]="'text'"
+                      [controlName]="'ValidityStartDate'"
+                      placeholder="Please Select Date"
+                      (dateChange)="onChange($event)"
+                      [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                    ></rd-calendar>
+                  </div>
+                  <div class="col-md-6">
+                    <rd-calendar
+                      [label]="'Validity End Date'"
+                      [id]="'validity-end-date'"
+                      [type]="'text'"
+                      [controlName]="'ValidityEndDate'"
+                      placeholder="Please Select Date"
+                      [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                      (dateChange)="onChange($event)"
+                    ></rd-calendar>
+                  </div>
+                </div>
+              </ng-container>
+              <!-- <ng-container *ngSwitchCase="'Net Zero Waste'">
+                <rd-select
+                  [id]="'net-zero-waste'"
+                  [label]="'Select Rating (Level 1 - Level 2)'"
+                  [placeholder]="'Please select rating'"
+                  [items$]="netZeroWaste$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                ></rd-select>
+              </ng-container> -->
+              <ng-container *ngSwitchCase="'Ecology'">
+                <rd-select
+                  [id]="'net-zero-ecology'"
+                  [label]="'Select level: 1 - 2'"
+                  [placeholder]="'Please Select Level'"
+                  [items$]="netZeroEcology$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+                <rd-select
+                  [id]="'net-zero-ecology-type'"
+                  [label]="'Level Type'"
+                  [placeholder]="'Please Select Level Type'"
+                  [items$]="CarbonLevelType$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'LevelType'"
+                  [clear]="true"
+                ></rd-select>
+                <rd-input
+                  [label]="'Offset Percentage'"
+                  [id]="'Offset Percentage'"
+                  [placeholder]="'Please Provide'"
+                  [type]="'text'"
+                  [controlName]="'OffsetPercentage'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  (onChange)="onChange($event)"
+                >
+                </rd-input>
+                <div class="row">
+                  <div class="col-md-6">
+                    <rd-calendar
+                      [label]="'Validity Start Date'"
+                      [id]="'validity-start-date'"
+                      [type]="'text'"
+                      [controlName]="'ValidityStartDate'"
+                      placeholder="Please Select Date"
+                      (dateChange)="onChange($event)"
+                      [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                    ></rd-calendar>
+                  </div>
+                  <div class="col-md-6">
+                    <rd-calendar
+                      [label]="'Validity End Date'"
+                      [id]="'validity-end-date'"
+                      [type]="'text'"
+                      [controlName]="'ValidityEndDate'"
+                      placeholder="Please Select Date"
+                      [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                      (dateChange)="onChange($event)"
+                    ></rd-calendar>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="'Energy Performance Certificate'">
+                <rd-select
+                  [id]="'energy-performance'"
+                  [label]="'EPC Rating (A-G)'"
+                  [placeholder]="'Please Select Rating'"
+                  [items$]="EPC$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                  [clear]="true"
+                ></rd-select>
+
+                <rd-input
+                  [label]="'Additional Information'"
+                  [id]="'additional-info'"
+                  [placeholder]="'Please Provide'"
+                  [type]="'text'"
+                  [controlName]="'AdditionalInformation'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  (onChange)="onChange($event)"
+                >
+                </rd-input>
+              </ng-container>
+              <!-- <ng-container *ngSwitchCase="'Net Zero Ecology'">
+                <rd-select
+                  [id]="'net-zero-ecology'"
+                  [label]="'Select Rating (Level 1 - Level 2)'"
+                  [placeholder]="'Please select rating'"
+                  [items$]="netZeroEcology$"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Name'"
+                  [form]="subFeatureForm(featureIndex).at(subFeatureIndex)"
+                  [controlName]="'Rating'"
+                ></rd-select>
+              </ng-container> -->
+              <ng-container *ngSwitchDefault>
+                <div class="mb-3">
+                  <rd-rating
+                    [count]="6"
+                    [stroke]="'red'"
+                    [fill]="'red'"
+                    [rating]="
+                      subFeatureForm(featureIndex).at(subFeatureIndex).value
+                        .Rating
+                    "
+                    (onChange)="
+                      rate(
+                        $event,
+                        subFeatureForm(featureIndex).at(subFeatureIndex)
+                      )
+                    "
+                  ></rd-rating>
+                </div>
+              </ng-container>
+            </div>
+            <ng-container>
+              <!-- File Section -->
+              <rd-file
+                [label]="'Upload Certificate'"
+                [id]="'esg-feature-media-' + featureIndex + subFeatureIndex"
+                [types]="['application/pdf']"
+                (onSelect)="
+                  onFileSelect(
+                    $event,
+                    subFeatureForm(featureIndex).at(subFeatureIndex)
+                  )
+                "
+                (onDelete)="onFileDelete($event)"
+              ></rd-file>
+              <rd-file-container
+                [file]="
+                  subFeatureForm(featureIndex).at(subFeatureIndex).value.File
+                "
+                (onDelete)="
+                  deleteFile(
+                    $event,
+                    subFeatureForm(featureIndex).at(subFeatureIndex)
+                  )
+                "
+              ></rd-file-container>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rd-form-footer">
+    <div>
+      <button
+        type="button"
+        class="rd-btn-secondary rd-btn-lg"
+        (click)="changeStep(route.PROPERTY_FEATURES)"
+      >
+        Previous
+      </button>
+    </div>
+    <div>
+      <button type="submit" class="rd-btn-primary rd-btn-lg">
+        Save
+      </button>
+    </div>
+  </div>
+</form>

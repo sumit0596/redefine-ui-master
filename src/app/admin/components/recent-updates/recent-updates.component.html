@@ -1,0 +1,343 @@
+<div class="recent-update-main" [ngSwitch]="type">
+  <div *ngSwitchCase="'units'">
+    <div *ngIf="unitUpdates$ | async as unitUpdates; else loading">
+      <ng-container *ngIf="unitUpdates.length; else noData">
+        <div
+          *ngFor="let unit of unitUpdates; let i = index"
+          class="py-1"
+          [ngClass]="{ 'hr-top-line hr-2': i != 0 }"
+        >
+          <div class="row">
+            <div class="col-xl-8 col-lg-9 col-md-9 d-flex rd-gap-20">
+              <div>
+                <img src="assets/images/info-circle-fill.svg" alt="icon" />
+              </div>
+              <div>
+                <p class="rd-heading-xs fw-bold mb-0 rd-text-ellipsis-line">
+                  <small>{{ unit.PropertyName }}</small>
+                </p>
+                <p class="mb-1 rd-text-grey-900">
+                  <small
+                    title="{{ formatMessage(unit) | safeHtml : 'clean' }}"
+                    [innerHTML]="formatMessage(unit) | safeHtml : 'html'"
+                  ></small>
+                </p>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-3 col-md-3 text-end rd-text-grey-mid ago-text-size">
+              {{ unit.Ago }}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <ng-template #loading>
+      <p class="card-text placeholder-glow py-1">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-4"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-6"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-7"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-3"></span>
+      </p>
+    </ng-template>
+
+    <ng-template #noData>
+      <div class="col-12 py-2 text-center mt-5">
+        <img src="assets/images/unit-not-found.svg" alt="file" />
+        <p class="rd-heading-md-bold rd-text-deep-red">No unit updates found</p>
+        <!-- <p class="rd-text-grey">
+          <small
+            >There are no recently updated units within your selected sectors or
+            locations</small
+          >
+
+          >
+        </p> -->
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngSwitchCase="'enquiries'">
+    <div *ngIf="recentEnquiries$ | async as recentEnquiries; else loadingData">
+      <ng-container *ngIf="recentEnquiries.length; else noData">
+        <div
+          *ngFor="let enquiry of recentEnquiries; let i = index"
+          class="py-2"
+          [ngClass]="{ 'hr-top-line hr-2': i != 0 }"
+        >
+          <div class="row">
+            <div class="col-xl-8 col-lg-9 col-md-9 d-flex rd-gap-20">
+              <div>
+                <img src="assets/images/info-circle-fill.svg" alt="icon" />
+              </div>
+              <div>
+                <p class="rd-heading-xs mb-0 rd-text-grey-900">
+                  <small
+                    >{{ enquiry.Name }} enquired on {{ enquiry.EnquiryType }} on
+                    {{ enquiry.CreatedOn | date : "dd MMMM YYYY" }} at
+                    {{ enquiry.CreatedOn | date : "HH:mm" }}</small
+                  >
+                </p>
+
+              </div>
+            </div>
+            <div
+              class="col-xl-4 col-lg-3 col-md-3 text-end ago-text-size rd-text-grey-mid"
+            >
+              {{ enquiry.Ago }}
+            </div>
+          </div>
+        </div>
+        <div class="rd-form-footer col-md-12 dashboard-view-button">
+          <div class="view-button-inner" *ngIf="this.recentEnquiriesList.length > 9">
+            <button [ngClass]="{'rd-disabled-link': moreEnquiries}" class="rd-dashboard-viewmore-btn" (click)="loadEnquiries()">
+              <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <ng-template #loadingData>
+      <p class="card-text placeholder-glow py-1">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-4"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-6"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-7"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-3"></span>
+      </p>
+    </ng-template>
+
+    <ng-template #noData>
+      <div class="col-12 py-2 text-center mt-5">
+        <img src="assets/images/unit-not-found.svg" alt="file" />
+        <p class="rd-heading-md-bold rd-text-deep-red">No enquiries found</p>
+        <!-- <p class="rd-text-grey">
+          <small>There are no recent enquiries</small>
+        </p> -->
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngSwitchCase="'jobs'">
+    <div *ngIf="recentJobs$ | async as recentJobs; else loadingData">
+      <ng-container *ngIf="recentJobs.length; else noData">
+        <div
+          *ngFor="let job of recentJobs; let i = index"
+          class="py-2"
+          [ngClass]="{ 'hr-top-line hr-2': i != 0 }"
+        >
+          <div class="row">
+            <div class="col-xl-8 col-lg-9 col-md-9 d-flex rd-gap-20">
+              <div>
+                <img src="assets/images/info-circle-fill.svg" alt="icon" />
+              </div>
+              <div>
+                <p class="rd-heading-xs mb-0 rd-text-grey-900">
+                  <small
+                    >{{ job.Name }} enquired on {{ job.EnquiryType }} on
+                    {{ job.CreatedOn | date : "dd MMMM YYYY" }} at
+                    {{ job.CreatedOn | date : "HH:mm" }}</small
+                  >
+                </p>
+
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-3 col-md-3 text-end rd-text-grey-mid ago-text-size">
+              {{ job.Ago }}
+            </div>
+          </div>
+        </div>
+        <div class="rd-form-footer col-md-12 dashboard-view-button">
+          <div class="view-button-inner">
+            <button [ngClass]="{'rd-disabled-link': moreJobs}" class="rd-dashboard-viewmore-btn" (click)="loadJobs()">
+              <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <ng-template #loadingData>
+      <p class="card-text placeholder-glow py-1">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-4"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-6"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-7"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-3"></span>
+      </p>
+    </ng-template>
+
+    <ng-template #noData>
+      <div class="col-12 py-2 text-center mt-5">
+        <img src="assets/images/unit-not-found.svg" alt="file" />
+        <p class="rd-heading-md-bold rd-text-deep-red">No jobs found</p>
+        <!-- <p class="rd-text-grey">
+          <small>There are no recent jobs</small>
+        </p> -->
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngSwitchCase="'events'">
+    <div *ngIf="recentEvents$ | async as recentEvents; else loadingData">
+      <ng-container *ngIf="recentEvents.length; else noData">
+        <div
+          *ngFor="let event of recentEvents; let i = index"
+          class="py-2"
+          [ngClass]="{ 'hr-top-line hr-2': i != 0 }"
+        >
+          <div class="row">
+            <div class="col-xl-8 col-lg-9 col-md-9 d-flex rd-gap-20">
+              <div>
+                <img src="assets/images/info-circle-fill.svg" alt="icon" />
+              </div>
+              <div>
+                <p class="rd-heading-xs mb-0 rd-text-grey-900">
+                  <small
+                    >{{ event.Title }} posted by {{ event.AddedBy }} on
+                    {{ event.CreatedOn | date : "dd MMMM YYYY" }} at
+                    {{ event.CreatedOn | date : "HH:mm" }}</small
+                  >
+                </p>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-3 col-md-3 text-end rd-text-grey-mid ago-text-size">
+              {{ event.Ago }}
+            </div>
+          </div>
+        </div>
+
+        <div class="rd-form-footer col-md-12 dashboard-view-button">
+          <div class="view-button-inner" *ngIf="this.eventsList.length > 9">
+            <button  [ngClass]="{'rd-disabled-link': moreEvents}" class="rd-dashboard-viewmore-btn" (click)="loadEvents()">
+              <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <ng-template #loadingData>
+      <p class="card-text placeholder-glow py-1">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-4"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-6"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-7"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-3"></span>
+      </p>
+    </ng-template>
+
+    <ng-template #noData>
+      <div class="col-12 py-2 text-center mt-5">
+        <img src="assets/images/unit-not-found.svg" alt="file" />
+        <p class="rd-heading-md-bold rd-text-deep-red">No events found</p>
+        
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngSwitchCase="'recentUnits'">
+    <div *ngIf="recentUnits$ | async as recentUnits; else loadingData">
+      <ng-container *ngIf="recentUnits.length; else noData">
+        <div
+          *ngFor="let unit of recentUnits; let i = index"
+          class="py-2"
+          [ngClass]="{ 'hr-top-line hr-2': i != 0 }"
+        >
+          <div class="row">
+            <div class="col-xl-9 col-lg-9 col-md-9 d-flex rd-gap-20">
+              <div>
+                <img src="assets/images/info-circle-fill.svg" alt="icon" />
+              </div>
+              <div>
+                <!-- <small>{{ unit.PropertyName }}</small> -->
+
+                <p class="rd-heading-xs mb-0 rd-text-grey-900">
+                  <small
+                  title="{{ formatUnit(unit) | safeHtml : 'clean' }}"
+                  [innerHTML]="formatUnit(unit) | safeHtml : 'html'"
+                ></small>
+                
+                </p>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 text-end rd-text-grey-mid ago-text-size">
+              {{ unit.Ago }}
+            </div>
+          </div>
+        </div>
+
+        <div class="rd-form-footer col-md-12 dashboard-view-button">
+          
+          <div class="view-button-inner" *ngIf="this.recentUnitsList.length > 9">
+            <button  [ngClass]="{'rd-disabled-link': moreUnits}" class="rd-dashboard-viewmore-btn" (click)="loadUnits()">
+              <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <ng-template #loadingData>
+      <p class="card-text placeholder-glow py-1">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-4"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-6"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-7"></span>
+      </p>
+      <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+        <span class="placeholder col-12"></span>
+        <span class="placeholder col-3"></span>
+      </p>
+    </ng-template>
+
+    <ng-template #noData>
+      <div class="col-12 py-2 text-center mt-5">
+        <img src="assets/images/unit-not-found.svg" alt="file" />
+        <p class="rd-heading-md-bold rd-text-deep-red">No units found</p>
+        <!-- <p class="rd-text-grey">
+          <small>There are no recent units</small>
+        </p> -->
+      </div>
+    </ng-template>
+  </div>
+</div>

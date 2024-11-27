@@ -1,0 +1,98 @@
+  <mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel [expanded]="true" (opened)="panelOpenState[0] = true"
+    (closed)="panelOpenState[0] = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="align-items-start">
+        <div class="col-md-10 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+          Website Visitors by Stakeholders
+          <small class="selected-filter-label">
+            <div *ngIf="filter.Type === 1 ; else timeChartText">
+              <span *ngIf="displaySelectedDay && fromDateForChart  && filter.Days !== 30">
+                ({{ fromDateForChart | date: 'yyyy/MM/dd' }} - {{ dateForChart | date: 'yyyy/MM/dd' }})
+              </span>
+              <span *ngIf="!displaySelectedDay || filter.Days === 30">
+                ({{ selectedEventDays || 'Last 30 Days'}})
+              </span>              
+            </div>
+            <ng-template #timeChartText>
+              <div>
+                <span *ngIf="displaySelectedYear && fromDateForTimeChart">
+                  ({{fromDateForTimeChart | date:'yyyy/MM/dd'}} - {{tillDateForTimeChart | date:'yyyy/MM/dd'}})</span>
+                <span *ngIf="!displaySelectedYear && fromDateForTimeChart">
+                  ({{fromDateForTimeChart | date:'yyyy/MM/dd'}} - {{tillDateForTimeChart | date:'yyyy/MM/dd'}})
+                </span>   
+              </div>
+               
+            </ng-template>
+          </small>
+        </div>
+        <div class="col-md-2 d-flex justify-content-end" [ngClass]="{'invisible' : !panelOpenState[0]}">
+            
+            <button type="button" id="more-btn" class="rd-btn rd-btn-text alingment-button-dashborad position-relative"
+              [matMenuTriggerFor]="analyticfilter" aria-label="More" (click)="$event.stopPropagation()">
+              <img src="assets/images/filter.svg" alt="Filter" />
+              <ng-container *ngIf="filter.Type === 1">
+                <span *ngIf="filterAppliedPie" class="position-absolute badge-filter  badge padicon bg-secondary"
+                (click)="pieChartBadgeReset($event)">
+                <mat-icon class="fsmaticon filter-badge-icon-size">close</mat-icon>
+                <span class="visually-hidden">unread messages</span>
+              </span>
+              </ng-container>
+              <ng-container *ngIf="filter.Type === 2">
+                <span *ngIf="filterAppliedTime" class="position-absolute badge-filter  badge padicon bg-secondary"
+                (click)="timeChartBadgeReset($event)">
+                <mat-icon class="fsmaticon filter-badge-icon-size">close</mat-icon>
+                <span class="visually-hidden">unread messages</span>
+              </span>
+              </ng-container>
+            </button>
+            <mat-menu class="mat-menu mat-menu-analytic" #analyticfilter="matMenu">
+              <app-dashboard-filter 
+              [filter]="filter" 
+              (filteredData)="filterData(filter)"
+              (selectedEventFilter)="selectedEventFilter($event)" 
+              (filterApplied)="handleFilterApplied($event)"
+              [typeOfBlock]="tabLabel == 'Time Chart'?'stakeholderbrokertime':'stakeholderbrokerpie'"
+              [tabLabel]="tabLabel"></app-dashboard-filter>
+              
+            </mat-menu>
+            <button type="button" class="rd-btn rd-btn-text alingment-button-dashborad" (click)="stakeholderSessionRefresh($event)">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div> 
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="dashboard-container">
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" dynamicHeight
+        fitInkBarToContent (selectedTabChange)="onTabChanges($event)" [selectedIndex]="activeTab"
+        class="dashboard-pie-chart" mat-align-tabs="end">
+        <mat-tab [label]="'Pie Chart'">
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs dashboard-pie-chart">
+              Pie Chart
+            </div>
+          </ng-template>
+          <app-donut-chart 
+            [chartData$]="chartData$" 
+            [isadmin]="true"
+            [chartId] = "'stackholderchartDiv'"
+            [type]="'StakeHolder'"
+            [insideLabel] ="'Total Sessions'"
+            >
+          </app-donut-chart>
+
+        </mat-tab>
+
+        <mat-tab [label]="'Time Chart'">
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">Time Chart</div>
+          </ng-template>
+          
+          <app-time-chart *ngIf="timeGraphChartData$" [chartData$]="timeGraphChartData$" [datasetType]="'sessionType'"></app-time-chart>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </mat-expansion-panel>
+  </mat-accordion>
+  

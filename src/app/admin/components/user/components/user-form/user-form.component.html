@@ -1,0 +1,274 @@
+<div class="rd-container">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="cancel()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig?.mode | titlecase) : "" }} User
+      </div>
+    </div>
+    <div class="rd-container-header-right">
+      <button
+        *ngIf="formConfig && formConfig?.mode == 'view' && formConfig?.access"
+        type="button"
+        class="rd-btn-primary rd-btn-lg"
+        (click)="editUser()"
+      >
+        Edit User
+      </button>
+    </div>
+  </div>
+  <form
+    class="rd-form form-container"
+    [formGroup]="userForm"
+    (ngSubmit)="onSubmit()"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">User Details</div>
+    <div class="rd-form-body">
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'First Name'"
+          [id]="'first-name'"
+          [placeholder]="'First Name'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'FirstName'"
+          [form]="userForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-input
+          [label]="'Last Name'"
+          [id]="'last-name'"
+          [placeholder]="'Last Name'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'LastName'"
+          [form]="userForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'Email Address'"
+          [id]="'email'"
+          [placeholder]="'Email Address'"
+          [required]="true"
+          [type]="'email'"
+          [controlName]="'Email'"
+          [form]="userForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-input
+          [label]="'Cell Number'"
+          [id]="'cell-number'"
+          [placeholder]="'Cell Number'"
+          [type]="'text'"
+          [controlName]="'CellNumber'"
+          [form]="userForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <!-- <ng-container *ngIf="formConfig && formConfig.mode == 'create'">
+        <div class="rd-form-control-group">
+          <rd-input
+            [label]="'Password'"
+            [id]="'Password'"
+            [placeholder]="'Password'"
+            [required]="true"
+            [type]="'password'"
+            [form]="userForm"
+          ></rd-input>
+
+          <rd-input
+            class="width"
+            [label]="'Confirm Password'"
+            [id]="'Password_confirmation'"
+            [placeholder]="'Confirm Password'"
+            [required]="true"
+            [type]="'password'"
+            [form]="userForm"
+          ></rd-input>
+        </div>
+      </ng-container> -->
+
+      <rd-select
+        [id]="'user-role'"
+        [label]="'Role'"
+        [placeholder]="'Select Role'"
+        [bindLabel]="'Name'"
+        [bindValue]="'Id'"
+        [items$]="roleList$"
+        [required]="true"
+        [form]="userForm"
+        [controlName]="'RoleId'"
+        [labelClass] ="'roleId'"
+        (onChange)="onRoleChange($event)"
+        (onSelect)="onRoleChange($event)"
+        (onDeSelect)="onRoleChange($event)"
+      ></rd-select>
+
+      <ng-container *ngIf="userForm.get('RoleId')?.value === 2">
+        <div class="rd-form-control-group">
+          <rd-input
+            [label]="'Company Name'"
+            [id]="'company-name'"
+            [placeholder]="'Company Name'"
+            [required]="true"
+            [type]="'text'"
+            [controlName]="'CompanyName'"
+            [form]="userForm"  
+            (onChange)="onChange($event)"
+
+          ></rd-input>
+
+          <rd-input
+            [label]="'Office Number'"
+            [id]="'office-number'"
+            [placeholder]="'Office Number'"
+            [required]="true"
+            [type]="'text'"
+            [controlName]="'OfficeNumber'"
+            [form]="userForm"
+            (onChange)="onChange($event)"
+          ></rd-input>
+        </div>
+        <div class="rd-form-control-group">
+          <rd-calendar
+            [label]="'Date of Birth'"
+            [id]="'date-of-birth'"
+            [type]="'text'"
+            [max]="today"
+            [placeholder]="'Select Date Of Birth'"
+            [required]="true"
+            [controlName]="'Dob'"
+            [form]="userForm"
+          ></rd-calendar>
+          <!-- <rd-select
+            [id]="'province-id'"
+            [label]="'Province'"
+            [placeholder]="'Select province'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Id'"
+            [items$]="provinceList$"
+            [required]="true"
+            [form]="userForm"
+            [controlName]="'ProvinceId'"
+          ></rd-select> -->
+          <rd-select
+          [id]="'sector'"
+          [label]="'Sector'"
+          [placeholder]="'Select Sector'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [items$]="sectorList$"
+          [required]="true"
+          [multiselect]="true"
+          [max]="2"
+          [checkbox]="true"
+          [form]="userForm"
+          [controlName]="'Sector'"
+          [labelClass] ="'sector'"
+          (onSelect)="onSectorSelect($event)"
+          (onDeSelect)="onSectorDeSelect($event)"
+        ></rd-select>
+        </div>
+
+        <div class="rd-form-control-group">
+          <rd-select
+            [id]="'area'"
+            [label]="'Area'"
+            [placeholder]="'Select Area'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Id'"
+            [items$]="areaList$"
+            [required]="true"
+            [multiselect]="true"
+            [max]="2"
+            [checkbox]="true"
+            [form]="userForm"
+            [controlName]="'Areas'"
+            [labelClass] ="'area'"
+            (onSelect)="onAreaSelect($event)"
+            (onDeSelect)="onAreaDeSelect($event)"
+          ></rd-select>
+
+          <rd-select
+          [id]="'personalInterest'"
+          [label]="'Personal Interest'"
+          [placeholder]="'Select Personal Interest'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [items$]="personalInterestList$"
+          [required]="true"
+          [multiselect]="true"
+          [max]="2"
+          [checkbox]="true"
+          [form]="userForm"
+          [labelClass] ="'interest'"
+          [controlName]="'PersonalInterest'"
+          (onSelect)="onpersonalInterestSelect($event)"
+          (onDeSelect)="personalInterestDeselect($event)"
+        ></rd-select>
+        </div>
+
+        <div class="rd-form-control-group">
+          <rd-select
+            [id]="'SubscriptionPreferences'"
+            [label]="'Subscription Preferences'"
+            [placeholder]="'Select Subscription Preferences'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Id'"
+            [items$]="subscriptionPreferenceList$"
+            [required]="true"
+            [multiselect]="true"
+            [max]="1"
+            [checkbox]="true"
+            [form]="userForm"
+            [labelClass] ="'sub'"
+            [controlName]="'SubscriptionPreferences'"
+            (onSelect)="onSubscriptionPreferenceSelect($event)"
+            (onDeSelect)="onSubscriptionPreferenceDeSelect($event)"
+          ></rd-select>
+          <rd-input></rd-input>
+        </div>
+      </ng-container>
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button *ngIf="formConfig?.mode == 'create'"
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          [disabled]="formConfig && formConfig?.mode == 'view'"
+        >
+          Submit
+        </button>
+        <button *ngIf="formConfig?.mode == 'edit'"
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          [disabled]="formConfig && formConfig?.mode == 'view'"
+        >
+          Save & Update
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

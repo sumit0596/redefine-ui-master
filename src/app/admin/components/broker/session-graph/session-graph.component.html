@@ -1,0 +1,196 @@
+<mat-accordion>
+  <mat-expansion-panel
+    [expanded]="true"
+    (opened)="sessionGraphPanelOpenState = true"
+    (closed)="sessionGraphPanelOpenState = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title class="align-items-start"
+        ><div class="col-md-9 rd-heading rd-dashboard-heading rd-heading-md fw-bold">Sessions per Portal
+          <small class="selected-filter-label">
+            <ng-container> ({{ selectedEventDays }}) </ng-container>
+          </small>
+        </div>
+        <div
+          class="col-md-3 d-flex justify-content-end"  
+          [ngClass]="{'invisible' : !sessionGraphPanelOpenState}"
+        >
+          <button
+            type="button"
+            id="more-btn"
+            [matMenuTriggerFor]="confilter"
+            aria-label="More"
+            class="rd-btn rd-btn-text alingment-button-dashborad position-relative"
+            (click)="$event.stopPropagation()"
+          >
+          <img src="assets/images/filter.svg" alt="Filter" />
+            <span
+              *ngIf="filterApplied"
+              class="position-absolute badge-filter badge padicon bg-secondary"
+              (click)="badgereset($event)"
+              ><mat-icon class="fsmaticon filter-badge-icon-size"
+                >close</mat-icon
+              ><span class="visually-hidden">unread messages</span></span
+            >
+          </button>
+          <mat-menu class="mat-menu mat-menu-analytic" #confilter="matMenu">
+            <app-dashboard-filter
+              [filter]="filter"
+              (selectedEventFilter)="selectedEventFilter($event)"
+              (filteredData)="filterData(filter)"
+              (filterApplied)="handleFilterApplied($event)"
+            ></app-dashboard-filter>
+          </mat-menu>
+          <button
+            type="button"
+            id="refresh-btn"
+            (click)="refreshFilter($event)"
+            class="rd-btn rd-btn-text alingment-button-dashborad"
+          >
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="accordion-dashboard">
+      <div class="mt-2" *ngIf="!loading">
+        <p class="session-count">{{ totalSessions }}</p>
+        <p class="rd-text-grey-darker rd-text-session mt-4">
+          Total sessions on all portals
+        </p>
+      </div>
+
+      <div *ngIf="!loading">
+        <div *ngIf="chartData$ | async as chartData">
+          <ng-container *ngIf="chartData.length; else noData">
+            <div class="mb-3">
+              <app-bar-graph
+                [type]="type"
+                [chartData$]="chartData$"
+              ></app-bar-graph>
+            </div>
+            <table class="table mt-3 session-per-table">
+              <thead>
+                <th
+                  scope="col"
+                  class="rd-text-grey-darker session-table-heading px-2"
+                >
+                Portal
+                </th>
+                <th
+                  scope="col"
+                  class="rd-text-grey-darker session-table-heading text-end"
+                >
+                  Sessions
+                  <span class="sorting-btn-group">
+                    <img
+                      src="assets/images/chevron-up.svg"
+                      class="sort-asc-btn"
+                      (click)="sortData('Session', 'Asc')"
+                    />
+                    <img
+                      src="assets/images/chevron-down.svg"
+                      class="sort-desc-btn"
+                      (click)="sortData('Session', 'Desc')"
+                    />
+                  </span>
+                </th>
+                <th
+                  scope="col"
+                  class="rd-text-grey-darker session-table-heading text-end"
+                >
+                  Duration<span class="fs-6 fw-normal rd-text-grey-darker p-0"
+                    >(mins)</span
+                  >
+                  <span class="sorting-btn-group">
+                    <img
+                      src="assets/images/chevron-up.svg"
+                      class="sort-asc-btn"
+                      (click)="sortData('Seconds', 'Asc')"
+                    />
+                    <img
+                      src="assets/images/chevron-down.svg"
+                      class="sort-desc-btn"
+                      (click)="sortData('Seconds', 'Desc')"
+                    />
+                  </span>
+                </th>
+                <th
+                scope="col"
+                class="rd-text-grey-darker session-table-heading text-end"
+              >
+                Avg<span class="fs-6 fw-normal rd-text-grey-darker p-0"
+                  >(mins)</span
+                >
+                <span class="sorting-btn-group">
+                  <img
+                    src="assets/images/chevron-up.svg"
+                    class="sort-asc-btn"
+                    (click)="sortData('Avg', 'Asc')"
+                  />
+                  <img
+                    src="assets/images/chevron-down.svg"
+                    class="sort-desc-btn"
+                    (click)="sortData('Avg', 'Desc')"
+                  />
+                </span>
+              </th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let session of chartData$ | async">
+                  <td
+                    class="rd-text-grey-darker table-data"
+                    [title]="session.Title.length > 70 ? session.Title : null"
+                    [attr.title]="
+                      session.Title.length > 70 ? session.Title : null
+                    "
+                  >
+                    <p class="m-0 text-elipses">{{ session.Title }}</p>
+                  </td>
+                  <td class="rd-text-grey-darker table-data text-end px-4">
+                    {{ session.Session }}
+                  </td>
+                  <td class="rd-text-grey-darker table-data text-end px-4">
+                    {{ session.Seconds }}
+                  </td>
+                  <td class="rd-text-grey-darker table-data text-end px-4" 
+                  >
+                    {{ session.Avg }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+        </div>
+        <ng-template #noData>
+          <div class="col-12 py-2 text-center mt-5">
+            <img src="assets/images/unit-not-found.svg" alt="file" />
+            <p class="rd-heading-md-bold rd-text-deep-red">No sessions found</p>
+          </div>
+        </ng-template>
+      </div>
+      <!-- 
+  <div *ngIf="loading" class="market-data-loader">
+    <img src="assets/images/loader.gif" alt="loader" />
+  </div> -->
+      <div *ngIf="loading">
+        <p class="card-text placeholder-glow py-1">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-4"></span>
+        </p>
+        <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-6"></span>
+        </p>
+        <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-7"></span>
+        </p>
+        <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+          <span class="placeholder col-12"></span>
+          <span class="placeholder col-3"></span>
+        </p>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

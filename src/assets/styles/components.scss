@@ -1,0 +1,24 @@
+/* This style sheet contains redefine custom components styles */
+.rd-card {
+  display: inline-block;
+  min-width: 150px;
+  min-height: 100px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+}
+.rd-dashboard-card {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  border-radius: 5px;
+}
+
+
+.cardalgn{
+  display: flex;
+  flex-wrap: wrap; /* Wrap cards to the next row if they don't fit horizontally */
+  justify-content: space-between; /* Distribute space between cards */
+  gap: 5px; /* Set the gap between cards */
+  
+  margin: 0 auto;
+}

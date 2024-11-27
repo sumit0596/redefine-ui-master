@@ -1,0 +1,1700 @@
+<div class="rd-container preview-container" *ngIf="propertyDetails">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 d-flex align-items-center justify-content-end mb-4">
+        <button type="button" class="rd-btn rd-btn-text" (click)="closeModal()">
+          <span class="btn-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
+              <path
+                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+              ></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div class="col-9">
+        <!-- PROPERTY IMAGES -->
+        <div class="property-image-section">
+          <div class="property-image-gallery">
+            <div class="property-image">
+              <img
+                [src]="
+                  propertyDetails.media?.Image?.length > 0
+                    ? propertyDetails.media?.Image[0].Url
+                    : imagePlaceholders[0].Url
+                "
+                alt="property image"
+              />
+            </div>
+          </div>
+          <div
+            class="property-image-thumbnails"
+            *ngIf="propertyDetails.media?.Image?.length > 1"
+          >
+            <div
+              *ngFor="
+                let image of propertyDetails.media?.Image?.length > 0
+                  ? (propertyDetails.media?.Image | slice : 1 : 4)
+                  : imagePlaceholders
+              "
+              class="property-image"
+            >
+              <img [src]="image.Url" alt="property image" />
+            </div>
+            <div
+              class="more-images property-image"
+              *ngIf="propertyDetails.media?.Image?.length > 4"
+            >
+              +{{ propertyDetails.media?.Image.length - 4 }} Photos
+            </div>
+          </div>
+        </div>
+        <!-- PROPERTY LINK -->
+        <div
+          class="preview-section property-details-wrapper d-flex justify-content-end"
+        >
+          <a
+            *ngIf="propertyDetails.details.WebsiteUrl"
+            [href]="
+              propertyDetails.details.WebsiteUrl.includes('http')
+                ? propertyDetails.details.WebsiteUrl
+                : 'https://' + propertyDetails.details.WebsiteUrl
+            "
+            target="_blank"
+            class="link units-wrapper"
+          >
+            {{ propertyDetails.details.WebsiteUrl }}</a
+          >
+        </div>
+        <!-- PROPERTY DETAILS -->
+        <div class="preview-tabs-section">
+          <mat-tab-group
+            mat-stretch-tabs="false"
+            mat-align-tabs="start"
+            animationDuration="0ms"
+            dynamicHeight
+            fitInkBarToContent
+            (selectedTabChange)="onTabChange($event)"
+          >
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div class="rd-heading rd-heading-xs">Description</div>
+              </ng-template>
+              <div class="preview-section">
+                <div class="property-details-wrapper">
+                  <div class="key-value-container rd-text-grey-mid">
+                    <div class="key-value-wrapper">
+                      <div>Sector:</div>
+                      <div>
+                        {{
+                          propertyDetails.details.SectorName
+                            ? propertyDetails.details.SectorName
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                    <div class="key-value-wrapper">
+                      <div class="key-color-primary">GLA:</div>
+                      <div>
+                        {{
+                          propertyDetails.details.Gla
+                            ? propertyDetails.details.Gla
+                            : "NA"
+                        }}m<sup>2</sup>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="property-details">
+                    <div class="rd-heading rd-heading-xl">
+                      {{ propertyDetails.details.PropertyName }}
+                    </div>
+                    <span class="rd-indicator rd-indicator-xl">
+                      <span
+                        class="rd-indicator-content rd-indicator-primary"
+                      ></span>
+                    </span>
+                  </div>
+
+                  <div class="key-value-container">
+                    <div class="key-value-wrapper">
+                      <div>Address:</div>
+                      <div class="rd-text-grey-mid">
+                        {{
+                          propertyDetails.details.Address
+                            ? propertyDetails.details.Address
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                    <div class="key-value-wrapper">
+                      <div>Suburb:</div>
+                      <div class="rd-text-grey-mid">
+                        {{
+                          propertyDetails.details.Suburb
+                            ? propertyDetails.details.Suburb
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                    <div class="key-value-wrapper">
+                      <div>City:</div>
+                      <div class="rd-text-grey-mid">
+                        {{
+                          propertyDetails.details.City
+                            ? propertyDetails.details.City
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                    <div class="key-value-wrapper">
+                      <div>Province:</div>
+                      <div class="rd-text-grey-mid">
+                        {{
+                          propertyDetails.details.ProvinceName
+                            ? propertyDetails.details.ProvinceName
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+
+                    <div class="key-value-wrapper">
+                      <div>Country:</div>
+                      <div class="rd-text-grey-mid">
+                        {{
+                          propertyDetails.details.Country
+                            ? propertyDetails.details.Country
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                    <div class="key-value-wrapper">
+                      <div>Postal Code:</div>
+                      <div class="rd-text-grey-mid">
+                        {{
+                          propertyDetails.details.PostCode
+                            ? propertyDetails.details.PostCode
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="property-details">
+                    <div class="property-details">
+                      <div class="rd-heading rd-heading-sm-bold">
+                        Description
+                      </div>
+                      <div
+                        class="rd-text-grey-mid pt-2 rd-text-justify"
+                        [innerHTML]="
+                          (propertyDetails.details.PropertyDescription
+                          | safeHtml : 'html')
+                            ? (propertyDetails.details.PropertyDescription
+                              | safeHtml : 'html')
+                            : 'Not available'
+                        "
+                      ></div>
+                    </div>
+                    <div class="property-details">
+                      <div class="rd-heading rd-heading-sm-bold">
+                        Features and Amenities
+                      </div>
+                      <div class="rd-text-grey-mid">
+                        <div class="key-value-container">
+                          <div
+                            *ngFor="
+                              let feature of propertyDetails.featureamenities
+                            "
+                            class="key-value-wrapper"
+                          >
+                            <div>
+                              <img
+                                [src]="
+                                  'assets/images/' +
+                                  getFeatureIcon(feature.Title)
+                                "
+                                class="feature-icon"
+                                alt="feature_icon"
+                              />
+                            </div>
+                            <div>
+                              {{ feature.Title }}
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="
+                            propertyDetails.details
+                              .FeatureAmenitiesAddtionalDetails != null
+                          "
+                          [innerHTML]="
+                            propertyDetails.details
+                              .FeatureAmenitiesAddtionalDetails
+                              | safeHtml : 'html'
+                          "
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="property-details-wrapper">
+                  <div class="rd-heading rd-heading-sm-bold">
+                    Advertising Opportunities
+                  </div>
+                  <div class="key-value-container">
+                    <div
+                      class="advertising-card"
+                      *ngFor="
+                        let advertisement of propertyDetails.advertisments
+                      "
+                    >
+                      <div class="rd-heading rd-heading-xs">
+                        {{ advertisement.AdvertisingType }}
+                      </div>
+                      <div class="rd-text-grey-mid">
+                        {{ advertisement.DescriptionAndLocation }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+
+            <!-- Available Units -->
+            <mat-tab label="AvailableUnits">
+              <ng-template mat-tab-label>
+                <div class="rd-heading rd-heading-xs">Available units</div>
+              </ng-template>
+              <div class="position-relative mb-5">
+                <div class="rd-heading rd-heading-xl">Available units</div>
+                <span class="rd-indicator rd-indicator-xl">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+              <!-- Sliders -->
+              <!-- <div class="d-flex rd-gap-10 align-items-center">
+                <div class="col-lg-4">
+                  <label>Gross Rental</label>
+                  <rd-slider [id]="'gross-rental'" [floor]="0" [ceil]="10000" [step]="100" [type]="'gross-rental'"
+                    [maxValue]="6000" [minValue]="0" [disable]="true" (onChange)="onSliderChange($event)">
+                  </rd-slider>
+                </div>
+                <div class="col-lg-4">
+                  <label>Unit Size (sqm)</label>
+                  <rd-slider [id]="'size-range'" [floor]="0" [ceil]="10000" [step]="100" [type]="'size-range'"
+                    [maxValue]="6000" [minValue]="0" [disable]="true" (onChange)="onSliderChange($event)">
+                  </rd-slider>
+                </div>
+                <div class="col-lg-3">
+                  <button type="button" class="rd-btn-text rd-btn-md" disabled (click)="clearFilter()">
+                    <span>Clear Filter</span>
+                  </button>
+                </div>
+              </div> -->
+              <div *ngIf="!unitAvailable" class="pb-5">No Available Units</div>
+              <div
+                class="pt-1 accordion-item"
+                *ngFor="let unitDetails of availableUnitDetails; let i = index"
+              >
+                <div class="accordion" id="accordionUnitPreview">
+                  <div class="rd-form form-container">
+                    <button
+                      class="filterAccordionBtn rd-heading rd-heading-sm-bold"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#collapse' + i"
+                      [attr.aria-expanded]="
+                        expandedIndex === i ? 'true' : 'false'
+                      "
+                      [attr.aria-controls]="'collapse' + i"
+                      (click)="toggleTile(i)"
+                    ></button>
+                    <div
+                      class="pt-3 p-1"
+                      data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#collapse' + i"
+                      [attr.aria-expanded]="
+                        expandedIndex === i ? 'true' : 'false'
+                      "
+                      [attr.aria-controls]="'collapse' + i"
+                      (click)="toggleTile(i)"
+                    >
+                      <div
+                        class="property-image-section preview-height"
+                        *ngIf="unitDetails.UnitMedia?.Image"
+                      >
+                        <div class="property-image-gallery">
+                          <div class="property-image">
+                            <!-- <img
+                              [src]="
+                                unitDetails.UnitMedia?.Image?.length > 0
+                                  ? unitDetails.UnitMedia?.Image[0].Url
+                                  : imagePlaceholders[0].Url"
+                                  alt="property image" /> -->
+                            <img
+                              [src]="unitDetails.UnitMedia?.Image[0].Url"
+                              alt="property image"
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="property-image-thumbnails"
+                          *ngIf="unitDetails.UnitMedia?.Image?.length > 1"
+                        >
+                          <div
+                            *ngFor="
+                              let image of unitDetails.UnitMedia?.Image
+                                ?.length > 0
+                                ? (unitDetails.UnitMedia?.Image | slice : 1 : 4)
+                                : imagePlaceholders
+                            "
+                            class="property-image"
+                          >
+                            <img [src]="image.Url" alt="property image" />
+                          </div>
+                          <div
+                            class="more-images property-image"
+                            *ngIf="unitDetails.UnitMedia?.Image?.length > 4"
+                          >
+                            +{{ unitDetails.UnitMedia?.Image.length - 4 }}
+                            Photos
+                          </div>
+                        </div>
+                      </div>
+                      <div class="property-details">
+                        <div class="rd-heading rd-heading-sm-bold">
+                          {{
+                            unitDetails.details.NameAndLocation
+                              ? unitDetails.details.NameAndLocation
+                              : "Not available"
+                          }}
+                        </div>
+                        <div
+                          class="rd-text-grey-mid pt-2 rd-text-justify"
+                          [innerHTML]="
+                            unitDetails.details.UnitDescription == '' ||
+                            unitDetails.details.UnitDescription == null ||
+                            unitDetails.details.UnitDescription == undefined
+                              ? 'Not available'
+                              : (unitDetails.details.UnitDescription
+                                | safeHtml : 'html')
+                          "
+                        ></div>
+                      </div>
+                      <div class="property-details-wrapper"></div>
+                      <div class="property-details">
+                        <div class="key-value-wrapper">
+                          <div class="rd-text-grey-mid">Unit size (sqm)</div>
+                          <div class="key-color-primary units-wrapper">
+                            {{
+                              unitDetails.details.UnitSize
+                                ? unitDetails.details.UnitSize
+                                : "NA"
+                            }}
+                          </div>
+                        </div>
+                        <div class="key-value-wrapper">
+                          <div class="rd-text-grey-mid">Available</div>
+                          <div class="units-wrapper">
+                            {{
+                              unitDetails.details.UnitAvailableDate
+                                ? unitDetails.details.UnitAvailableDate
+                                : "NA"
+                            }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      [id]="'collapse' + i"
+                      class="accordion-collapse collapse"
+                      [ngClass]="{ show: expandedIndex === i }"
+                      [attr.data-bs-parent]="'#accordionUnitPreview'"
+                    >
+                      <div class="pt-2 pb-3">
+                        <div class="property-details-wrapper"></div>
+                        <div class="property-details">
+                          <div class="rd-heading rd-heading-sm-bold">
+                            Rental Details
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">
+                              Net Rental (R/sqm)
+                            </div>
+                            <div class="units-wrapper">
+                              {{
+                                unitDetails.details.BaseRental
+                                  ? unitDetails.details.BaseRental
+                                  : "NA"
+                              }}
+                            </div>
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">
+                              Operation Costs (R/sqm)
+                            </div>
+                            <div class="units-wrapper">
+                              {{
+                                unitDetails.details.OperationalCost
+                                  ? unitDetails.details.OperationalCost
+                                  : "NA"
+                              }}
+                            </div>
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">Rates (R/sqm)</div>
+                            <div class="units-wrapper">
+                              {{
+                                unitDetails.details.Rates
+                                  ? unitDetails.details.Rates
+                                  : "NA"
+                              }}
+                            </div>
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">
+                              Gross Rental (R/sqm)
+                            </div>
+                            <div class="units-wrapper">
+                              {{
+                                unitDetails.details.GrossRental
+                                  ? unitDetails.details.GrossRental
+                                  : "NA"
+                              }}
+                            </div>
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">CID Levy</div>
+                            <div class="units-wrapper">
+                              {{
+                                unitDetails.details.CIDLevey
+                                  ? unitDetails.details.CIDLevey
+                                  : "NA"
+                              }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="property-details-wrapper"></div>
+                        <div class="property-details">
+                          <div class="rd-heading rd-heading-sm-bold">
+                            Parking Details
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">Parking Ratio</div>
+                            <div class="units-wrapper">
+                              {{
+                                unitDetails.details.UnitParkingRatio
+                                  ? unitDetails.details.UnitParkingRatio
+                                  : "NA"
+                              }}
+                            </div>
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">
+                              Basement Bays (R/bays)
+                            </div>
+                            <div class="units-wrapper">
+                              {{
+                                unitDetails.details.UnitBasementBays
+                                  ? unitDetails.details.UnitBasementBays
+                                  : "NA"
+                              }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="property-details-wrapper"></div>
+                        <div class="property-details">
+                          <div class="rd-heading rd-heading-sm-bold">
+                            Features and Amenities
+                          </div>
+                          <div>
+                            <div>
+                              <ul class="p-0">
+                                <li
+                                  *ngFor="
+                                    let feature of unitDetails
+                                      .unitfeatureamenities.features
+                                  "
+                                  class="key-value-wrapper"
+                                >
+                                  <div
+                                    class="key-value-wrapper rd-text-grey-mid"
+                                  >
+                                    <img
+                                      [src]="
+                                        'assets/images/' +
+                                        getFeatureIcon(feature.Title)
+                                      "
+                                      class="feature-icon"
+                                      alt="feature_icon"
+                                    />
+
+                                    {{ feature.Title }}
+                                  </div>
+
+                                  <div class="units-wrapper">
+                                    {{ feature.Value }}
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="property-details-wrapper"></div>
+                        <div class="property-details">
+                          <div class="rd-heading rd-heading-sm-bold">
+                            Incentives
+                          </div>
+                          <div class="rd-text-grey-mid">
+                            <div class="key-value-container">
+                              <div
+                                *ngFor="
+                                  let feature of unitDetails.propertyincentives
+                                "
+                                class="key-value-wrapper"
+                              >
+                                <div class="attribute-icon">
+                                  <img
+                                    src="assets/images/attribute.svg"
+                                    class="attribute-icon"
+                                    alt="attribute_icon"
+                                  />
+                                </div>
+                                <div>
+                                  {{ feature.Title }}
+                                </div>
+                              </div>
+                            </div>
+                            <!-- <div>
+                        {{
+                          unitDetails.details.FeatureAmenitiesAddtionalDetails
+                            ? unitDetails.details.FeatureAmenitiesAddtionalDetails
+                            : "Not Available"
+                        }}
+                      </div> -->
+                          </div>
+                        </div>
+                        <div class="property-details-wrapper"></div>
+                        <div
+                          class="property-details"
+                          *ngIf="
+                            unitDetails?.details.ThreeYearsLease != null &&
+                            unitDetails?.details.FiveYearsLease != null
+                          "
+                        >
+                          <div class="rd-heading rd-heading-sm-bold">
+                            Total Space2Spec Value Contribution
+                          </div>
+                          <div class="key-value-wrapper gap">
+                            <div class="rd-text-grey-mid">3-Years Lease</div>
+                            <div
+                              class="key-color-primary units-wrapper display"
+                            >
+                              R{{
+                                calculateLease(unitDetails)?.threeYearsLease
+                              }}
+                            </div>
+                            <div class="">
+                              R{{
+                                calculateLease(unitDetails)?.threeYearsmSquare
+                              }}
+                              per m
+                              <sup>2</sup>
+                            </div>
+                          </div>
+                          <div class="key-value-wrapper gap">
+                            <div class="rd-text-grey-mid">5-Years Lease</div>
+                            <div
+                              class="key-color-primary units-wrapper display"
+                            >
+                              R{{ calculateLease(unitDetails)?.fiveYearsLease }}
+                            </div>
+                            <div class="">
+                              R{{
+                                calculateLease(unitDetails)?.fiveYearsmSquare
+                              }}
+                              per m
+                              <sup>2</sup>
+                            </div>
+                          </div>
+                          <p class="">
+                            <a
+                              class="linki"
+                              href="/view-file/spacetospectermsconditions.pdf"
+                              target="_blank"
+                            >
+                              Terms and Conditions Apply
+                            </a>
+                          </p>
+                        </div>
+                        <div
+                          class="property-details-wrapper"
+                          *ngIf="
+                            unitDetails?.details.ThreeYearsLease != null &&
+                            unitDetails?.details.FiveYearsLease != null
+                          "
+                        ></div>
+                        <div class="property-details">
+                          <div class="rd-heading rd-heading-sm-bold">
+                            Unit Media
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">Floor Plan</div>
+                            <div class="units-wrapper">
+                              <a
+                                *ngIf="unitDetails?.UnitMedia?.FloorPlan"
+                                [href]="
+                                  unitDetails?.UnitMedia?.FloorPlan.Url.includes(
+                                    'http'
+                                  )
+                                    ? unitDetails?.UnitMedia?.FloorPlan.Url
+                                    : 'https://' +
+                                      unitDetails?.UnitMedia?.FloorPlan.Url
+                                "
+                                target="_blank"
+                                class="link units-wrapper"
+                              >
+                                View Floor Plan
+                              </a>
+                              <span *ngIf="!unitDetails?.UnitMedia?.FloorPlan"
+                                >NA</span
+                              >
+                            </div>
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">Unit Video</div>
+                            <div class="units-wrapper">
+                              <a
+                                *ngIf="unitDetails?.UnitMedia?.Video"
+                                [href]="
+                                  unitDetails?.UnitMedia?.Video.Url.includes(
+                                    'http'
+                                  )
+                                    ? unitDetails?.UnitMedia?.Video.Url
+                                    : 'https://' +
+                                      unitDetails?.UnitMedia?.Video.Url
+                                "
+                                target="_blank"
+                                class="link units-wrapper"
+                              >
+                                View Unit Video
+                              </a>
+                              <span *ngIf="!unitDetails?.UnitMedia?.Video"
+                                >NA</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="property-details-wrapper"></div>
+                        <div class="property-details">
+                          <div class="rd-heading rd-heading-sm-bold">
+                            Access Note
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">
+                              {{
+                                unitDetails.details.UnitAccessName
+                                  ? unitDetails.details.UnitAccessName
+                                  : "NA"
+                              }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="property-details-wrapper"></div>
+                        <div class="property-details">
+                          <div class="rd-heading rd-heading-sm-bold">
+                            Additional Information
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">
+                              {{
+                                unitDetails.details.AddtionalInformation
+                                  ? unitDetails.details.AddtionalInformation
+                                  : "NA"
+                              }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="property-details-wrapper"></div>
+                        <div class="property-details">
+                          <div class="rd-heading rd-heading-sm-bold">
+                            Tenant Installation Allowance
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div
+                              class="rd-text-grey-mid"
+                              [innerHTML]="
+                                unitDetails.details.TenentAllowance == '' ||
+                                unitDetails.details.TenentAllowance == null ||
+                                unitDetails.details.TenentAllowance == undefined
+                                  ? 'NA'
+                                  : (unitDetails.details.TenentAllowance
+                                    | safeHtml : 'html')
+                              "
+                            ></div>
+                          </div>
+                        </div>
+                        <!-- <div class="property-details-wrapper"></div>
+                        <div class="property-details">
+                          <div class="rd-heading rd-heading-sm">
+                            Broker Incentives
+                          </div>
+                          <div class="key-value-wrapper">
+                            <div class="rd-text-grey-mid">
+                              {{
+                                unitDetails.details.BrokerIncentives
+                                  ? unitDetails.details.BrokerIncentives
+                                  : "NA"
+                              }}
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="property-details">
+                    <div class="key-value-wrapper">
+                      <div class="rd-text-grey-mid">
+                        {{
+                          unitDetails.details.CommentDisclaimers
+                            ? unitDetails.details.CommentDisclaimers
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                  </div> -->
+                        <div class="property-details-wrapper"></div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+
+            <!-- maps -->
+            <mat-tab label="MapView">
+              <ng-template mat-tab-label>
+                <div class="rd-heading rd-heading-xs">Map view</div>
+              </ng-template>
+              <div class="position-relative mb-5">
+                <div class="rd-heading rd-heading-xl">Map view</div>
+                <span class="rd-indicator rd-indicator-xl">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+              <div>
+                <div class="key-value-container">
+                  <div class="key-value-wrapper">
+                    <div>Address:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.Address
+                          ? propertyDetails.details.Address
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                  <div class="key-value-wrapper">
+                    <div>Suburb:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.Suburb
+                          ? propertyDetails.details.Suburb
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                  <div class="key-value-wrapper">
+                    <div>City:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.City
+                          ? propertyDetails.details.City
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                  <div class="key-value-wrapper">
+                    <div>Province:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.ProvinceName
+                          ? propertyDetails.details.ProvinceName
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+
+                  <div class="key-value-wrapper">
+                    <div>Country:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.Country
+                          ? propertyDetails.details.Country
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+
+                  <div class="key-value-wrapper">
+                    <div>Postal Code:</div>
+                    <div class="rd-text-grey-mid">
+                      {{
+                        propertyDetails.details.PostCode
+                          ? propertyDetails.details.PostCode
+                          : "NA"
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="property-details-wrapper">
+                <div class="rd-heading rd-heading-sm-bold">
+                  GPS coordinates:
+                </div>
+                <div class="property-details">
+                  <div class="key-value-container">
+                    <div class="key-value-wrapper">
+                      <div>Longitude:</div>
+                      <div class="rd-text-grey-mid">
+                        {{
+                          propertyDetails.details.Longitude
+                            ? propertyDetails.details.Longitude
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                    <div class="key-value-wrapper">
+                      <div>Latitude:</div>
+                      <div class="rd-text-grey-mid">
+                        {{
+                          propertyDetails.details.Latitude
+                            ? propertyDetails.details.Latitude
+                            : "NA"
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="property-details-wrapper">
+                <app-map
+                  *ngIf="
+                    markerPositions && markerPositions.length;
+                    else map_loader
+                  "
+                  [markers]="markerPositions"
+                  [height]="'400px'"
+                  [zoom]="17"
+                  [center]="center"
+                ></app-map>
+                <!-- <google-map
+                  height="400px"
+                  width="100%"
+                  [zoom]="zoom"
+                  [center]="center"
+                >
+                  <map-marker
+                    *ngFor="let markerPosition of markerPositions"
+                    [position]="markerPosition"
+                    [options]="markerOptions"
+                  ></map-marker>
+                </google-map> -->
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Video">
+              <ng-template mat-tab-label>
+                <div class="rd-heading rd-heading-xs">Video</div>
+              </ng-template>
+              <div class="position-relative mb-5">
+                <div class="rd-heading rd-heading-xl">Video</div>
+                <span class="rd-indicator rd-indicator-xl">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+              <div class="property-details">
+                <ng-container
+                  *ngIf="
+                    media.Video != undefined &&
+                    media.Video.Url != undefined &&
+                    media.Video.Url != ''
+                  "
+                >
+                  <video width="745" height="300" controls #videoPlayer>
+                    <source src="{{ media.Video.Url }}" type="video/mp4" />
+                  </video>
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    media.Video == undefined ||
+                    media.Video.Url == undefined ||
+                    media.Video.Url == ''
+                  "
+                >
+                  <div class="rd-text-grey-mid">Video not available</div>
+                </ng-container>
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Documents">
+              <ng-template mat-tab-label>
+                <div class="rd-heading rd-heading-xs">Documents</div>
+              </ng-template>
+              <div class="position-relative mb-5">
+                <div class="rd-heading rd-heading-xl">Documents</div>
+                <span class="rd-indicator rd-indicator-xl">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+
+              <div class="container">
+                <div class="row" *ngIf="media?.RateCard?.MediaType">
+                  <div class="col-sm">
+                    <div class="feature-name">
+                      <div class="rd-heading rd-heading-xs">
+                        {{
+                          media.RateCard.MediaType
+                            ? media.RateCard.MediaType
+                            : "NA"
+                        }}
+                      </div>
+                      <span
+                        class="rd-indicator rd-indicator-md"
+                        *ngIf="media?.RateCard?.MediaType"
+                      >
+                        <span
+                          class="rd-indicator-content rd-indicator-secondary"
+                        ></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="feature-name">
+                      <div
+                        class="rd-heading rd-heading-xs"
+                        *ngIf="media?.RateCard?.Name"
+                      >
+                        {{ media.RateCard.Name ? media.RateCard.Name : "NA" }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div
+                      class="feature-rating"
+                      *ngIf="
+                        media?.RateCard?.Name != propertyFileUploads.RATE_CARD
+                      "
+                    >
+                      <div>
+                        <a class="download-link">
+                          <span>Download</span>
+                          <span
+                            ><img
+                              src="assets/images/download-round.svg"
+                              alt="download_icon"
+                          /></span>
+                        </a>
+                      </div>
+                    </div>
+                    <div
+                      class="feature-rating"
+                      *ngIf="
+                        media?.RateCard?.Name == propertyFileUploads.RATE_CARD
+                      "
+                    >
+                      <div>
+                        <a class="download-link">
+                          <span>View</span>
+                          <span
+                            ><img
+                              src="assets/images/eye.svg"
+                              alt="download_icon"
+                          /></span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="container">
+                <div class="row" *ngIf="media?.FloorPlan?.MediaType">
+                  <div class="col-sm">
+                    <div class="feature-name">
+                      <div class="rd-heading rd-heading-xs">
+                        {{
+                          media.FloorPlan.MediaType
+                            ? media.FloorPlan.MediaType
+                            : "NA"
+                        }}
+                      </div>
+                      <span
+                        class="rd-indicator rd-indicator-md"
+                        *ngIf="media?.FloorPlan?.MediaType"
+                      >
+                        <span
+                          class="rd-indicator-content rd-indicator-secondary"
+                        ></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="feature-name">
+                      <div
+                        class="rd-heading rd-heading-xs"
+                        *ngIf="media?.FloorPlan?.Name"
+                      >
+                        {{ media.FloorPlan.Name ? media.FloorPlan.Name : "NA" }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="feature-rating">
+                      <div
+                        *ngIf="
+                          media?.FloorPlan?.Name !=
+                          propertyFileUploads.FLOOR_PLAN
+                        "
+                      >
+                        <a class="download-link">
+                          <span>Download</span>
+                          <span
+                            ><img
+                              src="assets/images/download-round.svg"
+                              alt="download_icon"
+                          /></span>
+                        </a>
+                      </div>
+                      <div
+                        *ngIf="
+                          media?.FloorPlan?.Name ==
+                          propertyFileUploads.FLOOR_PLAN
+                        "
+                      >
+                        <a class="download-link">
+                          <span>View</span>
+                          <span
+                            ><img
+                              src="assets/images/eye.svg"
+                              alt="download_icon"
+                          /></span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="container">
+                <div class="row" *ngIf="media?.FactSheet?.MediaType">
+                  <div class="col-sm">
+                    <div class="feature-name">
+                      <div class="rd-heading rd-heading-xs">
+                        {{
+                          media.FactSheet.MediaType
+                            ? media.FactSheet.MediaType
+                            : "NA"
+                        }}
+                      </div>
+                      <span
+                        class="rd-indicator rd-indicator-md"
+                        *ngIf="media?.FactSheet?.MediaType"
+                      >
+                        <span
+                          class="rd-indicator-content rd-indicator-secondary"
+                        ></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="feature-name">
+                      <div
+                        class="rd-heading rd-heading-xs"
+                        *ngIf="media?.FactSheet?.Name"
+                      >
+                        {{ media.FactSheet.Name ? media.FactSheet.Name : "NA" }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div
+                      class="feature-rating"
+                      *ngIf="
+                        media?.FactSheet?.Name != propertyFileUploads.FACT_SHEET
+                      "
+                    >
+                      <div>
+                        <a class="download-link">
+                          <span>Download</span>
+                          <span
+                            ><img
+                              src="assets/images/download-round.svg"
+                              alt="download_icon"
+                          /></span>
+                        </a>
+                      </div>
+                    </div>
+                    <div
+                      class="feature-rating"
+                      *ngIf="
+                        media?.FactSheet?.Name == propertyFileUploads.FACT_SHEET
+                      "
+                    >
+                      <div>
+                        <a class="download-link">
+                          <span>View</span>
+                          <span
+                            ><img
+                              src="assets/images/eye.svg"
+                              alt="download_icon"
+                          /></span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="container">
+                <div class="row" *ngIf="media?.MallMap?.MediaType">
+                  <div class="col-sm">
+                    <div class="feature-name">
+                      <div class="rd-heading rd-heading-xs">
+                        {{
+                          media.MallMap.MediaType
+                            ? media.MallMap.MediaType
+                            : "NA"
+                        }}
+                      </div>
+                      <span
+                        class="rd-indicator rd-indicator-md"
+                        *ngIf="media?.MallMap?.MediaType"
+                      >
+                        <span
+                          class="rd-indicator-content rd-indicator-secondary"
+                        ></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="feature-name">
+                      <div
+                        class="rd-heading rd-heading-xs"
+                        *ngIf="media?.MallMap?.Name"
+                      >
+                        {{ media.MallMap.Name ? media.MallMap.Name : "NA" }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div
+                      class="feature-rating"
+                      *ngIf="
+                        media?.MallMap?.Name != propertyFileUploads.MALL_MAP
+                      "
+                    >
+                      <div>
+                        <a class="download-link">
+                          <span>Download</span>
+                          <span
+                            ><img
+                              src="assets/images/download-round.svg"
+                              alt="download_icon"
+                          /></span>
+                        </a>
+                      </div>
+                    </div>
+                    <div
+                      class="feature-rating"
+                      *ngIf="
+                        media?.MallMap?.Name == propertyFileUploads.MALL_MAP
+                      "
+                    >
+                      <div>
+                        <a class="download-link">
+                          <span>View</span>
+                          <span
+                            ><img
+                              src="assets/images/eye.svg"
+                              alt="download_icon"
+                          /></span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Brochure">
+              <ng-template mat-tab-label>
+                <div class="rd-heading rd-heading-xs">Brochure</div>
+              </ng-template>
+              <div class="position-relative mb-5">
+                <div class="rd-heading rd-heading-xl">Brochure</div>
+                <span class="rd-indicator rd-indicator-xl">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+
+              <div class="container">
+                <div class="row" *ngIf="media?.Brochure?.MediaType">
+                  <div class="col-sm">
+                    <div class="feature-container">
+                      <div class="feature-name">
+                        <div class="rd-heading rd-heading-xs">
+                          {{
+                            media.Brochure.MediaType
+                              ? media.Brochure.MediaType
+                              : "NA"
+                          }}
+                        </div>
+                        <span
+                          class="rd-indicator rd-indicator-md"
+                          *ngIf="media?.Brochure?.Name"
+                        >
+                          <span
+                            class="rd-indicator-content rd-indicator-secondary"
+                          ></span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="feature-name">
+                      <div
+                        class="rd-heading rd-heading-xs"
+                        *ngIf="media?.Brochure?.Name"
+                      >
+                        {{ media.Brochure.Name ? media.Brochure.Name : "NA" }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="feature-rating">
+                      <div
+                        *ngIf="
+                          media?.Brochure?.Name != propertyFileUploads.BROCHURE
+                        "
+                      >
+                        <a class="download-link">
+                          <span>Download</span>
+                          <span
+                            ><img
+                              src="assets/images/download-round.svg"
+                              alt="download_icon"
+                          /></span>
+                        </a>
+                      </div>
+                      <div
+                        *ngIf="
+                          media?.Brochure?.Name == propertyFileUploads.BROCHURE
+                        "
+                      >
+                        <a class="download-link">
+                          <span>View</span>
+                          <span
+                            ><img
+                              src="assets/images/preview-eye.svg"
+                              alt="download_icon"
+                          /></span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div class="rd-heading rd-heading-xs">ESG certification</div>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="user-card">
+          <div class="rd-heading rd-heading-md-bold">Leasing Contact</div>
+          <div class="user-info">
+            <div class="user-image">
+              <img
+                src="assets/images/user-icon.svg"
+                class="user-profile"
+                alt="user icon"
+              />
+            </div>
+            <div class="user-details">
+              <div class="user-name">
+                {{ propertyDetails.details.LeasingExecutiveName }}
+              </div>
+              <div class="user-contact">
+                <img src="assets/images/mobile.svg" alt="phone_icon" />
+                <small>
+                  {{ propertyDetails.details.LeasingExecutiveCellNumber }}
+                </small>
+              </div>
+              <div class="user-contact">
+                <img src="assets/images/email.svg" alt="email_icon" />
+                <small>{{
+                  propertyDetails.details.LeasingExecutiveEmail
+                }}</small>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="user-card-action">
+            <button>
+              <span
+                ><img src="assets/images/message.svg" alt="message_icon"
+              /></span>
+              <span>Send Message</span>
+            </button>
+            <button>
+              <span
+                ><img src="assets/images/email.svg" alt="email_icon"
+              /></span>
+              <span>Send Email</span>
+            </button>
+          </div> -->
+        </div>
+        <div>
+          <button class="rd-btn rd-btn-dark rd-btn-lg w-100">Enquire</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="tabIndex == 6">
+    <div class="col-12 d-flex align-items-center justify-content-between mb-4">
+      <div class="preview-section">
+        <div *ngFor="let feature of propertyDetails.esgfeatures">
+          <div>
+            <div class="property-details">
+              <div class="feature-name">
+                <div class="row">
+                  <div
+                    [ngClass]="
+                      feature.EsgId == 1 ||
+                      feature.EsgId == 2 ||
+                      feature.EsgId == 3
+                        ? 'rd-heading rd-heading-md-bold left col-md-4'
+                        : 'rd-heading rd-heading-md-bold left'
+                    "
+                  >
+                    {{ feature.Name }}
+                  </div>
+                  <div
+                    *ngIf="feature.Name == 'Green Star Rating'"
+                    [ngClass]="
+                      feature.Name == 'Green Star Rating'
+                        ? 'row col-md-8'
+                        : 'col-md-12'
+                    "
+                    class=""
+                  >
+                    <img class="image" src="{{ getPicture(feature.EsgId) }}" />
+                  </div>
+
+                  <div
+                    *ngIf="feature.Name == 'Net Zero'"
+                    [ngClass]="
+                      feature.Name == 'Net Zero' ? 'row col-md-8' : 'col-md-12'
+                    "
+                    class="net-zero-image"
+                  >
+                    <img class="image" src="{{ getPicture(feature.EsgId) }}" />
+                  </div>
+                  <div
+                    *ngIf="feature.Name == 'Net Positive'"
+                    [ngClass]="
+                      feature.Name == 'Net Positive'
+                        ? 'row col-md-8'
+                        : 'col-md-12'
+                    "
+                    class="net-positive-image"
+                  >
+                    <img class="image" src="{{ getPicture(feature.EsgId) }}" />
+                  </div>
+                </div>
+                <span
+                  class="rd-indicator rd-indicator-md picured"
+                  *ngIf="
+                    feature.Name == 'Net Zero' ||
+                    feature.Name == 'Net Positive' ||
+                    feature.Name == 'Green Star Rating'
+                  "
+                >
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+                <span
+                  class="rd-indicator rd-indicator-md"
+                  *ngIf="
+                    feature.Name == 'Energy Performance Certificate' ||
+                    feature.Name == 'WELL Health & Safety'
+                  "
+                >
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-12 row">
+              <div
+                class="box-size"
+                *ngFor="let subFeature of feature.SubFeatures"
+              >
+                <div class="property-details">
+                  <div class="feature-container">
+                    <div class="feature-name">
+                      <div
+                        class=""
+                        *ngIf="
+                          feature.Name != 'Energy Performance Certificate' &&
+                          feature.Name != 'Green Star Rating' &&
+                          feature.Name != 'WELL Health & Safety'
+                        "
+                      >
+                        <div class="">
+                          <div
+                            class="card card-size"
+                            [style.background]="
+                              getColor(subFeature.EsgFeaturesId)
+                            "
+                          >
+                            <div class="card-title">
+                              {{ subFeature.FeatureName }}
+                            </div>
+                            <mat-divider></mat-divider>
+
+                            <div
+                              class="card-text"
+                              *ngIf="
+                                feature.Name == 'Net Zero' ||
+                                feature.Name == 'Net Positive'
+                              "
+                            >
+                              {{ subFeature.Rating }}
+                              <ng-container *ngIf="subFeature.LevelType">
+                                ({{ subFeature.LevelType }})
+                              </ng-container>
+                              - including
+                              {{ subFeature.OffsetPercentage + "%" }}
+                              Offset Percentage
+                              <div class="levels">
+                                <div class="level1">Level 1</div>
+                                <div class="level2">Level 2</div>
+                                <div class="level3">Level 3</div>
+                                <div class="level4">Level 4</div>
+                                <div class="level5">Level 5</div>
+                              </div>
+
+                              <div
+                                class="net-positive-arrow-{{
+                                  subFeature?.Rating?.includes('1')
+                                    ? 1
+                                    : subFeature?.Rating?.includes('2')
+                                    ? 2
+                                    : subFeature?.Rating?.includes('3')
+                                    ? 3
+                                    : subFeature?.Rating?.includes('4')
+                                    ? 4
+                                    : subFeature?.Rating?.includes('5')
+                                    ? 5
+                                    : ''
+                                }}"
+                              ></div>
+
+                              <p
+                                class="validity-date"
+                                *ngIf="
+                                  subFeature.ValidityStartDate !=
+                                    '0000-00-00' &&
+                                  subFeature.ValidityEndDate != '0000-00-00'
+                                "
+                              >
+                                Validity:
+                                {{
+                                  subFeature.ValidityStartDate
+                                    | date : "yyyy-MM"
+                                }}
+                                to
+                                {{
+                                  subFeature.ValidityEndDate | date : "yyyy-MM"
+                                }}
+                              </p>
+                              <p
+                                class="validity-date"
+                                *ngIf="
+                                  subFeature.ValidityStartDate ==
+                                    '0000-00-00' ||
+                                  subFeature.ValidityEndDate == '0000-00-00'
+                                "
+                              >
+                                Validity: NA
+                              </p>
+                            </div>
+
+                            <mat-divider
+                              class="mat-divider-net-zero"
+                            ></mat-divider>
+                            <div class="certificate">
+                              <img
+                                class="certificate"
+                                src="assets/images/esg-card-eye.svg"
+                                alt="download_icon"
+                              />
+                              <div class="text-center">View Certificate</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Green star && WELL Health & Safety -->
+                      <div
+                        class=""
+                        *ngIf="
+                          feature.Name == 'Green Star Rating' ||
+                          feature.Name == 'WELL Health & Safety'
+                        "
+                      >
+                        <div class="">
+                          <div
+                            class="greenstar-card card"
+                            [style.background]="
+                              getColor(subFeature.EsgFeaturesId)
+                            "
+                          >
+                            <div class="card-title">
+                              {{ subFeature.FeatureName }}
+                            </div>
+                            <mat-divider></mat-divider>
+
+                            <div class="stars">
+                              <rd-rating
+                                [count]="6"
+                                [editable]="false"
+                                [rating]="
+                                  subFeature?.Rating?.includes('1')
+                                    ? 1
+                                    : subFeature?.Rating?.includes('2')
+                                    ? 2
+                                    : subFeature?.Rating?.includes('3')
+                                    ? 3
+                                    : subFeature?.Rating?.includes('4')
+                                    ? 4
+                                    : subFeature?.Rating?.includes('5')
+                                    ? 5
+                                    : subFeature?.Rating?.includes('6')
+                                    ? 6
+                                    : ''
+                                "
+                              ></rd-rating>
+
+                              <div class="star-rating">
+                                {{
+                                  subFeature?.Rating?.includes("1")
+                                    ? 1
+                                    : subFeature?.Rating?.includes("2")
+                                    ? 2
+                                    : subFeature?.Rating?.includes("3")
+                                    ? 3
+                                    : subFeature?.Rating?.includes("4")
+                                    ? 4
+                                    : subFeature?.Rating?.includes("5")
+                                    ? 5
+                                    : subFeature?.Rating?.includes("6")
+                                    ? 6
+                                    : ""
+                                }}
+
+                                Star Rating
+                              </div>
+                            </div>
+
+                            <mat-divider
+                              class="mat-divider-bottom"
+                            ></mat-divider>
+                            <div class="certificate">
+                              <img
+                                class="certificate"
+                                src="assets/images/esg-card-eye.svg"
+                                alt="download_icon"
+                              />
+                              <div class="text-center">View Certificate</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        class="card-text"
+                        *ngIf="feature.Name == 'Energy Performance Certificate'"
+                      >
+                        <div class="rectangle_{{ subFeature.Rating }}">
+                          <div class="EPC Add">
+                            {{ subFeature.Rating }} -
+                            {{ subFeature.AdditionalInformation }}
+                          </div>
+                        </div>
+                        <div class="view-epc">
+                          <div class="text-end"></div>
+                          <a target="_blank" class="download-link-epc">
+                            <div class="view-certificate-text-epc">
+                              View Certificate
+                            </div>
+                            <img
+                              src="assets/images/download-esg.svg"
+                              alt="download_icon"
+                            />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-divider class="property-details-wrap"></mat-divider>
+          </div>
+          <div
+            *ngIf="propertyDetails.esgfeatures.length == 0"
+            class="rd-text-grey-mid"
+          >
+            Not available
+          </div>
+        </div>
+        <div
+          class="rd-text-grey-mid"
+          *ngIf="!propertyDetails.esgfeatures.length"
+        >
+          Not available
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #map_loader>
+  <div class="d-flex gap-2 placeholder-glow">
+    <div class="w-100 placeholder" [style.height.px]="400"></div>
+  </div>
+</ng-template>

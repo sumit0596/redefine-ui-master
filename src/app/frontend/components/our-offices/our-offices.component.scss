@@ -1,0 +1,99 @@
+.office-cards {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  ); /* Responsive columns */
+  grid-gap: 10px; /* Spacing between cards */
+}
+.office-card {
+  position: relative;
+  width: 250px;
+  height: auto;
+  min-height: 300px;
+  padding: 15px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    box-shadow: var(--box-shadow);
+    .office-name-wrapper .rd-indicator {
+      width: 50px;
+    }
+  }
+  .office-name-wrapper {
+    position: relative;
+    .rd-indicator {
+      width: 0px;
+    }
+  }
+  .office-name {
+    line-height: 20px;
+  }
+  .office-address {
+    line-height: 20px;
+    margin-bottom: 20px;
+    font-weight: 400;
+    .address-1 {
+      color: var(--black);
+      margin-bottom: 12px;
+      min-height: 30px;
+      height: auto;
+      font-size: 14px;
+    }
+    .address-2 {
+      color: var(--grey-mid);
+      font-size: 14px;
+    }
+  }
+  .office-phone {
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: var(--black);
+    line-height: 20px;
+  }
+  .office-card-action {
+    position: absolute;
+    bottom: 24px;
+    right: 16px;
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      font-family: var(--rd-font-din);
+      font-size: 18px;
+    }
+    .location-icon {
+      height: 36px;
+      width: 36px;
+      border: 2px solid var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      svg {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+    .btn-view:hover .location-icon {
+      border-color: var(--red-color);
+    }
+  }
+}
+#map {
+  height: 450px;
+}
+.map-info-container {
+  max-width: 500;
+  min-width: 300px;
+}
+@media (min-width: 1000px) and (max-width: 1440px) {
+  .office-card {
+    min-height: 330px;
+  }
+} 

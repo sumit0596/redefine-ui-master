@@ -1,0 +1,675 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import url("assets/styles/components.scss");
+@import url("assets/styles/theme.css");
+@import url("assets/styles/typography.css");
+@import url("assets/styles/core.scss");
+@import url("assets/styles/buttons.css");
+@import url("assets/styles/controls.scss");
+@import url("assets/styles/toaster.scss");
+@import url("assets/styles/layout.css");
+@import url("assets/styles/forms.scss");
+@import url("assets/styles/keyframes.scss");
+@import url("assets/styles/builder/builder.scss");
+@import url("assets/styles/builder/components.css");
+
+html,
+body {
+  height: 100vh;
+}
+
+body {
+  --sb-track-color: rgba(249, 249, 249, 0.9764705882);
+  --sb-thumb-color: #adadad;
+  --sb-size: 10px;
+  --sb-br: 2px;
+
+  margin: 0;
+  padding: 0;
+}
+/* ===== Scrollbar CSS ===== */
+
+*::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--sb-track-color) !important;
+  border-radius: var(--sb-br);
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--sb-br);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: var(--sb-br);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}
+
+/* ===== Scrollbar CSS ===== */
+// Malik Form Start
+
+app-view-file pdf-download {
+  padding-right: 60px !important;
+}
+app-view-file pdf-download svg {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.dsar h1 {
+  font-size: 32px;
+  font-family: var(--font-din) !important;
+}
+
+.dsar h5 {
+  font-size: 16px !important;
+}
+
+.dsar label,
+.control-label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: normal;
+  font-size: 16px !important;
+  font-family: var(--font-din) !important;
+}
+
+.dsar p {
+  //margin: 0 0 9px;
+  color: var(--grey-mid) !important;
+}
+
+.dsar a {
+  color: red !important;
+}
+
+.dsar textarea {
+  width: 100% !important;
+}
+
+.dsar .input-sm,
+.dsar select.input-sm {
+  height: 45px !important;
+  font-size: 13px !important;
+  //padding: 4px 6px;
+  line-height: 1.5;
+  width: 100% !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  font-weight: 500 !important;
+  color: var(--text-color) !important;
+  background-color: var(--input-bg-color) !important;
+  transition: all 0.3s ease-in !important;
+  box-shadow: var(--input-box-shadow) !important;
+}
+
+.dsar .input-sm .dsar select.input-sm {
+  height: 45px !important;
+  font-size: 15px !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  font-weight: 500 !important;
+  color: var(--text-color) !important;
+  background-color: var(--input-bg-color) !important;
+  transition: all 0.3s ease-in !important;
+  box-shadow: var(--input-box-shadow) !important;
+}
+
+#recordDescription {
+  width: 832px !important;
+  height: 83px !important;
+}
+
+// Malik Form Start End
+
+.disable-selection {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/*****************************************************************
+*                   ng select customization                      *   
+******************************************************************/
+
+.ng-select .ng-select-container {
+  min-height: 48px !important;
+  font-weight: 500 !important;
+  color: var(--grey) !important;
+  border-radius: 4px !important;
+  transition: all 0.3s ease !important;
+  background-color: var(--input-bg-color) !important;
+  border: 1px solid transparent !important;
+  box-shadow: var(--input-box-shadow);
+}
+.ng-select .ng-select-container:hover {
+  outline: none;
+  border-color: #b8b8b8 !important;
+}
+.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+  box-shadow: unset;
+}
+.ng-dropdown-panel {
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+  background: var(--dropdown-bg-color) !important;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 4px !important;
+  border: transparent;
+  overflow: auto;
+  z-index: 10 !important;
+}
+.ng-dropdown-panel::-webkit-scrollbar {
+  width: 16px !important;
+}
+[data-theme="user"] .ng-dropdown-panel::-webkit-scrollbar-thumb {
+  background-color: #000 !important;
+  border: 4px solid #f8f9fa;
+  border-radius: 8px;
+}
+[data-theme="admin"] .ng-dropdown-panel::-webkit-scrollbar-thumb {
+  background-color: #e4e9e6 !important;
+  border: 4px solid #f8f9fa;
+  border-radius: 8px;
+}
+.ng-dropdown-panel::-webkit-scrollbar-track {
+  background: #f8f9fa !important;
+  border-radius: 8px;
+}
+.ng-dropdown-panel .scroll-host {
+  overflow: unset !important;
+  overflow-y: unset !important;
+}
+.ng-dropdown-panel .ng-dropdown-panel-items {
+  height: auto !important;
+  max-height: 200px !important;
+  overflow: unset !important;
+}
+.ng-dropdown-panel .ng-dropdown-panel-items::-webkit-scrollbar {
+  width: 0;
+}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  color: var(--dropdown-option-color);
+  background-color: var(--dropdown-bg-color);
+}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
+  color: var(--dropdown-option-hover-color);
+  background-color: var(--dropdown-option-hover-bg-color);
+}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  color: var(--dropdown-option-hover-color);
+  background-color: var(--dropdown-option-hover-bg-color);
+}
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected
+  .ng-option-label,
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked
+  .ng-option-label {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+}
+.ng-select.ng-select-single
+  .ng-select-container
+  .ng-value-container
+  .ng-input
+  > input,
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-input
+  > input {
+  padding: 5px 0 !important;
+}
+
+.ng-select.ng-select-opened .ng-select-container {
+  z-index: 9 !important;
+}
+
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-placeholder {
+  margin-top: 7px !important;
+}
+.ng-select .ng-clear-wrapper,
+.ng-select .ng-arrow-wrapper {
+  z-index: 9 !important;
+  height: 40% !important;
+}
+.ng-select.ng-select-disabled > .ng-select-container {
+  background-color: var(--grey-very-light) !important;
+  border-color: transparent !important;
+  color: #b8b8b8 !important;
+}
+.ng-select.ng-select-disabled > *,
+.ng-select.ng-select-disabled > *:hover {
+  pointer-events: none;
+}
+.ng-select.ng-invalid-select > .ng-select-container {
+  border-color: #c00018 !important;
+}
+.ng-option .ng-option-selected {
+  background-color: var(--grey-very-light);
+}
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value {
+  padding: 2px 4px;
+  background-color: var(--grey-very-light);
+  border-radius: 12px;
+}
+
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value {
+  max-width: 220px;
+  display: inline-flex;
+}
+
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-label {
+  max-width: 190px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-flex;
+}
+/******************************************************************
+*                   fontawesome customization                     *   
+******************************************************************/
+
+.fa {
+  font-family: "FontAwesome" !important;
+}
+.fab {
+  font-family: "Font Awesome 6 Brands" !important;
+}
+
+/******************************************************************
+*                   material customization                        *   
+******************************************************************/
+
+.material-icons {
+  font-family: "Material Icons" !important;
+}
+.mat-mdc-paginator-container {
+  justify-content: space-between !important;
+  padding: 0 16px !important;
+}
+.custom-paginator .mat-mdc-paginator-container {
+  justify-content: flex-end !important;
+  padding: 0 16px !important;
+}
+
+.cdk-overlay-pane {
+  margin: 10px 0;
+  max-height: 95vh;
+  max-width: 90vw;
+}
+
+@media (max-width: 440px) {
+  .cdk-overlay-pane {
+    max-width: 125vw !important;
+  }
+}
+
+.angular-editor-textarea {
+  margin-top: -1px !important;
+  resize: none !important;
+  color: var(--grey);
+}
+.angular-editor-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.angular-editor-toolbar .angular-editor-toolbar-set .angular-editor-button {
+  border: none !important;
+  background-color: transparent !important;
+}
+.angular-editor-toolbar
+  .angular-editor-toolbar-set
+  .angular-editor-button.active {
+  color: var(--deep-red-color) !important;
+}
+.angular-editor
+  .angular-editor-wrapper.show-placeholder
+  .angular-editor-placeholder {
+  display: block !important;
+}
+.ae-font .ae-picker-options .ae-picker-item.focused,
+.ae-font .ae-picker-options .ae-picker-item:hover {
+  color: #ffffff;
+  background-color: var(--deep-red-color) !important;
+}
+.ae-font .ae-picker-options .ae-picker-item.selected {
+  color: #ffffff !important;
+}
+/* MATERIAL TABS */
+.mdc-tab {
+  padding-left: unset !important;
+}
+.mdc-tab-indicator {
+  justify-content: flex-start !important;
+  width: 40% !important;
+}
+.mdc-tab-indicator .mdc-tab-indicator__content--underline {
+  border-top-width: 3px !important;
+}
+.mdc-tab__ripple::before,
+.mat-mdc-tab .mat-ripple-element,
+.mat-mdc-tab-header-pagination .mat-ripple-element,
+.mat-mdc-tab-link .mat-ripple-element {
+  background-color: unset !important;
+}
+.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+.mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active
+  .mdc-tab__text-label {
+  color: var(--red-color) !important;
+}
+.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
+.mat-mdc-tab-link:not(.mat-mdc-tab-disabled)
+  .mdc-tab-indicator__content--underline {
+  border-color: var(--red-color) !important;
+}
+.mat-mdc-tab-body-wrapper {
+  padding: 20px 0 !important;
+}
+.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab__text-label:hover {
+  color: var(--red-color) !important;
+}
+
+.custom-paginator {
+  float: right !important;
+}
+.custom-paginator-container {
+  justify-content: flex-end;
+}
+
+.custom-paginator-counter {
+  white-space: nowrap;
+  margin: 0px 4px 0px 10px !important;
+}
+
+.custom-paginator-page {
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  margin: 0.4em;
+  font-size: 16px;
+  min-width: 24px;
+  width: auto;
+  min-height: 24px;
+  max-height: 24px;
+  padding: 1px 6px;
+  background-color: #f9f9f9 !important;
+}
+
+.custom-paginator-page-enabled {
+  color: #333333;
+  background: transparent;
+  cursor: pointer;
+  &:hover {
+    background-color: #e6001c !important;
+    color: #fff;
+  }
+}
+
+.custom-paginator-page-disabled {
+  background-color: #000000 !important;
+  color: #fff !important;
+}
+
+.custom-paginator-arrow-disabled {
+  color: #dfe3e6;
+  background-color: #f9f9f9;
+}
+
+.custom-paginator-arrow-enabled {
+  color: #999999;
+  background-color: #f9f9f9;
+}
+
+.custom-paginator-counter {
+  display: none;
+}
+
+div:has(div mat-paginator) {
+  // padding-bottom: 15px;
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.dsar .btn-info:hover,
+.dsar .btn-info:focus,
+.dsar .btn-info:active {
+  color: #ffffff;
+  background: var(--deep-red-color) !important;
+  box-shadow: 0px 0px 8px rgba(102, 102, 102, 0.4);
+  border-color: none !important;
+}
+
+.dsar .btn-primary:hover,
+.dsar .btn-primary:focus,
+.dsar .btn-primary:active {
+  color: #ffffff;
+  background: var(--deep-red-color) !important;
+  box-shadow: 0px 0px 8px rgba(102, 102, 102, 0.4);
+  border-color: none !important;
+}
+
+.dsar .btn-info {
+  position: relative !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  padding: 5px 10px !important;
+  border: none !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+  width: 240px !important;
+  height: 48px !important;
+  font-size: 16px !important;
+}
+
+.dsar .btn-primary {
+  position: relative !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  padding: 5px 10px !important;
+  border: none !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+  width: 240px !important;
+  height: 48px !important;
+  font-size: 16px !important;
+}
+
+.dsar .btn-outline-primary {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 15px !important;
+  height: 56px !important;
+  width: 74% !important;
+  background: #f9fafb !important;
+  border: 1px dashed #dfdfdf !important;
+  border-radius: 2px !important;
+  transition: all 0.3s ease-in !important;
+}
+
+.dsar .input-sm,
+.dsar select.input-sm {
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  font-weight: 500 !important;
+  color: var(--text-color) !important;
+  background-color: var(--input-bg-color) !important;
+  transition: all 0.3s ease-in !important;
+  box-shadow: var(--input-box-shadow) !important;
+  outline: none !important;
+  border-color: #b8b8b8 !important;
+  width: calc(100%) !important;
+  padding: 0.8rem 0.5rem !important;
+}
+
+#postalAddress,
+#telephone,
+#faxNumber,
+#commsType {
+  width: 257px !important;
+}
+
+@media (max-width: 576px) {
+  .mat-mdc-paginator {
+    display: block;
+    overflow: auto !important;
+    width: 100% !important;
+  }
+.mat-mdc-paginator.custom-paginator {
+ justify-content: center;
+}
+}
+
+@media (min-width: 1400px) and (max-width: 1920px) {
+  #postalAddress,
+  #telephone,
+  #faxNumber,
+  #commsType {
+    width: 300px !important;
+  }
+}
+
+#form-dsar button.request-type.btn.btn-sm.btn-success {
+  background: #000;
+  border: none;
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 0.3rem 1rem;
+}
+
+#form-dsar .dsar .btn-group{
+  display: flex;
+  width: 30%;
+}
+
+#form-dsar .dsar .btn-group>.btn span.bi{
+    display: none;
+}
+  
+#form-dsar button.request-type.btn.btn-sm.btn-success.active{
+  background: var(--red-color);
+}
+
+#form-dsar .dsar .btn-group>.btn.active span.bi{
+  display: inline-block;
+}
+
+div#form-dsar {
+  border: 1.12666px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 38px 32px 10px;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+#form-dsar textarea#recordDescription {
+  width: 100% !important;
+}
+
+form#dsarForm>.row>.col-sm-12.text-center {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+form#dsarForm>div:nth-child(2)>.row>.col-sm-6{
+  width:100%;
+}
+
+form#dsarForm>div:nth-child(2)>.row:nth-child(3)>.col-sm-6{
+  width:100%;
+
+}
+
+form#dsarForm #postalAddress, 
+form#dsarForm #telephone, 
+form#dsarForm #faxNumber, 
+form#dsarForm #commsType {
+  width: 100% !important;
+}
+form#dsarForm #telephone,
+form#dsarForm #faxNumber{
+  padding-left: 50px !important;
+}
+form#dsarForm .iti.iti--allow-dropdown {
+  width: 100%;
+}
+
+.dsar .input-sm, .dsar select.input-sm {
+  border: 0px solid transparent !important;
+  border-radius: 4px !important;
+  font-weight: 500 !important;
+  color: var(--text-color) !important;
+  background-color: var(--input-bg-color) !important;
+  transition: all 0.3s ease-in !important;
+  box-shadow: var(--input-box-shadow) !important;
+}
+
+div#dsar-form h1 {
+  color: #000;
+  text-transform: capitalize;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+div#dsar-form h1::after {
+  content: '';
+  background: var(--red-color);
+  width: 100px;
+  height: 3px;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+}
+
+div#dsar-form p {
+  color: #000 !important;
+}
+
+div#dsar-form .fileUpload.btn.btn-outline-primary {
+  width: 100% !important;
+}
+
+@media screen and (max-width: 768px) {
+  #form-dsar .dsar .btn-group {
+    width: 100%;
+    flex-direction: column;
+}
+.mat-mdc-paginator.custom-paginator{
+  display: flex;
+}
+}

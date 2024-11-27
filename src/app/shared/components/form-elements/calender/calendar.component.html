@@ -1,0 +1,41 @@
+<div class="control-container" *ngIf="form">
+  <form [formGroup]="form" class="form">
+    <label [for]="id"
+      >{{ label }}
+      <span *ngIf="required" class="required-asterik">*</span></label
+    >
+    <div class="input-wrapper" (focus)="_openCalendar(picker)" 
+    (click)="_openCalendar(picker)">     
+      <input
+        matInput
+        [ngClass]="form.get(controlName)?.errors?.['invalid'] ? 'invalid':''"
+        class="calendar-input trailing-icon-input"
+        [type]="type"
+        [name]="id"
+        [id]="id"
+        [value]="value"
+        [placeholder]="placeholder"
+        [formControlName]="controlName"
+        [matDatepicker]="picker"
+        [max]="max ? max : null"
+        [min]="min ? min : null"
+        (dateChange)="onChange($event)"
+        (focus)="_openCalendar(picker)" 
+         (click)="_openCalendar(picker)"
+         #elementToFocus 
+        
+      />
+         
+      <div class="input-btn-group">
+        <div>
+          <mat-datepicker-toggle matIconSuffix [for]="picker">
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker (closed)="_closeCalendar($event)"></mat-datepicker>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="form.get(controlName)?.hasError('invalid')" class="error-msg">
+      <small>{{ form.get(controlName)?.errors?.['invalid'] }}</small>
+    </div>
+  </form>
+</div>

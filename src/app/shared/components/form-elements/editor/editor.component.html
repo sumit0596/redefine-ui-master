@@ -1,0 +1,29 @@
+<div class="control-container">
+  <form [formGroup]="form" class="form" *ngIf="enableForm && form">
+    <label [for]="id" *ngIf="label"
+      >{{ label }}
+      <span *ngIf="required" class="required-asterik">*</span></label
+    >
+    <div class="input-wrapper">
+      <angular-editor
+        [id]="id"
+        [formControlName]="controlName"
+        [config]="editorConfig"
+        [style.width]="'100%'"
+      ></angular-editor>
+    </div>
+    <div *ngIf="form.get(controlName)?.hasError('invalid')" class="error-msg">
+      <small>{{ form.get(controlName)?.errors?.['invalid'] }}</small>
+    </div>
+  </form>
+  <form class="form" *ngIf="!enableForm">
+    <label [for]="id" *ngIf="label">{{ label }}</label>
+    <div class="input-wrapper">
+      <angular-editor
+        [id]="id"
+        [config]="editorConfig"
+        [style.width]="'100%'"
+      ></angular-editor>
+    </div>
+  </form>
+</div>

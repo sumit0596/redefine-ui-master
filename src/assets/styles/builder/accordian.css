@@ -1,0 +1,60 @@
+summary> div{
+    padding-left: 20px;
+  }
+  
+  summary {
+    font-size: 1.25rem;
+    font-weight: 600;
+    background-color: #fff;
+    color: #333;
+    padding: 1rem;
+    margin-bottom: 0rem;
+    outline: none;
+    border-radius: 0.1rem;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+  
+    
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  details{
+  box-shadow: 0px 0px 12px 0px rgba(153, 153, 153, 0.20);
+  padding: 10px 20px;
+  }
+  
+  details > summary::after {
+    position: absolute;
+    content: url('/assets/images/builder/svg/chevron-up.svg');
+    right: 20px;
+  }
+  details[open] > summary::after {
+    position: absolute;
+    content:  url('/assets/images/builder/svg/chevron-down.svg');
+    right: 20px;
+    
+  }
+  
+  
+  details > summary::-webkit-details-marker {
+    display: none !important;
+  }
+  details > summary::marker {
+    display: none !important;
+  }
+  /* details[data-gjs-highlightable="true"][open='true'] summary ~ *{
+    display: visible;
+  } */
+  
+  details[open] summary ~ * {
+    animation: sweep .5s ease-in-out;
+  }
+  @keyframes sweep {
+    0%    {opacity: 0; margin-top: -10px}
+    100%  {opacity: 1; margin-top: 0px}
+  }
+  

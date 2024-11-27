@@ -1,0 +1,155 @@
+<div class="rd-container">
+  <div class="rd-container-header" *ngIf="formConfig">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} - SENS
+        Announcement
+      </div>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-8">
+      <form
+        class="rd-form form-container"
+        [formGroup]="sensForm"
+        autocomplete="on"
+        (ngSubmit)="onSubmit($event)"
+      >
+        <div class="rd-switch-wrapper drip-switch">
+          <rd-switch
+            [label]="'ApplyDrip'"
+            [id]="'drip-switch'"
+            [checked]="sensDetails?.Drip"
+            (onChange)="onSwitchToggle($event)"
+          >
+          </rd-switch>
+          <label>Apply Drip</label>
+        </div>
+        <div class="rd-form-body">
+          <rd-input
+            [label]="'SEO Title'"
+            [id]="'seoTitle'"
+            [placeholder]="'Please Provide'"
+            [type]="'text'"
+            [controlName]="'SeoTitle'"
+            [form]="sensForm"
+          ></rd-input>
+          <rd-input
+            [label]="'SENS Headline'"
+            [id]="'headline'"
+            [placeholder]="'Please Provide'"
+            [type]="'text'"
+            [controlName]="'Headline'"
+            [form]="sensForm"
+          ></rd-input>
+          <rd-input
+            [label]="'Date'"
+            [id]="'date'"
+            [placeholder]="'Please Provide'"
+            [type]="'text'"
+            [controlName]="'Date'"
+            [form]="sensForm"
+          ></rd-input>
+          <rd-input
+            [label]="'Source'"
+            [id]="'sourse'"
+            [placeholder]="'Please Provide'"
+            [type]="'text'"
+            [controlName]="'Source'"
+            [form]="sensForm"
+          ></rd-input>
+          <rd-textarea
+            [label]="'Announcement'"
+            [id]="'announcement'"
+            [placeholder]="'Please Provide'"
+            [controlName]="'Announcement'"
+            [form]="sensForm"
+            [rows]="rows"
+            [maxLength]="0"
+          ></rd-textarea>
+
+          <div class="rd-form-footer">
+            <div>
+              <button
+                type="button"
+                class="rd-btn-secondary rd-btn-lg"
+                (click)="goToManage()"
+              >
+                Cancel
+              </button>
+            </div>
+            <div *ngIf="formConfig?.access">
+              <button type="submit" class="rd-btn-primary rd-btn-lg">
+                Submit
+              </button>
+            </div>
+          </div>
+          <!-- <div class="rd-form-footer">
+            <div class="move-right">
+              <div class="save-btn-dropdown-wrapper">
+                <button
+                  [matMenuTriggerFor]="saveMenu"
+                  type="button"
+                  class="rd-btn-primary rd-btn-lg rd-dropdown-btn"
+                >
+                  <span>Un/Publish</span>
+
+                  <span class="drop-icon"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-chevron-down"
+                    >
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </span>
+                </button>
+                <mat-menu #saveMenu="matMenu">
+                  <div class="save-dropdown-menu">
+                    <button
+                      (click)="onSave(status.PUBLISH)"
+                      class="rd-btn-text rd-btn-lg"
+                    >
+                      <span
+                        ><img src="assets/images/upload.svg" alt="icon"
+                      /></span>
+                      <span>Publish</span>
+                    </button>
+                    <button
+                      (click)="onSave(status.UNPUBLISH)"
+                      class="rd-btn-text rd-btn-lg"
+                    >
+                      <span
+                        ><img src="assets/images/edit-pencile.svg" alt="icon"
+                      /></span>
+                      <span>Unpublish</span>
+                    </button>
+                  </div>
+                </mat-menu>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row"></div>
+</div>

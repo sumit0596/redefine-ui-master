@@ -1,0 +1,95 @@
+<mat-accordion>
+  <mat-expansion-panel
+    [expanded]="true"
+    (opened)="stackBarPanelOpenState = true"
+    (closed)="stackBarPanelOpenState = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title class="align-items-start">
+        <div class="col-md-9 rd-heading rd-heading-md fw-bold">
+          Property Media
+          <small class="selected-filter-label mb-4"></small>
+        </div>
+        <div
+          class="col-md-3 d-flex justify-content-end"
+          *ngIf="stackBarPanelOpenState"
+        >
+          <button
+            type="button"
+            class="rd-btn rd-btn-text p-2"
+            (click)="stackResetFilter($event)"
+          >
+            <mat-icon>refresh</mat-icon>
+          </button>
+          <button
+            type="button"
+            id="download-btn"
+            (click)="downloadPropertyData()"
+            (click)="$event.stopPropagation()"
+            class="rd-btn rd-btn-text alingment-button-dashborad"
+          >
+            <mat-icon>save_alt</mat-icon>
+          </button>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <!-- <app-stack-bar-chart></app-stack-bar-chart> -->
+
+    <div *ngIf="!loading; else loadingTemplate" class="accordion-dashboard">
+      <div class="d-flex justify-content-between">
+        <div class="col-4 p-1">
+          <div class="rd-total-count mb-3">
+            {{ totalProperties }}
+          </div>
+          <div class="rd-text-grey-darker rd-text-property mb-4">
+            Total Properties
+          </div>
+        </div>
+        <div class="col-4 p-1">
+          <div class="rd-total-count mb-3">
+            {{ publisedTotal }}
+          </div>
+          <div class="rd-text-grey-darker rd-text-property mb-4">
+            Published Properties
+          </div>
+        </div>
+        <div class="col-4 p-1">
+          <div class="rd-total-count mb-3">
+            {{ unPublisedTotal }}
+          </div>
+          <div class="rd-text-grey-darker rd-text-property mb-4">
+            Unpublished Properties
+          </div>
+        </div>
+      </div>
+
+      <div id="chartdivProperties" class="dashboard_Chart col-12"></div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <p class="disclaimer-point">
+            This graph is only displaying data for published properties
+          </p>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<ng-template #loadingTemplate>
+  <p class="card-text placeholder-glow py-1">
+    <span class="placeholder col-12"></span>
+    <span class="placeholder col-4"></span>
+  </p>
+  <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+    <span class="placeholder col-12"></span>
+    <span class="placeholder col-6"></span>
+  </p>
+  <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+    <span class="placeholder col-12"></span>
+    <span class="placeholder col-7"></span>
+  </p>
+  <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+    <span class="placeholder col-12"></span>
+    <span class="placeholder col-3"></span>
+  </p>
+</ng-template>

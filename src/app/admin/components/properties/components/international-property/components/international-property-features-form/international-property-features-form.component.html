@@ -1,0 +1,110 @@
+<div class="rd-container">
+  <form
+    class="rd-form form-container"
+    [formGroup]="propertyFeaturesForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="rd-form-header">Additional Information</div>
+    <div class="rd-form-section" formArrayName="FeaturesAmenitiesSectorId">
+      <div
+        *ngFor="
+          let feature of propertyFeaturesAmenitiesForm.controls;
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <div class="rd-switch-wrapper">
+          <rd-switch
+            [label]="mergedFeaturesAmenitiesList[i].Title"
+            [id]="'feature-' + i"
+            [checked]="mergedFeaturesAmenitiesList[i].Checked"
+            (onChange)="toggleSwitch($event, i)"
+          ></rd-switch>
+          <label [for]="'feature-' + i">{{
+            mergedFeaturesAmenitiesList[i].Title
+          }}</label>
+        </div>
+        <div [ngSwitch]="propertyFeaturesAmenitiesForm.at(i).value.Title">
+          <div *ngSwitchCase="'BREEAM certification rating'">
+            <rd-select
+              *ngIf="propertyFeaturesAmenitiesForm.at(i).value.Checked"
+              [id]="'feature-desc-' + i"
+              [label]="''"
+              [placeholder]="'Please Select'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Id'"
+              [items$]="breeamCertificationRating$"
+              [controlName]="'Value'"
+              [form]="propertyFeaturesAmenitiesForm.at(i)"
+              (onChange)="
+                breeamCertificationRatingChange(
+                  $event,
+                  propertyFeaturesAmenitiesForm.at(i)
+                )
+              "
+            ></rd-select>
+          </div>
+
+          <div *ngSwitchDefault>
+            <rd-input
+              *ngIf="
+                propertyFeaturesAmenitiesForm.at(i).value.Checked &&
+                mergedFeaturesAmenitiesList[i].Title == 'No. tenants'
+              "
+              [label]="'Amount in numerical'"
+              [id]="'feature-desc-' + i"
+              [placeholder]="'Please Provide'"
+              [type]="'text'"
+              [controlName]="'Value'"
+              [form]="propertyFeaturesAmenitiesForm.at(i)"
+              (onChange)="onChange($event)"
+            ></rd-input>
+            <rd-input
+              *ngIf="
+                propertyFeaturesAmenitiesForm.at(i).value.Checked &&
+                mergedFeaturesAmenitiesList[i].Title == 'Occupancy'
+              "
+              [label]="'Please provide % in numerical'"
+              [id]="'feature-desc-' + i"
+              [placeholder]="'Please Provide'"
+              [type]="'text'"
+              [controlName]="'Value'"
+              [form]="propertyFeaturesAmenitiesForm.at(i)"
+              (onChange)="onChange($event)"
+            ></rd-input>
+            <rd-input
+              *ngIf="
+                propertyFeaturesAmenitiesForm.at(i).value.Checked &&
+                mergedFeaturesAmenitiesList[i].Title == 'Parking'
+              "
+              [label]="'Please provide total parking bays on numerical'"
+              [id]="'feature-desc-' + i"
+              [placeholder]="'Please Provide'"
+              [type]="'text'"
+              [controlName]="'Value'"
+              [form]="propertyFeaturesAmenitiesForm.at(i)"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rd-form-footer no-border">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="changeStep(route.CREATE_INTERNATIONAL_PROPERTY_MEDIA)"
+        >
+          Previous
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">
+          Save & Next
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

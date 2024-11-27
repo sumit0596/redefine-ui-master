@@ -1,0 +1,11 @@
+<div class="rd-container error-container" [ngSwitch]="errorCode">
+  <div class="error" *ngSwitchCase="403">
+    <div class="rd-heading rd-heading-lg error-code">403</div>
+    <div class="rd-heading rd-heading-lg error-title">
+      Sorry, the link has expired.
+    </div>
+    <div class="error-description">
+      You look too late to enable your account or you have your account enabled.
+    </div>
+  </div>
+</div>

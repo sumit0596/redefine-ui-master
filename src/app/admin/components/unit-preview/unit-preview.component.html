@@ -1,0 +1,633 @@
+<div class="rd-container">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }}
+        {{ unitDetails?.details?.PropertyName }} -
+        {{ unitDetails?.details?.NameAndLocation }}
+      </div>
+    </div>
+    <div class="rd-container-header-right">
+      <button
+        *ngIf="unitDetails?.PropertyMedia?.Image"
+        type="button"
+        class="rd-btn rd-btn-primary rd-btn-xl"
+        (click)="createPdf()"
+      >
+        Download Custom Brochure
+      </button>
+    </div>
+  </div>
+  <!-- <div>
+    <pre>{{ unitDetails | json }}</pre>
+  </div> -->
+  <div class="rd-container preview-container" *ngIf="unitDetails">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-9">
+          <!-- PROPERTY IMAGES -->
+          <div class="property-image-section">
+            <div class="property-image-gallery">
+              <div class="property-image">
+                <img
+                  [src]="
+                    unitDetails.PropertyMedia?.Image?.length > 0
+                      ? unitDetails.PropertyMedia?.Image[0].Url
+                      : imagePlaceholders[0].Url
+                  "
+                  alt="property image"
+                  (click)="openCarousel(0)"
+                />
+              </div>
+            </div>
+            <div
+              class="property-image-thumbnails"
+              *ngIf="unitDetails.PropertyMedia?.Image?.length > 1"
+            >
+              <div
+                *ngFor="
+                  let image of unitDetails.PropertyMedia?.Image.slice(1, 4);
+                  let i = index
+                "
+                class="property-image"
+              >
+                <img
+                  [src]="image.Url"
+                  alt="property image"
+                  (click)="openCarousel(i + 1)"
+                />
+              </div>
+              <div
+                class="more-images property-image"
+                *ngIf="unitDetails.PropertyMedia?.Image?.length > 4"
+                (click)="openCarousel(3)"
+              >
+                +{{ unitDetails.PropertyMedia?.Image.length - 4 }} Photos
+              </div>
+            </div>
+          </div>
+
+          <!-- PROPERTY Sector -->
+          <div class="key-value-container rd-text-grey-mid">
+            <div class="key-value-wrapper">
+              <div>Sector:</div>
+              <div>
+                {{
+                  unitDetails.details.SectorName
+                    ? unitDetails.details.SectorName
+                    : "NA"
+                }}
+              </div>
+            </div>
+          </div>
+
+          <div class="property-details mb-5">
+            <div class="key-value-wrapper">
+              <div class="position-relative">
+                <div class="rd-heading rd-heading-lg-normal">
+                  {{ unitDetails.details.PropertyName }}
+                </div>
+                <span class="rd-indicator rd-indicator-lg">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+              <div class="key-color-primary units-wrapper">
+                <div class="key-value-container mt-3">
+                  <div
+                    *ngFor="
+                      let feature of unitDetails.propertyattributes
+                        | slice : 0 : 2;
+                      let i = index
+                    "
+                    class="key-value-wrapper"
+                  >
+                    <div>
+                      <img
+                        src="assets/images/attribute.svg"
+                        class="attribute-icon"
+                        alt="attribute_icon"
+                      />
+                    </div>
+                    <div class="rd-text-grey-mid">
+                      {{ unitDetails.propertyattributes[i].Title }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="key-value-container gap-1">
+            <div class="key-value-wrapper" *ngIf="unitDetails.details.Address">
+              <!-- <div>Address:</div> -->
+              <div class="rd-text-grey-mid">
+                {{ unitDetails.details.Address + "," }}
+              </div>
+            </div>
+           
+            <div class="key-value-wrapper" *ngIf="unitDetails.details.Suburb">
+              <!-- <div>Suburb:</div> -->
+              <div class="rd-text-grey-mid">
+                {{ unitDetails.details.Suburb + "," }}
+              </div>
+            </div>
+            <div class="key-value-wrapper" *ngIf="unitDetails.details.City">
+              <!-- <div>City:</div> -->
+              <div class="rd-text-grey-mid">
+                {{ unitDetails.details.City + "," }}
+              </div>
+            </div>
+            <div
+              class="key-value-wrapper"
+              *ngIf="unitDetails.details.ProvinceName"
+            >
+              <!-- <div>Province:</div> -->
+              <div class="rd-text-grey-mid">
+                {{ unitDetails.details.ProvinceName + "," }}
+              </div>
+            </div>
+            <div
+                  class="key-value-wrapper"
+                  *ngIf="unitDetails.details.Country"
+                >
+                  <!-- <div>Country:</div> -->
+                  <div class="rd-text-grey-mid">
+                    {{ unitDetails.details.Country + "," }}
+                  </div>
+                </div>
+            <div class="key-value-wrapper" *ngIf="unitDetails.details.PostCode">
+              <!-- <div>Postal Code:</div> -->
+              <div class="rd-text-grey-mid">
+                {{ unitDetails.details.PostCode }}
+              </div>
+            </div>
+          </div>
+          <div class="property-details-wrapper"></div>
+          <div class="rd-form form-container">
+            <div class="property-details">
+              <div class="rd-heading rd-heading-sm-bold">
+                {{ unitDetails.details.NameAndLocation }}
+                <span *ngIf="unitDetails.details.UnitOfferStatus" class="heading-status-point">({{unitDetails.details.UnitOfferStatus}})</span>              
+              </div>
+              <div
+                class="rd-text-grey-mid"
+                [innerHTML]="
+                  unitDetails.details.UnitDescription == '' ||
+                  unitDetails.details.UnitDescription == null ||
+                  unitDetails.details.UnitDescription == undefined
+                    ? ''
+                    : (unitDetails.details.UnitDescription | safeHtml : 'html')
+                "
+              ></div>
+            </div>
+            <div class="property-details-wrapper"></div>
+            <div class="property-details">
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">Unit size (sqm)</div>
+                <div class="key-color-primary units-wrapper">
+                  {{
+                    unitDetails.details.UnitSize
+                      ? unitDetails.details.UnitSize
+                      : "0.00"
+                  }}
+                </div>
+              </div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">Available</div>
+                <div class="units-wrapper">
+                  {{
+                    unitDetails.details.UnitAvailableDate
+                      ? unitDetails.details.UnitAvailableDate
+                      : "No"
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="property-details-wrapper"></div>
+            <div class="property-details">
+              <div class="rd-heading rd-heading-sm-bold">Rental Details</div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">Net Rental (R/sqm)</div>
+                <div class="units-wrapper">
+                  {{
+                    unitDetails.details.BaseRental
+                      ? unitDetails.details.BaseRental
+                      : "0.00"
+                  }}
+                </div>
+              </div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">Operation Costs (R/sqm)</div>
+                <div class="units-wrapper">
+                  {{
+                    unitDetails.details.OperationalCost
+                      ? unitDetails.details.OperationalCost
+                      : "0.00"
+                  }}
+                </div>
+              </div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">Rates (R/sqm)</div>
+                <div class="units-wrapper">
+                  {{
+                    unitDetails.details.Rates
+                      ? unitDetails.details.Rates
+                      : "0.00"
+                  }}
+                </div>
+              </div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">Gross Rental (R/sqm)</div>
+                <div class="units-wrapper">
+                  {{
+                    unitDetails.details.GrossRental
+                      ? unitDetails.details.GrossRental
+                      : "0.00"
+                  }}
+                </div>
+              </div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">CID Levy</div>
+                <div class="units-wrapper">
+                  {{
+                    unitDetails.details.CIDLevey
+                      ? unitDetails.details.CIDLevey
+                      : "0.00"
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="property-details-wrapper"></div>
+            <div class="property-details">
+              <div class="rd-heading rd-heading-sm-bold">Parking Details</div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">Parking Ratio</div>
+                <div class="units-wrapper">
+                  {{
+                    unitDetails.details.ParkingRatio
+                      ? unitDetails.details.ParkingRatio
+                      : "0.00"
+                  }}
+                </div>
+              </div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">Basement Bays (R/bays)</div>
+                <div class="units-wrapper">
+                  {{
+                    unitDetails.details.BasementBays
+                      ? unitDetails.details.BasementBays
+                      : "0.00"
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="property-details-wrapper"></div>
+            <div
+              class="property-details"
+              *ngIf="unitDetails.unitfeatureamenities.featureslength > 0"
+            >
+              <div class="rd-heading rd-heading-sm-bold">
+                Features and Amenities
+              </div>
+              <div>
+                <div>
+                  <ul>
+                    <li
+                      *ngFor="
+                        let feature of unitDetails.unitfeatureamenities.features
+                      "
+                      class="key-value-wrapper"
+                    >
+                      <div class="key-value-wrapper rd-text-grey-mid">
+                        <img
+                          [src]="
+                            'assets/images/' + getFeatureIcon(feature.Title)
+                          "
+                          class="feature-icon"
+                          alt="feature_icon"
+                        />
+
+                        {{ feature.Title }}
+                      </div>
+
+                      <div class="units-wrapper">
+                        {{ feature.Value }}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div
+              class="property-details-wrapper"
+              *ngIf="unitDetails.unitfeatureamenities.featureslength > 0"
+            ></div>
+            <div
+              class="property-details"
+              *ngIf="unitDetails.propertyincentives.length > 0"
+            >
+              <div class="rd-heading rd-heading-sm-bold">Incentives</div>
+              <div class="rd-text-grey-mid">
+                <div class="key-value-container">
+                  <div
+                    *ngFor="let feature of unitDetails.propertyincentives"
+                    class="key-value-wrapper"
+                  >
+                    <div class="attribute-icon">
+                      <img
+                        src="assets/images/attribute.svg"
+                        class="attribute-icon"
+                        alt="attribute_icon"
+                      />
+                    </div>
+                    <div>
+                      {{ feature.Title }}
+                    </div>
+                  </div>
+                </div>
+                <!-- <div>
+                  {{
+                    unitDetails.details.FeatureAmenitiesAddtionalDetails
+                      ? unitDetails.details.FeatureAmenitiesAddtionalDetails
+                      : "Not Available"
+                  }}
+                </div> -->
+              </div>
+            </div>
+            <div
+              class="property-details-wrapper"
+              *ngIf="unitDetails.propertyincentives.length > 0"
+            ></div>
+
+            <div
+              class="property-details"
+              *ngIf="unitDetails.details.BrokerIncentives"
+            >
+              <div class="rd-heading rd-heading-sm-bold">
+                Broker Commission Incentive (%)
+              </div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">
+                  {{ unitDetails.details.BrokerIncentives }}%
+                </div>
+              </div>
+            </div>
+            <div
+              class="property-details"
+              *ngIf="unitDetails.details.CommentDisclaimers"
+            >
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">
+                  {{ unitDetails.details.CommentDisclaimers }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="property-details-wrapper"
+              *ngIf="unitDetails.details.CommentDisclaimers"
+            ></div>
+
+            <div
+              class="property-details"
+              *ngIf="
+                leaseValues?.threeYearsLease != null &&
+                leaseValues?.fiveYearsLease != null
+              "
+            >
+              <div class="rd-heading rd-heading-sm-bold">
+                Total Space2Spec Value Contribution
+              </div>
+              <div class="key-value-wrapper gap mt-2">
+                <div class="rd-text-grey-mid">3-Years Lease</div>
+                <div class="key-color-primary units-wrapper display">
+                  R{{ leaseValues?.threeYearsLease }}
+                </div>
+                <div class="">
+                  R{{ leaseValues?.threeYearsmSquare }} per sqm
+                </div>
+              </div>
+              <div class="key-value-wrapper gap">
+                <div class="rd-text-grey-mid">5-Years Lease</div>
+                <div class="key-color-primary units-wrapper display">
+                  R{{ leaseValues?.fiveYearsLease }}
+                </div>
+                <div class="">R{{ leaseValues?.fiveYearsmSquare }} per sqm</div>
+              </div>
+              <div class="mt-2">
+                <a
+                  class="linki"
+                  href="/view-file/spacetospectermsconditions.pdf"
+                  target="_blank"
+                >
+                  Terms and Conditions Apply
+                </a>
+              </div>
+            </div>
+            <div
+              class="property-details-wrapper"
+              *ngIf="
+                leaseValues?.threeYearsLease != null &&
+                leaseValues?.fiveYearsLease != null
+              "
+            ></div>
+            <div
+              class="property-details"
+              *ngIf="
+                unitDetails?.UnitMedia?.FloorPlan &&
+                unitDetails?.UnitMedia?.Video
+              "
+            >
+              <div class="rd-heading rd-heading-sm-bold">Unit Media</div>
+              <div
+                class="key-value-wrapper"
+                *ngIf="unitDetails?.UnitMedia?.FloorPlan"
+              >
+                <div class="rd-text-grey-mid">Floor Plan</div>
+                <div class="key-color-primary units-wrapper">
+                  <a
+                    *ngIf="unitDetails?.UnitMedia?.FloorPlan"
+                    [href]="
+                      unitDetails?.UnitMedia?.FloorPlan.Url.includes('http')
+                        ? unitDetails?.UnitMedia?.FloorPlan.Url
+                        : 'https://' + unitDetails?.UnitMedia?.FloorPlan.Url
+                    "
+                    target="_blank"
+                    class="link units-wrapper"
+                  >
+                    {{ unitDetails?.UnitMedia?.FloorPlan.MediaType }}
+                  </a>
+                  <!-- <span *ngIf="!unitDetails?.UnitMedia?.FloorPlan">NA</span> -->
+                </div>
+              </div>
+              <div class="key-value-wrapper">
+                <div
+                  class="rd-text-grey-mid"
+                  *ngIf="unitDetails?.UnitMedia?.Video"
+                >
+                  Unit Video
+                </div>
+                <div
+                  class="key-color-primary units-wrapper"
+                  *ngIf="unitDetails?.UnitMedia?.Video"
+                >
+                  <a
+                    [href]="
+                      unitDetails?.UnitMedia?.Video.Url.includes('http')
+                        ? unitDetails?.UnitMedia?.Video.Url
+                        : 'https://' + unitDetails?.UnitMedia?.Video.Url
+                    "
+                    target="_blank"
+                    class="link units-wrapper"
+                  >
+                    {{ unitDetails?.UnitMedia?.Video.MediaType }}
+                  </a>
+                  <span *ngIf="!unitDetails?.UnitMedia?.Video">NA</span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="property-details-wrapper"
+              *ngIf="
+                unitDetails?.UnitMedia?.FloorPlan &&
+                unitDetails?.UnitMedia?.Video
+              "
+            ></div>
+            <div
+              class="property-details"
+              *ngIf="unitDetails.details.UnitAccessName"
+            >
+              <div class="rd-heading rd-heading-sm-bold">Access Note</div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">
+                  {{ unitDetails.details.UnitAccessName }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="property-details-wrapper"
+              *ngIf="unitDetails.details.UnitAccessName"
+            ></div>
+            <div
+              class="property-details"
+              *ngIf="unitDetails.details.AddtionalInformation"
+            >
+              <div class="rd-heading rd-heading-sm-bold">
+                Additional Information
+              </div>
+              <div class="key-value-wrapper">
+                <div class="rd-text-grey-mid">
+                  {{ unitDetails.details.AddtionalInformation }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="property-details-wrapper"
+              *ngIf="unitDetails.details.AddtionalInformation"
+            ></div>
+            <div
+              class="property-details"
+              *ngIf="unitDetails.details.TenentAllowance"
+            >
+              <div class="rd-heading rd-heading-sm-bold">
+                Tenant Installation Allowance
+              </div>
+              <div class="key-value-wrapper">
+                <div
+                  class="rd-text-grey-mid"
+                  [innerHTML]="
+                    unitDetails.details.TenentAllowance == '' ||
+                    unitDetails.details.TenentAllowance == null ||
+                    unitDetails.details.TenentAllowance == undefined
+                      ? 'NA'
+                      : (unitDetails.details.TenentAllowance
+                        | safeHtml : 'html')
+                  "
+                ></div>
+              </div>
+            </div>
+            <div
+              class="property-details-wrapper"
+              *ngIf="unitDetails.details.TenentAllowance"
+            ></div>
+          </div>
+        </div>
+
+        <div class="col-3">
+          <div class="user-card" *ngIf="unitDetails.details.BrokerName != null">
+            <div class="rd-heading rd-heading-md-bold">Broker Liason</div>
+            <div class="user-info">
+              <div class="user-image">
+                <img
+                  src="assets/images/user-icon.svg"
+                  class="user-profile"
+                  alt="user icon"
+                />
+              </div>
+              <div class="user-detials">
+                <div class="user-name">
+                  {{ unitDetails.details.BrokerName }}
+                </div>
+                <div class="user-contact">
+                  <img src="assets/images/mobile.svg" alt="phone_icon" />
+                  <small>
+                    {{ unitDetails.details.BrokerCellNumber }}
+                  </small>
+                </div>
+                <div class="user-contact">
+                  <img src="assets/images/email.svg" alt="email_icon" />
+                  <small>{{ unitDetails.details.BrokerEmail }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="user-card"
+            *ngIf="unitDetails.details.LeasingExecutiveName != null"
+          >
+            <div class="rd-heading rd-heading-md-bold">Leasing Contact</div>
+            <div class="user-info">
+              <div class="user-image">
+                <img
+                  src="assets/images/user-icon.svg"
+                  class="user-profile"
+                  alt="user icon"
+                />
+              </div>
+              <div class="user-detials">
+                <div class="user-name">
+                  {{ unitDetails.details.LeasingExecutiveName }}
+                </div>
+                <div class="user-contact">
+                  <img src="assets/images/mobile.svg" alt="phone_icon" />
+                  <small>
+                    {{ unitDetails.details.LeasingExecutiveCellNumber }}
+                  </small>
+                </div>
+                <div class="user-contact">
+                  <img src="assets/images/email.svg" alt="email_icon" />
+                  <small>{{ unitDetails.details.LeasingExecutiveEmail }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PDF Design -->

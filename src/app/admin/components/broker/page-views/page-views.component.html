@@ -1,0 +1,155 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="true" (opened)="pageViewPanelOpenState = true"
+  (closed)="pageViewPanelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="align-items-start"
+        ><div class="col-md-9 rd-heading rd-dashboard-heading rd-dashboard-heading rd-heading-md fw-bold">Page Views
+          <small class="selected-filter-label">
+            <ng-container>
+              ({{selectedEventDays}})
+            </ng-container>
+          </small>
+        </div>
+        <div class="col-md-3 d-flex justify-content-end"  
+        [ngClass]="{'invisible' : !pageViewPanelOpenState}">
+          <button
+            type="button"
+            id="more-btn"
+            [matMenuTriggerFor]="confilter"
+            aria-label="More"
+            class="rd-btn rd-btn-text alingment-button-dashborad position-relative"
+            (click)="$event.stopPropagation()"
+          >
+          <img src="assets/images/filter.svg" alt="Filter" />
+            <span *ngIf="filterApplied" class="position-absolute badge-filter  badge padicon bg-secondary"  (click)="badgereset($event)"><mat-icon class="fsmaticon filter-badge-icon-size">close</mat-icon><span class="visually-hidden">unread messages</span></span>
+          </button>
+          <mat-menu class="mat-menu mat-menu-analytic" #confilter="matMenu">
+            <div class="searchinput">
+                <input type="text" placeholder="Filter by Url" [(ngModel)]="filterName" name="filterName" (click)="stoppropogation($event)" >
+                <button type="button">
+                  <mat-icon (click)="search()" >search</mat-icon>
+                </button>
+            </div>
+            <app-dashboard-filter
+              [filter]="filter"
+              [searchfilter]="filterName"
+              (selectedEventFilter)="selectedEventFilter($event)"
+              (filteredData)="filterData(filter)"
+              (filterApplied)="handleFilterApplied($event)"
+            ></app-dashboard-filter>
+          </mat-menu>
+          <button
+            type="button"
+            id="refresh-btn"
+            (click)="refreshFilter($event)"
+            class="rd-btn rd-btn-text alingment-button-dashborad"
+          >
+            <mat-icon>refresh</mat-icon>
+            <!-- <mat-icon class="more-vert-icon"</mat-icon> -->
+          </button>
+          
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="accordion-dashboard">
+      <div class="mt-2">
+        <div *ngIf="!loading">
+          <p class="rd-total-count">{{ pageViewsCount }}</p>
+          <p class="rd-text-grey-darker views-page-size mt-4">Views by page</p>
+        </div>
+
+        <div *ngIf="!loading">
+          <div *ngIf="chartData$ | async as chartData; else loadingData">
+            <ng-container *ngIf="chartData.length; else noData">
+              <!-- <div class="rd-heading-md">Page Views</div> -->
+
+              <app-bar-graph
+                [type]="type"
+                [chartData$]="chartData$"
+              ></app-bar-graph>
+
+              <table class="table mt-3">
+                <thead>
+                  <th
+                    scope="col"
+                    class="rd-page-views-heading rd-text-grey-darker"
+                  >
+                    Top 10 Pages
+                  </th>
+                  <th
+                    scope="col"
+                    class="rd-text-grey-darker rd-page-views-table-heading text-end px-4"
+                  >
+                    Views
+                  </th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let pageView of chartData$ | async">
+                    <td
+                      class="rd-text-grey-darker table-data"
+                      [title]="pageView.Url"
+                      [attr.title]="pageView.Url"
+                    >
+                      <p class="m-0 text-elipses">{{ pageView.Url }}</p>
+                    </td>
+                    <td class="rd-text-grey-darker table-data text-end px-4">
+                      {{ pageView.TotalViews }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-container>
+          </div>
+          <ng-template #loadingData>
+            <p class="card-text placeholder-glow py-1">
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-4"></span>
+            </p>
+            <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-6"></span>
+            </p>
+            <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-7"></span>
+            </p>
+            <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+              <span class="placeholder col-12"></span>
+              <span class="placeholder col-3"></span>
+            </p>
+          </ng-template>
+          <ng-template #noData>
+            <div class="col-12 py-2 text-center mt-5">
+              <img src="assets/images/unit-not-found.svg" alt="file" />
+              <p class="rd-heading-md-bold rd-text-deep-red">
+                No Pageviews found
+              </p>
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- <div *ngIf="loading" class="market-data-loader">
+    <img src="assets/images/loader.gif" alt="loader" />
+  </div> -->
+        <div *ngIf="loading">
+          <p class="card-text placeholder-glow py-1">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-4"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-6"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-7"></span>
+          </p>
+          <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-3"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,109 @@
+.preview-container {
+  position: relative;
+  padding: 40px 30px 30px;
+  overflow: auto;
+}
+.btn-wrapper {
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
+.report-name {
+  position: relative;
+  margin-bottom: 20px;
+}
+.report-name .rd-heading {
+  line-height: 45px;
+}
+
+.link-heading .rd-heading {
+  line-height: 25px;
+}
+.link-heading {
+  position: relative;
+  width: 80%;
+  margin-bottom: 10px;
+}
+.link-description {
+  height: 220px;
+}
+.report-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+.report-card {
+  width: 240px;
+  height: 470px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+.report-card .report-card-header {
+  width: 100%;
+  height: 55px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.report-card .report-card-header .arrow-icon {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background-image: url("/assets/images/chevron-down-white.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: rotate(180deg);
+  transition: transform ease-in 0.3s;
+}
+.report-card .report-card-body {
+  height: 90px;
+  padding: 10px;
+  background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 224.77%);
+  transition: height cubic-bezier(0.68, 0, 0.27, 1.4) 0.4s;
+  overflow: hidden;
+  color: #fff;
+}
+.report-card:hover .report-card-body {
+  height: 100%;
+}
+.report-card:hover .report-card-header .arrow-icon {
+  transform: rotate(0deg);
+}
+.report-card .report-card-body .report-card-content {
+  margin-top: 15px;
+  height: calc(100% - 90px);
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.report-card:hover .report-card-body .report-card-content {
+  visibility: visible;
+}
+.report-card-content .report-link-list {
+  opacity: 0;
+  transition: opacity ease-in 0;
+  overflow: auto;
+}
+.report-card .report-card-body .report-card-content .report-link-list button {
+  margin-bottom: 5px;
+}
+.report-card:hover .report-card-body .report-card-content .report-link-list {
+  opacity: 1;
+  transition: opacity ease-out 0.3s;
+  transition-delay: 0.3s;
+}
+.text-align-description {
+  text-align: justify;
+  font-size: 15px;
+ // color: #999999;
+  line-height: 27px;
+}

@@ -1,0 +1,416 @@
+<div class="rd-container">
+  <div class="rd-container-header" *ngIf="formConfig">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} - Application
+        Details
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-9">
+      <form
+        *ngIf="formConfig?.mode == formMode.VIEW && learnershipDetails"
+        class="rd-form"
+      >
+        <div class="rd-form-header">Details of Applicant</div>
+        <div class="attribute-container">
+          <div class="attribute-item">
+            <div class="attribute-label">Applicant Title</div>
+            <div class="attribute-desc">{{ learnershipDetails.Title }}</div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Applicant Initials</div>
+            <div
+              class="attribute-desc"
+              [innerHTML]="learnershipDetails.Initials | safeHtml : 'html'"
+            ></div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Name of Applicant</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.Name }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">ID number</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.IdNumber }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Gender</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.Gender }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Date of Birth</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.DOB }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Are they a SA Citizen</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.SouthAfricanCitizen }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Province</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.Province }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Mobile Number</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.Mobile }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Email Address</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.Email }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Address</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.Address }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Race</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.Race }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Applicant willing to relocate</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.Relocate }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Criminal Record</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.CriminalOffences }}
+            </div>
+          </div>
+          <div
+            class="attribute-item"
+            *ngIf="learnershipDetails.CriminalOffencesComment != null"
+          >
+            <div class="attribute-label">Criminal Offences Comment</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.CriminalOffencesComment }}
+            </div>
+          </div>
+          <div class="rd-form-header center-heading">Applicant Education</div>
+          <div class="attribute-item">
+            <div class="attribute-label">Qualification completed</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.HighestQualification }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Additional Qualifications</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.QualificationSpecialisation }}
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Is Applicant Currently Studying</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.CurrentlyStudying }}
+            </div>
+          </div>
+          <div
+            class="attribute-item"
+            *ngIf="learnershipDetails.StudyingTowards != null"
+          >
+            <div class="attribute-label">Studying Towards</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.StudyingTowards }}
+            </div>
+          </div>
+          <div class="rd-form-header center-heading">
+            Applicant Disability Information
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">
+              Does Applicant have any Disabilities
+            </div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.Disability }}
+            </div>
+          </div>
+
+          <div
+            class="attribute-item"
+            *ngIf="learnershipDetails.DisabilityComment != null"
+          >
+            <div class="attribute-label">Disability Comment</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.DisabilityComment }}
+            </div>
+          </div>
+
+          <div class="rd-form-header center-heading">
+            Applicant Learnership Information
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">
+              Does Applicant have any Other Learnership
+            </div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.OtherLearnerShip }}
+            </div>
+          </div>
+
+          <div
+            class="attribute-item"
+            *ngIf="learnershipDetails.OtherLearnerShipMessage != null"
+          >
+            <div class="attribute-label">Other LearnerShip Comment</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.OtherLearnerShipMessage }}
+            </div>
+          </div>
+
+          <div class="rd-form-header center-heading">
+            Applicant Documentation
+          </div>
+
+          <div class="attribute-item">
+            <div class="attribute-label">CV</div>
+            <div class="attribute-desc">
+              <div class="file-container">
+                <ng-container
+                  *ngIf="
+                    learnershipDetails?.Cv != null &&
+                    learnershipDetails?.Cv != ''
+                  "
+                >
+                  <div class="file-icon">
+                    <img src="assets/images/pdf.svg" alt="file" />
+                  </div>
+                  <div class="file-info">
+                    <p class="file-name">
+                      <a [href]="learnershipDetails.Cv" target="_blank">{{
+                        learnershipDetails.CvName | titlecase
+                      }}</a>
+                    </p>
+                    <p class="file-desc">
+                      <small>{{
+                        learnershipDetails.CreatedOn | date : "medium"
+                      }}</small>
+                    </p>
+                  </div>
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    learnershipDetails?.Cv == null ||
+                    learnershipDetails?.Cv == ''
+                  "
+                  >NA</ng-container
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="attribute-item">
+            <div class="attribute-label">ID Document</div>
+            <div class="attribute-desc">
+              <div class="file-container">
+                <ng-container
+                  *ngIf="
+                    learnershipDetails?.IdDocument != null &&
+                    learnershipDetails?.IdDocument != ''
+                  "
+                >
+                  <div class="file-icon">
+                    <img src="assets/images/pdf.svg" alt="file" />
+                  </div>
+                  <div class="file-info">
+                    <p class="file-name">
+                      <a
+                        [href]="learnershipDetails.IdDocument"
+                        target="_blank"
+                        >{{ learnershipDetails.IdDocumentName | titlecase }}</a
+                      >
+                    </p>
+                    <p class="file-desc">
+                      <small>{{
+                        learnershipDetails.CreatedOn | date : "medium"
+                      }}</small>
+                    </p>
+                  </div>
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    learnershipDetails?.IdDocument == null ||
+                    learnershipDetails?.IdDocument == ''
+                  "
+                  >NA</ng-container
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="attribute-item">
+            <div class="attribute-label">Qualification Document</div>
+            <div class="attribute-desc">
+              <div class="file-container">
+                <ng-container
+                  *ngIf="
+                    learnershipDetails?.QualificationCertificate != null &&
+                    learnershipDetails?.QualificationCertificate != ''
+                  "
+                >
+                  <div class="file-icon">
+                    <img src="assets/images/pdf.svg" alt="file" />
+                  </div>
+                  <div class="file-info">
+                    <p class="file-name">
+                      <a
+                        [href]="learnershipDetails.QualificationCertificate"
+                        target="_blank"
+                        >{{
+                          learnershipDetails.QualificationCertificateName
+                            | titlecase
+                        }}</a
+                      >
+                    </p>
+                    <p class="file-desc">
+                      <small>{{
+                        learnershipDetails.CreatedOn | date : "medium"
+                      }}</small>
+                    </p>
+                  </div>
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    learnershipDetails?.QualificationCertificate == null ||
+                    learnershipDetails?.QualificationCertificate == ''
+                  "
+                  >NA</ng-container
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="attribute-item">
+            <div class="attribute-label">Applicant's Motivation Letter</div>
+            <div class="attribute-desc">
+              <div class="file-container">
+                <ng-container
+                  *ngIf="
+                    learnershipDetails?.Motivation != null &&
+                    learnershipDetails?.Motivation != ''
+                  "
+                >
+                  <div class="file-icon">
+                    <img src="assets/images/pdf.svg" alt="file" />
+                  </div>
+                  <div class="file-info">
+                    <p class="file-name">
+                      <a
+                        [href]="learnershipDetails.Motivation"
+                        target="_blank"
+                        >{{ learnershipDetails.MotivationName | titlecase }}</a
+                      >
+                    </p>
+                    <p class="file-desc">
+                      <small>{{
+                        learnershipDetails.CreatedOn | date : "medium"
+                      }}</small>
+                    </p>
+                  </div>
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    learnershipDetails?.Motivation == null ||
+                    learnershipDetails?.Motivation == ''
+                  "
+                  >NA</ng-container
+                >
+              </div>
+            </div>
+          </div>
+          <div class="attribute-item">
+            <div class="attribute-label">Date Applied</div>
+            <div class="attribute-desc">
+              {{ learnershipDetails.AppliedOn }}
+            </div>
+          </div>
+          <div class="attribute-item"></div>
+        </div>
+      </form>
+    </div>
+
+    <!--  -->
+    <div class="col-3">
+      <form
+        class="rd-form form-container"
+        [formGroup]="learnershipForm"
+        (ngSubmit)="onSubmit($event)"
+      >
+        <div class="rd-form-header">Application Status</div>
+        <div class="rd-form-body">
+          <rd-select
+            [id]="'status'"
+            [label]="'Status'"
+            [placeholder]="'Please Select Status'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Id'"
+            [items$]="statusList$"
+            [required]="true"
+            [form]="learnershipForm"
+            [controlName]="'ApplicantStatusId'"
+          ></rd-select>
+          <rd-textarea
+            [label]="'Status Note'"
+            [id]="'status-note'"
+            [placeholder]="'Type Note'"
+            [controlName]="'StatusNote'"
+            [maxLength]="700"
+            [form]="learnershipForm"
+          ></rd-textarea>
+          <div class="rd-form-footer">
+            <div class="rd-container d-flex flex-column rd-gap-20">
+              <button
+                *ngIf="formConfig?.access"
+                type="submit"
+                class="rd-btn-primary rd-btn-lg w-100"
+              >
+                Update
+              </button>
+              <button
+                type="button"
+                class="rd-btn-secondary rd-btn-lg w-100"
+                (click)="goToManage()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row"></div>
+</div>

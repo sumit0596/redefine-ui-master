@@ -1,0 +1,35 @@
+.rd-text-property {
+    font-family: "DIN Medium";
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 15px;
+}
+
+.rd-total-count {
+  font-family: DIN;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 29.3px;
+}
+
+.dashboard_Chart{
+  width: 100%;
+  min-height: 300px;
+  height: 90%;
+  max-height: 250px;
+}
+
+.refresh-icon{
+  float: right;
+}
+
+.accordion-dashboard{
+  height: 390px !important;
+  overflow: scroll;
+  overflow-x: clip;
+}
+.disclaimer-point{
+  color: #c00018;
+  font-size: 0.9rem;
+  font-style: italic;
+}

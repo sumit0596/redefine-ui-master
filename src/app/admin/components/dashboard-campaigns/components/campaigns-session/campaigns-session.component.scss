@@ -1,0 +1,36 @@
+.cmp-session-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.cmp-session-container .card {
+    border: none;
+    width: 25%;
+}
+
+.cmp-session-container .card-body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.cmp-session-container .card-text {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.cmp-session-container.loading{
+    height: 9rem;
+}
+
+.cmp-session-container.loading .card-body{
+    padding: 1rem;
+}
+
+.quali-text-precent{
+    font-size: 15px;
+}
+
+.quali-text-precent span{
+    margin-left: 10px;
+}

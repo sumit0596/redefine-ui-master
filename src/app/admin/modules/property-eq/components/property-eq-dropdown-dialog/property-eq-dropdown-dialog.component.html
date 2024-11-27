@@ -1,0 +1,72 @@
+<div class="rd-form-container">
+  <form
+    class="rd-form"
+    [formGroup]="seoForm"
+    (ngSubmit)="onSubmit($event)"
+    autocomplete="on"
+  >
+    <div class="rd-container-header">
+      <div class="rd-form-header">{{ seoData?.Title }} - SEO</div>
+      <div>
+        <button type="button" (click)="closeModal()">
+          <span><img src="assets/images/close.svg" alt="" /></span>
+        </button>
+      </div>
+    </div>
+    <div class="rd-form-control-group">
+      <rd-input
+        [label]="'SEO Meta Title'"
+        [id]="'seo'"
+        [placeholder]="'Provide SEO Title'"
+        [required]="true"
+        [type]="'text'"
+        [controlName]="'MetaTitle'"
+        [form]="seoForm"
+        (onChange)="onChange($event)"
+      ></rd-input>
+    </div>
+
+    <div class="rd-form-control-group">
+      <rd-input
+        [label]="'SEO Meta Keywords'"
+        [id]="'seo'"
+        [placeholder]="'Provide SEO Keywords'"
+        [required]="true"
+        [type]="'text'"
+        [controlName]="'MetaKeywords'"
+        [form]="seoForm"
+        (onChange)="onChange($event)"
+      ></rd-input>
+    </div>
+
+    <div>
+      <rd-textarea
+        [label]="'SEO Meta Description'"
+        [id]="'SEO-Description'"
+        [placeholder]="'SEO Description'"
+        [required]="true"
+        [controlName]="'MetaDescription'"
+        [form]="seoForm"
+        [maxLength]="800"
+        (onChange)="onChange($event)"
+      ></rd-textarea>
+    </div>
+
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="closeModal()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">
+          Save & Update
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,281 @@
+<div class="rd-container" *ngIf="formConfig">
+    <div class="rd-container-header">
+        <div class="rd-container-header-left">
+          <div>
+            <button
+              type="button"
+              id="back"
+              class="rd-btn-text rd-btn-back rd-btn-lg"
+              (click)="goToManage()"
+            >
+              <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+              <span>BACK</span>
+            </button>
+          </div>
+          <div class="rd-heading rd-heading-lg">
+            {{ formConfig ? (formConfig.mode | titlecase) : "" }} Campaign Contact
+          </div>
+        </div>
+    </div>
+    <form 
+        *ngIf="formConfig.mode == formMode.EDIT" 
+        [formGroup]="campaignContactForm"
+        (ngSubmit)="onSubmit($event)"
+        class="rd-form"
+        autocomplete="on">
+        <div class="rd-form-header">Campaign Contact Details</div>
+            <div class="rd-form-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <rd-input
+                    [label]="'Campaign Name'"
+                    [id]="'campaign-name'"
+                    [required]="true"
+                    [placeholder]="'Please Provide Campaign Name'"
+                    [type]="'text'"
+                    [controlName]="'CampaignName'"
+                    [form]="campaignContactForm"
+                >
+                </rd-input>
+                </div>
+                
+                <div class="col-md-12">
+                    <rd-input
+                    [label]="'Name'"
+                    [id]="'name'"
+                    [placeholder]="'Please Provide Name'"
+                    [type]="'text'"
+                    [controlName]="'Name'"
+                    [form]="campaignContactForm" 
+                >
+                </rd-input>
+                </div>
+                <div class="col-md-6">
+                    <rd-input
+                    [label]="'Email'"
+                    [id]="'email'"
+                    [placeholder]="'Please Provide Email'"
+                    [type]="'text'"
+                    [controlName]="'Email'"
+                    [form]="campaignContactForm"
+                >
+                </rd-input>
+                </div>
+                <div class="col-md-6">
+                    <rd-input
+                    [label]="'Mobile'"
+                    [id]="'mobile'"
+                    [placeholder]="'Please Provide Mobile Number'"
+                    [type]="'text'"
+                    [controlName]="'Mobile'"
+                    [form]="campaignContactForm"
+                >
+                </rd-input>
+                </div>
+
+                <div class="col-md-12 rd-switch-wrapper">
+                    <rd-switch
+                        [label]="'Disable Email/Mobile'"
+                        [id]="'drip-switch'"
+                        (onChange)="onSwitchToggle($event)"
+                        class="drip"
+                        [checked]="campaignContactForm.value.DisableMobile"
+                    >
+                    </rd-switch>
+                    <label>Disable Email/Mobile</label>
+                </div>
+                <div class="col-md-12">
+                    <rd-select
+                    [id]="'status'"
+                    [label]="'Status'"
+                    [placeholder]="'Please Select'"
+                    [bindLabel]="'label'"
+                    [bindValue]="'id'"
+                    [items$]="type$"
+                    [required]="true"
+                    [form]="campaignContactForm"
+                    [controlName]="'Status'"
+                ></rd-select>
+                </div>
+            </div>
+            </div>
+
+            <div class="rd-form-footer">
+            <div>
+                <button
+                type="button"
+                class="rd-btn-secondary rd-btn-lg"
+                (click)="goToManage()"
+                >
+                Cancel
+                </button>
+            </div>
+            <div>
+                <button type="submit" class="rd-btn-primary rd-btn-lg">Submit</button>
+            </div>
+            </div>
+    </form>
+
+
+    <form 
+    *ngIf="formConfig.mode == formMode.CREATE" 
+    [formGroup]="campaignContactForm"
+    (ngSubmit)="onSubmit($event)"
+    class="rd-form"
+    autocomplete="on">
+    <div class="rd-form-header">Campaign Contact Details</div>
+
+        <div class="rd-form-body">
+        <div class="row">
+            <div class="col-md-12">
+                <rd-input
+                    [label]="'Campaign Name'"
+                    [id]="'campaign-name'"
+                    [required]="true"
+                    [placeholder]="'Please Provide Campaign Name'"
+                    [type]="'text'"
+                    [controlName]="'CampaignName'"
+                    [form]="campaignContactForm"
+                >
+                </rd-input>
+            </div>
+            <div class="col-md-12">
+                <rd-input
+                [label]="'Name'"
+                [id]="'name'"
+                [placeholder]="'Please Provide Name'"
+                [type]="'text'"
+                [controlName]="'Name'"
+                [form]="campaignContactForm" 
+            >
+                </rd-input>
+            </div>
+            <div class="col-md-6">
+                <rd-input
+                [label]="'Email'"
+                [id]="'email'"
+                [placeholder]="'Please Provide Email'"
+                [type]="'text'"
+                [controlName]="'Email'"
+                [form]="campaignContactForm"
+            >
+            </rd-input>
+            </div>
+            <div class="col-md-6">
+                <rd-input
+                [label]="'Mobile'"
+                [id]="'mobile'"
+                [placeholder]="'Please Provide Mobile Number'"
+                [type]="'text'"
+                [controlName]="'Mobile'"
+                [form]="campaignContactForm"
+            >
+            </rd-input>
+            </div>
+            <div class="col-md-6 rd-switch-wrapper">
+                <rd-switch
+                    [label]="'Disable Email/Mobile'"
+                    [id]="'drip-switch'"
+                    (onChange)="onSwitchToggle($event)"
+                    class="drip"
+                    
+                >
+                </rd-switch>
+                <label>Disable Email/Mobile</label>
+            </div>
+            <div class="col-md-12">
+                <rd-select
+                [id]="'status'"
+                [label]="'Status'"
+                [placeholder]="'Please Select'"
+                [bindLabel]="'label'"
+                [bindValue]="'id'"
+                [items$]="type$"
+                [required]="true"
+                [form]="campaignContactForm"
+                [controlName]="'Status'"
+            ></rd-select>
+            </div>
+        </div>
+        </div>
+
+        <div class="rd-form-footer">
+        <div>
+            <button
+            type="button"
+            class="rd-btn-secondary rd-btn-lg"
+            (click)="goToManage()"
+            >
+            Cancel
+            </button>
+        </div>
+        <div>
+            <button type="submit" class="rd-btn-primary rd-btn-lg">Submit</button>
+        </div>
+        </div>
+    </form>
+    <form
+        *ngIf="formConfig.mode == formMode.VIEW && campaignDetails"
+        class="rd-form"
+    > 
+    <div class="rd-form-header">Campaign Details</div>
+        <div class="attribute-container">
+            <div class="attribute-item">
+                <div class="attribute-label">Campaign Name</div>
+                <div class="attribute-desc">{{ campaignDetails.CampaignName }}</div>
+            </div>
+            <div class="attribute-item">
+                <div class="attribute-label">Name</div>
+                <div class="attribute-desc">
+                {{ campaignDetails.Name  }}
+                </div>
+            </div>
+            <div class="attribute-item">
+                <div class="attribute-label">Email</div>
+                <div class="attribute-desc">
+                    {{ campaignDetails.Email  }}
+                </div>
+            </div>
+            <div class="attribute-item">
+                <div class="attribute-label">Mobile</div>
+                <div class="attribute-desc">
+                    {{ campaignDetails.Mobile  }}
+                </div>
+            </div>
+            <div class="attribute-item">
+                <div class="attribute-label">Status</div>
+                <div class="attribute-desc">
+                    {{ campaignDetails.Status ==1  ? "Active" : "InActive" }}
+                </div>
+            </div>
+            <div class="attribute-item">
+                <div class="attribute-label">Email/Mobile Satus</div>
+                <div class="attribute-desc">
+                    {{ campaignDetails.DisableMobile==1 ? 'Disabled' : 'Enabled' }}
+                </div>
+            </div>
+        </div>
+        <div class="rd-form-footer">
+            <div>
+              <button
+                type="button"
+                class="rd-btn-secondary rd-btn-lg"
+                (click)="goToManage()"
+              >
+                Cancel
+              </button>
+            </div>
+            <div>
+              <button
+                *ngIf="formConfig?.access"
+                type="submit"
+                class="rd-btn-primary rd-btn-lg"
+                (click)="editCampaignContact()"
+              >
+                Edit
+              </button>
+            </div>
+        </div>
+    </form>
+</div>
+    

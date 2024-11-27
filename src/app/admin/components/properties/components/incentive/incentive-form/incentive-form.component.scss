@@ -1,0 +1,55 @@
+.rd-form {
+  width: 800px;
+}
+
+.incentive-container {
+  margin-bottom: 50px;
+}
+.incentive-container .incentive-item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 0.5px solid #dfdfdf;
+}
+.incentive-container .incentive-item:last-child {
+  border: none;
+}
+.incentive-container .incentive-item .incentive-label {
+  width: 40%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+}
+.incentive-container .incentive-item .incentive-desc {
+  width: 60%;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  color: #58595b;
+  word-wrap: break-word;
+}
+.incentive-desc .file-name a {
+  
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 13px;
+  color: #000000;
+}
+.incentive-desc .file-desc {
+  
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #999999;
+  word-wrap: break-word;
+}
+.control-container {
+  border-bottom: 1px solid #f2f2f2;
+  margin-bottom: 25px;
+}

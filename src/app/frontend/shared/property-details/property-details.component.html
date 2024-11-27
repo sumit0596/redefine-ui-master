@@ -1,0 +1,2498 @@
+<div
+  *ngIf="propertyDetails; else loader"
+  class="property-details-container pb-5"
+>
+  <app-breadcrumbs [urlData]="urlData"></app-breadcrumbs>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8 col-12 col-sc-986">
+        <!-- PROPERTY IMAGES -->
+        <!-- PROPERTY IMAGES -->
+        <div class="property-image-section">
+          <div class="property-image-gallery">
+            <div class="property-image" *ngIf="propertyDetails">
+              <img
+                [src]="
+                  propertyDetails.media?.Image?.length > 0
+                    ? propertyDetails.media?.Image[0].Url
+                    : imagePlaceholders[0].Url
+                "
+                alt="property image"
+                (click)="openCarousel(0)"
+              />
+            </div>
+          </div>
+          <div
+            class="property-image-thumbnails"
+            *ngIf="propertyDetails.media?.Image?.length > 1"
+          >
+            <ng-container
+              *ngFor="
+                let image of propertyDetails.media?.Image.slice(1, 4);
+                let i = index
+              "
+            >
+              <div class="property-image">
+                <img
+                  [src]="image.Url"
+                  [attr.data-id]="i"
+                  alt="property image"
+                  (click)="openCarousel(i + 1)"
+                />
+              </div>
+              <div
+                *ngIf="propertyDetails.media?.Image?.length > 4"
+                class="more-images property-image"
+                (click)="openCarousel(3)"
+              >
+                +{{ propertyDetails.media?.Image.length - 4 }} Photos
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- PROPERTY LINK -->
+        <div
+          class="preview-section property-details-wrapper d-flex justify-content-end"
+        >
+          <a
+            *ngIf="propertyDetails.details.WebsiteUrl"
+            [href]="
+              propertyDetails.details.WebsiteUrl.includes('http')
+                ? propertyDetails.details.WebsiteUrl
+                : 'https://' + propertyDetails.details.WebsiteUrl
+            "
+            target="_blank"
+            class="link units-wrapper"
+          >
+            {{ propertyDetails.details.WebsiteUrl }}</a
+          >
+        </div>
+      </div>
+
+      <div class="col-md-4 col-12 col-sc-986">
+        <div class="user-card">
+          <div class="rd-heading rd-heading-md-bold">Leasing Contact</div>
+          <div class="user-info">
+            <div class="user-image">
+              <img
+                src="assets/images/user-icon.svg"
+                class="user-profile"
+                alt="user icon"
+              />
+            </div>
+            <div class="user-detials">
+              <div class="user-name">
+                {{ propertyDetails.details.LeasingExecutiveName }}
+              </div>
+              <div class="user-contact" *ngIf="propertyDetails.details.MobileEnable==1">
+                <img src="assets/images/mobile.svg" alt="phone_icon" />
+                <small>
+                  <a
+                    href="tel: {{
+                      propertyDetails.details.LeasingExecutiveCellNumber
+                    }}"
+                  >
+                    {{ propertyDetails.details.LeasingExecutiveCellNumber }}</a
+                  >
+                </small>
+              </div>
+              <div class="user-contact" *ngIf="propertyDetails.details.MobileEnable==1">
+                <img src="assets/images/email.svg" alt="email_icon" />
+                <small>
+                  <a
+                    href="mailto:{{
+                      propertyDetails.details.LeasingExecutiveEmail
+                    }}"
+                  >
+                    {{ propertyDetails.details.LeasingExecutiveEmail }}
+                  </a>
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button
+            class="rd-btn rd-btn-dark rd-btn-lg w-100"
+            (click)="enquiry()"
+          >
+            <span class="btn-text">Enquire</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPERTY DETAILS -->
+    <div class="preview-tabs-section">
+      <mat-tab-group
+        mat-stretch-tabs="false"
+        mat-align-tabs="start"
+        animationDuration="0ms"
+        dynamicHeight
+        fitInkBarToContent
+        [selectedIndex]="tab"
+        (selectedTabChange)="onTabChange($event)"
+      >
+        <mat-tab label="Description">
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">Description</div>
+          </ng-template>
+          <div class="preview-section">
+            <div class="property-details-wrapper">
+              <div class="key-value-container rd-text-grey-mid">
+                <div class="key-value-wrapper">
+                  <div>Sector:</div>
+                  <div>
+                    {{
+                      propertyDetails.details.SectorName
+                        ? propertyDetails.details.SectorName
+                        : ""
+                    }}
+                  </div>
+                </div>
+                <div class="key-value-wrapper">
+                  <div class="rd-text-red">GLA:</div>
+                  <div>
+                    {{
+                      propertyDetails.details.Gla
+                        ? propertyDetails.details.Gla?.replaceAll(",", " ")
+                        : ""
+                    }}
+                    sqm
+                  </div>
+                </div>
+                <div
+                  class="key-value-wrapper"
+                  *ngIf="propertyDetails.details.Grade != null"
+                >
+                  <div>Grade:</div>
+                  <div>
+                    {{
+                      propertyDetails.details.Grade
+                        ? propertyDetails.details.Grade
+                        : ""
+                    }}
+                  </div>
+                </div>
+              </div>
+              <div class="position-relative mb-5">
+                <div class="rd-heading rd-heading-xl">
+                  {{ propertyDetails.details.PropertyName }}
+                </div>
+                <span class="rd-indicator rd-indicator-lg">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+
+              <div class="key-value-container gap-1">
+                <div
+                  class="key-value-wrapper"
+                  *ngIf="propertyDetails.details.Address"
+                >
+                  <!-- <div>Address:</div> -->
+                  <div class="rd-text-grey-mid address">
+                    {{ propertyDetails.details.Address + "," }}
+                  </div>
+                </div>
+                <div
+                  class="key-value-wrapper"
+                  *ngIf="propertyDetails.details.Suburb"
+                >
+                  <!-- <div>Suburb:</div> -->
+                  <div class="rd-text-grey-mid">
+                    {{ propertyDetails.details.Suburb + "," }}
+                  </div>
+                </div>
+                <div
+                  class="key-value-wrapper"
+                  *ngIf="propertyDetails.details.City"
+                >
+                  <!-- <div>City:</div> -->
+                  <div class="rd-text-grey-mid">
+                    {{ propertyDetails.details.City + "," }}
+                  </div>
+                </div>
+                <div
+                  class="key-value-wrapper"
+                  *ngIf="propertyDetails.details.ProvinceName"
+                >
+                  <!-- <div>Province:</div> -->
+                  <div class="rd-text-grey-mid">
+                    {{ propertyDetails.details.ProvinceName + "," }}
+                  </div>
+                </div>
+
+                <div
+                  class="key-value-wrapper"
+                  *ngIf="propertyDetails.details.Country"
+                >
+                  <!-- <div>Country:</div> -->
+                  <div class="rd-text-grey-mid">
+                    {{ propertyDetails.details.Country + "," }}
+                  </div>
+                </div>
+                <div
+                  class="key-value-wrapper"
+                  *ngIf="propertyDetails.details.PostCode"
+                >
+                  <!-- <div>Postal Code:</div> -->
+                  <div class="rd-text-grey-mid">
+                    {{ propertyDetails.details.PostCode }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="property-details">
+                <div
+                  class="property-details"
+                  *ngIf="propertyDetails?.details?.PropertyDescription != null"
+                >
+                  <div class="rd-heading rd-heading-sm-bold">Description</div>
+                  <div
+                    class="rd-text-grey-mid pt-2 rd-text-justify description-text"
+                    [innerHTML]="
+                      propertyDetails?.details?.PropertyDescription
+                        | safeHtml : 'html'
+                    "
+                  ></div>
+                </div>
+                <div
+                  class="property-details-wrapper"
+                  *ngIf="
+                    propertyDetails?.details?.SectorName !=
+                      sectorTypes.INDUSTRIAL &&
+                    (propertyDetails?.details?.ParkingRatio != null ||
+                      propertyDetails?.details?.BasementBays != null ||
+                      propertyDetails?.details?.ShadedBays != null ||
+                      propertyDetails?.details?.OpenBays != null)
+                  "
+                ></div>
+                <div
+                  class="property-details"
+                  *ngIf="
+                    propertyDetails?.details?.SectorName !=
+                      sectorTypes.INDUSTRIAL &&
+                    (propertyDetails?.details?.ParkingRatio != null ||
+                      propertyDetails?.details?.BasementBays != null ||
+                      propertyDetails?.details?.ShadedBays != null ||
+                      propertyDetails?.details?.OpenBays != null)
+                  "
+                >
+                  <div class="rd-heading rd-heading-sm-bold units-wrapper">
+                    Parking Details
+                  </div>
+                  <div
+                    class="key-value-wrapper"
+                    *ngIf="propertyDetails.details.ParkingRatio != null"
+                  >
+                    <div class="rd-text-grey-mid">Parking Ratio</div>
+                    <div class="units-wrapper">
+                      {{
+                        propertyDetails.details.ParkingRatio
+                          ? propertyDetails.details.ParkingRatio
+                          : ""
+                      }}
+                    </div>
+                  </div>
+                  <div
+                    class="key-value-wrapper"
+                    *ngIf="propertyDetails.details.BasementBays != null"
+                  >
+                    <div class="rd-text-grey-mid">Basement Bays (R/bays)</div>
+                    <div class="units-wrapper">
+                      R
+                      {{
+                        propertyDetails.details.BasementBays
+                          ? propertyDetails.details.BasementBays
+                          : ""
+                      }}
+                    </div>
+                  </div>
+                  <div
+                    class="key-value-wrapper"
+                    *ngIf="propertyDetails.details.ShadedBays != null"
+                  >
+                    <div class="rd-text-grey-mid">Shaded Bays (R/bays)</div>
+                    <div class="units-wrapper">
+                      R
+                      {{
+                        propertyDetails.details.ShadedBays
+                          ? propertyDetails.details.ShadedBays
+                          : ""
+                      }}
+                    </div>
+                  </div>
+                  <div
+                    class="key-value-wrapper"
+                    *ngIf="propertyDetails.details.OpenBays != null"
+                  >
+                    <div class="rd-text-grey-mid">Open Bays (R/bays)</div>
+                    <div class="units-wrapper">
+                      R
+                      {{
+                        propertyDetails.details.OpenBays
+                          ? propertyDetails.details.OpenBays
+                          : ""
+                      }}
+                    </div>
+                  </div>
+                </div>
+                <!-- <div
+                      class="property-details-wrapper"
+                      *ngIf="
+                      propertyDetails.details.ParkingRatio != null ||
+                      propertyDetails.details.BasementBays != null ||
+                      propertyDetails.details.ShadedBays ||
+                      propertyDetails.details.OpenBays != null
+                      "
+                    ></div> -->
+                <div
+                  class="property-details"
+                  *ngIf="
+                    propertyDetails?.details?.Density != null &&
+                    propertyDetails?.details?.SectorName ==
+                      sectorTypes.INDUSTRIAL
+                  "
+                >
+                  <div class="rd-heading rd-heading-sm-bold">
+                    Density Details
+                  </div>
+                  <div
+                    class="rd-text-grey-mid pt-2 rd-text-justify description-text"
+                    [innerHTML]="
+                      propertyDetails?.details?.Density | safeHtml : 'html'
+                    "
+                  ></div>
+                </div>
+                <div
+                  class="property-details"
+                  *ngIf="
+                    propertyDetails?.details?.GradeName != null &&
+                    propertyDetails?.details?.SectorName ==
+                      sectorTypes.INDUSTRIAL
+                  "
+                >
+                  <div class="rd-heading rd-heading-sm-bold">Grade Details</div>
+                  <div
+                    class="rd-text-grey-mid pt-2 rd-text-justify description-text"
+                    [innerHTML]="
+                      propertyDetails?.details?.GradeName | safeHtml : 'html'
+                    "
+                  ></div>
+                </div>
+                <div
+                  class="property-details"
+                  *ngIf="
+                    propertyDetails?.details?.AnnualFootCount != null &&
+                    propertyDetails?.details?.SectorName == sectorTypes.RETAIL
+                  "
+                >
+                  <div class="rd-heading rd-heading-sm-bold">
+                    Annual Foot Count
+                  </div>
+                  <div
+                    class="rd-text-grey-mid pt-2 rd-text-justify description-text"
+                    [innerHTML]="
+                      propertyDetails?.details?.AnnualFootCount
+                        | safeHtml : 'html'
+                    "
+                  ></div>
+                </div>
+                <div
+                  class="property-details"
+                  *ngIf="
+                    propertyDetails?.details?.AnchorTenant != null &&
+                    propertyDetails?.details?.SectorName == sectorTypes.RETAIL
+                  "
+                >
+                  <div class="rd-heading rd-heading-sm-bold">
+                    Anchor Tenants
+                  </div>
+                  <div
+                    class="rd-text-grey-mid pt-2 rd-text-justify description-text"
+                    [innerHTML]="
+                      propertyDetails?.details?.AnchorTenant | safeHtml : 'html'
+                    "
+                  ></div>
+                </div>
+                <div
+                  class="property-details"
+                  *ngIf="
+                    propertyDetails?.details?.TotalTenants != null &&
+                    propertyDetails?.details?.SectorName == sectorTypes.RETAIL
+                  "
+                >
+                  <div class="rd-heading rd-heading-sm-bold">Total Tenants</div>
+                  <div
+                    class="rd-text-grey-mid pt-2 rd-text-justify description-text"
+                    [innerHTML]="
+                      propertyDetails?.details?.TotalTenants | safeHtml : 'html'
+                    "
+                  ></div>
+                </div>
+                <div
+                  class="property-details-wrapper"
+                  *ngIf="propertyDetails?.featureamenities?.length > 0"
+                ></div>
+                <div
+                  class="property-details"
+                  *ngIf="propertyDetails?.featureamenities?.length > 0"
+                >
+                  <div class="rd-heading rd-heading-sm-bold">
+                    Features and Amenities
+                  </div>
+                  <div class="rd-text-grey-mid">
+                    <div class="key-value-container">
+                      <div
+                        *ngFor="let feature of propertyDetails.featureamenities"
+                        class="key-value-wrapper"
+                      >
+                        <div>
+                          <img
+                            [src]="
+                              'assets/images/' + getFeatureIcon(feature.Title)
+                            "
+                            class="feature-icon"
+                            alt="feature_icon"
+                          />
+                        </div>
+                        <div title="{{ feature.Value }}">
+                          {{ feature.Title }}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="description feature-amenities-description"
+                      *ngIf="
+                        propertyDetails.details
+                          .FeatureAmenitiesAddtionalDetails != null
+                      "
+                      [innerHTML]="
+                        propertyDetails.details.FeatureAmenitiesAddtionalDetails
+                          | safeHtml : 'html'
+                      "
+                    >
+                      <!-- {{
+                        propertyDetails.details.FeatureAmenitiesAddtionalDetails
+                          ? propertyDetails.details
+                              .FeatureAmenitiesAddtionalDetails | safeHTML:'html'
+                          : ""
+                      }} -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="property-details-wrapper"
+              *ngIf="propertyDetails?.advertisments?.length > 0"
+            >
+              <div class="rd-heading rd-heading-sm-bold units-wrapper">
+                Advertising Opportunities
+              </div>
+              <div class="key-value-container">
+                <div
+                  class="advertising-card"
+                  *ngFor="let advertisement of propertyDetails.advertisments"
+                >
+                  <div class="rd-heading rd-heading-xs">
+                    {{ advertisement.AdvertisingType }}
+                  </div>
+                  <div class="rd-text-grey-mid">
+                    {{ advertisement.DescriptionAndLocation }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Available Units -->
+        <mat-tab label="AvailableUnits" *ngIf="unitAvailable">
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">Available units</div>
+          </ng-template>
+          <div class="position-relative mb-5">
+            <div class="rd-heading rd-heading-xl">Available units</div>
+            <span class="rd-indicator rd-indicator-lg">
+              <span class="rd-indicator-content rd-indicator-primary"></span>
+            </span>
+          </div>
+
+          <div *ngIf="!unitAvailable" class="pb-5">No Available Units</div>
+          <div
+            class="pt-1 accordion-item"
+            *ngFor="let unitDetails of availableUnitDetails; let i = index"
+          >
+            <div class="accordion" id="accordionUnitPreview">
+              <div class="rd-form form-container">
+                <button
+                  title="toggleTile"
+                  class="filterAccordionBtn rd-heading rd-heading-sm"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  [attr.data-bs-target]="'#collapse' + i"
+                  [attr.aria-expanded]="expandedIndex === i ? 'true' : 'false'"
+                  [attr.aria-controls]="'collapse' + i"
+                  (click)="toggleTile(i); $event.stopPropagation()"
+                ></button>
+                <div class="pt-3 p-1">
+                  <div
+                    class="property-image-section preview-height"
+                    *ngIf="
+                      unitDetails && unitDetails.UnitMedia?.Image?.length > 1
+                    "
+                  >
+                    <div
+                      class="property-image-gallery"
+                      *ngIf="unitDetails.UnitMedia?.Image[0]?.Url"
+                    >
+                      <div class="property-image">
+                        <img
+                          [src]="unitDetails.UnitMedia?.Image[0].Url"
+                          alt="property image"
+                          (click)="
+                            openUnitMediaCarousel(0, unitDetails);
+                            $event.stopPropagation()
+                          "
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="property-image-thumbnails"
+                      *ngIf="unitDetails.UnitMedia?.Image?.length > 1"
+                    >
+                      <!-- (click)="openUnitMediaCarousel(unitDetails)"
+                    let image of unitDetails.UnitMedia?.Image?.length > 0
+                            ? (unitDetails.UnitMedia?.Image | slice : 1 : 4)
+                            : imagePlaceholders -->
+                      <div
+                        *ngFor="
+                          let image of unitDetails.UnitMedia?.Image.slice(1, 4);
+                          let n = index
+                        "
+                        class="property-image"
+                      >
+                        <img
+                          [src]="image.Url"
+                          alt="property image"
+                          (click)="
+                            openUnitMediaCarousel(n + 1, unitDetails);
+                            $event.stopPropagation()
+                          "
+                        />
+                      </div>
+                      <div
+                        class="more-images property-image"
+                        *ngIf="unitDetails.UnitMedia?.Image?.length > 4"
+                        (click)="
+                          openUnitMediaCarousel(3, unitDetails);
+                          $event.stopPropagation()
+                        "
+                      >
+                        +{{ unitDetails.UnitMedia?.Image.length - 4 }}
+                        Photos
+                      </div>
+                    </div>
+                  </div>
+                  <!--  -->
+                  <div class="property-details">
+                    <div class="rd-heading rd-heading-sm-bold property-color-details">
+                      {{
+                        unitDetails.details.NameAndLocation
+                          ? unitDetails.details.NameAndLocation
+                          : ""
+                      }} <span class="rd-heading rd-heading-sm-bold"
+                       *ngIf="unitDetails.details.UnitStatus">
+                       (<span>{{unitDetails.details.UnitStatus}}</span>)</span>
+                    </div>
+                    <div
+                      class="rd-text-grey-mid pt-2 rd-text-justify available-units-text"
+                      [innerHTML]="
+                        unitDetails.details.UnitDescription == '' ||
+                        unitDetails.details.UnitDescription == null ||
+                        unitDetails.details.UnitDescription == undefined
+                          ? ''
+                          : (unitDetails.details.UnitDescription
+                            | safeHtml : 'html')
+                      "
+                    ></div>
+                  </div>
+                  <div class="property-details-wrapper"></div>
+                  <div class="property-details">
+                    <div class="key-value-wrapper">
+                      <div class="rd-text-grey-mid">Unit size (sqm)</div>
+                      <div class="rd-text-red units-wrapper">
+                        {{
+                          unitDetails.details.UnitSize
+                            ? unitDetails.details.UnitSize
+                            : ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="key-value-wrapper">
+                      <div class="rd-text-grey-mid">Available</div>
+                      <div class="units-wrapper">
+                        {{
+                          unitDetails.details.UnitAvailableDate
+                            ? unitDetails.details.UnitAvailableDate
+                            : ""
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  [id]="'collapse' + i"
+                  class="accordion-collapse collapse"
+                  [ngClass]="{ show: expandedIndex === i }"
+                  [attr.data-bs-parent]="'#accordionUnitPreview'"
+                >
+                  <div class="pt-2 pb-3">
+                    <div class="property-details-wrapper"></div>
+                    <div class="property-details">
+                      <div class="rd-heading rd-heading-sm-bold">
+                        Rental Details
+                      </div>
+                      
+                      <div class="key-value-wrapper">
+                        <div class="rd-text-grey-mid">Net Rental (R/sqm)</div>
+                        <div class="units-wrapper">
+                          {{
+                            unitDetails.details.BaseRental
+                              ? unitDetails.details.BaseRental
+                              : ""
+                          }}
+                        </div>
+                      </div>
+                      <div class="key-value-wrapper">
+                        <div class="rd-text-grey-mid">
+                          Operation Costs (R/sqm)
+                        </div>
+                        <div class="units-wrapper">
+                          {{
+                            unitDetails.details.OperationalCost
+                              ? unitDetails.details.OperationalCost
+                              : ""
+                          }}
+                        </div>
+                      </div>
+                      <div class="key-value-wrapper">
+                        <div class="rd-text-grey-mid">Rates (R/sqm)</div>
+                        <div class="units-wrapper">
+                          {{
+                            unitDetails.details.Rates
+                              ? unitDetails.details.Rates
+                              : ""
+                          }}
+                        </div>
+                      </div>
+                      <div class="key-value-wrapper">
+                        <div class="rd-text-black gross-rental">
+                          Gross Rental (R/sqm)
+                        </div>
+                        <div class="units-wrapper gross-rental">
+                          {{
+                            unitDetails.details.GrossRental
+                              ? unitDetails.details.GrossRental
+                              : ""
+                          }}
+                        </div>
+                      </div>
+                      <div
+                        class="key-value-wrapper"
+                        *ngIf="unitDetails.details.CIDLevey != null"
+                      >
+                        <div class="rd-text-grey-mid">CID Levy</div>
+                        <div class="units-wrapper">
+                          {{
+                            unitDetails.details.CIDLevey
+                              ? unitDetails.details.CIDLevey
+                              : ""
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="property-details-wrapper"></div>
+                    <div
+                      class="property-details"
+                      *ngIf="
+                        unitDetails.details.UnitParkingRatio != null ||
+                        unitDetails.details.UnitBasementBays != null ||
+                        unitDetails.details.UnitShadedBays ||
+                        unitDetails.details.UnitOpenBays != null
+                      "
+                    >
+                      <div class="rd-heading rd-heading-sm-bold">
+                        Parking Details
+                      </div>
+                      <div
+                        class="key-value-wrapper"
+                        *ngIf="unitDetails.details.UnitParkingRatio != null"
+                      >
+                        <div class="rd-text-grey-mid">Parking Ratio</div>
+                        <div class="units-wrapper">
+                          {{
+                            unitDetails.details.UnitParkingRatio
+                              ? unitDetails.details.UnitParkingRatio
+                              : ""
+                          }}
+                        </div>
+                      </div>
+                      <div
+                        class="key-value-wrapper"
+                        *ngIf="unitDetails.details.UnitBasementBays != null"
+                      >
+                        <div class="rd-text-grey-mid">
+                          Basement Bays (R/bays)
+                        </div>
+                        <div class="units-wrapper">
+                          R
+                          {{
+                            unitDetails.details.UnitBasementBays
+                              ? unitDetails.details.UnitBasementBays
+                              : ""
+                          }}
+                        </div>
+                      </div>
+                      <div
+                        class="key-value-wrapper"
+                        *ngIf="unitDetails.details.UnitShadedBays != null"
+                      >
+                        <div class="rd-text-grey-mid">Shaded Bays (R/bays)</div>
+                        <div class="units-wrapper">
+                          R
+                          {{
+                            unitDetails.details.UnitShadedBays
+                              ? unitDetails.details.UnitShadedBays
+                              : ""
+                          }}
+                        </div>
+                      </div>
+                      <div
+                        class="key-value-wrapper"
+                        *ngIf="unitDetails.details.UnitOpenBays != null"
+                      >
+                        <div class="rd-text-grey-mid">Open Bays (R/bays)</div>
+                        <div class="units-wrapper">
+                          R
+                          {{
+                            unitDetails.details.UnitOpenBays
+                              ? unitDetails.details.UnitOpenBays
+                              : ""
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="property-details-wrapper"
+                      *ngIf="
+                        unitDetails.details.UnitParkingRatio != null ||
+                        unitDetails.details.UnitBasementBays != null ||
+                        unitDetails.details.UnitShadedBays != null ||
+                        unitDetails.details.UnitOpenBays != null
+                      "
+                    ></div>
+                    <div
+                      class="property-details"
+                      *ngIf="
+                        unitDetails.unitfeatureamenities.features.length > 0
+                      "
+                    >
+                      <div class="rd-heading rd-heading-sm-bold">
+                        Features and Amenities
+                      </div>
+                      <div>
+                        <div>
+                          <ul class="p-0">
+                            <li
+                              *ngFor="
+                                let feature of unitDetails.unitfeatureamenities
+                                  .features
+                              "
+                              class="key-value-wrapper unit-Details-Wrapper"
+                            >
+                              <div class="key-value-wrapper rd-text-grey-mid">
+                                <img
+                                  [src]="
+                                    'assets/images/' +
+                                    getFeatureIcon(feature.Title)
+                                  "
+                                  class="feature-icon"
+                                  alt="feature_icon"
+                                />
+
+                                {{ feature.Title }}
+                              </div>
+                              <div class="units-wrapper unit-Details-Wrapper">
+                                {{ feature.Value }}
+                              </div>
+                            </li>
+                          </ul>
+                           <div class="rd-text-grey-mid pt-2 rd-text-justify available-units-text" title="">
+                                {{unitDetails.unitfeatureamenities.FeatureAmenitiesAddtionalDetails}}
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="property-details-wrapper"
+                      *ngIf="
+                        unitDetails?.unitfeatureamenities?.features.length > 0
+                      "
+                    ></div>
+                    <div
+                      class="property-details"
+                      *ngIf="unitDetails.propertyincentives.length > 0"
+                    >
+                      <div class="rd-heading rd-heading-sm-bold">
+                        Incentives
+                      </div>
+                      <div class="rd-text-grey-mid">
+                        <div class="key-value-container">
+                          <div
+                            *ngFor="
+                              let feature of unitDetails.propertyincentives
+                            "
+                            class="key-value-wrapper"
+                          >
+                            <div class="attribute-icon">
+                              <img
+                                src="assets/images/attribute.svg"
+                                class="attribute-icon"
+                                alt="attribute_icon"
+                              />
+                            </div>
+                            <div title="{{ feature.AdditionalInformation }}">
+                              {{ feature.Title }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="property-details-wrapper"
+                      *ngIf="unitDetails.propertyincentives.length > 0"
+                    ></div>
+                    <div
+                      class="property-details"
+                      *ngIf="
+                        unitDetails?.details.ThreeYearsLease != null &&
+                        unitDetails?.details.FiveYearsLease != null
+                      "
+                    >
+                      <div class="rd-heading rd-heading-sm-bold Space2Spec">
+                        Total Space2Spec Value Contribution
+                      </div>
+                      <div class="key-value-wrapper gap Space2Spec-values">
+                        <div class="rd-text-grey-mid">3-Years Lease</div>
+                        <div class="rd-text-red units-wrapper display">
+                          R{{ calculateLease(unitDetails)?.threeYearsLease }}
+                        </div>
+                        <div class="">
+                          R{{ calculateLease(unitDetails)?.threeYearsmSquare }}
+                          per sqm
+                        </div>
+                      </div>
+                      <div class="key-value-wrapper gap Space2Spec-values">
+                        <div class="rd-text-grey-mid">5-Years Lease</div>
+                        <div class="rd-text-red units-wrapper display">
+                          R{{ calculateLease(unitDetails)?.fiveYearsLease }}
+                        </div>
+                        <div class="">
+                          R{{ calculateLease(unitDetails)?.fiveYearsmSquare }}
+                          per sqm
+                        </div>
+                      </div>
+                      <p class="">
+                        <a
+                          class="linki"
+                          href="/view-file/spacetospectermsconditions.pdf"
+                          target="_blank"
+                        >
+                          Terms and Conditions Apply
+                        </a>
+                      </p>
+                    </div>
+                    <div
+                      class="property-details-wrapper"
+                      *ngIf="
+                        unitDetails?.details.ThreeYearsLease != null &&
+                        unitDetails?.details.FiveYearsLease != null
+                      "
+                    ></div>
+                    <div
+                      class="property-details"
+                      *ngIf="
+                        unitDetails?.UnitMedia?.FloorPlan ||
+                        unitDetails?.UnitMedia?.Video
+                      "
+                    >
+                      <div class="rd-heading rd-heading-sm-bold">
+                        Unit Media
+                      </div>
+                      <div class="key-value-wrapper">
+                        <div
+                          class="rd-text-grey-mid"
+                          *ngIf="unitDetails?.UnitMedia?.FloorPlan"
+                        >
+                          Floor Plan
+                        </div>
+                        <div class="rd-text-red units-wrapper">
+                          <a
+                            *ngIf="unitDetails?.UnitMedia?.FloorPlan"
+                            [href]="
+                              unitDetails?.UnitMedia?.FloorPlan.Url.includes(
+                                'http'
+                              )
+                                ? unitDetails?.UnitMedia?.FloorPlan.Url
+                                : 'https://' +
+                                  unitDetails?.UnitMedia?.FloorPlan.Url
+                            "
+                            target="_blank"
+                            class="link units-wrapper"
+                          >
+                            View Floor Plan
+                          </a>
+                          <span
+                            *ngIf="!unitDetails?.UnitMedia?.FloorPlan"
+                          ></span>
+                        </div>
+                      </div>
+                      <div class="key-value-wrapper">
+                        <div
+                          class="rd-text-grey-mid"
+                          *ngIf="unitDetails?.UnitMedia?.Video"
+                        >
+                          Unit Video
+                        </div>
+                        <div class="rd-text-red units-wrapper">
+                          <a
+                            *ngIf="unitDetails?.UnitMedia?.Video"
+                            [href]="
+                              unitDetails?.UnitMedia?.Video.Url.includes('http')
+                                ? unitDetails?.UnitMedia?.Video.Url
+                                : 'https://' + unitDetails?.UnitMedia?.Video.Url
+                            "
+                            target="_blank"
+                            class="link units-wrapper"
+                          >
+                            View Unit Video
+                          </a>
+                          <span *ngIf="!unitDetails?.UnitMedia?.Video"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="property-details-wrapper"
+                      *ngIf="
+                        unitDetails?.UnitMedia?.FloorPlan ||
+                        unitDetails?.UnitMedia?.Video
+                      "
+                    ></div>
+
+                    <div
+                      class="property-details"
+                      *ngIf="unitDetails.details.TenentAllowance != null"
+                    >
+                      <div class="rd-heading rd-heading-sm-bold">
+                        Tenant Installation Allowance
+                      </div>
+                      <div class="key-value-wrapper">
+                        <div
+                          class="rd-text-grey-mid"
+                          [innerHTML]="
+                            unitDetails.details.TenentAllowance == '' ||
+                            unitDetails.details.TenentAllowance == null ||
+                            unitDetails.details.TenentAllowance == undefined
+                              ? ''
+                              : (unitDetails.details.TenentAllowance
+                                | safeHtml : 'html')
+                          "
+                        ></div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="property-details-wrapper"
+                      *ngIf="unitDetails.details.TenentAllowance != null"
+                    ></div>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- maps -->
+        <mat-tab label="MapView">
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">Map view</div>
+          </ng-template>
+          <div class="position-relative mb-5">
+            <div class="rd-heading rd-heading-xl">Map view</div>
+            <span class="rd-indicator rd-indicator-lg">
+              <span class="rd-indicator-content rd-indicator-primary"></span>
+            </span>
+          </div>
+          <div>
+            <div class="key-value-container gap-1">
+              <div
+                class="key-value-wrapper"
+                *ngIf="propertyDetails.details.Address"
+              >
+                <!-- <div>Address:</div> -->
+                <div class="rd-text-grey-mid address">
+                  {{ propertyDetails.details.Address + "," }}
+                </div>
+              </div>
+              <div
+                class="key-value-wrapper"
+                *ngIf="propertyDetails.details.Suburb"
+              >
+                <!-- <div>Suburb:</div> -->
+                <div class="rd-text-grey-mid">
+                  {{ propertyDetails.details.Suburb + "," }}
+                </div>
+              </div>
+              <div
+                class="key-value-wrapper"
+                *ngIf="propertyDetails.details.City"
+              >
+                <!-- <div>City:</div> -->
+                <div class="rd-text-grey-mid">
+                  {{ propertyDetails.details.City + "," }}
+                </div>
+              </div>
+              <div
+                class="key-value-wrapper"
+                *ngIf="propertyDetails.details.ProvinceName"
+              >
+                <!-- <div>Province:</div> -->
+                <div class="rd-text-grey-mid">
+                  {{ propertyDetails.details.ProvinceName + "," }}
+                </div>
+              </div>
+              <div
+                class="key-value-wrapper"
+                *ngIf="propertyDetails.details.Country"
+              >
+                <!-- <div>Country:</div> -->
+                <div class="rd-text-grey-mid">
+                  {{ propertyDetails.details.Country + "," }}
+                </div>
+              </div>
+              <div
+                class="key-value-wrapper"
+                *ngIf="propertyDetails.details.PostCode"
+              >
+                <!-- <div>Postal Code:</div> -->
+                <div class="rd-text-grey-mid">
+                  {{ propertyDetails.details.PostCode }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="property-details-wrapper">
+            <div class="rd-heading rd-heading-sm-bold gps">
+              GPS coordinates:
+            </div>
+            <div class="property-details">
+              <div class="key-value-container">
+                <div class="key-value-wrapper">
+                  <div>Longitude:</div>
+                  <div class="rd-text-grey-mid">
+                    {{
+                      propertyDetails.details.Longitude
+                        ? propertyDetails.details.Longitude
+                        : ""
+                    }}
+                  </div>
+                </div>
+                <div class="key-value-wrapper">
+                  <div>Latitude:</div>
+                  <div class="rd-text-grey-mid">
+                    {{
+                      propertyDetails.details.Latitude
+                        ? propertyDetails.details.Latitude
+                        : ""
+                    }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="property-details-wrapper">
+            <app-map
+              *ngIf="markerPositions && markerPositions.length; else map_loader"
+              [markers]="markerPositions"
+              [center]="center"
+              [zoom]="17"
+              [height]="'400px'"
+            ></app-map>
+            <!-- <google-map
+              height="400px"
+              width="100%"
+              [zoom]="zoom"
+              [center]="center"
+            >
+              <map-marker
+                *ngFor="let markerPosition of markerPositions"
+                [position]="markerPosition"
+                [options]="{
+                  icon: { url: '/assets/images/all_map_marker.svg' }
+                }"
+              ></map-marker>
+            </google-map> -->
+          </div>
+          <!-- <button class="directions-button" (click)="getDirections()">
+            Get directions
+            <span
+              ><img
+                class="directions-icon"
+                src="assets/images/Get_Direction_Icon.svg"
+                alt="building icon"
+            /></span>
+          </button> -->
+        </mat-tab>
+
+        <mat-tab
+          label="Video"
+          *ngIf="
+            media.Video != undefined &&
+            media.Video.Url != undefined &&
+            media.Video.Url != ''
+          "
+        >
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">Video</div>
+          </ng-template>
+          <div class="position-relative mb-5">
+            <div class="rd-heading rd-heading-xl">Video</div>
+            <span class="rd-indicator rd-indicator-lg">
+              <span class="rd-indicator-content rd-indicator-primary"></span>
+            </span>
+          </div>
+          <div class="property-details">
+            <ng-container
+              *ngIf="
+                media.Video != undefined &&
+                media.Video.Url != undefined &&
+                media.Video.Url != ''
+              "
+            >
+              <iframe
+                width="745"
+                height="350"
+                [src]="urlVideoSafe"
+                frameborder="0"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                class="YouTube"
+              >
+              </iframe>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                media.Video == undefined ||
+                media.Video.Url == undefined ||
+                media.Video.Url == ''
+              "
+            >
+              <div class="rd-text-grey-mid">Video not available</div>
+            </ng-container>
+          </div>
+        </mat-tab>
+
+        <mat-tab
+          label="Documents"
+          *ngIf="
+            media?.RateCard ||
+            media?.MallMap ||
+            media?.FloorPlan ||
+            media?.FactSheet
+          "
+        >
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">Documents</div>
+          </ng-template>
+          <div class="position-relative mb-5">
+            <div class="rd-heading rd-heading-xl">Documents</div>
+            <span class="rd-indicator rd-indicator-lg">
+              <span class="rd-indicator-content rd-indicator-primary"></span>
+            </span>
+          </div>
+
+          <!-- Fact sheet -->
+          <div>
+            <div
+              class="row list-name-hover"
+              *ngIf="media?.FactSheet?.MediaType"
+            >
+              <div class="col-12 col-md-4">
+                <div class="feature-container">
+                  <div class="feature-name">
+                    <div class="rd-heading rd-heading-xs">
+                      {{ media.FactSheet.MediaType }}
+                      <span class="rd-indicator rd-indicator-md">
+                        <span
+                          class="rd-indicator-content rd-indicator-secondary"
+                        ></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 mt-3 mt-md-0">
+                <div class="feature-nam">
+                  <div
+                    class="rd-heading rd-heading-xs"
+                    *ngIf="media?.FactSheet?.Name"
+                  >
+                    {{ media.FactSheet.Name }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4 mt-3 mt-md-0">
+                <div class="feature-rating">
+                  <div
+                    *ngIf="
+                      media?.FactSheet?.Name != propertyFileUploads.FACT_SHEET
+                    "
+                  >
+                    <a
+                      [href]="media?.FactSheet.Url"
+                      target="_blank"
+                      (click)="download($event, media?.FactSheet.Url)"
+                      [attr.downloadanalytics]="
+                        media?.FactSheet?.Name +
+                        ' ' +
+                        'ANALOAD' +
+                        ' ' +
+                        media?.FactSheet.Url
+                      "
+                      class="downl rd-btn rd-btn-text rd-btn-sm gap-2"
+                    >
+                      <span class="btn-text">Download</span>
+                      <span class="btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="36"
+                          height="36"
+                          fill="none"
+                          viewBox="0 0 36 36"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                          />
+                          <circle
+                            cx="18"
+                            cy="18"
+                            r="17"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                  <div
+                    *ngIf="
+                      media?.FactSheet?.Name == propertyFileUploads.FACT_SHEET
+                    "
+                  >
+                    <a
+                      [href]="
+                        media?.FactSheet.Url.includes('http')
+                          ? media?.FactSheet.Url
+                          : 'https://' + media?.FactSheet.Url
+                      "
+                      class="rd-btn rd-btn-text rd-btn-sm gap-2 view"
+                      target="_blank"
+                    >
+                      <span class="btn-text">View</span>
+                      <span class="btn-icon">
+                        <svg
+                          width="32"
+                          height="32"
+                          viewBox="0 0 32 32"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="16"
+                            cy="16"
+                            r="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                          <g clip-path="url(#clip0_7574_79711)">
+                            <path
+                              d="M6.83333 16C6.83333 16 10.1667 9.33337 16 9.33337C21.8333 9.33337 25.1667 16 25.1667 16C25.1667 16 21.8333 22.6667 16 22.6667C10.1667 22.6667 6.83333 16 6.83333 16Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M16 18.5C17.3807 18.5 18.5 17.3807 18.5 16C18.5 14.6193 17.3807 13.5 16 13.5C14.6193 13.5 13.5 14.6193 13.5 16C13.5 17.3807 14.6193 18.5 16 18.5Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_7574_79711">
+                              <rect
+                                width="20"
+                                height="20"
+                                fill="none"
+                                transform="translate(6 6)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rate card -->
+
+          <div>
+            <div class="row list-name-hover" *ngIf="media?.RateCard?.MediaType">
+              <div class="col-12 col-md-4">
+                <div class="feature-name rate-card">
+                  <div class="rd-heading rd-heading-xs">
+                    {{ media.RateCard.MediaType }}
+                    <span class="rd-indicator rd-indicator-md">
+                      <span
+                        class="rd-indicator-content rd-indicator-secondary"
+                      ></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4 mt-3 mt-md-0">
+                <div class="feature-name">
+                  <div
+                    class="rd-heading rd-heading-xs"
+                    *ngIf="media?.RateCard?.Name"
+                  >
+                    {{ media.RateCard.Name }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4 mt-3 mt-md-0">
+                <div class="feature-rating">
+                  <div
+                    *ngIf="
+                      media?.RateCard?.Name != propertyFileUploads.RATE_CARD
+                    "
+                  >
+                    <a
+                      [href]="media?.RateCard.Url"
+                      target="_blank"
+                      (click)="download($event, media?.RateCard.Url)"
+                      [attr.downloadanalytics]="
+                        media?.RateCard?.Name +
+                        ' ' +
+                        'ANALOAD' +
+                        ' ' +
+                        media?.RateCard.Url
+                      "
+                      class="rd-btn rd-btn-text rd-btn-sm gap-2 downl"
+                    >
+                      <span class="btn-text">Download</span>
+                      <span class="btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="36"
+                          height="36"
+                          fill="none"
+                          viewBox="0 0 36 36"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                          />
+                          <circle
+                            cx="18"
+                            cy="18"
+                            r="17"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                  <div
+                    *ngIf="
+                      media?.RateCard?.Name == propertyFileUploads.RATE_CARD
+                    "
+                  >
+                    <a
+                      [href]="
+                        media?.RateCard.Url.includes('http')
+                          ? media?.RateCard.Url
+                          : 'https://' + media?.RateCard.Url
+                      "
+                      class="rd-btn rd-btn-text rd-btn-sm gap-2 view"
+                      target="_blank"
+                    >
+                      <span class="btn-text">View</span>
+                      <span class="btn-icon">
+                        <svg
+                          width="32"
+                          height="32"
+                          viewBox="0 0 32 32"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="16"
+                            cy="16"
+                            r="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                          <g clip-path="url(#clip0_7574_79711)">
+                            <path
+                              d="M6.83333 16C6.83333 16 10.1667 9.33337 16 9.33337C21.8333 9.33337 25.1667 16 25.1667 16C25.1667 16 21.8333 22.6667 16 22.6667C10.1667 22.6667 6.83333 16 6.83333 16Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M16 18.5C17.3807 18.5 18.5 17.3807 18.5 16C18.5 14.6193 17.3807 13.5 16 13.5C14.6193 13.5 13.5 14.6193 13.5 16C13.5 17.3807 14.6193 18.5 16 18.5Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_7574_79711">
+                              <rect
+                                width="20"
+                                height="20"
+                                fill="none"
+                                transform="translate(6 6)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--FloorPlan -->
+          <div>
+            <div
+              class="row list-name-hover"
+              *ngIf="media?.FloorPlan?.MediaType"
+            >
+              <div class="col-12 col-md-4">
+                <div class="feature-name">
+                  <div class="rd-heading rd-heading-xs">
+                    {{ media.FloorPlan.MediaType }}
+                  </div>
+                  <span
+                    class="rd-indicator rd-indicator-md"
+                    *ngIf="media?.FloorPlan?.MediaType"
+                  >
+                    <span
+                      class="rd-indicator-content rd-indicator-secondary"
+                    ></span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 mt-3 mt-md-0">
+                <div class="feature-name">
+                  <div
+                    class="rd-heading rd-heading-xs"
+                    *ngIf="media?.FloorPlan?.Name"
+                  >
+                    {{ media.FloorPlan.Name }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4 mt-3 mt-md-0">
+                <div class="feature-rating">
+                  <div
+                    *ngIf="
+                      media?.FloorPlan?.Name != propertyFileUploads.FLOOR_PLAN
+                    "
+                  >
+                    <a
+                      [href]="media?.FloorPlan.Url"
+                      target="_blank"
+                      (click)="download($event, media?.FloorPlan.Url)"
+                      [attr.downloadanalytics]="
+                        media?.FloorPlan?.Name +
+                        ' ' +
+                        'ANALOAD' +
+                        ' ' +
+                        media?.FloorPlan.Url
+                      "
+                      class="rd-btn rd-btn-text rd-btn-sm gap-2 downl"
+                    >
+                      <span class="">Download</span>
+                      <span class="btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="36"
+                          height="36"
+                          fill="none"
+                          viewBox="0 0 36 36"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                          />
+                          <circle
+                            cx="18"
+                            cy="18"
+                            r="17"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                  <div
+                    *ngIf="
+                      media?.FloorPlan?.Name == propertyFileUploads.FLOOR_PLAN
+                    "
+                  >
+                    <a
+                      [href]="
+                        media?.FloorPlan.Url.includes('http')
+                          ? media?.FloorPlan.Url
+                          : 'https://' + media?.FloorPlan.Url
+                      "
+                      class="rd-btn rd-btn-text rd-btn-sm gap-2 view"
+                      target="_blank"
+                    >
+                      <span class="">View</span>
+                      <span class="btn-icon">
+                        <svg
+                          width="32"
+                          height="32"
+                          viewBox="0 0 32 32"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="16"
+                            cy="16"
+                            r="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                          <g clip-path="url(#clip0_7574_79711)">
+                            <path
+                              d="M6.83333 16C6.83333 16 10.1667 9.33337 16 9.33337C21.8333 9.33337 25.1667 16 25.1667 16C25.1667 16 21.8333 22.6667 16 22.6667C10.1667 22.6667 6.83333 16 6.83333 16Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M16 18.5C17.3807 18.5 18.5 17.3807 18.5 16C18.5 14.6193 17.3807 13.5 16 13.5C14.6193 13.5 13.5 14.6193 13.5 16C13.5 17.3807 14.6193 18.5 16 18.5Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_7574_79711">
+                              <rect
+                                width="20"
+                                height="20"
+                                fill="none"
+                                transform="translate(6 6)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--MallMap -->
+          <div>
+            <div class="row list-name-hover" *ngIf="media?.MallMap?.MediaType">
+              <div class="col-12 col-md-4">
+                <div class="feature-container">
+                  <div class="feature-name">
+                    <div class="rd-heading rd-heading-xs">
+                      {{ media.MallMap.MediaType }}
+                    </div>
+                    <span
+                      class="rd-indicator rd-indicator-md"
+                      *ngIf="media?.MallMap?.Name"
+                    >
+                      <span
+                        class="rd-indicator-content rd-indicator-secondary"
+                      ></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4 mt-3 mt-md-0">
+                <div class="feature-name">
+                  <div
+                    class="rd-heading rd-heading-xs"
+                    *ngIf="media?.MallMap?.Name"
+                  >
+                    {{ media.MallMap.Name }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4 mt-3 mt-md-0">
+                <div class="feature-rating">
+                  <div
+                    *ngIf="media?.MallMap?.Name != propertyFileUploads.MALL_MAP"
+                  >
+                    <a
+                      [href]="media?.MallMap.Url"
+                      target="_blank"
+                      (click)="download($event, media?.MallMap.Url)"
+                      [attr.downloadanalytics]="
+                        media?.MallMap?.Name +
+                        ' ' +
+                        'ANALOAD' +
+                        ' ' +
+                        media?.MallMap.Url
+                      "
+                      class="rd-btn rd-btn-text rd-btn-sm gap-2 downl"
+                    >
+                      <span class="btn-text">Download</span>
+                      <span class="btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="36"
+                          height="36"
+                          fill="none"
+                          viewBox="0 0 36 36"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                          />
+                          <circle
+                            cx="18"
+                            cy="18"
+                            r="17"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                  <div
+                    *ngIf="media?.MallMap?.Name == propertyFileUploads.MALL_MAP"
+                  >
+                    <a
+                      [href]="
+                        media?.MallMap.Url.includes('http')
+                          ? media?.MallMap.Url
+                          : 'https://' + media?.MallMap.Url
+                      "
+                      class="rd-btn rd-btn-text rd-btn-sm gap-2 view"
+                      target="_blank"
+                    >
+                      <span class="btn-text">View</span>
+                      <span class="btn-icon">
+                        <svg
+                          width="32"
+                          height="32"
+                          viewBox="0 0 32 32"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="16"
+                            cy="16"
+                            r="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                          <g clip-path="url(#clip0_7574_79711)">
+                            <path
+                              d="M6.83333 16C6.83333 16 10.1667 9.33337 16 9.33337C21.8333 9.33337 25.1667 16 25.1667 16C25.1667 16 21.8333 22.6667 16 22.6667C10.1667 22.6667 6.83333 16 6.83333 16Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M16 18.5C17.3807 18.5 18.5 17.3807 18.5 16C18.5 14.6193 17.3807 13.5 16 13.5C14.6193 13.5 13.5 14.6193 13.5 16C13.5 17.3807 14.6193 18.5 16 18.5Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_7574_79711">
+                              <rect
+                                width="20"
+                                height="20"
+                                fill="none"
+                                transform="translate(6 6)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Brochures" *ngIf="media?.Brochure">
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">Brochure</div>
+          </ng-template>
+          <div class="position-relative mb-5">
+            <div class="rd-heading rd-heading-xl">Brochure</div>
+            <span class="rd-indicator rd-indicator-lg">
+              <span class="rd-indicator-content rd-indicator-primary"></span>
+            </span>
+          </div>
+          <div>
+            <div class="row list-name-hover" *ngIf="media?.Brochure?.MediaType">
+              <div class="col-12 col-md-4">
+                <div class="feature-container">
+                  <div class="feature-name">
+                    <div class="rd-heading rd-heading-xs">
+                      {{ media.Brochure.MediaType }}
+                      <span class="rd-indicator rd-indicator-md">
+                        <span
+                          class="rd-indicator-content rd-indicator-secondary"
+                        ></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-6 col-md-4 mt-3 mt-md-0">
+                <div class="feature-nam">
+                  <div
+                    class="rd-heading rd-heading-xs"
+                    *ngIf="media?.Brochure?.Name"
+                  >
+                    {{ media.Brochure.Name }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4 mt-3 mt-md-0">
+                <div class="feature-rating">
+                  <div
+                    *ngIf="
+                      media?.Brochure?.Name != propertyFileUploads.BROCHURE
+                    "
+                  >
+                    <a
+                      [href]="media?.Brochure.Url"
+                      target="_blank"
+                      (click)="download($event, media?.Brochure.Url)"
+                      [attr.downloadanalytics]="
+                        media?.Brochure?.Name +
+                        ' ' +
+                        'ANALOAD' +
+                        ' ' +
+                        media?.Brochure.Url
+                      "
+                      class="downl rd-btn rd-btn-text rd-btn-sm gap-2"
+                    >
+                      <span class="btn-text">Download</span>
+                      <span class="btn-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="36"
+                          height="36"
+                          fill="none"
+                          viewBox="0 0 36 36"
+                        >
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M25.5 20.5v3.333a1.666 1.666 0 0 1-1.667 1.667H12.167a1.666 1.666 0 0 1-1.667-1.667V20.5m3.332-4.166 4.167 4.166 4.166-4.166M18 20.5v-10"
+                          />
+                          <circle
+                            cx="18"
+                            cy="18"
+                            r="17"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                  <div
+                    *ngIf="
+                      media?.Brochure?.Name == propertyFileUploads.BROCHURE
+                    "
+                  >
+                    <a
+                      [href]="
+                        media?.Brochure.Url.includes('http')
+                          ? media?.Brochure.Url
+                          : 'https://' + media?.Brochure.Url
+                      "
+                      class="rd-btn rd-btn-text rd-btn-sm gap-2 view"
+                      target="_blank"
+                    >
+                      <span class="btn-text">View</span>
+                      <span class="btn-icon">
+                        <svg
+                          width="32"
+                          height="32"
+                          viewBox="0 0 32 32"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="16"
+                            cy="16"
+                            r="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          />
+                          <g clip-path="url(#clip0_7574_79711)">
+                            <path
+                              d="M6.83333 16C6.83333 16 10.1667 9.33337 16 9.33337C21.8333 9.33337 25.1667 16 25.1667 16C25.1667 16 21.8333 22.6667 16 22.6667C10.1667 22.6667 6.83333 16 6.83333 16Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M16 18.5C17.3807 18.5 18.5 17.3807 18.5 16C18.5 14.6193 17.3807 13.5 16 13.5C14.6193 13.5 13.5 14.6193 13.5 16C13.5 17.3807 14.6193 18.5 16 18.5Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_7574_79711">
+                              <rect
+                                width="20"
+                                height="20"
+                                fill="none"
+                                transform="translate(6 6)"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab
+          label="Esg Certification"
+          *ngIf="propertyDetails?.esgfeatures?.length > 0"
+        >
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">ESG certification</div>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <div class="preview-section" *ngIf="tabName == 'Esg Certification'">
+      <div *ngFor="let feature of propertyDetails.esgfeatures">
+        <div>
+          <div class="property-details">
+            <div class="feature-name">
+              <div class="row">
+                <div
+                  [ngClass]="
+                    feature.EsgId == 1 ||
+                    feature.EsgId == 2 ||
+                    feature.EsgId == 3
+                      ? 'rd-heading rd-heading-md-bold left col-md-4'
+                      : 'rd-heading rd-heading-md-bold left'
+                  "
+                >
+                  <div class="position-relative">
+                    <div class="rd-heading rd-heading-md rd-heading-md-bold">
+                      {{ feature.Name }}
+                    </div>
+                    <span class="rd-indicator rd-indicator-lg">
+                      <span
+                        class="rd-indicator-content rd-indicator-primary"
+                      ></span>
+                    </span>
+                  </div>
+                </div>
+                <div
+                  *ngIf="
+                    feature.Name == 'Net Zero' ||
+                    feature.Name == 'Net Positive' ||
+                    feature.Name == 'Green Star Rating'
+                  "
+                  [ngClass]="
+                    feature.Name == 'Net Zero' ||
+                    feature.Name == 'Net Positive' ||
+                    feature.Name == 'Green Star Rating'
+                      ? 'row col-md-8'
+                      : 'col-md-6'
+                  "
+                  class=""
+                >
+                  <!-- <img class="image" src="{{ getPicture(feature.EsgId) }}" /> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 row">
+            <div
+              class="box-size"
+              *ngFor="let subFeature of feature.SubFeatures"
+            >
+              <div class="property-details">
+                <div class="feature-container">
+                  <div class="feature-name">
+                    <div
+                      class=""
+                      *ngIf="
+                        feature.Name != 'Energy Performance Certificate' &&
+                        feature.Name != 'Green Star Rating' &&
+                        feature.Name != 'WELL Health & Safety'
+                      "
+                    >
+                      <div class="">
+                        <div
+                          class="card card-size"
+                          [style.background]="
+                            getColor(subFeature.EsgFeaturesId)
+                          "
+                        >
+                          <div class="card-title">
+                            {{ subFeature.FeatureName }}
+                          </div>
+                          <mat-divider></mat-divider>
+
+                          <div
+                            class="card-text"
+                            *ngIf="
+                              feature.Name == 'Net Zero' ||
+                              feature.Name == 'Net Positive'
+                            "
+                          >
+                            {{ subFeature.Rating }}
+                            <ng-container *ngIf="subFeature.LevelType">
+                              ({{ subFeature.LevelType }})
+                            </ng-container>
+                            - including
+                            {{ subFeature.OffsetPercentage + "%" }}
+                            Offset Percentage
+                            <div class="levels">
+                              <div class="level1">Level 1</div>
+                              <div class="level2">Level 2</div>
+                              <div class="level3">Level 3</div>
+                              <div class="level4">Level 4</div>
+                              <div class="level5">Level 5</div>
+                            </div>
+
+                            <div
+                              class="net-positive-arrow-{{
+                                subFeature?.Rating?.includes('1')
+                                  ? 1
+                                  : subFeature?.Rating?.includes('2')
+                                  ? 2
+                                  : subFeature?.Rating?.includes('3')
+                                  ? 3
+                                  : subFeature?.Rating?.includes('4')
+                                  ? 4
+                                  : subFeature?.Rating?.includes('5')
+                                  ? 5
+                                  : ''
+                              }}"
+                            ></div>
+
+                            <p
+                              class="validity-date"
+                              *ngIf="
+                                subFeature.ValidityStartDate != '0000-00-00' &&
+                                subFeature.ValidityEndDate != '0000-00-00'
+                              "
+                            >
+                              Validity:
+                              {{
+                                subFeature.ValidityStartDate | date : "yyyy-MM"
+                              }}
+                              to
+                              {{
+                                subFeature.ValidityEndDate | date : "yyyy-MM"
+                              }}
+                            </p>
+                          </div>
+
+                          <mat-divider
+                            *ngIf="
+                              subFeature.ValidityStartDate != '0000-00-00' &&
+                              subFeature.ValidityEndDate != '0000-00-00'
+                            "
+                            class="mat-divider-net-zero"
+                          ></mat-divider>
+
+                          <div class="certificate">
+                            <a
+                              (click)="view(subFeature.Url)"
+                              [attr.downloadanalytics]="
+                                subFeature?.FeatureName +
+                                ' ' +
+                                'ANALOAD' +
+                                ' ' +
+                                subFeature.Url
+                              "
+                              class="download-link rd-btn-text gap-2"
+                              *ngIf="subFeature.Url"
+                            >
+                              <span class="text-align btn-text"
+                                >View Certificate</span
+                              >
+                              <span
+                                ><svg
+                                  width="36"
+                                  height="36"
+                                  viewBox="0 0 36 36"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g clip-path="url(#clip0_6785_64899)">
+                                    <path
+                                      d="M8.83301 17.9997C8.83301 17.9997 12.1663 11.333 17.9997 11.333C23.833 11.333 27.1663 17.9997 27.1663 17.9997C27.1663 17.9997 23.833 24.6663 17.9997 24.6663C12.1663 24.6663 8.83301 17.9997 8.83301 17.9997Z"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                    />
+                                    <path
+                                      d="M18 20.5C19.3807 20.5 20.5 19.3807 20.5 18C20.5 16.6193 19.3807 15.5 18 15.5C16.6193 15.5 15.5 16.6193 15.5 18C15.5 19.3807 16.6193 20.5 18 20.5Z"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                    />
+                                  </g>
+                                  <circle
+                                    cx="18"
+                                    cy="18"
+                                    r="17"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                  />
+                                  <defs>
+                                    <clipPath id="clip0_6785_64899">
+                                      <rect
+                                        width="20"
+                                        height="20"
+                                        fill="none"
+                                        transform="translate(8 8)"
+                                      />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Green star && WELL Health & Safety -->
+                    <div
+                      class=""
+                      *ngIf="
+                        feature.Name == 'Green Star Rating' ||
+                        feature.Name == 'WELL Health & Safety'
+                      "
+                    >
+                      <div class="">
+                        <div
+                          class="greenstar-card card"
+                          [style.background]="
+                            getColor(subFeature.EsgFeaturesId)
+                          "
+                        >
+                          <div class="card-title">
+                            {{ subFeature.FeatureName }}
+                          </div>
+                          <mat-divider></mat-divider>
+
+                          <div class="stars">
+                            <rd-rating
+                              [count]="6"
+                              [editable]="false"
+                              [rating]="
+                                subFeature?.Rating?.includes('1')
+                                  ? 1
+                                  : subFeature?.Rating?.includes('2')
+                                  ? 2
+                                  : subFeature?.Rating?.includes('3')
+                                  ? 3
+                                  : subFeature?.Rating?.includes('4')
+                                  ? 4
+                                  : subFeature?.Rating?.includes('5')
+                                  ? 5
+                                  : subFeature?.Rating?.includes('6')
+                                  ? 6
+                                  : ''
+                              "
+                            ></rd-rating>
+
+                            <div class="star-rating">
+                              {{
+                                subFeature?.Rating?.includes("1")
+                                  ? 1
+                                  : subFeature?.Rating?.includes("2")
+                                  ? 2
+                                  : subFeature?.Rating?.includes("3")
+                                  ? 3
+                                  : subFeature?.Rating?.includes("4")
+                                  ? 4
+                                  : subFeature?.Rating?.includes("5")
+                                  ? 5
+                                  : subFeature?.Rating?.includes("6")
+                                  ? 6
+                                  : ""
+                              }}
+
+                              Star Rating
+                            </div>
+                          </div>
+
+                          <mat-divider class="mat-divider-bottom"></mat-divider>
+                          <div class="certificate">
+                            <a
+                              (click)="view(subFeature.Url)"
+                              [attr.downloadanalytics]="
+                                subFeature?.FeatureName +
+                                ' ' +
+                                'ANALOAD' +
+                                ' ' +
+                                subFeature.Url
+                              "
+                              class="download-link-green rd-btn-text gap-2"
+                              *ngIf="subFeature.Url"
+                            >
+                              <span class="text-align btn-text"
+                                >View Certificate</span
+                              >
+                              <span>
+                                <svg
+                                  width="36"
+                                  height="36"
+                                  viewBox="0 0 36 36"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g clip-path="url(#clip0_6785_64899)">
+                                    <path
+                                      d="M8.83301 17.9997C8.83301 17.9997 12.1663 11.333 17.9997 11.333C23.833 11.333 27.1663 17.9997 27.1663 17.9997C27.1663 17.9997 23.833 24.6663 17.9997 24.6663C12.1663 24.6663 8.83301 17.9997 8.83301 17.9997Z"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                    />
+                                    <path
+                                      d="M18 20.5C19.3807 20.5 20.5 19.3807 20.5 18C20.5 16.6193 19.3807 15.5 18 15.5C16.6193 15.5 15.5 16.6193 15.5 18C15.5 19.3807 16.6193 20.5 18 20.5Z"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                    />
+                                  </g>
+                                  <circle
+                                    cx="18"
+                                    cy="18"
+                                    r="17"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                  />
+                                  <defs>
+                                    <clipPath id="clip0_6785_64899">
+                                      <rect
+                                        width="20"
+                                        height="20"
+                                        fill="none"
+                                        transform="translate(8 8)"
+                                      />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="card-text"
+                      *ngIf="feature.Name == 'Energy Performance Certificate'"
+                    >
+                      <div class="rectangle_{{ subFeature.Rating }}">
+                        <div class="EPC Add">
+                          {{ subFeature.Rating }} -
+                          {{ subFeature.AdditionalInformation }}
+                        </div>
+                      </div>
+                      <div class="view-epc">
+                        <div class="text-end"></div>
+                        <a
+                          (click)="view(subFeature.Url)"
+                          [attr.downloadanalytics]="
+                            subFeature?.FeatureName +
+                            ' ' +
+                            'ANALOAD' +
+                            ' ' +
+                            subFeature.Url
+                          "
+                          class="download-link-epc rd-btn-text gap-0"
+                          *ngIf="subFeature.Url"
+                        >
+                          <span class="view-certificate-text-epc btn-text">
+                            View Certificate
+                          </span>
+                          <span>
+                            <svg
+                              width="36"
+                              height="36"
+                              viewBox="0 0 36 36"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g clip-path="url(#clip0_6785_64899)">
+                                <path
+                                  d="M8.83301 17.9997C8.83301 17.9997 12.1663 11.333 17.9997 11.333C23.833 11.333 27.1663 17.9997 27.1663 17.9997C27.1663 17.9997 23.833 24.6663 17.9997 24.6663C12.1663 24.6663 8.83301 17.9997 8.83301 17.9997Z"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                                <path
+                                  d="M18 20.5C19.3807 20.5 20.5 19.3807 20.5 18C20.5 16.6193 19.3807 15.5 18 15.5C16.6193 15.5 15.5 16.6193 15.5 18C15.5 19.3807 16.6193 20.5 18 20.5Z"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                              </g>
+                              <circle
+                                cx="18"
+                                cy="18"
+                                r="17"
+                                stroke="currentColor"
+                                stroke-width="2"
+                              />
+                              <defs>
+                                <clipPath id="clip0_6785_64899">
+                                  <rect
+                                    width="20"
+                                    height="20"
+                                    fill="none"
+                                    transform="translate(8 8)"
+                                  />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-divider class="property-details-wrapper divider"></mat-divider>
+        </div>
+        <div
+          *ngIf="propertyDetails.esgfeatures.length == 0"
+          class="rd-text-grey-mid"
+        ></div>
+      </div>
+      <div
+        class="rd-text-grey-mid"
+        *ngIf="!propertyDetails.esgfeatures.length"
+      ></div>
+    </div>
+
+    <app-featured-properties-carousel></app-featured-properties-carousel>
+  </div>
+</div>
+
+<ng-template #loader>
+  <div class="placeholder-glow property-details-loader">
+    <div class="col-12 placeholder py-3 mb-5"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="property-image-section">
+            <div class="property-image-gallery placeholder">
+              <div class="property-image" *ngIf="propertyDetails">
+                <span class="placeholder"></span>
+              </div>
+            </div>
+            <div class="property-image-thumbnails">
+              <div
+                *ngFor="let image of [0, 1, 2]"
+                class="property-image placeholder"
+              >
+                <span class="placeholder"></span>
+              </div>
+            </div>
+          </div>
+          <div class="hr-top-line hr-2 my-4"></div>
+        </div>
+        <div class="col-sm-3 mb-5">
+          <div class="user-card rd-bg__grey-very-light">
+            <div class="col-12 mt-3 mb-4 placeholder placeholder-lg"></div>
+            <div class="user-info">
+              <div class="user-image">
+                <span class="user-profile placeholder"></span>
+              </div>
+              <div class="w-100">
+                <span class="col-12 mb-3 placeholder"></span>
+                <span class="col-2 mb-2 me-2 placeholder"></span>
+                <span class="col-8 mb-2 placeholder"></span>
+                <span class="col-2 mb-2 me-2 placeholder"></span>
+                <span class="col-8 mb-2 placeholder"></span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <span class="col-12 py-4 placeholder"></span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-9">
+          <div class="mb-4">
+            <span class="col-2 me-3 placeholder placeholder-lg"></span>
+            <span class="col-2 me-3 placeholder placeholder-lg"></span>
+            <span class="col-2 me-3 placeholder placeholder-lg"></span>
+            <span class="col-2 me-3 placeholder placeholder-lg"></span>
+          </div>
+          <div class="mb-5">
+            <span *ngFor="let num of [0, 1, 2]">
+              <span class="col-1 me-2 placeholder"></span>
+              <span class="col-2 me-3 placeholder"></span>
+            </span>
+          </div>
+          <div class="mb-4">
+            <span class="col-4 placeholder placeholder-lg"></span>
+          </div>
+          <div class="mb-4">
+            <span class="col-6 placeholder placeholder-lg"></span>
+          </div>
+          <div class="mb-5">
+            <span class="col-2 mb-3 placeholder"></span>
+            <span class="col-12 placeholder"></span>
+            <span class="col-12 placeholder"></span>
+            <span class="col-4 placeholder"></span>
+          </div>
+          <div class="hr-top-line hr-2 my-4"></div>
+          <div class="mb-5">
+            <span class="col-2 placeholder placeholder-lg mb-4"></span>
+            <div
+              class="d-flex justify-content-between flex-wrap mb-3"
+              *ngFor="let num of [0, 1, 2]"
+            >
+              <span class="col-3 placeholder"></span>
+              <span class="col-1 placeholder"></span>
+            </div>
+          </div>
+          <div class="hr-top-line hr-2 my-4"></div>
+          <div class="mb-5">
+            <span class="col-2 placeholder placeholder-lg mb-2"></span>
+            <div class="mb-4">
+              <span *ngFor="let num of [0, 1, 2]">
+                <span class="px-3 me-2 placeholder"></span>
+                <span class="col-2 me-3 placeholder"></span>
+              </span>
+            </div>
+            <span class="col-12 placeholder mb-2"></span>
+            <span class="col-4 placeholder mb-2"></span>
+          </div>
+          <div class="hr-top-line hr-2 my-4"></div>
+          <div class="mb-5">
+            <span class="col-2 placeholder placeholder-lg mb-4"></span>
+            <div class="mb-4 d-flex gap-1">
+              <div *ngFor="let num of [0, 1, 2]" class="col-12 col-md-4 pe-3">
+                <span class="col-3 mb-3 placeholder"></span>
+                <span class="col-12 placeholder"></span>
+                <span class="col-12 placeholder"></span>
+                <span class="col-5 placeholder"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #map_loader>
+  <div class="d-flex gap-2 placeholder-glow">
+    <div class="w-100 placeholder" [style.height.px]="400"></div>
+  </div>
+</ng-template>

@@ -1,0 +1,97 @@
+<div class="contact-us-form-container">
+  <form (submit)="onSubmit($event)">
+    <div class="row">
+      <div class="col-12">
+        <div class="rd-heading rd-heading-xs rd-text-grey-dark">
+          We’d love to hear from you.
+        </div>
+        <div class="hr-top-line hr-2 my-3"></div>
+      </div>
+      <div class="col-md-6">
+        <rd-input
+          [label]="'First name'"
+          [id]="'first-name'"
+          [placeholder]="'Please provide first name'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'FirstName'"
+          [form]="form"
+        ></rd-input>
+      </div>
+      <div class="col-md-6">
+        <rd-input
+          [label]="'Last name'"
+          [id]="'surname'"
+          [placeholder]="'Please provide last name'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'LastName'"
+          [form]="form"
+        ></rd-input>
+      </div>
+      <div class="col-md-6">
+        <rd-input
+          [label]="'Email address'"
+          [id]="'email'"
+          [placeholder]="'Please provide email'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'Email'"
+          [form]="form"
+        ></rd-input>
+      </div>
+      <div class="col-md-6">
+        <rd-input
+          [label]="'Mobile number'"
+          [id]="'mobile-number'"
+          [placeholder]="'Please provide mobile number'"
+          [required]="false"
+          [type]="'text'"
+          [controlName]="'Mobile'"
+          [form]="form"
+        ></rd-input>
+      </div>
+      <div class="col-md-6">
+        <rd-select
+          [label]="'Query type'"
+          [id]="'query-type'"
+          [placeholder]="'Please provide query type'"
+          [required]="true"
+          [items$]="enquiryTypes$"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [form]="form"
+          [controlName]="'EnquiryTypeId'"
+        >
+        </rd-select>
+      </div>
+      <div class="col-12">
+        <rd-textarea
+          [label]="'Message'"
+          [id]="'user-message'"
+          [placeholder]="'Type your message here…'"
+          [required]="true"
+          [form]="form"
+          [controlName]="'Message'"
+          [maxLength]="700"
+        ></rd-textarea>
+      </div>
+      <div class="col-md-6 order-2 order-md-1 d-flex">
+        <button
+          type="submit"
+          class="mt-4 rd-btn rd-btn-dark rd-btn-xl"
+        >
+          <span class="btn-text">Send</span>
+        </button>
+      </div>
+      <div class="col-md-6 order-1 order-md-2 d-flex ipad-captcha">
+        <app-captcha
+          [id]="'contact-us-captcha'"
+          [controlName]="'Recaptcha'"
+          [form]="form"
+        ></app-captcha>
+      </div>
+    </div>
+  </form>
+  <div class="form-indicator"></div>
+</div>

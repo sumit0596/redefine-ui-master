@@ -1,0 +1,92 @@
+
+
+.line {
+  height: 2px;
+  width: 100%;
+  background-color: #cccccc;
+}
+
+.property-details {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.key-value-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.key-value-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.units-wrapper {
+  margin-left: auto;
+  padding-bottom: 3px;
+}
+
+.key-color-primary {
+  color: #e6001c;
+}
+
+.move-right {
+  margin-left: auto;
+  margin-top: 50px;
+}
+
+.rd-btn-lg {
+  width: 200px;
+}
+
+.breadcrum {
+  margin-bottom: -15px;
+  width: 100%;
+  margin-top: 15px;
+  height: 30px;
+}
+
+.breadcrum a {
+  color: black;
+  font-weight: 600;
+}
+
+.checkbox-input input[type="checkbox"]:checked {
+  background: black;
+}
+
+@media (max-width: 390px) {
+  .breadcrum {
+    display: none;
+  }
+  .rd-btn-lg {
+    width: 337px;
+  }
+
+  .move-clear {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .breadcrum {
+    display: none;
+  }
+  .rd-btn-lg {
+    width: 305px;
+  }
+
+  .move-clear {
+    margin-top: 15px;
+  }
+}
+
+@media (min-width: 780px) and (max-width: 1920px) {
+  .move-clear {
+    margin-top: 50px;
+  }
+}

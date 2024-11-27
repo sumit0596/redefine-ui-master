@@ -1,0 +1,113 @@
+<div [ngSwitch]="data.label | lowercase" class="dialog-container">
+    <div class="dialog-header">
+      <div>{{ data.label | uppercase }}</div>
+      <div>
+        <button aria-label="closebutton" type="button" class="rd-btn-text rd-btn" (click)="close()">
+          <span><img src="assets/images/close.svg" alt="" /></span>
+        </button>
+      </div>
+    </div>
+    <div class="dialog-body d-flex row gx-2">
+      <ng-container *ngSwitchCase="'filter'">
+        <div class="col-md-6">
+        <rd-select
+          [id]="'propertyId'"
+          [label]="'Property Name'"
+          [placeholder]="'Select Property'"
+          [bindLabel]="'PropertyName'"
+          [bindValue]="'PropertyId'"
+          [form]="filterForm"
+          [controlName]="'PropertyId'"
+          [items$]="data.propertyList"
+          (onChange)="onSelect($event)"
+          [ariaAutoComplete]="true"
+        ></rd-select>
+        
+        <rd-select
+          [id]="'integrated-report-status'"
+          [label]="'Sector'"
+          [placeholder]="'Select Sector'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [form]="filterForm"
+          [controlName]="'SectorId'"
+          [items$]="data.sectorList"
+          (onChange)="onSelect($event)"
+        ></rd-select>
+        <rd-select
+          [id]="'source'"
+          [label]="'Source'"
+          class="campaign-source-dropdown"
+          [placeholder]="'Please Select'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Name'"
+          [form]="filterForm"
+          [controlName]="'Source'"
+          [items$]="data.leadSource"
+          (onChange)="onSelect($event)"
+        ></rd-select>
+      </div>
+        <div class="col-md-6">
+        <rd-select
+          [id]="'medium'"
+          [label]="'Medium'"
+          [placeholder]="'Please Select'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Name'"
+          [form]="filterForm"
+          [controlName]="'Medium'"
+          [items$]="data.leadMedium"
+          (onChange)="onSelect($event)"
+        ></rd-select>
+        <rd-select
+          [id]="'leasingexecutive'"
+          [label]="'Leasing Executive'"
+          [placeholder]="'Please Select'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [form]="filterForm"
+          [controlName]="'LeasingExecutiveId'"
+          [items$]="data.leasingList"
+          (onChange)="onSelect($event)"
+        ></rd-select></div>
+      </ng-container>
+      <ng-container *ngSwitchCase="'column'">
+        <div class="rd-checkbox-group">
+          <div class="checkbox-input rd-checkbox">
+            <input
+              type="checkbox"
+              name=""
+              id="item-all"
+              value="All"
+              [checked]="allChecked(data.columns)"
+              (change)="onCheckAll($event)"
+            />
+            <label for="item-all">All</label>
+          </div>
+          <ng-container *ngFor="let column of data.columns; let i = index">
+            <div class="checkbox-input rd-checkbox" *ngIf="column.visible">
+              <input
+              aria-label="checkbox-input"
+                type="checkbox"
+                [name]="column.field"
+                [id]="column.field + i"
+                [value]="column.header"
+                [checked]="column.show"
+                (click)="onCheck($event, column)"
+              />
+              <label [for]="column.field + i">{{ column.header }}</label>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+    <div class="dialog-footer btn-wrapper">
+      <button type="button" class="rd-btn rd-btn-text" (click)="clearFilter()">
+        Clear {{ data.label | lowercase }}
+      </button>
+      <button type="button" class="rd-btn rd-btn-primary" (click)="onSubmit()">
+        Apply {{ data.label | lowercase }}
+      </button>
+    </div>
+  </div>
+  

@@ -1,0 +1,24 @@
+<div class="rd-bg__grey-very-light">
+  <div class="container breadcrumbs-container">
+    <ul class="breadcrumbs">
+      <li class="breadcrumb">
+        <a [routerLink]="['']" class="breadcrumb-link">Home</a>
+      </li>
+      <li
+        *ngFor="let route of routes; let i = index"
+        class="breadcrumb"
+        [ngClass]="{ disabled: route.isCurrent || !route.active }"
+      >
+        <span
+          class="breadcrumb-link"
+          (click)="navigate($event, route)"
+          [attr.data-flag]="route.active"
+          [attr.aria-disabled]="route.isCurrent || !route.active"
+          [class.disabled]="route.isCurrent || !route.active"
+        >
+          {{ route.name }}
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>

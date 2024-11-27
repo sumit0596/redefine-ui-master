@@ -1,0 +1,562 @@
+<form
+  class="rd-form form-container"
+  [formGroup]="unitDetailsForm"
+  (ngSubmit)="onSubmit($event)"
+  autocomplete="off"
+>
+  <div class="rd-form-header">Unit Details</div>
+  <div class="rd-form-body">
+    <!-- Unit Details -->
+    <div class="rd-form-section">
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'Unit Name & Location in building'"
+          [id]="'unit-name'"
+          [placeholder]="'Please Provide Unit Name'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'NameAndLocation'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-input
+          [label]="'Unit Size (sqm)'"
+          [id]="'unit-size'"
+          [placeholder]="'Please Provide Unit Size'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'UnitSize'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <!-- <div
+        class="rd-form-control-group"
+        *ngIf="propertyDetails?.details?.SectorId === 2"
+      >
+        <rd-calendar
+          [label]="'Unit Availability Date'"
+          [id]="'unit-availability-date'"
+          [type]="'text'"
+          [placeholder]="''"
+          [controlName]="'UnitAvailableDate'"
+          [form]="unitDetailsForm"
+        ></rd-calendar>
+        <rd-input></rd-input>
+      </div> -->
+      <div class="rd-form-control-group placement">
+        <rd-calendar
+          *ngIf="propertyDetails?.details?.SectorId !== 2"
+          [label]="'Unit Availability Date'"
+          [id]="'unit-availability-date'"
+          [type]="'text'"
+          [placeholder]="'Please Select Date'"
+          [controlName]="'UnitAvailableDate'"
+          [form]="unitDetailsForm"
+        ></rd-calendar>
+        <rd-select
+          [id]="'access-note'"
+          [label]="'Premises Condition'"
+          [placeholder]="'Please Select Option'"
+          [bindLabel]="'label'"
+          [bindValue]="'id'"
+          [items$]="type$"
+          [form]="unitDetailsForm"
+          [controlName]="'Type'"
+          (clear)="onAccessNoteDeSelect($event)"
+        ></rd-select>
+        <rd-calendar
+          *ngIf="propertyDetails?.details?.SectorId === 2"
+          [label]="'Occupation Date'"
+          [id]="'unit-availability-date'"
+          [type]="'text'"
+          [placeholder]="''"
+          [controlName]="'UnitAvailableDate'"
+          [form]="unitDetailsForm"
+        ></rd-calendar>
+      </div>
+      <!-- <div *ngIf="propertyDetails?.details?.SectorId === 2">
+        
+      </div> -->
+
+      <div class="rd-form-control-group">
+        <rd-input
+          *ngIf="propertyDetails?.details?.SectorId === 1"
+          [label]="'Office Size(sqm)'"
+          [id]="'office-size'"
+          [placeholder]="'Please Provide Office Size'"
+          [type]="'text'"
+          [controlName]="'OfficeSize'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-input
+          *ngIf="propertyDetails?.details?.SectorId === 1"
+          [label]="'Warehouse Size (sqm)'"
+          [id]="'warehouse-size'"
+          [placeholder]="'Please Provide Warehouse Size'"
+          [type]="'text'"
+          [controlName]="'WarehouseSize'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+
+      <rd-editor
+        [label]="'Unit Description'"
+        [id]="'UnitDescription'"
+        [placeholder]="'Add Description'"
+        [controlName]="'UnitDescription'"
+        [form]="unitDetailsForm"
+        [editable]="formConfig?.mode != 'view'"
+        (onChange)="onChange($event)"
+      ></rd-editor>
+    </div>
+    <div class="rd-form-section"></div>
+  </div>
+
+  <div class="rd-form-header">Rental Details</div>
+  <div class="rd-form-body">
+    <!-- Unit Details -->
+    <div class="rd-form-section">
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'Net Rental (R/sqm)'"
+          [id]="'base-rental'"
+          [placeholder]="'Set Net Rental (R/sqm)'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'BaseRental'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-input
+          [label]="'Operating  Costs (R/sqm)'"
+          [id]="'operational-costs'"
+          [placeholder]="'Set Operating Costs (R/sqm)'"
+          [type]="'text'"
+          [required]="true"
+          [controlName]="'OperationalCost'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'Rates (R/sqm)'"
+          [id]="'rates'"
+          [placeholder]="'Please Provide Rates (R/sqm)'"
+          [type]="'text'"
+          [required]="true"
+          [controlName]="'Rates'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-input
+          [label]="'Gross Rental (R/sqm)'"
+          [id]="'gross-rental'"
+          [placeholder]="'Gross Rental'"
+          [type]="'text'"
+          [controlName]="'GrossRental'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div class="bays">
+        <rd-switch
+          [label]="'CIDLevey'"
+          [id]="'cid-switch'"
+          *ngIf="formConfig.mode != 'view'"
+          [checked]="unitDetailsForm.get('CIDLevey')?.value"
+          (onChange)="onSwitchToggle($event)"
+        >
+        </rd-switch>
+        <label>CID Levy</label>
+      </div>
+
+      <rd-input
+        [id]="'cid-levy'"
+        [label]="''"
+        [placeholder]="'Please Provide CID Levy (R/sqm) '"
+        [type]="'text'"
+        [controlName]="'CIDLevey'"
+        [form]="unitDetailsForm"
+        (onChange)="onChange($event)"
+      ></rd-input>
+    </div>
+
+    <!-- Access & Comments -->
+    <div class="rd-form-section">
+      <div class="rd-form-header">Access & Comments</div>
+      <rd-select
+        [id]="'access-note'"
+        [label]="'Access Note'"
+        [placeholder]="'Please Select Access Note'"
+        [bindLabel]="'Name'"
+        [bindValue]="'AccessId'"
+        [items$]="accessNoteList$"
+        [form]="unitDetailsForm"
+        [controlName]="'AccessId'"
+        (onChange)="accessNoteSelect($event)"
+        (clear)="onAccessNoteDeSelect($event)"
+      ></rd-select>
+      <div
+        *ngIf="unitDetailsForm.get('AccessId')?.value == '6'"
+        class="rd-form-control"
+      >
+        <!-- <rd-input
+          [id]="'access-note-info'"
+          [label]="'Please provide Access Note Information'"
+          [placeholder]="'Please provide '"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'AccessNoteOther'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input> -->
+        <rd-textarea
+          [label]="'Please provide Access Note Information'"
+          [id]="'access-note-info'"
+          [required]="true"
+          [placeholder]="'Please Provide'"
+          [controlName]="'AccessNoteOther'"
+          [form]="unitDetailsForm"
+          [maxLength]="255"
+        ></rd-textarea>
+      </div>
+      <div class="rd-form-control">
+        <!-- <rd-input
+          [id]="'cid-levy'"
+          [label]="'Comment/ Additional Information'"
+          [placeholder]="'Please provide '"
+          [type]="'text'"
+          [controlName]="'AddtionalInformation'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input> -->
+        <rd-textarea
+          [label]="'Comment/ Additional Information'"
+          [id]="'access-note-additional-info'"
+          [placeholder]="'Please Provide'"
+          [controlName]="'AddtionalInformation'"
+          [form]="unitDetailsForm"
+          [maxLength]="700"
+        ></rd-textarea>
+      </div>
+    </div>
+
+    <ng-container *ngIf="propertyDetails?.details?.SectorId != 1">
+      <div class="rd-form-section parking-details-section">
+        <div class="rd-form-header">Parking Details</div>
+        <rd-input
+          [label]="'Parking Ratio (bays/100 sqm)'"
+          [id]="'address'"
+          [placeholder]="'5 Bay Per 100 Square Meter'"
+          [type]="'text'"
+          [controlName]="'ParkingRatio'"
+          [form]="unitDetailsForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <div class="rd-form-control-group">
+          <div>
+            <div class="control-container bays">
+              <rd-switch
+                *ngIf="formConfig?.mode != 'view'"
+                [label]="'BasementBays'"
+                [id]="'basement-bays-switch'"
+                [checked]="unitDetailsForm.get('BasementBays')?.value"
+                (onChange)="onSwitchToggle($event)"
+              ></rd-switch>
+              <label>Basement bays (R/sqm)</label>
+            </div>
+            <rd-input
+              [id]="'basement-bays-input'"
+              [placeholder]="'Per 100 Meter Squared'"
+              [type]="'text'"
+              [controlName]="'BasementBays'"
+              [form]="unitDetailsForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+          <div>
+            <div class="control-container bays">
+              <rd-switch
+                *ngIf="formConfig?.mode != 'view'"
+                [label]="'ShadedBays'"
+                [id]="'shaded-bays-switch'"
+                [checked]="unitDetailsForm.get('ShadedBays')?.value"
+                (onChange)="onSwitchToggle($event)"
+              ></rd-switch>
+              <label>Shaded bays (R/sqm)</label>
+            </div>
+            <rd-input
+              [id]="'shaded-bays-input'"
+              [placeholder]="'Per 100 Meter Squared'"
+              [type]="'text'"
+              [controlName]="'ShadedBays'"
+              [form]="unitDetailsForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+          <div>
+            <div class="control-container bays">
+              <rd-switch
+                *ngIf="formConfig?.mode != 'view'"
+                [label]="'OpenBays'"
+                [id]="'open-bays-switch'"
+                [checked]="unitDetailsForm.get('OpenBays')?.value"
+                (onChange)="onSwitchToggle($event)"
+              ></rd-switch>
+              <label>Open Bays (R/sqm)</label>
+            </div>
+            <rd-input
+              [id]="'property-open-bays'"
+              [placeholder]="'Per 100 Meter Squared'"
+              [type]="'text'"
+              [controlName]="'OpenBays'"
+              [form]="unitDetailsForm"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <!-- Tenant Installation Allowance -->
+    <div
+      class="rd-form-section"
+      *ngIf="propertyDetails?.details?.SectorId != 1"
+    >
+      <div class="rd-form-header">Tenant Installation Allowance</div>
+      <div class="control-container">
+        <div class="checkbox-input rd-checkbox">
+          <input
+            type="checkbox"
+            name=""
+            [disabled]="formConfig?.mode === 'view'"
+            id="tenant-allowance-box"
+            [checked]="unitDetailsForm.get('TenentAllowance')?.value"
+            (change)="selectTenantAllowance($event)"
+          />
+          <label for="tenant-allowance-box"
+            >Offer Tenant Installation Allowance</label
+          >
+        </div>
+        <br />
+        <rd-editor
+          [label]="'Please Provide Information'"
+          [id]="'tenant-allowance'"
+          [placeholder]="
+            '1 months gross rental *per year signed based  ON A 3 TO 5 year LEASE'
+          "
+          [controlName]="'TenentAllowance'"
+          [form]="unitDetailsForm"
+          [required]="true"
+          [editable]="formConfig?.mode != 'view'"
+          (onChange)="onChange($event)"
+        ></rd-editor>
+      </div>
+    </div>
+
+    <div class="rd-form-section">
+      <div class="rd-form-header">Tenant Incentives</div>
+      <div class="rd-form-control">
+        <rd-select
+          [id]="'lease'"
+          [label]="'Select Incentives'"
+          [items$]="tenantIncentivesList$"
+          [placeholder]="'Search Incentives'"
+          [bindLabel]="'Title'"
+          [bindValue]="'Id'"
+          [multiselect]="true"
+          [max]="2"
+          [form]="unitDetailsForm"
+          [controlName]="'PropertyIncentives'"
+        ></rd-select>
+      </div>
+      <!--       
+      <div class="footer">
+        <div></div>
+        <div>
+          <button
+            class="rd-btn-primary rd-btn-lg"
+            [disabled]="formConfig && formConfig.mode == 'view'"
+            (click)="createNewIncentive()"
+          >
+            Create New Incentive
+          </button>
+        </div>
+      </div> -->
+
+      <div class="footer">
+        <div></div>
+        <div>
+          <button
+            type="button"
+            class="rd-btn-primary rd-btn-lg"
+            [disabled]="formConfig && formConfig.mode == 'view'"
+            (click)="createNewIncentive()"
+          >
+            Create New Incentive
+          </button>
+        </div>
+      </div>
+
+      <!-- <div class="rd-form-header">Offer Space2Spec</div> -->
+      <div class="control-container">
+        <div class="checkbox-input rd-checkbox">
+          <input
+            type="checkbox"
+            name=""
+            id="space-spec"
+            [checked]="showBaseOpsCost"
+            (change)="selectspace2spec($event)"
+          />
+          <label for="space-spec">Offer Space2Spec</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rd-form-section">
+    <ng-container *ngIf="showBaseOpsCost">
+      <div class="rental-alert">
+        <div class="location-alert-icon">
+          <img
+            class="location-alert-image"
+            src="assets/images/circle-info.svg"
+            alt=""
+          />
+        </div>
+        <div class="location-alert-desc">
+          Please insert the basic rental details below
+        </div>
+      </div>
+
+      <div>
+        <div class="row">
+          <div class="col-md-6">
+            <rd-select
+              class="spec-space"
+              [id]="'net-rental'"
+              [label]="'Net rental escalation(%)'"
+              [items$]="rentalEscalations$"
+              [placeholder]="'6% - 12%'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Name'"
+              [required]="true"
+              [form]="unitDetailsForm"
+              [controlName]="'NetRental'"
+              (onChange)="onNetRentalSelect($event)"
+            ></rd-select>
+          </div>
+          <div class="col-md-6">
+            <rd-select
+              class="spec-space"
+              [id]="'net-rental'"
+              [label]="'Ops rental escalation(%)'"
+              [items$]="rentalEscalations$"
+              [placeholder]="'6% - 12%'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Name'"
+              [required]="true"
+              [form]="unitDetailsForm"
+              [controlName]="'OpsRental'"
+              (onChange)="onNetRentalSelect($event)"
+            ></rd-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="rd-form-header">Total Space2Spec Value Contribution</div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <rd-input
+            class="font"
+            [id]="'unit-lease'"
+            [placeholder]="''"
+            [label]="'3-Years Lease'"
+            [type]="'text'"
+            [controlName]="'ThreeYearsLease'"
+            [form]="unitDetailsForm"
+          ></rd-input>
+        </div>
+        <div class="col-md-6 spec-dropdown" *ngIf="threeYearMeterSquare !== ''">
+          Which equates to
+          <blockquote>
+            &nbsp;R{{ threeYearMeterSquare }}/m<sup>2</sup>
+          </blockquote>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <rd-input
+            [id]="'unit-lease'"
+            class="font"
+            [placeholder]="''"
+            [label]="'5-Years Lease'"
+            [type]="'text'"
+            [controlName]="'FiveYearsLease'"
+            [form]="unitDetailsForm"
+          ></rd-input>
+        </div>
+        <div class="col-md-6 spec-dropdown" *ngIf="fiveyearMeterSquare !== ''">
+          Which equates to
+          <blockquote>
+            &nbsp;R{{ fiveyearMeterSquare }}/m<sup>2</sup>
+          </blockquote>
+        </div>
+        <!-- <p>
+          <a
+            class="linki"
+            href="/view-file/spacetospectermsconditions.pdf"
+            target="_blank"
+          >
+            Terms and Conditions Apply
+          </a>
+        </p> -->
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="rd-form-section">
+    <!-- Broker Commission Incentives -->
+    <div class="rd-form-header">Broker Commission Incentives</div>
+    <div class="rd-form-control">
+      <rd-select
+        [id]="'lease'"
+        [label]="
+          'Commission incentive over and above standard tariff per Redefine Letting Mandate'
+        "
+        [placeholder]="'5% - 300%'"
+        [bindLabel]="'Name'"
+        [bindValue]="'Name'"
+        [items$]="brokerCommissionIncentives$"
+        [form]="unitDetailsForm"
+        [controlName]="'BrokerIncentives'"
+      ></rd-select>
+      <rd-textarea
+        [label]="'Comment/ Disclaimers'"
+        [id]="'comment-disclaimer'"
+        [placeholder]="'Please Comment Here'"
+        [controlName]="'CommentDisclaimers'"
+        [form]="unitDetailsForm"
+        [maxLength]="700"
+      ></rd-textarea>
+    </div>
+
+    <div class="rd-form-footer">
+      <div></div>
+      <div>
+        <button
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          [disabled]="formConfig && formConfig.mode == 'view'"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

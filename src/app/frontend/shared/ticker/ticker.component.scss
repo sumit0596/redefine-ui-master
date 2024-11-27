@@ -1,0 +1,80 @@
+.ticker-container {
+  width: 100%;
+  top: 80px !important;
+  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.08);
+  z-index: 998;
+}
+.height-50 {
+  min-height: 50px;
+  height: auto;
+}
+.market-data-label {
+  font-weight: 500;
+  text-align: center;
+}
+.market-data-value {
+  min-width: 45px;
+  font-weight: 600;
+  animation: 0.3s linear fadeIn;
+  color: var(--red-color);
+}
+
+.market-data-value.positionNegative{
+  color: var(--red-color);
+}
+
+.market-data-value.positionPlus{
+  //color:  #026402;
+  color: rgba(2, 182, 2, 0.833);
+}
+
+.market-data-value svg {
+  width: 18px;
+}
+.market-data-loader img {
+  width: 18px;
+}
+.market-data {
+  position: relative;
+  border-left: 1px solid var(--grey-light);
+  padding: 0;
+}
+.market-data:last-child {
+  border-right: 1px solid var(--grey-light);
+}
+.market-data .updated-on {
+  font-size: 12px;
+  color: var(--grey-mid);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .market-data:first-child {
+    border-left: none;
+  }
+  .market-data:last-child {
+    border-right: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .market-data {
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 10px;
+  }
+  .market-data-label,
+  .market-data-value {
+    font-size: 14px;
+    text-align: center;
+  }
+  .market-data-value svg {
+    width: 12px;
+  }
+  .market-data-loader {
+    text-align: center;
+    img {
+      width: 12px;
+    }
+  }
+}

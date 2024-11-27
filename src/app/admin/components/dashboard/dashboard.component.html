@@ -1,0 +1,267 @@
+<ng-template #dashboardHost></ng-template>
+<!-- <rd-carousal [images]="images" [autoplay]="true"></rd-carousal> -->
+<mat-tab-group class="switch-dashboards" 
+[ngClass]="{'switch-dashboards-hide': !environment.DASHBOARD_TAB_VIEW || !notBrokarDashboard}"  
+animationDuration="0ms"
+(selectedTabChange)="onChangeDashboards($event)">
+  <mat-tab label="Overview">
+<ng-container *ngIf="canShowDashboard; else underDevelopment">
+<div class="mb-5 p-1" *ngIf="notBrokarDashboard">
+  <div class="rd-container-header rd-dashborad-margin-0" *ngIf="!environment.DASHBOARD_TAB_VIEW">
+    <div class="rd-heading rd-heading-lg rd-dashboard-heading">Dashboard</div>
+  </div>
+  <div class="card-row">
+      <div *ngIf="dashBoardAccess?.includes(isAccess.STAKEHOLDERS_SESSION)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+        <app-broker-stakeholders></app-broker-stakeholders>
+      </div>
+      <div *ngIf="dashBoardAccess?.includes(isAccess.SESSIONS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+        <app-session-graph></app-session-graph>
+      </div>
+      <div *ngIf="dashBoardAccess?.includes(isAccess.STAKEHOLDERS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="true" (opened)="panelOpenState[0] = true"
+            (closed)="panelOpenState[0] = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="align-items-start">
+                <div class="col-md-10 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+                  Users by portal
+                  <small class="selected-filter-label">
+                    <ng-container *ngIf="filter.Type === 1 ; else timeChartText">
+                      ({{selectedEventDays}})
+                    </ng-container>
+                    <ng-template #timeChartText>
+                      ({{selectedEventYears}})
+                    </ng-template>
+                  </small>
+                </div>
+                <div class="col-md-2 d-flex justify-content-end" [ngClass]="{'invisible' : !panelOpenState[0]}">
+                  
+                  <button type="button" id="more-btn" class="rd-btn rd-btn-text alingment-button-dashborad position-relative"
+                    [matMenuTriggerFor]="analyticfilter" aria-label="More" (click)="$event.stopPropagation()">
+                    <img src="assets/images/filter.svg" alt="Filter" />
+                    <ng-container *ngIf="filter.Type === 1">
+                      <span *ngIf="filterAppliedPie" class="position-absolute badge-filter  badge padicon bg-secondary"
+                      (click)="pieChartBadgeReset($event)">
+                      <mat-icon class="fsmaticon filter-badge-icon-size">close</mat-icon>
+                      <span class="visually-hidden">unread messages</span>
+                    </span>
+                    </ng-container>
+                    <ng-container *ngIf="filter.Type === 2">
+                      <span *ngIf="filterAppliedTime" class="position-absolute badge-filter  badge padicon bg-secondary"
+                      (click)="timeChartBadgeReset($event)">
+                      <mat-icon class="fsmaticon filter-badge-icon-size">close</mat-icon>
+                      <span class="visually-hidden">unread messages</span>
+                    </span>
+                    </ng-container>
+                    
+                  </button>
+                  <mat-menu class="mat-menu mat-menu-analytic" #analyticfilter="matMenu">
+                    <app-dashboard-filter [filter]="filter" (filteredData)="filterData(filter)"
+                      (selectedEventFilter)="selectedEventFilter($event)" (filterApplied)="handleFilterApplied($event)"
+                      [tabLabel]="tabLabel"></app-dashboard-filter>
+                  </mat-menu>
+                  <button type="button" class="rd-btn rd-btn-text alingment-button-dashborad" (click)="dashboardStakeholderReset($event)">
+                    <mat-icon>refresh</mat-icon>
+                  </button>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="dashboard-container">
+              <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="0ms" dynamicHeight
+                fitInkBarToContent (selectedTabChange)="onTabChange($event)" [selectedIndex]="activeTab"
+                class="dashboard-pie-chart" mat-align-tabs="end">
+                <mat-tab [label]="'Pie Chart'">
+                  <ng-template mat-tab-label>
+                    <div class="rd-heading rd-heading-xs dashboard-pie-chart">
+                      Pie Chart
+                    </div>
+                  </ng-template>
+
+                  <app-donut-chart 
+                    [chartData$]="chartData$" 
+                    [isadmin]="true"
+                    [chartId] = "'userChartDiv'"
+                    [type]="'StakeHolder'"
+                    [insideLabel] ="'Unique Visits'"
+                    >
+                  </app-donut-chart>
+                </mat-tab>
+
+                <mat-tab [label]="'Time Chart'">
+                  <ng-template mat-tab-label>
+                    <div class="rd-heading rd-heading-xs">Time Chart</div>
+                  </ng-template>
+                  <!-- <div class="row">
+                  <div class="col-md-12">
+                    <app-dashboard-filter
+                      [filter]="filter"
+                      (filteredData)="filterData(filter)"
+                      [tabLabel]="tabLabel"
+                    ></app-dashboard-filter>
+                  </div>
+                </div> -->
+                  <app-time-chart *ngIf="timeGraphChartData$" [chartData$]="timeGraphChartData$"></app-time-chart>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+
+  <div *ngIf="dashBoardAccess?.includes(isAccess.PAGE_VIEWS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-page-views></app-page-views>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.TOTAL_PROPERTIES)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-stack-bar-chart></app-stack-bar-chart>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.APPLICANT_JOBS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-dashboard-tables [type]="'jobList'"></app-dashboard-tables>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.CONVERSION_PROPERTIES)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-dashboard-tables [type]="'property'"></app-dashboard-tables>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.PROPERTYEQ_PERFORMANCE)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-dashboard-tables [type]="'propertyEq'"></app-dashboard-tables>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.DEVICE_SPLIT)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-device-analytics></app-device-analytics> 
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.SOURCE_SPLIT)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-source-analytics></app-source-analytics>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.OS_SPLIT)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-os-analytics></app-os-analytics>
+  </div>  
+  <div *ngIf="dashBoardAccess?.includes(isAccess.BROWSER_SPLIT)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-browser-analytics></app-browser-analytics>
+  </div> 
+  <div *ngIf="dashBoardAccess?.includes(isAccess.INSIGHTS_ANALYTICS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-insight-analytics></app-insight-analytics>
+  </div> 
+  <div *ngIf="dashBoardAccess?.includes(isAccess.RECENTLY_UPDATAED_UNITS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true" (opened)="panelOpenState[3] = true"
+        (closed)="panelOpenState[3] = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="rd-heading rd-heading-md rd-dashboard-heading align-items-start">
+            <div class="col-md-11 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+              Recently Updated Units
+              <small class="selected-filter-label">(Last 14 Days)</small>
+            </div>
+            <div class="col-md-1" *ngIf="panelOpenState[3]">
+              <button type="button" class="rd-btn rd-btn-text alingment-button-dashborad" (click)="loadRecentUnits(0, true)"
+                (click)="$event.stopPropagation()">
+                <mat-icon>refresh</mat-icon>
+              </button>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <!--malik-->
+        <div class="dashboard-container" id="recentUnits-id">
+          <rd-recent-updates [type]="'recentUnits'" [recentUnits]="recentUnits$"
+            (viewMoreUnits)="loadRecentUnits(this.recentUnitsPageNo)" [refresh]="refreshUnits"></rd-recent-updates>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.FINANCIAL_RESULTS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-financial-results-dashboard></app-financial-results-dashboard>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.REPORT_DOWLOADS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-dashboard-tables [type]="'reports'"></app-dashboard-tables>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.DOWNLOADS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <app-downloads></app-downloads>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.RECENT_EVENTS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true" (opened)="panelOpenState[2] = true"
+        (closed)="panelOpenState[2] = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="rd-heading rd-heading-md rd-dashboard-heading align-items-start">
+            <div class="col-md-11 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+              Recent Investor Events Posted
+              <small class="selected-filter-label">(Last 14 Days)</small>
+            </div>
+            <div class="col-md-1" *ngIf="panelOpenState[2]">
+              <button type="button" class="rd-btn rd-btn-text alingment-button-dashborad" (click)="loadRecentEvents(0, true)"
+                (click)="$event.stopPropagation()">
+                <mat-icon>refresh</mat-icon>
+              </button>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="dashboard-container" id="recentEvents-id">
+          <rd-recent-updates [type]="'events'" [recentEvents]="recentEvents$"
+            (viewMoreEvents)="loadRecentEvents(recentEventsPageNo)" [refresh]="refreshEvents"></rd-recent-updates>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.RECENT_ENQUIRIES)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true" (opened)="panelOpenState[1] = true"
+        (closed)="panelOpenState[1] = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="align-items-start">
+            <div class="col-md-11 rd-heading rd-heading-md rd-dashboard-heading fw-bold">
+              Recent Enquiries ( Contact Forms )
+              <small class="selected-filter-label">(Last 14 Days)</small>
+
+            </div>
+            <div class="col-md-1" *ngIf="panelOpenState[1]">
+              <button type="button" class="rd-btn rd-btn-text alingment-button-dashborad" (click)="loadRecentEnquiries(0, true)"
+                (click)="$event.stopPropagation()">
+                <mat-icon>refresh</mat-icon>
+              </button>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="dashboard-container" id="recentEnquiries-id">
+          <rd-recent-updates [type]="type" [recentEnquiries]="recentEnquiries$" [refresh]="refreshEnquiries"
+            (viewMoreEnquiries)="
+            loadRecentEnquiries(this.recentEnquiriesPageNo)
+          "></rd-recent-updates>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div *ngIf="dashBoardAccess?.includes(isAccess.LEARNERSHIP_APPLICATIONS)" class="col-md-6 col-12 mt-2 dashboard-blocks__position">
+        <app-learnership-dashboard></app-learnership-dashboard>
+      </div>
+  </div> 
+</div>
+
+</ng-container>
+
+<ng-template #underDevelopment>
+  <div class="rd-container-header rd-dashborad-margin-0">
+    <!-- <div class="rd-heading rd-heading-lg rd-dashboard-heading">Dashboard</div> -->
+  </div>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="text-center no-selected-dash">
+        <img src="assets/images/under-construction.svg" class="img-fluid" alt="" />
+        <p *ngIf="!dashBoardAccess?.includes(isAccess.DASHBOARD_CAMPAIGN); else notSelectedDashboards">
+          There is no campaign dashboard for your specified role
+        </p>
+        <ng-template #notSelectedDashboards>
+          There is no dashboard for your specified role
+          </ng-template>
+      </div>
+    </div>
+  </div>
+
+</div> 
+</ng-template>
+</mat-tab>
+<mat-tab label="Campaigns Dashboard">
+  <div *ngIf="dashBoardAccess?.includes(isAccess.DASHBOARD_CAMPAIGN); else underDevelopment">
+    <ng-template #dashboardCampaign></ng-template>
+  </div>
+</mat-tab>
+</mat-tab-group>

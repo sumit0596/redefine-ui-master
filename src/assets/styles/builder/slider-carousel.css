@@ -1,0 +1,91 @@
+.rd-slider_carousel-caption {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 90px;
+    width: 100%;
+    display: flex !important;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: center;
+    padding: 0 1rem;
+    gap: 2rem;
+}
+
+.rd-slider_carousel-caption .banner-title {
+    min-width: 40%;
+    max-width: 90%;
+    align-items: center;
+}
+
+.rd-slider_carousel-caption .banner-title div {
+    font-family: var(--font-din) !important;
+    font-size: 64px;
+    line-height: 55px;
+    color: #fff;
+    min-width: 50%;
+    max-width: 100%;
+}
+
+.rd-slider_carousel-caption .before-title {
+    overflow: hidden;
+    width: 7%;
+    padding-bottom: 15px;
+    margin-right: 2%;
+}
+
+.rd-slider_carousel-caption .before-title-line {
+    height: 0.35vw;
+    content: " ";
+    background-color: #fff;
+    width: 100%;
+}
+
+.rd-slider_carousel-caption .after-title {
+    overflow: hidden;
+    min-width: 5%;
+    flex-grow: 1;
+    padding-bottom: 15px;
+    margin-left: 2%;
+}
+
+.rd-slider_carousel-caption .after-title-line {
+    height: 0.35vw;
+    content: " ";
+    background-color: #fff;
+    width: 100%;
+}
+
+.custom-slider-btn {
+    padding-left: 9.2%;
+}
+
+@media only screen and (min-width:768px) and (max-width:999px) {
+    .rd-slider_carousel-caption {
+        top: 45px;
+    }
+}
+
+@media only screen and (max-width:768px) {
+    .rd-slider_carousel-caption .banner-title div {
+        font-size: 24px;
+        line-height: 20px;
+    }
+
+    .rd-slider_carousel-caption {
+        padding: 0;
+        gap: 0rem;
+        top: 20px;
+    }
+    .rd-slider_carousel-caption  .rd-btn-lg {
+        width: 100px;
+        height: 25px;
+        font-size: 16px;
+        margin-top: 0.6rem;
+    }
+
+    .rd-slider_carousel-caption  .rd-btn-lg span {
+        font-size: 0.8rem;
+    }
+}
+

@@ -1,0 +1,191 @@
+<form
+  class="rd-form form-container"
+  [formGroup]="unitMediaForm"
+  (ngSubmit)="onSubmit()"
+  autocomplete="on"
+>
+  <div class="rd-form-header">Unit Media</div>
+  <div class="rd-form-body">
+    <div class="unit-image-wrapper">
+      <div class="control-container">
+        <label *ngIf="formConfig?.mode != 'view'">Unit Image/s</label>
+      </div>
+      <div class="file-upload-wrapper">
+        <rd-file
+          [id]="'unit-image'"
+          *ngIf="formConfig?.mode != 'view'"
+          [multiple]="true"
+          [types]="['image/png', 'image/jpeg']"
+          [fileList]="mediaType == 'Image' ? progressFiles : []"
+          (onSelect)="onFileSelect($event, 'Image')"
+          (onDelete)="onFileDelete($event)"
+        ></rd-file>
+        <rd-file-container
+          [delete]="formConfig?.mode != 'view'"
+          [label]="'Uploaded Images'"
+          [fileList]="imageForms.value"
+          (onDelete)="deleteUnitImage($event)"
+          [reorder]="formConfig?.mode != 'view'"
+          [preview]="true"
+          (onReorder)="onImageReorder($event)"
+        ></rd-file-container>
+      </div>
+    </div>
+
+    <small class="error-msg">
+      <div class="error-text placement">{{ imageLengtherrorMessage }}</div>
+    </small>
+
+    <!-- Video input -->
+    <div class="unit-media-wrapper">
+      <div class="control-container display rd-switch-wrapper">
+        <label>Video</label>
+        <rd-switch
+          *ngIf="formConfig?.mode != 'view'"
+          [isLabel]="true"
+          [onLabel]="'File'"
+          [offLabel]="'Link'"
+          [label]="MEDIA_CONSTANTS.VIDEO"
+          [id]="'video-switch'"
+          [checked]="videoForm.value.IsFile"
+          (onChange)="toggleSwitch($event)"
+        ></rd-switch>
+      </div>
+      <rd-input
+        *ngIf="!videoForm.value.IsFile"
+        [label]="''"
+        [id]="'property-video'"
+        [placeholder]="'Please Provide YouTube Link'"
+        [type]="'text'"
+        (onClickEvent)="uploadMediaLink($event, MEDIA_CONSTANTS.VIDEO)"
+        [controlName]="'Url'"
+        [form]="videoForm"
+        [disable]="formConfig?.mode === 'view'"
+        (onChange)="onChange($event)"
+      ></rd-input>
+      <ng-container *ngIf="videoForm.value.IsFile">
+        <rd-file
+          *ngIf="formConfig?.mode != 'view'"
+          [id]="'video-input'"
+          [types]="['video/mp4', 'video/x-m4v', 'video/*']"
+          [fileList]="mediaType == MEDIA_CONSTANTS.VIDEO ? progressFiles : []"
+          (onSelect)="onFileSelect($event, MEDIA_CONSTANTS.VIDEO)"
+          (onDelete)="onFileDelete($event)"
+        ></rd-file>
+        <rd-file-container *ngIf="unitData?.media?.Video?.IsFile == 1"
+          [delete]="formConfig && formConfig.mode != 'view'"
+          [label]="''"
+          [file]="videoForm.value"
+          (onDelete)="deletePdf($event, MEDIA_CONSTANTS.VIDEO)"
+        ></rd-file-container>
+      </ng-container>
+    </div>
+
+    <!-- <div class="unit-media-wrapper">
+      <div class="control-container">
+        <label>Video</label>
+        <rd-switch
+          [isLabel]="true"
+          [onLabel]="'File'"
+          [offLabel]="'Link'"
+          [label]="MEDIA_CONSTANTS.VIDEO"
+          [id]="'video-switch'"
+          [checked]="videoForm.value.IsFile"
+          (onChange)="toggleSwitch($event)"
+        ></rd-switch>
+      </div>
+      <rd-input
+        *ngIf="!videoForm.value.IsFile"
+        [label]="''"
+        [id]="'property-video'"
+        [placeholder]="'Please provide a link'"
+        [type]="'text'"
+        (onClickEvent)="uploadMediaLink($event, MEDIA_CONSTANTS.VIDEO)"
+        [controlName]="'Url'"
+        [form]="videoForm"
+        (onChange)="onChange($event)"
+      ></rd-input>
+      <ng-container *ngIf="videoForm.value.IsFile">
+        <rd-file
+          [id]="'video-input'"
+          [types]="['video/mp4', 'video/x-m4v', 'video/*']"
+          [fileList]="mediaType == MEDIA_CONSTANTS.VIDEO ? progressFiles : []"
+          (onSelect)="onFileSelect($event, MEDIA_CONSTANTS.VIDEO)"
+          (onDelete)="onFileDelete($event)"
+        ></rd-file>
+        <rd-file-container
+          [label]="''"
+          [file]="videoForm.value"
+          (onDelete)="deletePdf($event, MEDIA_CONSTANTS.VIDEO)"
+        ></rd-file-container>
+      </ng-container>
+    </div> -->
+
+    <!-- Floor plan input -->
+    <div class="unit-media-wrapper">
+      <div class="control-container display rd-switch-wrapper">
+        <label>Floor Plan</label>
+        <rd-switch
+          *ngIf="formConfig?.mode != 'view'"
+          [isLabel]="true"
+          [onLabel]="'File'"
+          [offLabel]="'Link'"
+          [label]="MEDIA_CONSTANTS.FLOOR_PLAN"
+          [id]="'floor-plan-switch'"
+          [checked]="floorPlanForm.value.IsFile"
+          (onChange)="toggleSwitch($event)"
+        ></rd-switch>
+      </div>
+      <rd-input
+        *ngIf="!floorPlanForm.value.IsFile"
+        [label]="''"
+        [id]="'floor-plan'"
+        [placeholder]="'Please Provide Link'"
+        [type]="'text'"
+        (onClickEvent)="uploadMediaLink($event, MEDIA_CONSTANTS.FLOOR_PLAN)"
+        [controlName]="'Url'"
+        [form]="floorPlanForm"
+        [disable]="formConfig?.mode === 'view'"
+        (onChange)="onChange($event)"
+      ></rd-input>
+      <ng-container *ngIf="floorPlanForm.value.IsFile">
+        <rd-file
+          *ngIf="formConfig && formConfig.mode != 'view'"
+          [id]="'floor-plan-input'"
+          [types]="['application/pdf']"
+          [fileList]="
+            mediaType == MEDIA_CONSTANTS.FLOOR_PLAN ? progressFiles : []
+          "
+          (onSelect)="onFileSelect($event, MEDIA_CONSTANTS.FLOOR_PLAN)"
+          (onDelete)="onFileDelete($event)"
+        ></rd-file>
+        <rd-file-container *ngIf="unitData?.media?.FloorPlan?.IsFile == 1"
+          [delete]="formConfig && formConfig.mode != 'view'"
+          [label]="''"
+          [file]="floorPlanForm.value"
+          (onDelete)="deletePdf($event, MEDIA_CONSTANTS.FLOOR_PLAN)"
+        ></rd-file-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="rd-form-footer">
+    <div>
+      <button
+        type="button"
+        class="rd-btn-secondary rd-btn-lg"
+        (click)="prevStep(route.CREATE_UNIT_DETAILS)"
+      >
+        Previous
+      </button>
+    </div>
+    <div>
+      <button
+        type="submit"
+        class="rd-btn-primary rd-btn-lg"
+        [disabled]="formConfig.mode === 'view'"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</form>

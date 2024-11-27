@@ -1,0 +1,35 @@
+.people-card {
+  width: 240px;
+  height: 332px;
+  margin: 10px;
+  display: inline-block;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  background-repeat: no-repeat; 
+}
+
+
+.placeholder {
+  width: 240px;
+  height: 332px;
+  margin: 10px;
+  background: #e0e0e0;
+}
+
+.checkbox-box{
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  left: 0;
+}
+input[type="checkbox"].team-checkbox{
+  visibility: hidden;
+}
+
+input[type="checkbox"].team-checkbox:checked + .checkbox-box{
+  border: 4px solid red;
+}
+

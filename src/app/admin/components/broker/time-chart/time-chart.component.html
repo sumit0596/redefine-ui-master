@@ -1,0 +1,32 @@
+<div  *ngIf="!loading else loadingTemplate">
+  <div *ngIf="chartdata.length > 0 else noData">
+    <div *ngIf="datasetType !== 'sessionType'" #timeChartDiv id="timeChartDiv" class="dashboard_Chart"></div>
+    <div *ngIf="datasetType === 'sessionType'" #timeChartDivSession id="timeChartDivSession" class="dashboard_Chart"></div>
+  </div>
+</div>
+<ng-template #noData>
+  <div class="col-12 py-2 text-center mt-5">
+    <img src="assets/images/unit-not-found.svg" alt="file" />
+    <p class="rd-heading-md-bold rd-text-deep-red">No stakeholders found</p>
+  </div>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <p class="card-text placeholder-glow py-1">
+    <span class="placeholder col-12"></span>
+    <span class="placeholder col-4"></span>
+  </p>
+  <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+    <span class="placeholder col-12"></span>
+    <span class="placeholder col-6"></span>
+  </p>
+  <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+    <span class="placeholder col-12"></span>
+    <span class="placeholder col-7"></span>
+  </p>
+  <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+    <span class="placeholder col-12"></span>
+    <span class="placeholder col-3"></span>
+  </p>
+</ng-template>
+

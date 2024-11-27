@@ -1,0 +1,26 @@
+<div class="control-container" *ngIf="form">
+  <form [formGroup]="form" class="form">
+    <label [for]="id"
+      >{{ label }}
+      <span *ngIf="required" class="required-asterik">*</span>
+      <span class="character-count" *ngIf="maxLength"
+        >({{ form.get(controlName)?.value?.replaceAll('\r','').length ? form.get(controlName)?.value?.replaceAll('\r','').length:0}}/{{ maxLength }})</span
+      ></label
+    >
+    <div class="input-wrapper">
+      <textarea
+        [maxlength]="maxLength"
+        [rows]="rows"
+        class="textarea-input"
+        [ngClass]="form.get(controlName)?.errors?.['invalid'] ? 'invalid':''"
+        [name]="controlName"
+        [id]="id"
+        [placeholder]="placeholder"
+        [formControlName]="controlName"
+      ></textarea>
+    </div>
+    <div *ngIf="form.get(controlName)?.hasError('invalid')" class="error-msg">
+      <small>{{ form.get(controlName)?.errors?.['invalid'] }}</small>
+    </div>
+  </form>
+</div>

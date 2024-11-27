@@ -1,0 +1,111 @@
+<ng-container *ngIf="fileList?.length">
+  <div class="files-container">
+    <div class="control-container" *ngIf="label">
+      <label>{{ label }}</label>
+    </div>
+    <div
+      *ngIf="reorder"
+      cdkDropList
+      class="file-list-container"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div
+        class="file-container-wrapper"
+        *ngFor="let file of fileList; let i = index"
+        cdkDrag
+      >
+        <div class="custom-placeholder" *cdkDragPlaceholder></div>
+        <ng-container
+          [ngTemplateOutlet]="file_info"
+          [ngTemplateOutletContext]="{ data: file }"
+        ></ng-container>
+      </div>
+    </div>
+    <div *ngIf="!reorder" class="file-list-container">
+      <div
+        class="file-container-wrapper"
+        *ngFor="let file of fileList; let i = index"
+      >
+        <ng-container
+          [ngTemplateOutlet]="file_info"
+          [ngTemplateOutletContext]="{ data: file }"
+        ></ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-container
+  *ngIf="file != null && file != undefined && file.Name && file.Url"
+>
+  <div class="file-list-container">
+    <div class="control-container" *ngIf="label">
+      <label>{{ label }}</label>
+    </div>
+    <ng-container
+      [ngTemplateOutlet]="file_info"
+      [ngTemplateOutletContext]="{ data: file }"
+    ></ng-container>
+  </div>
+</ng-container>
+
+<ng-template #file_info let-data="data">
+  <div class="file-container" *ngIf="data.Name && data.Url">
+    <div class="image-preview" *ngIf="preview">
+      <img [src]="data.Url" alt="preview" />
+    </div>
+    <div class="file-icon" *ngIf="!preview">
+      <img [src]="getThumbnail(data.Name)" alt="file" />
+    </div>
+    <div class="file-info">
+      <p class="file-name">
+        <a [href]="data.Url" target="_blank">{{ data.Name | titlecase }}</a>
+      </p>
+      <p class="file-desc">
+        <small>{{ data.CreatedOn | date : "medium" }}</small>
+      </p>
+    </div>
+    <div class="file-actions">
+      <button
+        *ngIf="reorder"
+        type="button"
+        class="rd-btn rd-btn-text"
+        title="Move"
+      >
+        <span class="btn-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M90.34,61.66a8,8,0,0,1,0-11.32l32-32a8,8,0,0,1,11.32,0l32,32a8,8,0,0,1-11.32,11.32L136,43.31V96a8,8,0,0,1-16,0V43.31L101.66,61.66A8,8,0,0,1,90.34,61.66Zm64,132.68L136,212.69V160a8,8,0,0,0-16,0v52.69l-18.34-18.35a8,8,0,0,0-11.32,11.32l32,32a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Zm83.32-72-32-32a8,8,0,0,0-11.32,11.32L212.69,120H160a8,8,0,0,0,0,16h52.69l-18.35,18.34a8,8,0,0,0,11.32,11.32l32-32A8,8,0,0,0,237.66,122.34ZM43.31,136H96a8,8,0,0,0,0-16H43.31l18.35-18.34A8,8,0,0,0,50.34,90.34l-32,32a8,8,0,0,0,0,11.32l32,32a8,8,0,0,0,11.32-11.32Z"
+            ></path>
+          </svg>
+        </span>
+      </button>
+      <button
+        *ngIf="delete"
+        type="button"
+        class="rd-btn rd-btn-text rd-text-deep-red"
+        title="Delete file"
+        (click)="deleteFile(data)"
+      >
+        <span class="btn-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"
+            ></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</ng-template>

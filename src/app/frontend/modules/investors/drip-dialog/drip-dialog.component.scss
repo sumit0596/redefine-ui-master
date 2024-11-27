@@ -1,0 +1,17 @@
+.rd-form-container {
+  width: 100%;
+}
+
+.access-text {
+  font-weight: bold;
+}
+
+@media (min-width: 360px) and (max-width: 550px) {
+  .rd-form-footer {
+    display: inline-block;
+    justify-content: space-between;
+    padding: 30px 0;
+    border: 0.5px solid transparent;
+    border-top-color: #dfdfdf;
+  }
+}

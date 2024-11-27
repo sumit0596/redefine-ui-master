@@ -1,0 +1,162 @@
+<div
+  class="d-flex gap-3 justify-content-md-start justify-content-center flex-wrap"
+  *ngIf="jobs$ | async as jobs; else loader"
+>
+  <div
+    class="job-card"
+    *ngFor="let job of jobs; let i = index"
+    (click)="openDetails(job)"
+  >
+    <div class="job-card-content">
+      <div class="job-name-wrapper">
+        <div class="job-name rd-heading rd-heading-sm-bold">
+          {{ job.Title }}
+        </div>
+        <span class="rd-indicator rd-indicator-lg">
+          <span class="rd-indicator-content rd-indicator-primary"></span>
+        </span>
+      </div>
+      <div class="d-flex gap-2 rd-text-grey mb-3">
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="21"
+            height="21"
+            viewBox="0 0 21 21"
+            fill="none"
+          >
+            <g clip-path="url(#clip0_6376_107046)">
+              <path
+                d="M10.8008 12.8223C12.5267 12.8223 13.9258 11.4232 13.9258 9.69727C13.9258 7.97138 12.5267 6.57227 10.8008 6.57227C9.07489 6.57227 7.67578 7.97138 7.67578 9.69727C7.67578 11.4232 9.07489 12.8223 10.8008 12.8223Z"
+                stroke="black"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M17.6758 4.07227H3.92578C3.5806 4.07227 3.30078 4.35209 3.30078 4.69727V15.9473C3.30078 16.2924 3.5806 16.5723 3.92578 16.5723H17.6758C18.021 16.5723 18.3008 16.2924 18.3008 15.9473V4.69727C18.3008 4.35209 18.021 4.07227 17.6758 4.07227Z"
+                stroke="black"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M5.49609 16.5723C5.88326 15.4746 6.60139 14.5241 7.55149 13.8518C8.50158 13.1794 9.63685 12.8184 10.8008 12.8184C11.9647 12.8184 13.1 13.1794 14.0501 13.8518C15.0002 14.5241 15.7183 15.4746 16.1055 16.5723"
+                stroke="black"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_6376_107046">
+                <rect
+                  width="20"
+                  height="20"
+                  fill="white"
+                  transform="translate(0.800781 0.322266)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+        </span>
+        <span>{{ job.JobLevel }}</span>
+      </div>
+      <div class="d-flex gap-2 rd-text-grey mb-3">
+        <span
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              d="M1.25 16.875H18.75"
+              stroke="black"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M11.25 16.875V3.125C11.25 2.95924 11.1842 2.80027 11.0669 2.68306C10.9497 2.56585 10.7908 2.5 10.625 2.5H3.125C2.95924 2.5 2.80027 2.56585 2.68306 2.68306C2.56585 2.80027 2.5 2.95924 2.5 3.125V16.875"
+              stroke="black"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M17.5 16.875V8.125C17.5 7.95924 17.4342 7.80027 17.3169 7.68306C17.1997 7.56585 17.0408 7.5 16.875 7.5H11.25"
+              stroke="black"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M5 5.625H7.5"
+              stroke="black"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M6.25 10.625H8.75"
+              stroke="black"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M5 13.75H7.5"
+              stroke="black"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M13.75 13.75H15"
+              stroke="black"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M13.75 10.625H15"
+              stroke="black"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+        <span>{{ job.JobAddress }}</span>
+      </div>
+      <div class="job-end-date rd-text-grey">
+        Closing Date: {{ job.EndDate | date : "EEEE, d MMMM y" }}
+      </div>
+    </div>
+    <div class="job-card-action">
+      <button type="button" class="rd-btn rd-btn-text">
+        <span>View</span
+        ><span class="btn-icon"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-arrow-right-circle"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 16 16 12 12 8"></polyline>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template #loader>
+  <div
+    class="d-flex gap-2 justify-content-lg-between justify-content-md-start justify-content-center flex-lg-nowrap flex-wrap"
+  >
+    <div class="job-card placeholder"></div>
+    <div class="job-card placeholder"></div>
+    <div class="job-card placeholder"></div>
+    <div class="job-card placeholder"></div>
+    <div class="job-card placeholder"></div>
+  </div>
+</ng-template>

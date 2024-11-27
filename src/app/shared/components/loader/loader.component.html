@@ -1,0 +1,23 @@
+<div *ngIf="loader$ | async as loader">
+  <div
+    class="loader-contanier"
+    *ngIf="loader.isActive && loader.type === 'API'"
+  >
+    <img src="assets/images/loader.svg" alt="loader icon" />
+  </div>
+  <div
+    class="loader-contanier d-flex flex-column align-items-center justify-content-center"
+    *ngIf="loader.isActive && loader.type === 'AD_LOGIN'"
+  >
+    <div class="loader-card">
+      <img
+        src="assets/images/loader.svg"
+        style="width: 17%"
+        alt="loader icon"
+      />
+      <div class="rd-heading rd-heading-xs">
+        {{ loader.data }}
+      </div>
+    </div>
+  </div>
+</div>

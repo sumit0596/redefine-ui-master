@@ -1,0 +1,9 @@
+<div class="container row col-md-12" >
+    <div class=" col-md-4" *ngFor="let layout of layoutList" (click)="selectLayout(layout)" style="height:150px">
+      <!-- Display card information here -->
+      <div class="col-md-12"> <p>{{ layout.label }}</p>
+      <div [innerHTML]="layout.media"></div>
+    </div>      
+      <!-- Add other card properties as needed -->
+    </div>    
+  </div>

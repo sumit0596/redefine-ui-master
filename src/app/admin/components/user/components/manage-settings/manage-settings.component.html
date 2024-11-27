@@ -1,0 +1,87 @@
+<div class="rd-container">
+    <div class="rd-container-header">
+      <div class="rd-container-header-left">
+        <div>
+          <button
+            type="button"
+            id="back"
+            class="rd-btn-text rd-btn-back rd-btn-lg"
+            routerLink="../"
+          >
+            <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+            <span>BACK</span>
+          </button>
+        </div>
+        <div class="rd-heading rd-heading-lg">Manage Settings</div>
+      </div>
+      <div class="rd-container-header-right" *ngIf="activeTab==1">
+        <button
+          type="button"
+          class="rd-btn-primary rd-btn-lg"
+          (click)="createCampaignContact()"
+        >
+          Create New Contact
+        </button>
+      </div>
+    </div>
+    <!-- <app-datatable
+    [tableSettings]="tableConfig"
+    [filterColumns]="filterColumns"
+    [emitClicks]="true"
+    (rowBasedAction)="rowActions($event)"
+    (toolbarEvent)="onToolbarClick($event)"
+    (actionEvent)="onActionClick($event)"
+    ></app-datatable> -->
+    
+    <div class="preview-tabs-section">
+      <mat-tab-group
+        mat-stretch-tabs="false"
+        mat-align-tabs="start"
+        animationDuration="0ms"
+        dynamicHeight
+        fitInkBarToContent
+        (selectedTabChange)="onTabChange($event)"
+        [selectedIndex]="activeTab"
+      >
+        <mat-tab [label]="'Setting'" >
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">Generals</div>
+          </ng-template>
+            <!-- <app-datatable
+          [tableSettings]="tableConfig"
+          [filterColumns]="filterColumns"
+          [emitClicks]="true"
+          (rowBasedAction)="rowActions($event)"
+          (toolbarEvent)="onToolbarClick($event)"
+          (actionEvent)="onActionClick($event)"
+          ></app-datatable> -->
+         
+          <app-datatable
+          [tableSettings]="tableConfig"
+          [filterColumns]="filterColumns"
+          [emitClicks]="true"
+          (rowBasedAction)="rowActions($event)"
+          (toolbarEvent)="onToolbarClick($event)"
+          (actionEvent)="onActionClick($event)"
+          ></app-datatable>
+        </mat-tab>
+  
+        <mat-tab [label]="'campaignContact'">
+          <ng-template mat-tab-label>
+            <div class="rd-heading rd-heading-xs">Campaign Contacts</div>
+          </ng-template>
+          <app-manage-campaign-contact></app-manage-campaign-contact>
+          <!-- <app-datatable
+          [tableSettings]="tableConfig"
+          [filterColumns]="filterColumns"
+          [emitClicks]="true"
+          (rowBasedAction)="rowActions($event)"
+          (toolbarEvent)="onToolbarClick($event)"
+          (actionEvent)="onActionClick($event)"
+          ></app-datatable> -->
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+
+  

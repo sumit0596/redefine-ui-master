@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-12">
+    <ng-container *ngIf="!isLoading; else loadingInit">
+      <div class="cmp-session-container">
+        <ng-container>
+          <div class="card">
+            <div class="card-body">
+              <h5
+                class="rd-heading rd-dashboard-heading rd-heading-md fw-bold m-0"
+              >
+                Sessions
+              </h5>
+              <small class="rd-text-grey-mid">Total Sessions</small>
+              <p class="card-text">{{ results?.Session }}</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5
+                class="rd-heading rd-dashboard-heading rd-heading-md fw-bold m-0"
+              >
+                Leads
+              </h5>
+              <small class="rd-text-grey-mid">Total Leads</small>
+              <p class="card-text">{{ results?.Lead }}</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5
+                class="rd-heading rd-dashboard-heading rd-heading-md fw-bold m-0"
+              >
+                Conversion Rate
+              </h5>
+              <small class="rd-text-grey-mid">Sessions converted to Leads</small>
+              <p class="card-text">{{ results?.ConversionRate }}%</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h5
+                class="rd-heading rd-dashboard-heading rd-heading-md fw-bold m-0"
+              >
+                Qualified Leads
+              </h5>
+              <small class="rd-text-grey-mid"
+                >All leads excl. new and dead leads</small
+              >
+              <p class="card-text quali-text-precent">{{results?.QualifiedLeadNo}}<span>({{ results?.QualifiedLeads }}%)</span></p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <ng-template #loadingInit>
+      <div class="cmp-session-container loading">
+        <div class="card">
+          <div class="card-body">
+            <span class="placeholder"></span>
+            <span class="placeholder w-75"></span>
+            <span class="placeholder" style="width: 25%"></span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <span class="placeholder"></span>
+            <span class="placeholder w-75"></span>
+            <span class="placeholder" style="width: 25%"></span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <span class="placeholder"></span>
+            <span class="placeholder w-75"></span>
+            <span class="placeholder" style="width: 25%"></span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <span class="placeholder"></span>
+            <span class="placeholder w-75"></span>
+            <span class="placeholder" style="width: 25%"></span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #noData>
+      <p class="rd-heading-md-bold rd-text-deep-red w-100 text-center m-2">
+        No result found
+      </p>
+    </ng-template>
+  </div>
+</div>

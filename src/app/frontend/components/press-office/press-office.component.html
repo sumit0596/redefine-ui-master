@@ -1,0 +1,203 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [breadcrumbLinks]="breadcrumbLinks"
+></app-banner-breadcrumb>
+
+<div class="container press-office-container mt-5">
+  <div class="row">
+    <!-- <div class="col-md-2"></div> -->
+    <div class="col-md-12">
+      <div class="row filter-top">
+        <div class="form-group col-md-3">
+          <rd-calendar
+            [label]="'dob'"
+            [id]="'dob'"
+            [type]="'text'"
+            [placeholder]="'Select start date'"
+            [controlName]="'StartDate'"
+            [form]="filterForm"
+            (dateChange)="onChange($event)"
+          ></rd-calendar>
+        </div>
+        <div class="form-group col-md-3">
+          <rd-calendar
+            [label]="'dob'"
+            [id]="'dob'"
+            [type]="'text'"
+            [placeholder]="'Select end date'"
+            [controlName]="'EndDate'"
+            [form]="filterForm"
+            (dateChange)="onChange($event)"
+          ></rd-calendar>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="text-search"
+              [(ngModel)]="searchText"
+              placeholder="Search"
+              (keyup)="search($event)"
+            />
+
+            <div class="input-group-append search-button">
+              <button
+                class="btn btn-secondary"
+                type="button"
+                (click)="searchValue($event)"
+                aria-label="search"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button
+            type="button"
+            class="rd-btn-text rd-btn-md h-100 clear-button"
+            *ngIf="
+              this.filterForm.get('Search')?.value != '' ||
+              (this.filterForm.get('StartDate')?.value != null &&
+                this.filterForm.get('EndDate')?.value != null)
+            "
+            (click)="clear()"
+          >
+            <span>Clear</span>
+            <span
+              ><img
+                src="assets/images/close.svg"
+                [style.width]="'16px'"
+                alt="clear"
+            /></span>
+          </button>
+        </div>
+        <small class="error-message">
+          <div class="error-text placement">{{ errorMessage }}</div>
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 sens-line"></div>
+</div>
+<div class="container">
+  <div class="row">
+    <div
+      class="col-md-12 senses mt-3"
+      *ngFor="let press of pressDetails; let i = index"
+      (click)="pressDetailsPage(press)"
+      (mouseover)="getHovercolor(i)"
+      (mouseleave)="getLeavecolor(i)"
+    >
+      <div id="{{ 'sens-data' + i }}">
+        <div class="position-relative">
+          <div class="rd-heading rd-heading-md">
+            {{ press.Title }}
+          </div>
+          <span class="rd-indicator rd-indicator-xs">
+            <span class="rd-indicator-content rd-indicator-primary"></span>
+          </span>
+        </div>
+        <div class="rd-text-grey-mid mt-4">
+          {{ press.CreatedOn | date : "dd MMMM, yyyy" }}
+        </div>
+      </div>
+      <div class="col-md-12 sens-line"></div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="pressDetails && pressDetails.length">
+    <div *ngIf="errorMessage == ''">
+      <mat-paginator
+        #paginator
+        customPaginator
+        showFirstLastButtons
+        class="custom-paginator"
+        previousPageLabel="'pre'"
+        [length]="totalRowsCount"
+        [pageSize]="filter.PerPage"
+        [pageIndex]="filter && filter.PageNo ? filter.PageNo - 1 : 0"
+        (page)="paginate($event)"
+        [hidePageSize]="true"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+  <div class="col-12 py-2 text-center mt-5" *ngIf="pressDetails?.length == 0">
+    <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+  </div>
+  <div class="quicklinks-space"></div>
+</div>
+<div class="col-md-12">
+  <div data-type-id="rd-banner" class="rd-banner__contact">
+    <div class="banner-title">Media enquiries</div>
+    <div class="banner-content">
+      <p>
+        To streamline the enquiries process and to ensure we deal with them in a
+        timely manner, kindly direct all enquiries to:
+      </p>
+      <div
+        class="d-flex align-items-center justify-content-start flex-wrap gap-3 w-100 py-2"
+      >
+        <div class="d-inline-flex align-items-center gap-1 rd-inline-block">
+          <span class="rd-icon rd-icon-sm">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100%"
+              height="100%"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              id="i2q48"
+              class="feather feather-phone"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+              ></path>
+            </svg>
+          </span>
+          <span
+            ><a href="tel:+27 11 283 0072"
+              >Jaclyn Lovell-Ndebele &nbsp; +27 11 283 0072</a
+            ></span
+          >
+        </div>
+
+        <div class="d-inline-flex align-items-center gap-1 rd-inline-block">
+          <span class="rd-icon rd-icon-sm">
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.66671 2.66675H13.3334C14.0667 2.66675 14.6667 3.26675 14.6667 4.00008V12.0001C14.6667 12.7334 14.0667 13.3334 13.3334 13.3334H2.66671C1.93337 13.3334 1.33337 12.7334 1.33337 12.0001V4.00008C1.33337 3.26675 1.93337 2.66675 2.66671 2.66675Z"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M14.6667 4L8.00004 8.66667L1.33337 4"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span
+            ><a href="mailto:mediaenquiries@redefine.co.za"
+              >mediaenquiries&#64;redefine.co.za</a
+            ></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="spacer"></div>

@@ -1,0 +1,348 @@
+<div [ngSwitch]="data.id" class="dialog-container">
+  <div class="dialog-header">
+    <div>{{ data.label | uppercase }}</div>
+    <div>
+      <button type="button" (click)="close()">
+        <span><img src="assets/images/close.svg" alt="" /></span>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="data.roles != undefined">
+    <ng-container *ngSwitchCase="'filter'">
+      <div class="dialog-body">
+        <rd-select
+          [id]="'user-role'"
+          [label]="'Role'"
+          [placeholder]="'Select Role'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [items$]="data.roles"
+          [multiselect]="true"
+          [max]="2"
+          [checkbox]="true"
+          [form]="form"
+          [controlName]="'roleItems'"
+          (onSelect)="onRoleSelect($event)"
+          (onDeSelect)="onRoleDeSelect($event)"
+          (onClear)="onClear('Role')"
+        ></rd-select>
+      </div>
+
+      <div class="dialog-footer btn-wrapper">
+        <button
+          type="button"
+          class="rd-btn-text rd-btn-md"
+          (click)="clearFilters()"
+        >
+          Clear filter
+        </button>
+        <button
+          type="button"
+          class="rd-btn rd-btn-primary"
+          (click)="closeDialog(roles)"
+        >
+          Apply filter
+        </button>
+      </div>
+    </ng-container>
+  </div>
+
+  <div *ngIf="data.statuses != undefined">
+    <ng-container *ngSwitchCase="'filter'">
+      <div class="dialog-body">
+        <rd-select
+          class="EditHeight"
+          [id]="'circular_status'"
+          [label]="'Status'"
+          [placeholder]="'Select Status'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [items$]="data.statuses"
+          [form]="form"
+          [controlName]="'statusItems'"
+          (onChange)="onStatusSelect($event)"
+          (onDeSelect)="onStatusDeSelect($event)"
+        ></rd-select>
+      </div>
+
+      <div class="dialog-footer btn-wrapper">
+        <button
+          type="button"
+          class="rd-btn-text rd-btn-md"
+          (click)="clearFilters()"
+        >
+          Clear filter
+        </button>
+        <button
+          type="button"
+          class="rd-btn rd-btn-primary"
+          (click)="closeStatusDialog(status)"
+        >
+          Apply filter
+        </button>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Presentation statuses -->
+
+  <div *ngIf="data.presentationStatuses != undefined">
+    <ng-container *ngSwitchCase="'filter'">
+      <div class="dialog-body">
+        <rd-select
+          [id]="'presentation_status'"
+          [label]="'Status'"
+          [placeholder]="'Select Status'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [items$]="data.presentationStatuses"
+          [form]="form"
+          [controlName]="'statusItems'"
+          (onChange)="onPresentationStatusSelect($event)"
+          (onDeSelect)="onPresentationStatusDeSelect($event)"
+        ></rd-select>
+      </div>
+
+      <div class="dialog-footer btn-wrapper">
+        <button
+          type="button"
+          class="rd-btn-text rd-btn-md"
+          (click)="clearFilters()"
+        >
+          Clear filter
+        </button>
+        <button
+          type="button"
+          class="rd-btn rd-btn-primary"
+          (click)="closePresentationStatusDialog(presentationStatus)"
+        >
+          Apply filter
+        </button>
+      </div>
+    </ng-container>
+  </div>
+
+  <div *ngIf="data.sectors != undefined">
+    <ng-container *ngSwitchCase="'filter'">
+      <div class="dialog-body" *ngIf="data.sectors">
+        <rd-select
+          [id]="'sector'"
+          [label]="'Sector'"
+          [placeholder]="'Select Sector'"
+          [bindLabel]="'Name'"
+          [bindValue]="'SectorId'"
+          [items$]="data.sectors"
+          [multiselect]="true"
+          [max]="2"
+          [checkbox]="true"
+          [form]="form"
+          [controlName]="'sectorItems'"
+          (onSelect)="onSectorSelect($event)"
+          (onDeSelect)="onSectorDeSelect($event)"
+          (onClear)="onClear('Sector')"
+        ></rd-select>
+      </div>
+      <div
+        class="dialog-body"
+        *ngIf="
+          (propertiesList$! && (propertiesList$! | async)?.length != 0) ||
+          properties.length > 0 || sectors.length > 0
+        "
+      >
+        <rd-select
+          [id]="'property'"
+          [label]="'Select Building by name'"
+          [placeholder]="'Select Building'"
+          [bindLabel]="'PropertyName'"
+          [bindValue]="'PropertyId'"
+          [items$]="propertiesList$"
+          [required]="true"
+          [multiselect]="true"
+          [max]="1"
+          [checkbox]="true"
+          [form]="form"
+          [controlName]="'propertyItems'"
+          (onSelect)="onPropertySelect($event)"
+          (onDeSelect)="onPropertyDeSelect($event)"
+          (onClear)="onClear('Building')"
+        ></rd-select>
+      </div>
+      <div class="dialog-footer btn-wrapper">
+        <button
+          type="button"
+          class="rd-btn-text rd-btn-md"
+          (click)="clearFilters()"
+        >
+          Clear filter
+        </button>
+        <button
+          type="button"
+          class="rd-btn rd-btn-primary"
+          (click)="closeSectorPropertyDialog(sectors, properties)"
+        >
+          Apply filter
+        </button>
+      </div>
+    </ng-container>
+  </div>
+
+  <div *ngIf="data.debtStatuses != undefined">
+    <ng-container *ngSwitchCase="'filter'">
+      <div class="dialog-body">
+        <rd-select
+          [id]="'debt_status'"
+          [label]="'Status'"
+          [placeholder]="'Select Status'"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [items$]="data.debtStatuses"
+          [form]="form"
+          [controlName]="'debtStatus'"
+          (onChange)="onDebtStatusSelect($event)"
+        ></rd-select>
+      </div>
+      <div *ngIf="data.categories != undefined">
+        <ng-container *ngSwitchCase="'filter'">
+          <div
+            class="dialog-body"
+            *ngIf="data.tablename === 'All Debt Programme'"
+          >
+            <rd-select
+              [id]="'categories'"
+              [label]="'Category'"
+              [placeholder]="'Select Category'"
+              [bindLabel]="'Title'"
+              [bindValue]="'DebtCreditCategoryId'"
+              [items$]="data.categories"
+              [form]="form"
+              [controlName]="'category'"
+              (onChange)="onCategorySelect($event)"
+            ></rd-select>
+          </div>
+
+          <div class="dialog-footer btn-wrapper">
+            <button
+              type="button"
+              class="rd-btn-text rd-btn-md"
+              (click)="clearFilters()"
+            >
+              Clear filter
+            </button>
+            <button
+              type="button"
+              class="rd-btn rd-btn-primary"
+              (click)="closeStatusCategoryDialog(Debtstatus, category)"
+            >
+              Apply filter
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Testimonial -->
+
+  <div *ngIf="data.types != undefined">
+    <ng-container *ngSwitchCase="'filter'">
+      <div *ngIf="data.types != undefined">
+        <ng-container *ngSwitchCase="'filter'">
+          <div class="dialog-body" *ngIf="data.tablename === 'All Applicants'">
+            <rd-select
+              [id]="'types'"
+              [label]="'Testimonial Type'"
+              [placeholder]="'Please Select'"
+              [bindLabel]="'label'"
+              [bindValue]="'id'"
+              [items$]="data.types"
+              [form]="form"
+              [controlName]="'type'"
+              (onChange)="onTypeSelect($event)"
+            ></rd-select>
+          </div>
+
+          <div class="dialog-body">
+            <rd-select
+              [id]="'testimonial_year'"
+              [label]="'Year'"
+              [placeholder]="'Select Year'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Id'"
+              [items$]="data.years"
+              [form]="form"
+              [controlName]="'year'"
+              (onChange)="onYearStatusSelect($event)"
+              (onDeSelect)="onYearDeSelect($event)"
+            ></rd-select>
+          </div>
+
+          <div class="dialog-footer btn-wrapper">
+            <button
+              type="button"
+              class="rd-btn-text rd-btn-md"
+              (click)="clearFilters()"
+            >
+              Clear filter
+            </button>
+            <button
+              type="button"
+              class="rd-btn rd-btn-primary"
+              (click)="closeTypeDialog(type, year)"
+            >
+              Apply filter
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-container *ngSwitchCase="'column'">
+    <section class="dialog-body">
+      <div class="rd-checkbox-group">
+        <div class="checkbox-input rd-checkbox">
+          <input
+            type="checkbox"
+            name=""
+            id="item-all"
+            value="All"
+            [checked]="allComplete"
+            (change)="setAll($event)"
+          />
+          <label for="item-all">All</label>
+        </div>
+        <ng-container *ngFor="let column of data.filterColumns; let i = index">
+          <div class="checkbox-input rd-checkbox" *ngIf="column.visible">
+            <input
+              type="checkbox"
+              [name]="column.field"
+              [id]="column.field + i"
+              [value]="column.header"
+              [checked]="column.checked"
+              (click)="columnsCheckBox($event, column)"
+            />
+            <label [for]="column.field + i">{{ column.header }}</label>
+          </div>
+        </ng-container>
+      </div>
+    </section>
+    <div class="dialog-footer btn-wrapper">
+      <button
+        *ngIf="data.tablename != 'All South African Properties'"
+        type="button"
+        class="rd-btn-text rd-btn-md"
+        (click)="clearFilters()"
+      >
+        Clear column
+      </button>
+      <button
+        type="button"
+        class="rd-btn rd-btn-primary"
+        (click)="closeColumnGroupDialog(data.filterColumns)"
+      >
+        Apply column
+      </button>
+    </div>
+  </ng-container>
+</div>

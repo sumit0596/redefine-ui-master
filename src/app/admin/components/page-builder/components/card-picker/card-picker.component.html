@@ -1,0 +1,12 @@
+<div class="container row">
+  <div
+    class="col-md-4"
+    *ngFor="let card of cardList"
+    (click)="selectCard(card)"
+  >
+    <p>{{ card.label }}</p>
+    <div class="preview-card">
+      <img [src]="card.media" class="svg-icon" alt="component preview" />
+    </div>
+  </div>
+</div>

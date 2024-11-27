@@ -1,0 +1,94 @@
+<div class="mt-2">
+  <p class="job-view-count">{{ jobViewsCount }}</p>
+  <p class="rd-text-grey-darker rd-text-session">Views by jobs</p>
+
+  <div class="row">
+    <div class="col-md-10">
+      <app-dashboard-filter
+      [filter]="filter"
+      (filteredData)="filterData(filter)"
+    ></app-dashboard-filter>
+    </div>
+
+<!-- <div class="col-md-2">
+  <button type="button" class="rd-btn rd-btn-text" (click)="filterData(filter)">
+    <span class="btn-icon">
+      <svg xmlns="http://www.w3.org/2000/svg"  width="30"
+      height="30"
+      fill="currentColor"
+      viewBox="0 0 36 36">
+        <path
+          d="M15 3a11.967 11.967 0 0 0-7.793 2.875 1 1 0 1 0 1.299 1.52A9.948 9.948 0 0 1 15 5a9.986 9.986 0 0 1 9.951 9H22l4 6 4-6h-3.05C26.437 7.852 21.277 3 15 3zM4 10l-4 6h3.05C3.563 22.148 8.723 27 15 27c2.969 0 5.697-1.083 7.793-2.875a1 1 0 1 0-1.299-1.52A9.948 9.948 0 0 1 15 25a9.986 9.986 0 0 1-9.951-9H8l-4-6z" />
+      </svg>
+    </span>
+  </button></div> -->
+  </div>
+
+<div *ngIf="!loading">
+  <div *ngIf="jobViews$ | async as chartData; else loadingData">
+    <ng-container *ngIf="chartData.length; else noData">
+      <div class="mb-3">
+        <app-bar-graph
+        [type]="'Jobs'"
+        [chartData$]="jobViews$"
+      ></app-bar-graph>
+      </div>
+      <table class="table mt-3">
+        <thead>
+          <th scope="col" class="rd-page-views-heading rd-text-grey-darker">
+            Top 10 Jobs Viewed
+          </th>
+          <th scope="col" class="rd-page-views-heading rd-text-grey-darker">
+            Applications Per Jobs
+          </th>
+          <th scope="col" class="rd-page-views-heading rd-text-grey-darker">
+            Views
+          </th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let job of jobViews$ | async">
+            <td
+              class="rd-text-grey-darker"
+              [title]="job.Url.length > 50 ? job.Url : ''"
+              [attr.title]="job.Url.length > 50 ? job.Url : null"
+            >
+              {{ job.Url | slice : 0 : 50 }}{{ job.Url.length > 50 ? "..." : "" }}
+            </td>
+            <td class="rd-text-grey-darker">{{ job.PerJob }}</td>
+            <td class="rd-text-grey-darker">{{ job.TotalViews }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </div>
+  <ng-template #loadingData>
+    <p class="card-text placeholder-glow py-1">
+      <span class="placeholder col-12"></span>
+      <span class="placeholder col-4"></span>
+    </p>
+    <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+      <span class="placeholder col-12"></span>
+      <span class="placeholder col-6"></span>
+    </p>
+    <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+      <span class="placeholder col-12"></span>
+      <span class="placeholder col-7"></span>
+    </p>
+    <p class="card-text placeholder-glow py-1 hr-top-line hr-2">
+      <span class="placeholder col-12"></span>
+      <span class="placeholder col-3"></span>
+    </p>
+  </ng-template>
+  <ng-template #noData>
+    <div class="col-12 py-2 text-center mt-5">
+      <img src="assets/images/unit-not-found.svg" alt="file" />
+      <p class="rd-heading-md-bold rd-text-deep-red">No job views found</p>
+    </div>
+  </ng-template>
+</div>
+
+<div *ngIf="loading" class="market-data-loader">
+  <img src="assets/images/loader.gif" alt="loader" />
+</div>
+</div>
+

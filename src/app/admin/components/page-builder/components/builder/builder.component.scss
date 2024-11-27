@@ -1,0 +1,21 @@
+.rd-container-header {
+  height: 70px;
+  align-items: center;
+  margin: 0;
+}
+.builder-container {
+  height: calc(100% - 70px) !important;
+}
+.title-loader {
+  width: 350px;
+}
+::ng-deep {
+  .gjs-field-download{
+    background-color: transparent !important;
+  }
+}
+::ng-deep {
+  .gjs-field-downloadattribute{
+    background-color: transparent !important;
+  }
+}

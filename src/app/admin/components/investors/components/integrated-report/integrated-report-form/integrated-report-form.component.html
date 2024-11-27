@@ -1,0 +1,252 @@
+<div class="rd-container">
+  <form
+    class="rd-form form-container"
+    [formGroup]="integratedReportForm"
+    (ngSubmit)="onSubmit($event)"
+    autocomplete="on"
+  >
+    <div class="rd-container-header">
+      <div class="rd-form-header">
+        {{
+          this.data?.mode == "create" ? "Add" : (this.data?.mode | titlecase)
+        }}
+        Report
+      </div>
+      <div>
+        <button type="button" (click)="close()">
+          <span><img src="assets/images/close.svg" alt="" /></span>
+        </button>
+      </div>
+    </div>
+    <div class="rd-form-body">
+      <div class="rd-form-control-group">
+        <rd-input
+          [label]="'Title of report'"
+          [id]="'report-title'"
+          [placeholder]="'Please Provide'"
+          [required]="true"
+          [type]="'text'"
+          [controlName]="'Title'"
+          [form]="integratedReportForm"
+          (onChange)="onChange($event)"
+        ></rd-input>
+        <rd-select
+          [label]="'Title underline colour'"
+          [id]="'report-title-colour'"
+          [placeholder]="'Please Select Colour'"
+          [required]="true"
+          [items$]="colors$"
+          [bindLabel]="'Name'"
+          [bindValue]="'Id'"
+          [form]="integratedReportForm"
+          [controlName]="'ColorsId'"
+          (onChange)="onDataChange($event)"
+        >
+          <ng-template ng-option-tmp let-item="item">
+            <div
+              class="d-flex align-items-center justify-content-between flex-wrap"
+            >
+              <div>{{ item.Name }}</div>
+              <div
+                [ngStyle]="{
+                  'background-color': item.Code,
+                  width: '28px',
+                  height: '28px',
+                  'border-radius': '3px'
+                }"
+              ></div>
+            </div>
+          </ng-template>
+        </rd-select>
+      </div>
+      <div>
+        <!-- PDF -->
+        <rd-file
+          *ngIf="integratedReportForm.get('Pdf')?.value == null || data?.reportDetails?.PdfUrl == null"
+          [label]="'Upload report'"
+          [id]="'pdf-file'"
+          [required]="true"
+          [types]="[
+            fileType.PDF,
+            fileType.EXCEL_SPREADSHEET,
+            fileType.MS_EXCEL
+          ]"
+          (onSelect)="onFileSelect($event, 'PDF')"
+        ></rd-file>
+        <div
+          *ngIf="integratedReportForm.get('Pdf')?.hasError('invalid')"
+          class="error-msg"
+        >
+          <small
+            >{{ integratedReportForm.get('Pdf')?.errors?.['invalid'] }}</small
+          >
+        </div>
+        <rd-file-container
+          *ngIf="integratedReportForm.get('Pdf')?.value != null"
+          [label]="'Uploaded report'"
+          [file]="integratedReportForm.get('Pdf')?.value"
+          [delete]="true"
+          (onDelete)="onFileDelete($event, 'PDF')"
+        ></rd-file-container>
+      </div>
+      <div class="hr-top-line py-1">
+        <!-- IMAGE -->
+        <rd-file
+          *ngIf="integratedReportForm.get('Image')?.value == null || data?.reportDetails?.ImageUrl == null"
+          [label]="'Upload image'"
+          [id]="'image-file'"
+          [required]="true"
+          [types]="[fileType.IMAGE_PNG, fileType.IMAGE_JPEG]"
+          [note]="'Recommended image size 432px x 680px'"
+          (onSelect)="onFileSelect($event, 'IMAGE')"
+        ></rd-file>
+        <div
+          *ngIf="integratedReportForm.get('Image')?.hasError('invalid')"
+          class="error-msg"
+        >
+          <small
+            >{{ integratedReportForm.get('Image')?.errors?.['invalid'] }}</small
+          >
+        </div>
+        <rd-file-container
+          *ngIf="integratedReportForm.get('Image')?.value != null"
+          [label]="'Uploaded image'"
+          [file]="integratedReportForm.get('Image')?.value"
+          [delete]="true"
+          (onDelete)="onFileDelete($event, 'IMAGE')"
+        ></rd-file-container>
+      </div>
+      <rd-editor
+        [label]="'Description'"
+        [id]="'sub-report-description'"
+        [placeholder]="'Add Description'"
+        [controlName]="'Description'"
+        [form]="integratedReportForm"
+        (onChange)="onChange($event)"
+      ></rd-editor>
+      <div>
+        <div formArrayName="Links">
+          <div
+            class="hr-top-line report-link-section"
+            *ngFor="let link of linksForm.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <div class="d-inline-block btn-delete-form">
+              <button
+                type="button"
+                class="rd-btn-text rd-btn-xs m-2"
+                (click)="deleteIntegratedReportDocumentLink(i)"
+                title="Delete link/pdf"
+              >
+                <span
+                  ><img src="assets/images/delete.svg" alt="delete icon"
+                /></span>
+              </button>
+            </div>
+            <rd-input
+              [label]="'Link title'"
+              [id]="'link-title'"
+              [placeholder]="'Please Provide'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'LinkTitle'"
+              [form]="linksForm.at(i)"
+              (onChange)="onChange($event)"
+            ></rd-input>
+            <rd-select
+              [label]="'Type of media'"
+              [id]="'media-type'"
+              [placeholder]="'Please Select Type'"
+              [required]="true"
+              [items$]="mediaTypes$"
+              [bindLabel]="'Name'"
+              [bindValue]="'Id'"
+              [form]="linksForm.at(i)"
+              [controlName]="'TypeOfMedia'"
+              (onChange)="onDataChange($event, i)"
+            ></rd-select>
+            <ng-container
+              *ngIf="
+                linksForm.at(i).value.TypeOfMedia != null &&
+                linksForm.at(i).value.TypeOfMedia == 1
+              "
+            >
+              <rd-file
+                *ngIf="linksForm.at(i).get('Document')?.value == null || (data?.reportDetails?.integratedreportsdocumentsLink[i]?.TypeOfMedia ==1 && data?.reportDetails?.integratedreportsdocumentsLink[i]?.DocumentUrl == null)"
+                [label]="'Upload document'"
+                [id]="'document-file' + i"
+                [required]="true"
+                [types]="[
+                  fileType.PDF,
+                  fileType.EXCEL_SPREADSHEET,
+                  fileType.MS_EXCEL
+                ]"
+                [fileList]="fileContainer.document"
+                (onSelect)="onFileSelect($event, 'DOCUMENT', i)"
+              ></rd-file>
+              <div
+                *ngIf="linksForm.at(i).get('Document')?.hasError('invalid')"
+                class="error-msg"
+              >
+                <small
+                  >{{ linksForm.at(i).get('Document')?.errors?.['invalid'] }}</small
+                >
+              </div>
+              <rd-file-container
+                *ngIf="linksForm.at(i).get('Document')?.value != null"
+                [label]="'Uploaded document'"
+                [file]="linksForm.at(i).get('Document')?.value"
+                [delete]="true"
+                (onDelete)="onFileDelete($event, 'DOCUMENT', i)"
+              ></rd-file-container>
+            </ng-container>
+            <rd-input
+              *ngIf="
+                linksForm.at(i).value.TypeOfMedia != null &&
+                linksForm.at(i).value.TypeOfMedia != 1
+              "
+              [label]="'Link'"
+              [id]="'link-title'"
+              [placeholder]="'Please Provide'"
+              [required]="true"
+              [type]="'text'"
+              [controlName]="'Document'"
+              [form]="linksForm.at(i)"
+              (onChange)="onChange($event)"
+            ></rd-input>
+          </div>
+        </div>
+        <div class="hr-top-line report-link-section">
+          <div class="d-inline-block">
+            <button
+              type="button"
+              class="rd-btn-text rd-btn-lg"
+              (click)="addLink()"
+              title="Add link/pdf"
+            >
+              <span><img src="assets/images/plus.svg" alt="plus icon" /></span>
+              <span>Add Link's/PDF's</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- <pre>{{ integratedReportForm.value | json }}</pre> -->
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="close()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button type="submit" class="rd-btn-primary rd-btn-lg">
+          {{ btnLabel }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

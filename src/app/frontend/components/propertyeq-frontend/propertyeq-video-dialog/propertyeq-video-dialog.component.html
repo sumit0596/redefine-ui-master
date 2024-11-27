@@ -1,0 +1,52 @@
+<div class="propertyeq-video">
+  <div class="close-button-video" *ngIf="YoutubeLinkId">
+    <button class="close-videopop-btn"
+      (click)="onClose()">	<mat-icon>close</mat-icon></button>
+  </div>
+  <div class="container" *ngIf="!YoutubeLinkNotFound; else notFoundTemplate">
+    <ng-container *ngIf="YoutubeLinkId">
+      <div class="row">
+        <div class="col-12 p-0 d-flex justify-content-center propertyeq-video-box">
+          <youtube-player class="youtube-player" [videoId]="YoutubeLinkId"></youtube-player>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="position-relative mb-4">
+            <div class="rd-heading rd-heading-md">{{ Title }}</div>
+            <span class="rd-indicator rd-indicator-md">
+              <span class="rd-indicator-content rd-indicator-primary"></span>
+            </span>
+          </div>
+          <p *ngIf="Content" class="video-desc_p" [innerHTML]="Content | safeHtml: 'html'"></p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+
+<ng-template #notFoundTemplate>
+  <div class="close-button-video">
+    <button class="close-videopop-btn"
+      (click)="onClose()">	<mat-icon>close</mat-icon></button>
+  </div>
+  <div class="container video-not-found_container propertyeq-video">
+    <div class="row">
+      <div class="col-12 py-2 text-center mt-5">
+        <p class="rd-heading-md-bold rd-text-deep-red">No Video found!</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="position-relative mb-4">
+          <div class="rd-heading rd-heading-md">{{ Title }}</div>
+          <span class="rd-indicator rd-indicator-md">
+            <span class="rd-indicator-content rd-indicator-primary"></span>
+          </span>
+        </div>
+        <p class="video-desc_p" [innerHTML]="Content"></p>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,46 @@
+
+
+.line {
+  height: 2px;
+  width: 100%;
+  background-color: #cccccc;
+}
+
+.search-label {
+  padding-left: 10px;
+}
+
+.breadcrum {
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 40px;
+}
+
+.breadcrum a {
+  color: black;
+  font-weight: 600;
+}
+
+// @media only screen and (min-width: 360px) {
+//   .breadcrum {
+//     display: none;
+//   }
+// }
+
+// @media only screen and (min-width: 390px) {
+//   .breadcrum {
+//     display: none;
+//   }
+// }
+
+// @media only screen and (min-width: 395px) {
+//   .breadcrum {
+//     display: none;
+//   }
+// }
+
+// @media only screen and (min-width: 600px) {
+//   .breadcrum {
+//     display: none;
+//   }
+// }

@@ -1,0 +1,618 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-12 p-2">
+      <div
+        class="mb-2 p-4 pb-2 filters-form"
+        *ngIf="
+          incentiveList ||
+            attributeList ||
+            esgFeatureList ||
+            maxGrossRentaal != undefined ||
+            maxUnitSize != undefined;
+          else loader
+        "
+      >
+        <!-- SEARCH - AUTOCOMPLETE -->
+        
+        <div class="row">
+          <div class="row">
+          <div class="col-md-12" *ngIf="clear">
+            <div class="col-md-11"></div>
+            <div class="col-md-1 ">
+              <button
+                class="rd-btn rd-btn-text gap-1 clear-button"
+                (click)="clearFilter()"
+              >
+                <span class="btn-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      d="M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"
+                    ></path>
+                  </svg>
+                </span>
+                <span class="btn-text">Clear</span>
+              </button>
+            </div>
+          </div></div>
+          <div class="col-md-4">
+            <label for="sector-dropdown-list" class="mb-3 search-label">Search by property type </label>
+            <rd-select
+              [id]="'sector-dropdown-list'"
+              [placeholder]="'All'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Id'"
+              [items$]="sectorList$"
+              [multiselect]="true"
+              [max]="1"
+              (onSelect)="onSectorSelect($event)"
+              (onDeSelect)="onSectorDeSelect($event)"
+              (onClear)="onSectorClear()"
+              class="dropdownWidth"
+              [form]="filterForm"
+              [controlName]="'Sectors'"
+            >
+            </rd-select>
+          </div>
+          <div class="col-md-8 search-by-location">
+            <label for="location search" class="mb-3 search-label">Search by location</label>
+            <rd-autocomplete
+              id="location search" 
+              [id]="'location search'"
+              [data]="initialList"
+              [searchKey]="'Name'"
+              [bindLabel]="'Name'"
+              [bindValue]="'Id'"
+              [multiselect]="true"
+              [max]="3"
+              [selectedItems]="searchData"
+              [helpingText]="''"
+              [placeholder]="getPlaceHolder()"
+              (searchFilter)="searchFilter($event)"
+              (onClear)="onClearSearch()"
+              (onSelect)="onSearchSelect($event)"
+              (onDeSelect)="onSearchDeSelect($event)"
+              aria-labelledby="location search"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                <div class="custom-dropdown-data">
+                  <div [ngSwitch]="item.Type">
+                    <div class="mobile-font" *ngSwitchCase="'Suburb'">
+                      {{ item.Name }}, {{ item.CityName }},
+                      {{ item.ProvinceName }}
+                    </div>
+                    <div class="mobile-font" *ngSwitchCase="'City'">
+                      {{ item.Name }}, {{ item.ProvinceName }}
+                    </div>
+                    <div class="mobile-font" *ngSwitchDefault>
+                      {{ item.Name }}
+                    </div>
+                  </div>
+                  <small *ngIf="propertyType != 2"
+                    ><em class="mobile-font">{{ item.Type }}</em></small
+                  >
+                  <small *ngIf="item.Type == 'Province' && propertyType == 2"
+                    ><em class="mobile-font">State</em></small
+                  >
+                  <small *ngIf="propertyType == 2 && item.Type != 'Province'"
+                    ><em class="mobile-font">{{ item.Type }}</em></small
+                  >
+                </div>
+              </ng-template>
+            </rd-autocomplete>
+          </div>
+        </div>
+
+        <form [formGroup]="filterForm">
+          <div class="row ipad-properties-filter">
+            <div
+              class="col-md-4 search-by-attributes"
+              *ngIf="propertyType == 1 && attributeList?.length > 0"
+            >
+              <ng-container>
+                <label for="sector-dropdown-list" class="mb-3 search-label">Search by attributes </label>
+                <rd-select
+                  id="sector-dropdown-list"
+                  [id]="'sector-dropdown-list'"
+                  [placeholder]="'Search by attribute'"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Id'"
+                  [max]="1"
+                  [items$]="attributeList$"
+                  [multiselect]="true"
+                  (onSelect)="onAttributeSelect($event)"
+                  (onDeSelect)="onAttributeDeSelect($event)"
+                  (onClear)="onAttributeClear()"
+                  class="dropdownWidth"
+                  [form]="filterForm"
+                  [controlName]="'Attributes'"
+                >
+                </rd-select>
+              </ng-container>
+            </div>
+
+            <div class="col-md-4 search-by-esg" *ngIf="propertyType == 1">
+              <ng-container>
+                <div>
+                  <label for="esg" class="mb-3 search-label"
+                    >Search by ESG features
+                  </label>
+                  <ng-select
+                    dropdownPosition="auto"
+                    id="esg"
+                    [id]="'esg'"
+                    [items]="allFeatures"
+                    [multiple]="true"
+                    max="1"
+                    groupBy="Feature"
+                    [selectableGroupAsModel]="false"
+                    bindLabel="Name"
+                    bindValue="EsgFeaturesId"
+                    placeholder="Search by ESG feature"
+                    [selectableGroup]="true"
+                    [closeOnSelect]="true"
+                    formControlName="esgFeature"
+                    (change)="onEsgSelect($event)"
+                    (remove)="onEsgDeSelect($event)"
+                    (clear)="onEsgClear()"
+                    aria-labelledby="esg-label"
+                  >
+                    <ng-template ng-optgroup-tmp let-item="item">
+                      <b>{{ item.Feature }}</b>
+                    </ng-template>
+
+                    <ng-template
+                      ng-multi-label-tmp
+                      let-items="items"
+                      let-clear="clear"
+                      *ngIf="optionTemplate"
+                    >
+                      <ng-template
+                        [ngTemplateOutlet]="optionTemplate"
+                        [ngTemplateOutletContext]="{ items: items }"
+                      ></ng-template>
+                    </ng-template>
+                    <ng-template
+                      ng-multi-label-tmp
+                      let-items="items"
+                      let-clear="clear"
+                      *ngIf="!optionTemplate"
+                    >
+                      <div
+                        class="ng-value"
+                        *ngFor="let item of items.slice(0, 1)"
+                      >
+                        <span class="ng-value-label"> {{ item["Name"] }}</span>
+                        <span
+                          class="ng-value-icon right"
+                          (click)="clear(item)"
+                          aria-hidden="true"
+                        >
+                          ×
+                        </span>
+                      </div>
+                      <div class="ng-value" *ngIf="items.length > 1">
+                        <span class="ng-value-label"
+                          >{{ items.length - 1 }} more...</span
+                        >
+                      </div>
+                    </ng-template>
+                    <ng-template
+                      ng-option-tmp
+                      let-item="item"
+                      let-item$="item$"
+                      let-index="index"
+                    >
+                      <div class="checkbox-input">
+                        <input
+                          title="filterEsg"
+                          id="item-{{ index }}"
+                          type="checkbox"
+                          [checked]="
+                            filterForm
+                              .get('esgFeature')
+                              ?.value?.includes(item?.EsgFeaturesId)
+                          "
+                        />
+                        <label
+                          [title]="item['Name']"
+                          class="rd-text-ellipsis-line"
+                          >{{ item["Name"] }}</label
+                        >
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </ng-container>
+            </div>
+
+            <div class="col-md-4 size-slider">
+              <div *ngIf="propertyType == 2 || propertyType == 1">
+                Size (sqm)
+                <div class="custom-slider">
+                  <ngx-slider
+                    *ngIf="options"
+                    id="size-range"
+                    formControlName="size"
+                    [options]="options"
+                    (userChangeEnd)="onSliderChange($event, 'Size')"
+                  ></ngx-slider>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row ipad-needsSpace-filter">
+            <ng-container>
+              <div
+                class="col-md-4 search-by-incentives"
+                *ngIf="
+                  propertyType == 'need-space' && incentiveList?.length > 0
+                "
+              >
+                <label for="incentives-list" class="mb-3 search-label">Search by incentives</label>
+                <rd-select
+                  [id]="'incentives-list'"
+                  [placeholder]="'All'"
+                  [bindLabel]="'Name'"
+                  [bindValue]="'Id'"
+                  [items$]="incentivesList$"
+                  [multiselect]="true"
+                  [max]="1"
+                  (onSelect)="onIncentivesSelect($event)"
+                  (onDeSelect)="onIncentivesDeSelect($event)"
+                  (onClear)="onIncentivesClear()"
+                  class="dropdownWidth"
+                  [form]="filterForm"
+                  [controlName]="'Incentives'"
+                >
+                </rd-select>
+              </div>
+            </ng-container>
+
+            <div
+              class="col-md-4 unit-size"
+              *ngIf="propertyType == 'need-space'"
+            >
+              <div>
+                Unit size (sqm)
+
+                <div class="custom-slider">
+                  <ngx-slider
+                    *ngIf="options"
+                    id="size-range"
+                    formControlName="size"
+                    [options]="options"
+                    (userChangeEnd)="onSliderChange($event, 'Size')"
+                  ></ngx-slider>
+                </div>
+              </div>
+            </div>
+
+            <ng-container>
+              <div
+                class="col-md-4"
+                *ngIf="propertyType != 2 && propertyType != 1"
+              >
+                <div>Gross rental (R/sqm)</div>
+                <div class="custom-slider">
+                  <ngx-slider
+                    *ngIf="grossRentalOptions"
+                    id="gross-rental-range"
+                    formControlName="grossRental"
+                    [options]="grossRentalOptions"
+                    (userChangeEnd)="onSliderChange($event, 'GrossRental')"
+                  ></ngx-slider>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <ng-container *ngIf="propertyType == 'need-space'">
+            <div class="row mt-3 mt-sm-0 align-items-baseline space2specCheckbox">
+              <div
+                class="col-md-4"
+                [ngClass]="{ 'pt-4': incentiveList?.length == 0 }"
+              >
+                <div class="checkbox-input rd-checkbox mb-3 ">
+                  <input
+                    title="space2SpecCheck"
+                    type="checkbox"
+                    class="rd-border__grey-dark"
+                    [name]="'space-spec'"
+                    [id]="'incentive-checkbox-space-spec'"
+                    (change)="onSpace2SpecCheck($event)"
+                    [checked]="space2SpecCheck"
+                  />
+                  <label
+                    [for]="'incentive-checkbox-space-spec'"
+                    class="rd-text-grey-mid"
+                    >Space2Spec</label
+                  >
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </form>
+      </div>
+
+      <div
+        class="row py-2 pt-sm-3 align-items-baseline"
+        [ngClass]="{ 'justify-content-end': !listView }"
+      >
+        <!-- Showing results -->
+        <div class="col" *ngIf="listView">
+          <div class="show-results" id="targetSearch">
+            <span class="rd-text-grey-mid">
+              Showing results
+              <span
+                class="rd-text-mid-red"
+                *ngIf="propertyType == 'need-space'"
+              >
+                {{ totalPropertiesCount ? totalPropertiesCount : 0 }} units
+              </span>
+              <span
+                class="rd-text-mid-red"
+                *ngIf="propertyType == 2 || propertyType == 1"
+              >
+                {{ totalPropertiesCount ? totalPropertiesCount : 0 }}
+                properties
+              </span>
+            </span>
+          </div>
+        </div>
+        <!-- Sort by -->
+        <div
+          *ngIf="propertyType === 'need-space' && listView"
+          class="col-5 col-md-4 col-lg-3"
+        >
+        <span id="sortLabel" class="sr-only">Sort by</span>
+          <rd-select
+            [id]="'sort'"
+            [placeholder]="'Sort by'"
+            [bindLabel]="'Id'"
+            [bindValue]="'Name'"
+            [items$]="sort$"
+            [form]="filterForm"
+            [controlName]="'sort'"
+            (onChange)="sortBy($event)"
+            aria-labelledby="sortLabel"
+          ></rd-select>
+        </div>
+        <!-- Map and lis view -->
+        <div
+          class="col-12 col-md-4 col-lg-3 d-flex justify-content-start justify-content-md-end"
+        >
+          <div class="levy">
+            <label for="drip-switch">List view</label>
+            <rd-switch
+              [onLabel]="'Map View'"
+              [offLabel]="'List View'"
+              [id]="'drip-switch'"
+              (onChange)="onSwitchToggle($event)"
+            >
+            </rd-switch>
+            <label for="drip-switch">Map view</label>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-12">
+          <div class="row flex-wrap">
+            <!-- UNIT CARDS -->
+            <ng-container
+              *ngIf="
+                propertyUnits || internationalProperties || SAProperties;
+                else unitCardLoader
+              "
+            >
+              <ng-container
+                *ngIf="propertyUnits && propertyType == 'need-space'"
+              >
+                <ng-container *ngIf="totalPropertiesCount > 0; else noData">
+                  <ng-container *ngIf="listView; else mapView">
+                    <div
+                      *ngFor="let unit of propertyUnits"
+                      class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 py-3"
+                    >
+                      <app-unit-card
+                        [unitDetails]="unit"
+                        (unitPreviewPage)="preview($event)"
+                        (spaceSpec)="spaceSpecPage()"
+                      >
+                      </app-unit-card>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+              <!-- PROPERTY CARDS -->
+              <ng-container
+                *ngIf="internationalProperties && propertyType == 2"
+              >
+                <ng-container *ngIf="totalPropertiesCount; else noData">
+                  <ng-container *ngIf="listView; else mapView">
+                    <div
+                      *ngFor="let property of internationalProperties"
+                      class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 py-3"
+                    >
+                      <app-unit-card
+                        [propertyDetails]="property"
+                        [propertyType]="propertyType"
+                        (propertyPreviewPage)="preview($event)"
+                      >
+                      </app-unit-card>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="SAProperties && propertyType == 1">
+                <ng-container *ngIf="totalPropertiesCount; else noData">
+                  <ng-container *ngIf="listView; else mapView">
+                    <div
+                      *ngFor="let property of SAProperties"
+                      class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 py-3"
+                    >
+                      <app-unit-card
+                        [propertyDetails]="property"
+                        [propertyType]="propertyType"
+                        (propertyPreviewPage)="preview($event)"
+                      >
+                      </app-unit-card>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+        <!-- PAGINATION -->
+        <div
+          class="col-12"
+          *ngIf="
+            ((propertyUnits && propertyUnits.length) ||
+              (internationalProperties && internationalProperties.length) ||
+              (SAProperties && SAProperties.length) ||
+              totalPropertiesCount > 0) &&
+            listView
+          "
+        >
+          <div>
+            <mat-paginator
+              #paginator
+              customPaginator
+              showFirstLastButtons
+              class="custom-paginator"
+              previousPageLabel="'pre'"
+              [length]="totalPropertiesCount"
+              [pageSize]="filter.PerPage"
+              [pageIndex]="filter && filter.PageNo ? filter.PageNo - 1 : 0"
+              (page)="paginate($event)"
+              [hidePageSize]="true"
+            >
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #unitCardLoader>
+    <div
+      *ngFor="let item of loadingCards"
+      class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 py-2"
+    >
+      <div
+        class=""
+        aria-hidden="true"
+        style="
+          box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+            rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        "
+      >
+        <img
+          src="assets/images/image-placeholder.png"
+          class="card-img-top"
+          alt="placeholder image"
+        />
+        <div class="card-body mt-2 p-2">
+          <div class="placeholder-glow mb-2">
+            <span class="placeholder col-12"></span>
+          </div>
+          <p class="placeholder-glow">
+            <span class="d-flex justify-content-between mt-3">
+              <span class="placeholder placeholder-lg col-3"></span>
+              <span class="placeholder placeholder-lg col-8"></span>
+            </span>
+            <span class="d-flex justify-content-between mt-3">
+              <span class="placeholder placeholder-lg col-3"></span>
+              <span class="placeholder placeholder-lg col-8"></span>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #checkboxLoader>
+    <div class="placeholder-glow mb-3">
+      <span
+        class="placeholder rounded-1 rd-bg__grey-very-light"
+        style="width: 22px; height: 22px; margin-right: 15px"
+      ></span>
+      <span class="col-8 placeholder placeholder-lg"></span>
+    </div>
+    <div class="placeholder-glow mb-3">
+      <span
+        class="placeholder rounded-1 rd-bg__grey-very-light"
+        style="width: 22px; height: 22px; margin-right: 15px"
+      ></span>
+      <span class="col-8 placeholder placeholder-lg"></span>
+    </div>
+    <div class="placeholder-glow mb-3">
+      <span
+        class="placeholder rounded-1 rd-bg__grey-very-light"
+        style="width: 22px; height: 22px; margin-right: 15px"
+      ></span>
+      <span class="col-8 placeholder placeholder-lg"></span>
+    </div>
+    <div class="placeholder-glow mb-3">
+      <span
+        class="placeholder rounded-1 rd-bg__grey-very-light"
+        style="width: 22px; height: 22px; margin-right: 15px"
+      ></span>
+      <span class="col-8 placeholder placeholder-lg"></span>
+    </div>
+  </ng-template>
+  <ng-template #noData>
+    <div class="col-12 py-2 text-center mt-5">
+      <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+      <p>
+        <small>There is no property(s) available for the search criteria</small>
+      </p>
+    </div>
+  </ng-template>
+  <ng-template #mapView>
+    <app-map
+      *ngIf="markerList && markerList.length; else map_loader"
+      [markers]="markerList"
+      [center]="center"
+      [zoom]="zoom"
+      [height]="'450px'"
+      (markerEvent)="onMarkerClick($event)"
+      (infoWindowEvent)="onInfoWindowClick($event)"
+      (zoomEvent)="zoomChangeEvent($event)"
+    ></app-map>
+  </ng-template>
+</div>
+
+<ng-template #loader>
+  <div class="loader-container rd-bg__grey-very-light placeholder-glow">
+    <div class="title-loader w-100 h-100">
+      <div class="mb-4 mb-sm-5">
+        <span
+          class="col-12 col-md-5 py-4 py-md-5 placeholder placeholder-lg rounded"
+        ></span>
+      </div>
+      <div class="mb-4 mb-sm-5">
+        <span class="col-12 col-md-2 py-1 py-md-3 placeholder"></span>
+      </div>
+      <div class="mb-4 mt-3 mt-sm-5">
+        <span class="placeholder p-2 p-md-3 me-4"></span>
+        <span class="col-8 col-md-2 py-sm-3 placeholder"></span>
+      </div>
+    </div>
+    <div class="arrow-loader d-none d-sm-block">
+      <span class="placeholder p-2 me-4"></span>
+      <span class="placeholder p-2"></span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #map_loader>
+  <div class="d-flex gap-2 placeholder-glow">
+    <div class="w-100 placeholder" [style.height.px]="400"></div>
+  </div>
+</ng-template>

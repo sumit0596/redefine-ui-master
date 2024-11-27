@@ -1,0 +1,112 @@
+<ng-container *ngIf="sliderList$ | async; else loader">
+  <div class="slider_section">
+    <div class="imgs_container">
+      <div
+        class="single_img"
+        *ngFor="let slide of sliderList; let i = index; first as isFirst"
+        id="slide_{{ i }}"
+      >
+        <img [ngSrc]="slide.Image" alt="{{ slide.Content }}" priority fill />
+        <div class="rd-description rd-slide-content banner2">
+          <div class="d-flex align-items-end w-100">
+            <div class="before-title">
+              <div class="before-title-line"></div>
+            </div>
+            <div class="banner-title">
+              <span class="rd-heading-lg-normal">{{ slide.Description }}</span
+              ><br /><span class="rd-heading-xl">{{ slide.Content }}</span>
+            </div>
+            <div class="after-title">
+              <div class="after-title-line"></div>
+            </div>
+          </div>
+          <div class="rd-slider-buttons">
+            <div>
+              <button
+                (click)="navigate(slide.ButtonLink)"
+                class="rd-btn rd-slider-btn-info rd-btn-light rd-btn-lg"
+              >
+                <span class="btn-text">{{ slide.ButtonTitle }}</span>
+              </button>
+            </div>
+            <div>
+              <button
+                class="rd-btn rd-slider-btn-scroll"
+                (click)="scrollTo25Percent()"
+              >
+                <span class="px-1" class="btn-icon slideiconbtn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="34"
+                    height="34"
+                    fill="#ffffff"
+                    viewBox="0 0 256 256"
+                  >
+                    <path
+                      d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm37.66-85.66a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32,0l-32-32a8,8,0,0,1,11.32-11.32L120,148.69V88a8,8,0,0,1,16,0v60.69l18.34-18.35A8,8,0,0,1,165.66,130.34Z"
+                    ></path>
+                  </svg>
+                </span>
+                <span class="btn-text white-text"
+                  >View featured properties</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rd-slide-controls">
+      <div class="rd-slide-buttons">
+        <button id="left_slider" class="left-slider" (click)="slideLeft()">
+          ❮
+        </button>
+        <button id="right_slider" class="right-slider" (click)="slideRight()">
+          ❯
+        </button>
+      </div>
+      <div class="rd-slide-count">
+        {{ imgNumber + 1 }} / {{ sliderList.length }}
+      </div>
+      <div class="rd-slider-dots">
+        <span
+          class="rd-dot"
+          *ngFor="let slide of sliderList; let i = index"
+          (click)="goToSlide(i)"
+          [ngClass]="{ 'rd-active-dot': i === imgNumber }"
+        ></span>
+      </div>
+    </div>
+    <div class="rd-slider-circle">
+      <span
+        class="rd-circle"
+        *ngFor="let slide of sliderList; let i = index"
+        (click)="goToSlide(i)"
+        [ngClass]="{ 'rd-active-circle': i === imgNumber }"
+      ></span>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loader>
+  <div class="loader-container rd-bg__grey-very-light placeholder-glow">
+    <div class="title-loader w-100 h-100">
+      <div class="mb-4 mb-sm-5">
+        <span
+          class="col-12 col-md-5 py-4 py-md-5 placeholder placeholder-lg rounded"
+        ></span>
+      </div>
+      <div class="mb-4 mb-sm-5">
+        <span class="col-12 col-md-2 py-1 py-md-3 placeholder"></span>
+      </div>
+      <div class="mb-4 mt-3 mt-sm-5">
+        <span class="placeholder p-2 p-md-3 me-4"></span>
+        <span class="col-8 col-md-2 py-sm-3 placeholder"></span>
+      </div>
+    </div>
+    <div class="arrow-loader d-none d-sm-block">
+      <span class="placeholder p-2 me-4"></span>
+      <span class="placeholder p-2"></span>
+    </div>
+  </div>
+</ng-template>

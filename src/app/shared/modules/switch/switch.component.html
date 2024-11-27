@@ -1,0 +1,21 @@
+<div class="rd-switch">
+  <label
+    class="switch"
+    [ngClass]="{ active: checked || (switch && switch?.checked) }"
+    [ngStyle]="{ 'background-color': isLabel ? '#000000' : '#cccccc' }"
+  >
+    <input
+      #switch
+      [id]="id"
+      type="checkbox"
+      [checked]="checked"
+      [disabled]="disable"
+      (change)="toggleSwitch($event)"
+    />
+    <ng-container *ngIf="isLabel">
+      <span class="switch-label switch-label_on">{{ onLabel }}</span>
+      <span class="switch-label switch-label_off">{{ offLabel }}</span>
+    </ng-container>
+    <span class="slider"></span>
+  </label>
+</div>

@@ -1,0 +1,60 @@
+.rd-form {
+    width: 800px;
+  }
+  
+  .property-eq-tag-container {
+    margin-bottom: 50px;
+  }
+  .property-eq-tag-container .property-eq-tag-item {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 0.5px solid #dfdfdf;
+  }
+  .property-eq-tag-container .property-eq-tag-item:last-child {
+    border: none;
+  }
+  .property-eq-tag-container .property-eq-tag-item .property-eq-tag-label {
+    width: 40%;
+    
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+  }
+  .property-eq-tag-container .property-eq-tag-item .property-eq-tag-desc {
+    width: 60%;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 25px;
+    color: #58595b;
+    word-wrap: break-word;
+  }
+  .property-eq-tag-desc .file-name a {
+    
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 13px;
+    color: #000000;
+  }
+  .property-eq-tag-desc .file-desc {
+    
+    font-style: normal;
+    padding: 2px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #999999;
+  }
+  .property-eq-tag-desc {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 13px;
+    color: #000000;
+    padding: auto;
+  }

@@ -1,0 +1,183 @@
+<div class="rd-container" *ngIf="formConfig">
+  <div class="rd-container-header">
+    <div class="rd-container-header-left">
+      <div>
+        <button
+          type="button"
+          id="back"
+          class="rd-btn-text rd-btn-back rd-btn-lg"
+          (click)="goToManage()"
+        >
+          <span><img src="assets/images/arrow-left.svg" alt="" /></span>
+          <span>BACK</span>
+        </button>
+      </div>
+      <div class="rd-heading rd-heading-lg">
+        {{ formConfig ? (formConfig.mode | titlecase) : "" }} Role
+      </div>
+    </div>
+    <div class="rd-container-header-right">
+      <ng-container [ngSwitch]="formConfig.mode">
+        <ng-container *ngSwitchCase="formMode.EDIT">
+          <!-- <button
+            type="button"
+            class="rd-btn-primary rd-btn-lg"
+            (click)="editRole()"
+          >
+            Edit Role
+          </button> -->
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <form
+    [formGroup]="roleForm"
+    class="rd-form form-container"
+    (ngSubmit)="onSubmit($event)"
+    autocomplete="on"
+  >
+    <div class="rd-form-header">Role Details</div>
+    <div class="rd-form-body">
+      <div>
+        <rd-input
+          [label]="'Name'"
+          [id]="'Name'"
+          [placeholder]="'Name'"
+          [required]="true"
+          [type]="'text'"
+          [form]="roleForm"
+          [controlName]="'Name'"
+          (onChange)="onChange($event)"
+        ></rd-input>
+      </div>
+      <div>
+        <rd-textarea
+          [label]="'Description'"
+          [id]="'Description'"
+          [placeholder]="'Role Description'"
+          [required]="true"
+          [controlName]="'Description'"
+          [form]="roleForm"
+          (onChange)="onChange($event)"
+        ></rd-textarea>
+      </div>
+      <div class="rd-form-header">
+        Select Permissions
+        <label>
+          <span class="required-asterik">*</span>
+        </label>
+      </div>
+      <table
+        id="permission-table"
+        class="permission-table"
+        *ngIf="mergedPermissionList.length"
+      >
+        <caption>
+          <div *ngIf="permissions?.hasError('invalid')" class="error-msg">
+            <small>{{ permissions.errors?.['invalid'] }}</small>
+          </div>
+        </caption>
+        <thead>
+          <th colspan="2"></th>
+          <th>Permission</th>
+          <th>Full Access</th>
+          <th>Readonly</th>
+        </thead>
+        <tbody formArrayName="Permission">
+          <ng-container
+            *ngFor="let permission of permissions.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <tr class="role-heading">
+              <td>
+                <div class="checkbox-input">
+                  <input
+                    type="checkbox"
+                    [id]="'permission-id' + i"
+                    name="PermissionId"
+                    formControlName="Checked"
+                    (change)="onPermissionChange($event, 'MAIN', permission, i)"
+                  />
+                </div>
+              </td>
+              <td colspan="4">
+                <label class="rd-heading rd-heading-xs-bold">{{
+                  mergedPermissionList[i].Name
+                }}</label>
+              </td>
+            </tr>
+            <ng-container formArrayName="SubPermission">
+              <tr
+                *ngFor="
+                  let subPermission of getSubPermission(permission, i).controls;
+                  let j = index
+                "
+                [formGroupName]="j"
+              >
+                <td colspan="2">
+                  <div class="checkbox-input">
+                    <input
+                      type="checkbox"
+                      [id]="'sub-permission-id' + i + j"
+                      name="PermissionId"
+                      formControlName="Checked"
+                      (change)="
+                        onPermissionChange($event, 'SUB', permission, j)
+                      "
+                    />
+                  </div>
+                </td>
+                <td>
+                  <label [for]="'sub-permission-id' + i + j">{{
+                    subPermission.value.Name
+                  }}</label>
+                </td>
+                <td>
+                  <div class="radio-input">
+                    <input
+                      type="radio"
+                      [value]="1"
+                      formControlName="PermissionType"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div
+                    class="radio-input"
+                    *ngIf="mergedPermissionList[i].Name != 'Dashboard'"
+                  >
+                    <input
+                      type="radio"
+                      [value]="0"
+                      formControlName="PermissionType"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div class="rd-form-footer">
+      <div>
+        <button
+          type="button"
+          class="rd-btn-secondary rd-btn-lg"
+          (click)="goToManage()"
+        >
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button
+          type="submit"
+          class="rd-btn-primary rd-btn-lg"
+          [disabled]="formConfig && formConfig.mode == 'view'"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

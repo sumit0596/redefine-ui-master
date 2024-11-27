@@ -1,0 +1,245 @@
+<app-banner-breadcrumb
+  [bannerDetails]="bannerDetails"
+  [bannerText]="bannerText"
+  [breadcrumbLinks]="breadcrumbLinks"
+></app-banner-breadcrumb>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+      <div class="row filter-top">
+        <div class="col-md-3">
+          <rd-select
+            [id]="'category'"
+            [label]="'category'"
+            [placeholder]="'Select category'"
+            [bindLabel]="'Title'"
+            [bindValue]="'Id'"
+            [items$]="categoryList$"
+            [required]="true"
+            [form]="filterForm"
+            [controlName]="'CategoryId'"
+            (onChange)="filter('Category', $event)"
+            aria-label="Select category"
+          >
+          </rd-select>
+        </div>
+        <div class="col-md-3">
+          <rd-select
+            aria-label="Select year"
+            [id]="'years'"
+            [label]="'years'"
+            [placeholder]="'Select year'"
+            [bindLabel]="'Name'"
+            [bindValue]="'Name'"
+            [items$]="range$"
+            [required]="true"
+            [form]="filterForm"
+            [controlName]="'Year'"
+            (onChange)="filter('Year', $event)"
+            aria-label="Select year"
+          ></rd-select>
+        </div>
+        <div class="col-md-5">
+          <div class="input-group">
+            <input
+              aria-label="search keyword"
+              type="text"
+              class="form-control"
+              id="text-search"
+              [(ngModel)]="searchText"
+              placeholder="Search keyword"
+              (keyup)="search($event)"
+              aria-label="Search keyword"
+            />
+
+            <div class="input-group-append search-button">
+              <button
+              aria-label="search-button"
+                class="btn btn-secondary"
+                type="button"
+                (click)="searchValue($event)"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <button
+          aria-label="clear-button"
+            type="button"
+            class="rd-btn-text rd-btn-md clear-button h-100"
+            *ngIf="
+              this.filterForm.get('Search')?.value != '' ||
+              this.filterForm.get('CategoryId')?.value != null
+            "
+            (click)="clear()"
+          >
+            <span>Clear</span>
+            <span
+              ><img
+                src="assets/images/close.svg"
+                [style.width]="'16px'"
+                alt="clear"
+            /></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- *ngFor="let type of presentationTypes" {{ type.Name }} -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <ng-container>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-10">
+            <div class="sens-line"></div>
+          </div>
+          <div class="col-md-2">
+            <div class="position-relative">
+              <h1 class="rd-heading rd-heading-md rd-heading-md-bold">
+                Presentations
+              </h1>
+              <span class="rd-indicator rd-indicator-lg">
+                <span class="rd-indicator-content rd-indicator-primary"></span>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-10" *ngIf="presentationDetails">
+            <div
+              class="senses mt-3"
+              *ngFor="let presentation of presentationDetails; let i = index"
+              (mouseover)="getHovercolor(i)"
+              (mouseleave)="getLeavecolor(i)"
+            >
+              <div
+                id="{{ 'sens-data' + i }}"
+                (click)="download(presentation)"
+                [attr.downloadanalytics]="
+                  presentation.Title + ' ' + 'ANALOAD' + ' ' + presentation.Pdf
+                "
+              >
+                <div class="position-relative">
+                  <div class="rd-heading rd-heading-md">
+                    {{ presentation.Title }}
+                  </div>
+                  <span class="rd-indicator rd-indicator-xs">
+                    <span
+                      class="rd-indicator-content rd-indicator-primary"
+                    ></span>
+                  </span>
+                </div>
+                <div class="rd-text-grey-mid mt-4">
+                  {{ presentation.PublishDate | date : "dd MMMM yyyy" }}
+                </div>
+              </div>
+              <div
+                class="col-md-12 sens-line mt-3"
+                *ngIf="presentationDetails?.length > i + 1"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-12 py-2 text-center mt-5"
+          *ngIf="presentationDetails?.length == 0"
+        >
+          <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+        </div>
+      </ng-container>
+
+      <div class="mt-5">
+        <ng-container>
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <div class="sens-line"></div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="position-relative">
+                <h1 class="rd-heading rd-heading-md rd-heading-md-bold">
+                  Webcasts
+                </h1>
+                <span class="rd-indicator rd-indicator-lg">
+                  <span
+                    class="rd-indicator-content rd-indicator-primary"
+                  ></span>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-10" *ngIf="webcastDetails">
+              <!-- <div class="sens-line"></div> -->
+              <div
+                class="senses mt-3"
+                *ngFor="let webcast of webcastDetails; let i = index"
+                (mouseover)="getWebcastHovercolor(i)"
+                (mouseleave)="getWebcastLeavecolor(i)"
+              >
+                <div
+                  id="{{ 'webcast-data' + i }}"
+                  (click)="webcastOpen(webcast)"
+                >
+                  <div class="position-relative">
+                    <div class="rd-heading rd-heading-md">
+                      {{ webcast.Title }}
+                    </div>
+                    <span class="rd-indicator rd-indicator-xs">
+                      <span
+                        class="rd-indicator-content rd-indicator-primary"
+                      ></span>
+                    </span>
+                  </div>
+                  <div class="rd-text-grey-mid mt-4">
+                    {{ webcast.PublishDate | date : "dd" }}
+                    {{ webcast.PublishDate | date : "MMMM" }}
+                    {{ webcast.PublishDate | date : "YYYY" }}
+                  </div>
+                </div>
+                <div
+                  class="col-md-12 mt-3 sens-line"
+                  *ngIf="webcastDetails?.length > i + 1"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div
+          class="col-12 py-2 text-center mt-5"
+          *ngIf="webcastDetails?.length == 0"
+        >
+          <p class="rd-heading-md-bold rd-text-deep-red">No result found!</p>
+        </div>
+      </div>
+      <div
+        class="col-md-12 mt-3"
+        *ngIf="
+          (presentationDetails && presentationDetails.length) ||
+          (webcastDetails && webcastDetails.length)
+        "
+      >
+        <!-- <div>
+          <mat-paginator
+            #paginator
+            customPaginator
+            showFirstLastButtons
+            class="custom-paginator"
+            previousPageLabel="'pre'"
+            [length]="totalRowsCount"
+            [pageSize]="filters.PerPage"
+            [pageIndex]="filters && filters.PageNo ? filters.PageNo - 1 : 0"
+            (page)="paginate($event)"
+            [hidePageSize]="true"
+          >
+          </mat-paginator>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="quicklinks-space"></div>
+</div>
+<app-quick-links></app-quick-links>

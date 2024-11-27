@@ -1,0 +1,347 @@
+<header-banner-breadcrumb [bannerDetails]="bannerDetails" [bannerText]="bannerText" [urlData]="urlData"
+  class="propertyEq-banner"></header-banner-breadcrumb>
+
+
+  <!-- <app-banner-breadcrumb [bannerDetails]="bannerDetails" [bannerText]="bannerText" [urlData]="urlData"
+  class="propertyEq-banner"></app-banner-breadcrumb> -->
+
+<div id="pageContainer" class="container propertyeq-press-office mt-3 mb-5">
+  <div class="row mb-4" *ngIf="pressDetails" else loadingData>
+    <div class="col-12">
+      <div class="row justify-content-between">
+        <div class="col-md-12 d-flex align-items-center justify-content-end">
+          <div class="share-buttons-wrapper" *ngIf="showShareIcon">
+            <app-share-button></app-share-button>
+          </div>
+          <button
+            class="ps-1 share-button"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Share"
+            (click)="clickedShareIcon($event, 'share')"
+          >
+            <svg
+              width="25"
+              height="36"
+              viewBox="0 0 36 36"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_7785_40294)">
+                <path
+                  d="M12.6377 20.4023C14.0184 20.4023 15.1377 19.2831 15.1377 17.9023C15.1377 16.5216 14.0184 15.4023 12.6377 15.4023C11.257 15.4023 10.1377 16.5216 10.1377 17.9023C10.1377 19.2831 11.257 20.4023 12.6377 20.4023Z"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M21.3877 26.0273C22.7684 26.0273 23.8877 24.9081 23.8877 23.5273C23.8877 22.1466 22.7684 21.0273 21.3877 21.0273C20.007 21.0273 18.8877 22.1466 18.8877 23.5273C18.8877 24.9081 20.007 26.0273 21.3877 26.0273Z"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M21.3877 14.7773C22.7684 14.7773 23.8877 13.6581 23.8877 12.2773C23.8877 10.8966 22.7684 9.77734 21.3877 9.77734C20.007 9.77734 18.8877 10.8966 18.8877 12.2773C18.8877 13.6581 20.007 14.7773 21.3877 14.7773Z"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M19.2853 13.6289L14.74 16.5508"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.74 19.2539L19.2853 22.1758"
+                  stroke="black"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <circle cx="18" cy="18" r="17" stroke="black" stroke-width="2" />
+              <defs>
+                <clipPath id="clip0_7785_40294">
+                  <rect
+                    width="20"
+                    height="20"
+                    fill="none"
+                    transform="translate(7.6377 7.90234)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </button>
+          <button
+            class="ps-1 share-button button-color"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Print"
+            (click)="clickedShareIcon($event, 'print')"
+          >
+            <span class="print-icon">
+              <svg
+                width="25"
+                height="36"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke="black"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <svg
+                  x="10"
+                  y="10"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  class="bi bi-printer"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </svg>
+            </span>
+          </button>
+
+          <button
+            class="ps-1 share-button button-color"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Download"
+            (click)="clickedShareIcon($event, 'print')"
+          >
+            <span class="download-icon">
+              <svg
+                width="25"
+                height="36"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="18"
+                  stroke="black"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <svg
+                  x="10"
+                  y="10"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  class="bi bi-download"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-5" *ngIf="pressDetails" else loadingData>
+    <div class="col-md-8"#printit id="printit">
+      <div class="tag-and-author">
+        <div class="col-lg-5 col-md-5 content-propeq-width col-12">
+          <div class="postedby">
+            <p class="rd-text-grey-mid mt-3">
+              {{ pressDetails.CreatedOn | date : "dd MMMM, yyyy" }}
+              <span *ngIf="pressDetails.Author && pressDetails.Author != ''">| By </span>
+             <span (click)="onFilterTags(pressDetails.Author, 'Author')">{{ pressDetails.Author }}</span>
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-7 col-md-7 content-propeq-width col-12">
+          <div class="d-flex justify-content-end property-cat-label__group">
+            <span *ngIf="pressDetails.PropertyEqCategory"
+            (click)="onFilterTags(pressDetails.PropertyEqCategoryId, 'EqCategoryId')"
+              class="property-category"
+              [title]="pressDetails.CategoryDescription"
+              >{{pressDetails.PropertyEqCategory
+              }}</span
+            >
+            <span  *ngIf="pressDetails.PropertyEqType" class="property-type" [title]="pressDetails.PropertyEqType">{{
+              pressDetails.PropertyEqType.length > 13
+                ? (pressDetails.PropertyEqType | slice : 0 : 13) + "..."
+                : pressDetails.PropertyEqType
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3 mb-3">
+        <div class="position-relative">
+          <h1 class="rd-heading rd-heading-lg-normal">
+            {{ pressDetails?.Title }}
+          </h1>
+          <span class="rd-indicator rd-indicator-lg">
+            <span class="rd-indicator-content rd-indicator-primary"></span>
+          </span>
+        </div>
+        
+        <div *ngIf="pressDetails?.Content" 
+        class="mt-5 text-align-announcement press-office-content" 
+        [innerHtml]="pressDetails?.Content | safeHtml: 'html'"></div>
+      </div>
+      
+      <div class="position-relative"
+            *ngIf="pressDetails.PropertyEqTag.length > 0">
+              <div class="rd-heading rd-heading-sm-normal tag-heading" 
+              [ngClass]="pressDetails?.Content ? '' : 'mt-5'">
+                Tags
+              </div>
+             <span class="rd-indicator rd-indicator-lg">
+                <span class="rd-indicator-content rd-indicator-primary"></span>
+              </span>
+            </div>
+            <div
+          class="d-flex flex-wrap property-tag-label__group mt-top-to-bottom"
+          *ngIf="pressDetails.PropertyEqTag.length > 0" else loadingData
+        >
+          <span
+            *ngFor="let tag of pressDetails.PropertyEqTag"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            [title]="tag.Title"
+          >
+          <span (click)="onFilterTags(tag.Id, 'PropertyEqTag')">
+            {{tag.Title
+            }}
+          </span>
+           
+          </span>
+            </div>
+    </div>
+    
+    <div class="col-md-4 mt-3">
+      <h2 class="recent-announcements-heading rd-heading-md-bold">
+        Related press releases
+      </h2>
+      <div class="sens-line mt-2 mb-2"></div>
+      <div class="senses mt-3" 
+      *ngFor="let press of recentPressDetails; 
+      let i = index" (mouseover)="getHovercolor(i)"
+        (mouseleave)="getLeavecolor(i)" (click)="pressDetailsPage(press)">
+        <div *ngIf="press.show">
+          <div id="{{ 'sens-data' + i }}">
+            <div class="position-relative">
+              <h2 class="rd-heading rd-heading-sm">{{ press.Title }}</h2>
+              <span class="rd-indicator rd-indicator-sm">
+                <span class="rd-indicator-content rd-indicator-primary"></span>
+              </span>
+            </div>
+            <div class="rd-text-grey-mid mt-4 relatedArticlefont">
+              {{ press.CreatedOn | date : "dd MMMM, yyyy" }}
+              <span *ngIf="press.Author && press.Author != ''"> | By </span>
+              {{ press.Author }}
+            </div>
+            <div class="sens-line mt-3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12" *ngIf="recentPressDetails">
+        <button
+          type="submit"
+          class="rd-btn rd-btn-dark rd-btn-lg w-100 propertyeq-mediabtn"
+          (click)="mediaQuery()"
+        >
+          <span class="btn-text" routerLink="media-enquiries"
+            >Media enquiries</span
+          >
+        </button>
+      </div>
+    </div>
+    
+  </div>
+  <ng-container *ngIf="loadingData">
+    <!-- Loader template -->
+     <div class="row ">
+    <div class="container d-flex">
+    <div class="col-md-8 col-12" >
+      <div class="card  border-0" aria-hidden="true">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-12" >
+      <div class="card  border-0" aria-hidden="true">
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+            <span class="placeholder col-8"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  </ng-container>
+</div>
+
+<div class="quicklinks-gap mt-3">
+  <app-quick-links></app-quick-links> 
+</div>
